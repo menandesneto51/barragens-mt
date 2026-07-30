@@ -67,8 +67,12 @@ def cnes_por_municipio() -> dict[str, dict[str, int]]:
     return cont
 
 
-def cnes_pontos() -> list[dict[str, Any]]:
-    """Pontos CNES prioritários (UBS/ESF/UPA/hospital) com coordenada."""
+def cnes_pontos(*, so_prioritarios: bool = False) -> list[dict[str, Any]]:
+    """Pontos CNES com coordenada (eixo Cuiabá).
+
+    Por padrão inclui **todas** as US georreferenciadas no buffer da simulação.
+    Hospitais/UPA/UBS ficam marcados para destaque visual.
+    """
     from cnes_tipos import classificar_estabelecimento
 
     caminho = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.geojson"
@@ -91,7 +95,7 @@ def cnes_pontos() -> list[dict[str, Any]]:
             nome=nome,
             atendimento_hospitalar=props.get("atendimento_hospitalar"),
         )
-        if not cls["prioritario"]:
+        if so_prioritarios and not cls["prioritario"]:
             continue
         pontos.append(
             {
@@ -100,6 +104,7 @@ def cnes_pontos() -> list[dict[str, Any]]:
                 "h": 1 if cls["hospitalar"] else 0,
                 "upa": 1 if cls["upa_ps"] else 0,
                 "ubs": 1 if cls["ubs_esf"] else 0,
+                "prio": 1 if cls["prioritario"] else 0,
                 "tp": cls["tipo"],
                 "pr": cls["prioridade"],
                 "no": nome[:80],
@@ -172,21 +177,22 @@ MODELO = r"""<!DOCTYPE html>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#15202b;--muted:#5a6b7a;--paper:#e9eef2;--card:#fff;--line:#d0d8e0;--accent:#0b6e4f;--warn:#9a3412}
+:root{--ink:#15202b;--muted:#4a5d73;--paper:#e6ecf7;--card:#fff;--line:#c5d0e0;--accent:#1b3281;--warn:#9a3412}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
-background:radial-gradient(ellipse at 0% 0%,#fde8d8,transparent 42%),
-radial-gradient(ellipse at 100% 8%,#d5e6dc,transparent 38%),var(--paper)}
 @keyframes fadeInUs{to{opacity:1}}
 @keyframes pulseRing{0%{opacity:.55}50%{opacity:.28}100%{opacity:.55}}
 .mancha-pulse{animation:pulseRing 1.4s ease-in-out infinite}
-header{padding:18px 22px 12px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.9);
+body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
+background:linear-gradient(180deg,#1b3281 0%,#243f9a 16%,var(--paper) 16%)}
+header{padding:18px 22px 12px;border-bottom:1px solid rgba(255,255,255,.18);background:transparent;
 display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end}
-.marca{font-family:"Fraunces",Georgia,serif;font-size:1.65rem;margin:0 0 4px;font-weight:600}
-header p{margin:0;color:var(--muted);max-width:40rem;line-height:1.4;font-size:13.5px}
-nav a{color:var(--accent);font-weight:600;font-size:13px;margin-left:10px;text-decoration:none}
-.selo{background:#9a3412;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;
-text-transform:uppercase;padding:4px 8px;display:inline-block;margin-bottom:6px}
+.marca{font-family:"Fraunces",Georgia,serif;font-size:1.65rem;margin:0 0 4px;font-weight:600;color:#fff}
+header h1{font-family:"Fraunces",Georgia,serif;font-size:1.6rem;margin:0;color:#fff}
+header p{margin:4px 0 0;color:rgba(255,255,255,.85);max-width:40rem;line-height:1.4;font-size:13.5px}
+nav a{color:#fff;font-weight:600;font-size:13px;margin-left:10px;text-decoration:none;
+padding:4px 8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12)}
+.selo{background:#1b3281;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;
+text-transform:uppercase;padding:4px 8px;display:inline-block;margin-bottom:6px;border:1px solid rgba(255,255,255,.4)}
 main{padding:14px 22px 40px;max-width:1400px;margin:0 auto}
 .aviso{background:#fff7ed;border-left:4px solid var(--warn);padding:10px 12px;margin-bottom:14px;
 font-size:13px;color:#7c2d12;line-height:1.45}
@@ -277,7 +283,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
       <p class="formula">
         área_km² = (capacidade_hm³ × fração) / profundidade_m<br>
         população: SIGBM (se houver) senão área × densidade municipal média<br>
-        US: estabelecimentos CNES com coordenada dentro do raio equivalente<br>
+        US: <b>todas</b> as unidades CNES com coordenada no raio equivalente<br>
         (não o município inteiro). Fundo = imagem satélite + mancha proxy.
       </p>
     </div>
@@ -289,6 +295,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
           <div><i style="background:#dc2626;border:2px solid #fff;box-sizing:border-box"></i>Hospital</div>
           <div><i style="background:#ea580c;border:2px solid #fff;box-sizing:border-box"></i>UPA / pronto-socorro</div>
           <div><i style="background:#2563eb;border:2px solid #fff;box-sizing:border-box"></i>UBS / ESF / posto</div>
+          <div><i style="background:#64748b;border:2px solid #fff;box-sizing:border-box"></i>Demais US CNES</div>
           <div><i style="background:#ea580c"></i>Barragem</div>
         </div>
       </div>
@@ -468,16 +475,17 @@ function desenhar() {
 
   const listaUsEl = document.getElementById('listaUs');
   if (usBuf.itens && usBuf.itens.length) {
-    const maxLista = 40;
+    const maxLista = 80;
     const mostrados = usBuf.itens.slice(0, maxLista);
-    listaUsEl.innerHTML = `<h3>US prioritárias no buffer (${usBuf.total})</h3>` +
+    const nPrio = usBuf.itens.filter(p => p.prio || p.h || p.upa || p.ubs).length;
+    listaUsEl.innerHTML = `<h3>US no buffer (${usBuf.total}) · prioritárias ${nPrio}</h3>` +
       mostrados.map(p => {
         const tag = p.h ? 'Hospital' : (p.upa ? 'UPA/PS' : (p.ubs ? 'UBS/ESF' : (p.tp||'US')));
         return `<div class="${p.h||p.upa?'hosp':''}"><b>${tag}</b> — ${p.no || 'sem nome'} · ${p.mu || '—'}
          <span style="color:#5a6b7a"> · ${p.dist.toFixed(1)} km</span></div>`;
       }).join('') +
       (usBuf.total > maxLista
-        ? `<div style="color:#5a6b7a;margin-top:4px">… e mais ${usBuf.total - maxLista} no mapa</div>`
+        ? `<div style="color:#5a6b7a;margin-top:4px">… e mais ${usBuf.total - maxLista} (todas no mapa)</div>`
         : '');
   } else {
     listaUsEl.innerHTML = `<h3>Unidades de saúde no buffer</h3>
@@ -534,20 +542,29 @@ function desenhar() {
       fillColor: d.rej ? '#b91c1c' : '#ea580c', fillOpacity: 1
     }).bindPopup(`<b>${d.no}</b><br>${perfil.rotulo}<br>Pop. est. ${fmt(est.pop,0)}`).addTo(camadaBar);
 
-    // Destacar todas as US no buffer (hospitais sempre; demais se ≤150)
-    const desenharTodas = usBuf.itens.length <= 150;
-    const paraMapa = desenharTodas
-      ? usBuf.itens
-      : usBuf.itens.filter(p => p.h).concat(usBuf.itens.filter(p => !p.h).slice(0, 40));
-    for (const p of paraMapa) {
-      L.marker([p.la, p.lo], {
-        pane: 'us',
-        icon: iconeUs(p),
-        zIndexOffset: p.h ? 300 : (p.upa ? 200 : 100)
-      }).bindPopup(
-        `<b style="color:${p.h?'#dc2626':(p.upa?'#ea580c':'#2563eb')}">${(p.tp||'US').toUpperCase()}</b><br>` +
-        `${p.no || 'sem nome'}<br>${p.mu || '—'}<br>${p.dist.toFixed(1)} km da barragem`
-      ).addTo(camadaUs);
+    // Todas as US no buffer — ícone completo para prioritárias; círculo leve para as demais.
+    for (const p of usBuf.itens) {
+      if (p.h || p.upa || p.ubs || p.prio) {
+        L.marker([p.la, p.lo], {
+          pane: 'us',
+          icon: iconeUs(p),
+          zIndexOffset: p.h ? 300 : (p.upa ? 200 : 100)
+        }).bindPopup(
+          `<b style="color:${p.h?'#dc2626':(p.upa?'#ea580c':'#2563eb')}">${(p.tp||'US').toUpperCase()}</b><br>` +
+          `${p.no || 'sem nome'}<br>${p.mu || '—'}<br>${p.dist.toFixed(1)} km da barragem`
+        ).addTo(camadaUs);
+      } else {
+        L.circleMarker([p.la, p.lo], {
+          pane: 'us',
+          radius: 4,
+          color: '#fff',
+          weight: 1,
+          fillColor: '#64748b',
+          fillOpacity: 0.85
+        }).bindPopup(
+          `<b>${(p.tp||'US').toUpperCase()}</b><br>${p.no || 'sem nome'}<br>${p.mu || '—'}<br>${p.dist.toFixed(1)} km`
+        ).addTo(camadaUs);
+      }
     }
 
     const centro = [d.la, d.lo];
