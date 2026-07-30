@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Respostas cruas das APIs: sao regeneraveis e somam dezenas de MB.
+dados/brutos/

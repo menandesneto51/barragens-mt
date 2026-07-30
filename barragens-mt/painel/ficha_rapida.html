@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha rápida — VIGIBARRAGENS–MT (simulado)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#1a2332; --muted:#5c6b7a; --paper:#e8eef2; --card:#fff;
+    --line:#cfd8e0; --accent:#0b6e4f; --warn:#9a3412;
+  }
+  * { box-sizing: border-box }
+  body {
+    margin:0; font-family:"Source Sans 3", system-ui, sans-serif; color:var(--ink);
+    background:
+      linear-gradient(180deg, #dfe9e4 0%, transparent 28%),
+      var(--paper);
+  }
+  header {
+    padding: 24px 20px 16px; border-bottom:1px solid var(--line);
+    background: rgba(255,255,255,.72);
+  }
+  header h1 {
+    margin:0 0 6px; font-family:"Fraunces", Georgia, serif;
+    font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight:600;
+  }
+  header p { margin:0; color:var(--muted); max-width:40rem; line-height:1.45; font-size:14px }
+  .aviso {
+    margin: 14px 20px 0; padding:10px 12px; border-left:3px solid var(--warn);
+    background:#fff7ed; color:#7c2d12; font-size:13px; max-width:920px;
+  }
+  main { padding: 16px 20px 48px; max-width:920px }
+  form section {
+    background:var(--card); border:1px solid var(--line); margin:0 0 14px; padding:14px 16px;
+  }
+  form h2 {
+    margin:0 0 12px; font-size:13px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--muted); font-weight:700;
+  }
+  .grade {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px 12px;
+  }
+  label { display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--muted) }
+  label span { font-weight:600 }
+  input, select, textarea {
+    font: inherit; color:var(--ink); border:1px solid var(--line); padding:7px 8px;
+    background:#fff; width:100%;
+  }
+  textarea { min-height:72px; resize:vertical }
+  .acoes { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
+  button {
+    border:0; padding:9px 14px; font:inherit; font-weight:600; cursor:pointer;
+    background:var(--accent); color:#fff;
+  }
+  button.sec { background:#e4e9ef; color:var(--ink) }
+  button:hover { filter:brightness(.95) }
+  .status { margin-top:10px; font-size:13px; color:var(--muted) }
+  a { color:var(--accent) }
+</style>
+</head>
+<body>
+<header>
+  <h1>Ficha rápida de saúde pós-desastre</h1>
+  <p>Instrumento do piloto Manso–Cuiabá (docs/05 §5.4). Uso em <strong>simulado</strong> ou cadastro de normalidade — não substitui SIM/SINAN. Fuso: Cuiabá (UTC-4).</p>
+</header>
+<p class="aviso">Os dados ficam só neste navegador (localStorage) até você exportar o JSON. Cada exportação é uma versão — não sobrescreve a anterior no arquivo baixado.</p>
+<main>
+<form id="ficha" autocomplete="on">
+  <section>
+    <h2>1 · Evento</h2>
+    <div class="grade">
+      <label><span>Identificador do evento</span><input name="id_evento" required placeholder="EVT-2026-..."></label>
+      <label><span>Município (IBGE)</span>
+        <select name="municipio_ibge" required>
+          <option value="">Selecione…</option>
+          <option value="5100102">Acorizal</option>
+          <option value="5101605">Barão de Melgaço</option>
+          <option value="5103007">Chapada dos Guimarães</option>
+          <option value="5103403">Cuiabá</option>
+          <option value="5104906">Jangada</option>
+          <option value="5105903">Nobres</option>
+          <option value="5106109">Nossa Senhora do Livramento</option>
+          <option value="5106505">Poconé</option>
+          <option value="5107701">Rosário Oeste</option>
+          <option value="5107800">Santo Antônio de Leverger</option>
+          <option value="5108402">Várzea Grande</option>
+        </select>
+      </label>
+      <label><span>Localidade</span><input name="localidade" required></label>
+      <label><span>Latitude</span><input name="latitude" type="number" step="any" required></label>
+      <label><span>Longitude</span><input name="longitude" type="number" step="any" required></label>
+      <label><span>Data/hora referência (UTC-4)</span><input name="data_referencia" type="datetime-local" required></label>
+      <label><span>Informante (nome e cargo)</span><input name="informante" required></label>
+      <label><span>População atingida</span><input name="pop_atingida" type="number" min="0" required></label>
+      <label><span>Desalojados</span><input name="desalojados" type="number" min="0" required value="0"></label>
+      <label><span>Desabrigados</span><input name="desabrigados" type="number" min="0" required value="0"></label>
+      <label><span>Desaparecidos</span><input name="desaparecidos" type="number" min="0" required value="0"></label>
+      <label><span>Resgatados</span><input name="resgatados" type="number" min="0" required value="0"></label>
+      <label><span>Óbitos preliminares</span><input name="obitos" type="number" min="0" required value="0"></label>
+      <label><span>Pessoas isoladas</span><input name="pessoas_isoladas" type="number" min="0" required value="0"></label>
+      <label><span>Localidades isoladas</span><input name="localidades_isoladas" type="number" min="0" required value="0"></label>
+      <label><span>Acesso à localidade</span>
+        <select name="acesso" required>
+          <option value="livre">livre</option>
+          <option value="restrito">restrito</option>
+          <option value="interrompido">interrompido</option>
+        </select>
+      </label>
+    </div>
+    <label style="margin-top:10px"><span>Observações</span><textarea name="observacoes"></textarea></label>
+  </section>
+
+  <section>
+    <h2>2 · Saúde</h2>
+    <div class="grade">
+      <label><span>Feridos leves</span><input name="feridos_leves" type="number" min="0" value="0" required></label>
+      <label><span>Feridos graves</span><input name="feridos_graves" type="number" min="0" value="0" required></label>
+      <label><span>Afogamentos (não fatais)</span><input name="afogamentos" type="number" min="0" value="0" required></label>
+      <label><span>Hipotermia</span><input name="hipotermia" type="number" min="0" value="0" required></label>
+      <label><span>Intoxicação</span><input name="intoxicacao" type="number" min="0" value="0" required></label>
+      <label><span>Diarreia</span><input name="diarreia" type="number" min="0" value="0" required></label>
+      <label><span>Febre</span><input name="febre" type="number" min="0" value="0" required></label>
+      <label><span>Sintomas respiratórios</span><input name="respiratorio" type="number" min="0" value="0" required></label>
+      <label><span>Lesão de pele</span><input name="pele" type="number" min="0" value="0" required></label>
+      <label><span>Sofrimento psíquico agudo</span><input name="psiquico" type="number" min="0" value="0" required></label>
+      <label><span>Interrupção medicamento contínuo</span><input name="med_continuo" type="number" min="0" value="0" required></label>
+      <label><span>Gestantes de risco</span><input name="gestantes" type="number" min="0" value="0" required></label>
+      <label><span>Dependentes de oxigênio</span><input name="oxigenio" type="number" min="0" value="0" required></label>
+      <label><span>Em diálise</span><input name="dialise" type="number" min="0" value="0" required></label>
+      <label><span>Mobilidade reduzida</span><input name="mobilidade" type="number" min="0" value="0" required></label>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · Serviços</h2>
+    <div class="grade">
+      <label><span>US abertas</span><input name="us_abertas" type="number" min="0" value="0" required></label>
+      <label><span>US fechadas</span><input name="us_fechadas" type="number" min="0" value="0" required></label>
+      <label><span>US danificadas</span><input name="us_danificadas" type="number" min="0" value="0" required></label>
+      <label><span>US sem água</span><input name="us_sem_agua" type="number" min="0" value="0" required></label>
+      <label><span>US sem energia</span><input name="us_sem_energia" type="number" min="0" value="0" required></label>
+      <label><span>US sem acesso</span><input name="us_sem_acesso" type="number" min="0" value="0" required></label>
+      <label><span>Leitos disponíveis</span><input name="leitos" type="number" min="0" value="0" required></label>
+      <label><span>Leitos UTI disponíveis</span><input name="leitos_uti" type="number" min="0" value="0" required></label>
+      <label><span>Ambulâncias operacionais</span><input name="ambulancias" type="number" min="0" value="0" required></label>
+      <label><span>Profissionais disponíveis</span><input name="prof_disp" type="number" min="0" value="0" required></label>
+      <label><span>Profissionais na escala</span><input name="prof_escala" type="number" min="0" value="0" required></label>
+      <label><span>Autonomia energia (h)</span><input name="aut_energia" type="number" min="0" step="0.1" value="0" required></label>
+      <label><span>Autonomia água (h)</span><input name="aut_agua" type="number" min="0" step="0.1" value="0" required></label>
+      <label><span>Autonomia oxigênio (h)</span><input name="aut_o2" type="number" min="0" step="0.1" value="0" required></label>
+      <label><span>Rede de frio comprometida</span>
+        <select name="rede_frio"><option value="nao">não</option><option value="sim">sim</option></select>
+      </label>
+    </div>
+  </section>
+
+  <section>
+    <h2>4 · Água e ambiente</h2>
+    <div class="grade">
+      <label><span>Abastecimento interrompido</span>
+        <select name="agua_interrompida"><option value="nao">não</option><option value="sim">sim</option></select>
+      </label>
+      <label><span>População sem abastecimento</span><input name="pop_sem_agua" type="number" min="0" value="0"></label>
+      <label><span>Captação comprometida</span>
+        <select name="captacao"><option value="nao">não</option><option value="sim">sim</option></select>
+      </label>
+      <label><span>Suspeita de contaminação</span>
+        <select name="contaminacao"><option value="nao">não</option><option value="sim">sim</option></select>
+      </label>
+      <label><span>Amostras coletadas</span><input name="amostras" type="number" min="0" value="0" required></label>
+      <label><span>Lama ou rejeito</span>
+        <select name="lama"><option value="ausente">ausente</option><option value="pontual">pontual</option><option value="extensa">extensa</option></select>
+      </label>
+      <label><span>Mortalidade de animais</span>
+        <select name="animais">
+          <option value="nao">não</option>
+          <option value="peixes">peixes</option>
+          <option value="domesticos">animais domésticos</option>
+          <option value="silvestres">animais silvestres</option>
+          <option value="multipla">múltipla</option>
+        </select>
+      </label>
+      <label><span>Água potável necessária (L/dia)</span><input name="agua_litros" type="number" min="0" value="0" required></label>
+      <label><span>Hipoclorito distribuído</span>
+        <select name="hipoclorito"><option value="nao">não</option><option value="sim">sim</option></select>
+      </label>
+    </div>
+  </section>
+
+  <div class="acoes">
+    <button type="submit">Salvar no navegador</button>
+    <button type="button" class="sec" id="btnExport">Exportar JSON</button>
+    <button type="button" class="sec" id="btnLimpar">Limpar rascunho</button>
+    <a href="piloto_manso_cuiaba.html">← Painel do piloto</a>
+  </div>
+  <p class="status" id="status"></p>
+</form>
+</main>
+<script>
+const KEY = 'vigibarragens_ficha_rapida_rascunho';
+const form = document.getElementById('ficha');
+const status = document.getElementById('status');
+
+function agoraCuiabaLocal() {
+  const agora = new Date();
+  // Exibe datetime-local aproximado no fuso do navegador; o JSON registra offset.
+  const pad = n => String(n).padStart(2,'0');
+  return `${agora.getFullYear()}-${pad(agora.getMonth()+1)}-${pad(agora.getDate())}T${pad(agora.getHours())}:${pad(agora.getMinutes())}`;
+}
+
+function lerForm() {
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.preenchimento_iso = new Date().toISOString();
+  data.versao_instrumento = '5.4-simulado';
+  data.sistema = 'VIGIBARRAGENS-MT';
+  return data;
+}
+
+function validar(data) {
+  const pop = Number(data.pop_atingida || 0);
+  const desab = Number(data.desabrigados || 0);
+  if (desab > pop) return 'Desabrigados não pode exceder população atingida.';
+  const leitos = Number(data.leitos || 0);
+  const uti = Number(data.leitos_uti || 0);
+  if (uti > leitos) return 'Leitos de UTI não podem exceder leitos disponíveis.';
+  return null;
+}
+
+const salvo = localStorage.getItem(KEY);
+if (salvo) {
+  try {
+    const data = JSON.parse(salvo);
+    for (const [k,v] of Object.entries(data)) {
+      if (form.elements[k] != null) form.elements[k].value = v;
+    }
+    status.textContent = 'Rascunho restaurado do navegador.';
+  } catch (_) {}
+}
+if (!form.elements.data_referencia.value) {
+  form.elements.data_referencia.value = agoraCuiabaLocal();
+}
+
+form.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const data = lerForm();
+  const erro = validar(data);
+  if (erro) { status.textContent = erro; return; }
+  localStorage.setItem(KEY, JSON.stringify(data));
+  status.textContent = 'Rascunho salvo em ' + new Date().toLocaleString('pt-BR');
+});
+
+document.getElementById('btnExport').addEventListener('click', () => {
+  const data = lerForm();
+  const erro = validar(data);
+  if (erro) { status.textContent = erro; return; }
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  const id = (data.id_evento || 'ficha').replace(/[^\w\-]+/g,'_');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ficha_rapida_${id}_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  status.textContent = 'JSON exportado. Guarde o arquivo na pasta do simulado.';
+});
+
+document.getElementById('btnLimpar').addEventListener('click', () => {
+  if (!confirm('Apagar o rascunho deste navegador?')) return;
+  localStorage.removeItem(KEY);
+  form.reset();
+  form.elements.data_referencia.value = agoraCuiabaLocal();
+  status.textContent = 'Rascunho apagado.';
+});
+</script>
+</body>
+</html>

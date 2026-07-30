@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmação de alerta — VIGIBARRAGENS–MT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#15202b;--muted:#5a6b7a;--paper:#e9eef2;--card:#fff;--line:#d0d8e0;--accent:#0b6e4f;
+--ama:#b7950b;--lar:#d35400;--verm:#c0392b;--roxo:#5b2c6f}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
+background:radial-gradient(ellipse at 20% 0%,#d9e8df,transparent 45%),var(--paper)}
+header{padding:22px 24px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.8)}
+h1{margin:0 0 6px;font-family:"Fraunces",Georgia,serif;font-size:1.7rem;font-weight:600}
+p{margin:0;color:var(--muted);max-width:40rem;line-height:1.45}
+main{padding:18px 24px 48px;max-width:720px}
+form{background:var(--card);border:1px solid var(--line);padding:16px}
+label{display:block;margin:0 0 12px;font-size:12px;color:var(--muted);font-weight:600}
+input,select,textarea{display:block;width:100%;margin-top:4px;padding:8px;border:1px solid var(--line);font:inherit}
+button{margin-top:8px;padding:9px 14px;border:0;background:var(--accent);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.lista{margin-top:18px}
+.item{background:var(--card);border:1px solid var(--line);padding:10px 12px;margin-bottom:8px;font-size:13px}
+.aviso{margin:14px 0;padding:10px 12px;background:#fff7ed;border-left:3px solid #9a3412;color:#7c2d12;font-size:13px}
+a{color:var(--accent)}
+.crono{margin:14px 0;padding:14px 16px;background:var(--card);border:1px solid var(--line);
+display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.crono .tempo{font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.crono .ok{color:var(--accent)}.crono .atraso{color:var(--verm)}
+.crono .meta{font-size:12px;color:var(--muted);grid-column:1/-1}
+.etq{display:inline-block;padding:2px 7px;color:#fff;font-size:11px;font-weight:600}
+.Amarelo{background:var(--ama)}.Laranja{background:var(--lar)}.Vermelho{background:var(--verm)}.Roxo{background:var(--roxo)}.Verde{background:#1e8449}
+</style>
+</head>
+<body>
+<header>
+  <h1>Confirmação de recebimento</h1>
+  <p>Ciclo alerta → confirmação com cronômetro por faixa (docs/04 §4.5 / §4.6.3). Registros ficam neste navegador até exportar.</p>
+</header>
+<main>
+  <p class="aviso">Use em simulado. Identificador no formato <code>ALERTA-AAAAMMDD-HHMM-{id_snisb}</code> (gerado nos textos em <code>alertas/piloto/</code>).
+  Prazos: Amarelo 120 min · Laranja 60 · Vermelho 20 · Roxo 10.</p>
+
+  <div class="crono" id="crono">
+    <div>
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)">Tempo restante</div>
+      <div class="tempo ok" id="tempo">—:—:—</div>
+    </div>
+    <div id="nivelEtq"></div>
+    <div class="meta" id="cronoMeta">Informe o id do alerta e o nível para iniciar o prazo a partir da emissão (carimbo no id) ou do horário de abertura desta tela.</div>
+  </div>
+
+  <form id="form">
+    <label>Identificador do alerta
+      <input name="id_alerta" id="idAlerta" required placeholder="ALERTA-20260729-2130-4436">
+    </label>
+    <label>Nível do alerta (prazo de confirmação)
+      <select name="nivel" id="nivel" required>
+        <option value="">Selecione…</option>
+        <option value="Amarelo">Amarelo — 120 min</option>
+        <option value="Laranja">Laranja — 60 min</option>
+        <option value="Vermelho">Vermelho — 20 min</option>
+        <option value="Roxo">Roxo — 10 min</option>
+        <option value="Verde">Verde — sem prazo obrigatório</option>
+      </select>
+    </label>
+    <label>Município que confirma
+      <select name="municipio" required>
+        <option value="">Selecione…</option>
+        <option>Chapada dos Guimarães</option>
+        <option>Cuiabá</option>
+        <option>Várzea Grande</option>
+        <option>Jangada</option>
+        <option>Nobres</option>
+        <option>Rosário Oeste</option>
+        <option>Nossa Senhora do Livramento</option>
+        <option>Acorizal</option>
+        <option>Santo Antônio de Leverger</option>
+        <option>Barão de Melgaço</option>
+        <option>Poconé</option>
+      </select>
+    </label>
+    <label>Nome do responsável
+      <input name="responsavel" required>
+    </label>
+    <label>Cargo / função
+      <input name="cargo" required>
+    </label>
+    <label>Canal de recebimento
+      <select name="canal">
+        <option>e-mail</option>
+        <option>telefone</option>
+        <option>WhatsApp</option>
+        <option>painel</option>
+        <option>outro</option>
+      </select>
+    </label>
+    <label>Observação
+      <textarea name="obs" rows="3"></textarea>
+    </label>
+    <button type="submit">Registrar confirmação</button>
+    <button type="button" id="export" style="background:#e4e9ef;color:var(--ink)">Exportar JSON</button>
+    <a href="alertas.html" style="margin-left:12px">Fila de alertas</a>
+    <a href="index.html" style="margin-left:12px">← Comando</a>
+  </form>
+  <p class="aviso" style="margin-top:14px">Após exportar, copie o arquivo para
+    <code>dados/tratados/confirmacoes/</code> no repositório (pasta já criada pela etapa 22).</p>
+  <div class="lista">
+    <h2 style="font-size:14px;color:var(--muted)">Confirmações neste navegador</h2>
+    <div id="lista"></div>
+  </div>
+</main>
+<script>
+const KEY = 'vigibarragens_confirmacoes_alerta';
+const PRAZO = {Amarelo:120, Laranja:60, Vermelho:20, Roxo:10, Verde:null};
+const form = document.getElementById('form');
+const lista = document.getElementById('lista');
+const abertoEm = Date.now();
+let tick = null;
+
+function ler() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; }
+}
+function gravar(arr) { localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+function parseEmissao(id) {
+  // ALERTA-YYYYMMDD-HHMM-id
+  const m = String(id||'').match(/ALERTA-(\d{8})-(\d{4})-/);
+  if (!m) return null;
+  const y=+m[1].slice(0,4), mo=+m[1].slice(4,6)-1, d=+m[1].slice(6,8);
+  const h=+m[2].slice(0,2), mi=+m[2].slice(2,4);
+  // America/Cuiaba ≈ UTC-4 (sem DST desde 2019)
+  return Date.UTC(y, mo, d, h+4, mi) ;
+}
+
+function fmtMs(ms) {
+  const s = Math.max(0, Math.floor(ms/1000));
+  const hh = String(Math.floor(s/3600)).padStart(2,'0');
+  const mm = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  return `${hh}:${mm}:${ss}`;
+}
+
+function atualizarCrono() {
+  const nivel = document.getElementById('nivel').value;
+  const id = document.getElementById('idAlerta').value.trim();
+  const tempoEl = document.getElementById('tempo');
+  const meta = document.getElementById('cronoMeta');
+  const etq = document.getElementById('nivelEtq');
+  const prazoMin = PRAZO[nivel];
+  if (!nivel) {
+    tempoEl.textContent = '—:—:—';
+    tempoEl.className = 'tempo ok';
+    etq.innerHTML = '';
+    meta.textContent = 'Informe o id do alerta e o nível para iniciar o prazo.';
+    return;
+  }
+  etq.innerHTML = `<span class="etq ${nivel}">${nivel}</span>`;
+  if (prazoMin == null) {
+    tempoEl.textContent = 'sem prazo';
+    tempoEl.className = 'tempo ok';
+    meta.textContent = 'Verde: confirmação recomendada, sem prazo obrigatório.';
+    return;
+  }
+  const emissao = parseEmissao(id) || abertoEm;
+  const limite = emissao + prazoMin * 60 * 1000;
+  const resto = limite - Date.now();
+  const atrasado = resto < 0;
+  tempoEl.textContent = atrasado ? ('+' + fmtMs(-resto)) : fmtMs(resto);
+  tempoEl.className = 'tempo ' + (atrasado ? 'atraso' : 'ok');
+  const origem = parseEmissao(id) ? 'emissão no id do alerta' : 'abertura desta tela (id sem carimbo válido)';
+  meta.textContent = atrasado
+    ? `Prazo de ${prazoMin} min estourado (origem: ${origem}). Escalonar conforme docs/04.`
+    : `Prazo ${prazoMin} min · origem: ${origem}.`;
+}
+
+function render() {
+  const arr = ler().slice().reverse();
+  lista.innerHTML = arr.length ? arr.map(c =>
+    `<div class="item"><strong>${c.id_alerta}</strong> · ${c.municipio}
+     ${c.nivel ? ` · <span class="etq ${c.nivel}">${c.nivel}</span>` : ''}
+     ${c.dentro_prazo === false ? ' · <b style="color:#c0392b">fora do prazo</b>' : ''}
+     ${c.dentro_prazo === true ? ' · <b style="color:#0b6e4f">no prazo</b>' : ''}<br>
+     ${c.responsavel} (${c.cargo}) · ${c.canal}<br>
+     <small>${c.confirmado_em}</small>${c.obs ? '<br>'+c.obs : ''}</div>`
+  ).join('') : '<p style="color:var(--muted)">Nenhuma confirmação ainda.</p>';
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.confirmado_em = new Date().toISOString();
+  data.fuso = 'America/Cuiaba';
+  const prazoMin = PRAZO[data.nivel];
+  if (prazoMin != null) {
+    const emissao = parseEmissao(data.id_alerta) || abertoEm;
+    data.dentro_prazo = Date.now() <= emissao + prazoMin * 60 * 1000;
+    data.prazo_min = prazoMin;
+  } else {
+    data.dentro_prazo = null;
+    data.prazo_min = null;
+  }
+  const arr = ler();
+  arr.push(data);
+  gravar(arr);
+  form.reset();
+  atualizarCrono();
+  render();
+});
+document.getElementById('export').onclick = () => {
+  const blob = new Blob([JSON.stringify(ler(), null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `confirmacoes_alerta_${Date.now()}.json`;
+  a.click();
+};
+['idAlerta','nivel'].forEach(id => {
+  document.getElementById(id).addEventListener('input', atualizarCrono);
+  document.getElementById(id).addEventListener('change', atualizarCrono);
+});
+const q = new URLSearchParams(location.search);
+if (q.get('id')) document.getElementById('idAlerta').value = q.get('id');
+if (q.get('nivel')) document.getElementById('nivel').value = q.get('nivel');
+tick = setInterval(atualizarCrono, 1000);
+atualizarCrono();
+render();
+</script>
+</body>
+</html>

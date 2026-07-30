@@ -1,0 +1,89 @@
+﻿municipio;codigo_ibge;regiao_saude;papel;papel_rotulo;nome;cargo;telefone;celular;email;substituto;telefone_substituto;data_validacao;fonte;observacao
+Acorizal;5100102;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;hospital_referencia;Hospital de referência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Acorizal;5100102;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;hospital_referencia;Hospital de referência;PRONTO ATENDIMENTO BARAO DE MELGACO;;;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Barão de Melgaço;5101605;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Barão de Melgaço;5101605;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;hospital_referencia;Hospital de referência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Chapada dos Guimarães;5103007;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;hospital_referencia;Hospital de referência;HOSPITAL ESTADUAL SANTA CASA;;(65)3618-8800;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Cuiabá;5103403;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Cuiabá;5103403;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;hospital_referencia;Hospital de referência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Jangada;5104906;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;hospital_referencia;Hospital de referência;HOSPITAL E MATERNIDADE LAURA VICUNA;;(65)33762812;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Nobres;5105903;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nobres;5105903;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;hospital_referencia;Hospital de referência;HOSPITAL MUNICIPAL PROFESSORA MARIA ARLINDA DA COSTA;;(65)3351-1133;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Nossa Senhora do Livramento;5106109;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;hospital_referencia;Hospital de referência;HOSPITAL GERAL DE POCONE;;;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Poconé;5106505;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Poconé;5106505;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;hospital_referencia;Hospital de referência;R S MED;;65 98031684;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Rosário Oeste;5107701;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Rosário Oeste;5107701;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;hospital_referencia;Hospital de referência;CENTRO DE TRIAGEM E ATENDIMENTO PARA SIMDROME GRIPAL COVID1;;6533141229;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Santo Antônio de Leverger;5107800;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;gestor_municipal_saude;Gestor municipal de saúde;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;vigilancia_saude;Vigilância em Saúde municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;defesa_civil_municipal;Defesa Civil municipal;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;cievs;CIEVS (regional/municipal);;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;samu;SAMU / regulação de urgência;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;hospital_referencia;Hospital de referência;GRUPO OLHARES SAUDE E BEM ESTAR;;065 21370880;;;;;;cnes_eixo;Candidato CNES — validar contato institucional.
+Várzea Grande;5108402;Baixada Cuiabana;vigiagua;Vigilância da qualidade da água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).
+Várzea Grande;5108402;Baixada Cuiabana;concessionaria_agua;Concessionária de água;;;;;;;;;esqueleto;Preencher e validar por telefone (prazo 90 dias).

@@ -1,0 +1,1249 @@
+﻿id_snisb;nome_powerbi;municipio_powerbi;comprimento_coroamento_m;altura_estimada_m;capacidade_estimada_m3;data_ultima_fiscalizacao;data_ultima_autuacao;data_inicio_fase_de_vida;data_inspecao_seguranca_regular;tipo_empreendedor;corpo_hidrico;data_atualizacao_registro;situacao_cadastro
+1263;B5;NOVA LACERDA;741.25;0;0;2024-11-06;2021-12-10;2005-11-05;;;Barragem B5;;Classe II B - Inertes
+1265;Bacia de Rejeitos;NOSSA SENHORA DO LIVRAMENTO;15470;0;0;2026-04-29;2022-01-31;2021-12-14;;;Córrego Barbeiro;2026-06-23;Classe II B - Inertes
+1267;BACIA DE REJEITO MINERGOLD;NOSSA SENHORA DO LIVRAMENTO;1185;0;0;;;2013-06-01;;;Bacia de Rejeito Minergold;;Classe II B - Inertes
+1276;RONDON;Poconé;250;0;0;2023-03-15;;2009-02-19;;Pessoa Física;Córrego Piraputanga;;Classe II B - Inertes
+1279;BARRAGEM T01;Poconé;2005;0;0;2023-09-20;2020-04-30;2008-03-20;;Pessoa Física;Córrego da Formiga;;Classe II B - Inertes
+1282;TB01;NOSSA SENHORA DO LIVRAMENTO;908;0;0;2024-04-17;2020-03-31;2021-08-10;;;Ribeirão Bento Gomes;2025-01-23;Classe II B - Inertes
+19850;Faz. Netolândia;Tangará da Serra;57.35;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-24;
+19946;Faz. Toledo;TAPURAH;266;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Esmeralda;;
+19952;Faz. Reunidas 15;PARANATINGA;404.6;0;0;;;2019-02-02;;Pessoa Física;SEM NOME;2025-01-27;
+19966;Fazenda AFB Brasil;Barra do Garças;245;0;0;;;2008-08-02;;Empresas em Geral - Privado;SEM NOME;;
+19967;Fazenda AFB Brasil;Barra do Garças;245;;;;;2008-08-02;;Empresas em Geral - Privado;Córrego Caveira;;
+19977;Campo Experimental Empaer;NOSSA SENHORA DO LIVRAMENTO;0;0;0;;;2003-02-28;;Empresas Públicas - Público;Ribeirão Cocaes;2026-01-30;
+19978;Fazenda Santa Lourdes;Água Boa;0;;;;;2009-07-12;;Pessoa Física;Córrego Tangará;;
+19987;Fazenda Admar Galle & Filhos;Água Boa;209;;;;;2006-06-30;;Pessoa Física;Córrego Bonito;;
+19988;Barragem I - Fazenda Santa Ernestina I;SORRISO;196.53;0;0;;;2026-04-01;;Pessoa Física;SEM NOME;2026-04-24;
+19989;Fazenda Cocal;CANARANA;568;0;0;;;2010-06-22;;Empresas em Geral - Privado;Córrego Cocalzinho;2026-02-04;
+19991;FAZENDA LUAR;CUIABÁ;280;0;0;;;2014-07-31;;Fundações Privadas - Privado;SEM NOME;2025-09-17;
+19992;Chácara Santa Cristina;SORRISO;232;0;0;;;2017-04-20;;Pessoa Física;Rio São Manuel ou Teles Pires;2025-12-19;
+19993;Fazenda Santo Antônio II;SORRISO;193;;;;;2007-07-05;;Pessoa Física;Córrego Galheiro;;
+19994;PDS Bordolândia;BOM JESUS DO ARAGUAIA;478;0;0;;;1983-03-19;;Autarquias - Público;SEM NOME;;
+19995;Barragem IMA;SORRISO;124;;;;;2007-07-05;;Outros - Privado;Córrego Galheiro;;
+19996;FAZENDA GUAPORÉ;CANARANA;85;0;0;;;2011-06-03;;Pessoa Física;SEM NOME;;
+19997;Fazenda São Filipe;SORRISO;94;;;;;2007-05-07;;Pessoa Física;Córrego da Ponte;;
+20006;Fazenda Pluma;VERA;200;0;0;;;2011-06-27;;Pessoa Física;Barragem Fazenda Pluma;2024-10-08;
+20032;FAZENDA CASCATA;SORRISO;200;0;0;;;2011-11-11;;Empresas em Geral - Privado;SEM NOME;2025-12-19;
+20033;Fazenda Eldorado;NOVA CANAÃ DO NORTE;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Eldorado;;
+20034;FAZENDA RIO VERDE;SORRISO;355;0;0;;;2006-11-22;;Pessoa Física;SEM NOME;2025-09-17;
+20035;Fazenda Jaborandi;SORRISO;180;0;0;;;1999-08-22;;Pessoa Física;SEM NOME;;
+20036;FAZENDA RINCÃO FLORIDO;IPIRANGA DO NORTE;155;0;0;;;1998-05-27;;Pessoa Física;Rio Branco;;
+20037;Fazenda Guri e Guri I;NOVA MUTUM;150.26;0;0;;;1998-03-04;;Pessoa Física;SEM NOME;2025-02-11;
+20047;Fazenda Murici Sesmaria Molhado;NOSSA SENHORA DO LIVRAMENTO;160;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Jangada;;
+20048;Fazenda Murici Sesmaria Molhado;NOSSA SENHORA DO LIVRAMENTO;300;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Jangada;;
+20049;Fazenda Murici Sesmaria Molhado;NOSSA SENHORA DO LIVRAMENTO;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Jangada;;
+20050;Fazenda Santa Helena - Barramento 01;Alta Floresta;269.56;0;;;;2017-05-15;;Pessoa Física;SEM NOME;2026-06-22;
+20051;Barramento Fazenda Carajas  - Lote 64;LUCAS DO RIO VERDE;545.8;0;0;;;2003-07-15;;Pessoa Física;SEM NOME;2026-02-04;
+20057;Fazenda Água Branca;SORRISO;200;;;;;2002-06-23;;Pessoa Física;Córrego Cutia;;
+20058;Fazenda Água Azul;SORRISO;104;;;;;2004-11-10;;Pessoa Física;Rio Celeste;;
+20059;FAZENDA SANTA ROSA;SORRISO;281;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+20061;Fazenda Apiacás;PARANAÍTA;132;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2025-01-29;
+20063;Fazenda Possamai;SORRISO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+20066;Fazenda Vitoria;SORRISO;220;0;0;;;2017-08-01;;Pessoa Física;SEM NOME;2025-11-14;
+20067;Ponte de Pedra;Itiquira;300;0;0;;;2014-11-25;;;SEM NOME;2025-01-29;
+20070;Barramento 02 (Montante) - São Cristóvão;SORRISO;236;;;;;2016-03-03;;Pessoa Física;SEM NOME;2026-02-04;
+20071;Fazenda Faccio;NOVA MUTUM;150;0;0;;;1998-01-25;;Pessoa Física;Córrego Pacoval;2025-01-27;
+20072;Fazenda São Jose;SORRISO;0;;;;;2015-07-23;;Pessoa Física;SEM NOME;;
+20075;Fazenda Ogliari;LUCAS DO RIO VERDE;0;0;0;;;1997-09-20;;Pessoa Física;Córrego Piúva;;
+20077;Faz. Três Pinheiros;SANTA RITA DO TRIVELATO;180;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Mocotó;2025-10-13;
+20078;Faz. Karnoski;NOVA MUTUM;104;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Ranchão;;
+20083;Marfrig;Tangará da Serra;100;0;0;;;1800-01-01T00:00:00;;Outros - Privado;Barragem Marfrig;2024-10-08;
+20085;Faz. Lote 69-A;FELIZ NATAL;35;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão do Palmito;;
+20086;Fazenda Nossa Senhora Aparecida;NOVA UBIRATÃ;235;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+20088;Faz. Boca da Mata;NOVA UBIRATÃ;107;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Ferro;;
+20111;Fazenda Lapacho - Gleba B;SAPEZAL;568.56;0;0;;;1994-11-20;;Pessoa Física;Barragem Fazenda Lapacho - Gleba B;2026-02-04;
+20113;Faz. Amanhecer II;GAÚCHA DO NORTE;250;;;;;2025-02-03;;Pessoa Física;SEM NOME;2025-08-01;
+20114;Faz. Telles Pires;NOVA CANAÃ DO NORTE;96;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio São Manuel ou Teles Pires;;
+20116;Faz. Santa Terezinha;QUERÊNCIA;305;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-12-19;
+20118;Barragem 1 na Fazenda São João;RIBEIRÃO CASCALHEIRA;274.57;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-27;
+20119;Faz. Olho d'Água;NOVA CANAÃ DO NORTE;70;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+20125;Fazenda Guanabara;NOVA OLÍMPIA;200;0;0;;;1800-01-01T00:00:00;;;Barragem Fazenda Guanabara;;
+20126;Fazenda Duas Nascentes;IPIRANGA DO NORTE;;0;0;;;2018-04-08;;Pessoa Física;SEM NOME;;
+20127;Fazenda São Paulo;Água Boa;160;0;0;;;2016-07-04;;Empresas em Geral - Privado;SEM NOME;;
+20129;Faz. Paraná;BRASNORTE;0;4;0.3;;;2014-07-31;;Empresas em Geral - Privado;SEM NOME;;
+20130;barramento 1B;Alta Floresta;201.5;0;0;;;2018-03-23;;Pessoa Física;SEM NOME;2026-02-04;
+20131;PRINCIPAL 2A;Alta Floresta;186.54;0;0;;;2018-03-23;;Pessoa Física;SEM NOME;2024-12-04;
+20132;Barramento 4;Alta Floresta;230.7;0;0;2024-06-25;;2018-03-23;;Pessoa Física;SEM NOME;2026-02-04;
+20133;Barragem Água Azul;CAMPO VERDE;392;0;0;;;2006-05-17;;Empresas em Geral - Privado;córrego Água Azul;2025-03-14;
+20135;Fazenda São Jose;VÁRZEA GRANDE;222;0;0;;;;;Pessoa Física;Córrego Formigueiro;2025-12-19;
+20137;Fazenda Arara Azul;Itaúba;240;;;;;;;Pessoa Física;Ribeirão Borrachudo;;
+20138;FAZENDA SANTA LUZIA;VÁRZEA GRANDE;95;;;;;1990-09-20;;Pessoa Física;Ribeirão Esmeril;;
+20139;BARRAGEM 2;SORRISO;191.29;;;;;2016-12-13;;Outros - Privado;SEM NOME;2025-02-10;
+20140;Faz. Lavínia;NOVO SÃO JOAQUIM;150;;;;;2002-10-15;;Empresas em Geral - Privado;SEM NOME;;
+20141;Chapéu do Sol;VÁRZEA GRANDE;120;0;0;;;2005-05-14;;Pessoa Física;SEM NOME;;
+20142;Fazenda Negrinho do Pastoreiro;CANARANA;95;0;0;;;1989-11-17;;Pessoa Física;Córrego Siriema;;
+20144;Fazenda Ceita Porã;BARRA DO BUGRES;80;;;;;1991-05-16;;Pessoa Física;Córrego Vermelho Grande;;
+20146;SÍTIO SÃO JOSÉ;NOVA MARILÂNDIA;122.47;0;0;;;2010-07-08;;Empresas em Geral - Privado;Córrego da Saudade;2024-09-30;
+20147;Fazenda Urupianga;VILA RICA;100;;;;;1989-06-30;;Empresas em Geral - Privado;Córrego Rico;;
+20148;Fazenda Progresso;NOVA MUTUM;98;;;;;2006-03-22;;Pessoa Física;Córrego São Domingos;;
+20151;Barragem Planalto;PRIMAVERA DO LESTE;218;0;0;;;2004-08-17;;Pessoa Física;SEM NOME;2025-03-31;
+20152;Ribeirão Sossego;SORRISO;116;;;;;;;Outros - Privado;Ribeirão Sossego;;
+20176;Fazenda São José;NOVA MUTUM;126.85;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+20177;Faz. Carvalho;NOBRES;180;0;0;;;2019-05-18;;Pessoa Física;Rio das Pacas;2025-01-29;
+20196;Afluente do Pitomba;VÁRZEA GRANDE;0;;;;;2004-10-26;;Empresas em Geral - Privado;Rio Pari;;
+20211;CASA DE PEDRA;CUIABÁ;10000;0;0;;2021-04-12;2013-02-20;;;SEM NOME;;Classe II B - Inertes
+20213;Faz. Mata Velha;TAPURAH;140;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Amparo;;
+20214;Faz. Chapadão Verde;SORRISO;200;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-29;
+20314;Fazenda Paraná;BRASNORTE;0;0;0;;;1998-10-25;;Empresas em Geral - Privado;SEM NOME;2025-01-24;
+20317;Faz. Agrovera;PORTO DOS GAÚCHOS;105;0;0;;;2015-06-25;;Pessoa Física;CGH Fazenda Rancho Fundo;2025-01-24;
+20335;Alain II;Poconé;1360;0;0;2025-10-14;;2023-11-08;;;Rio Bento Gomes;;Classe II B - Inertes
+20382;B1;NOSSA SENHORA DO LIVRAMENTO;2584;0;0;2023-08-31;2021-04-13;2015-02-16;2022-10-07;Pessoa Física;Barragem B1;;Classe II B - Inertes
+20391;BARRAGEM 01;NOSSA SENHORA DO LIVRAMENTO;2653;0;0;2026-04-29;;2003-10-15;;;Barragem 01;;Classe II B - Inertes
+20398;Barragem AFGM GP2;Poconé;2655;0;0;2023-07-26;;2015-10-07;;Pessoa Física;Córrego da Formiga;;Classe II B - Inertes
+20401;MARANATA II;Poconé;100;;;;;2021-08-01;;;Ribeirão Bento Gomes;2025-11-26;Classe II B - Inertes
+20403;MANÉ;NOSSA SENHORA DO LIVRAMENTO;100;;;;;2019-10-01;;Pessoa Física;Rio Santana;;Classe II B - Inertes
+20411;BARRAGEM T03;NOSSA SENHORA DO LIVRAMENTO;2760;;;;2021-04-13;2013-03-20;;;Córrego Santa Bárbara;;Classe II B - Inertes
+20434;Grameiro;Poconé;1469;0;0;2024-06-27;2022-01-31;2021-03-04;;Pessoa Física;SEM NOME;2025-11-24;Classe II B - Inertes
+20457;PCH Graça Brennand (Antiga Terra Santa)  - Dique Graça Brennand;Tangará da Serra;;;;2026-07-01;;2008-06-28;2019-03-08;Empresas em Geral - Privado;;;
+20471;PCH Recanto - PCH Recanto;Tangará da Serra;330;;;2026-07-01;;2019-12-21;;Empresas em Geral - Privado;;;
+20472;CGH Buritizal - NÃO POSSUI BARRAMENTO, DERIVAÇÃO LATERAL DIRETA;SÃO JOSÉ DO RIO CLARO;;;;;;2019-10-26;;Empresas em Geral - Privado;;;
+20480;UHE Ponte de Pedra - Canal de Adução;Itiquira;;;;2026-07-01;;2005-07-19;2019-02-07;Empresas em Geral - Privado;;;
+20534;PCH Lajari - Barragem Taquari;ALTO TAQUARI;78;;;2026-07-01;;2019-05-10;2018-06-16;Empresas em Geral - Privado;;;
+20572;PCH Buriti - PCH Buriti;SAPEZAL;102;;;;;2018-08-04;;Empresas em Geral - Privado;;;
+20601;UHE Manso - Dique 2;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20602;UHE Manso - Dique 3;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20603;UHE Manso - Dique 4;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20604;UHE Manso - Dique 5;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20605;UHE Manso - Dique 6;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20606;UHE Manso - Dique 7;CHAPADA DOS GUIMARÃES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+20612;UHE Itiquira (Casas de Forças  I e  II)  - Dique da Câmara de Carga do Circuito I;Itiquira;;;;2026-07-01;;2002-11-06;2019-09-01;Empresas em Geral - Privado;;;
+20613;UHE Itiquira (Casas de Forças  I e  II)  - Canal de Adução I;Itiquira;;;;2026-07-01;;2002-11-06;2019-09-01;Empresas em Geral - Privado;;;
+20615;UHE Jauru - Barragem Auxiliar;VILA BELA DA SANTÍSSIMA TRINDADE;330;;;2026-07-01;;2003-06-06;2020-01-15;Empresas em Geral - Privado;;;
+20617;PCH Casca III - Casca III;CHAPADA DOS GUIMARÃES;500;;;2026-07-01;;1970-01-01;2019-12-20;Empresas em Geral - Privado;;;
+20618;PCH Casca II - B02 - Ponte Alta;CHAPADA DOS GUIMARÃES;60;;;2026-07-01;;1954-06-01T00:00:00;;Empresas em Geral - Privado;;;
+20619;PCH Alto Paraguai (Pedro Pedrossian) - Alto Paraguai;DIAMANTINO;50;;;2026-07-01;;1970-01-01;;Empresas em Geral - Privado;;;
+20653;UHE Sinop - Sinop;CLÁUDIA;580;;;2026-07-01;;2019-09-17;2019-09-18;Empresas em Geral - Privado;;;
+20736;CGH Faxinal I - CAPTAÇÃO LATERAL SIMPLES;ARIPUANÃ;;;;;;1997-03-01;2018-01-20;Empresas em Geral - Privado;Rio Aripuanã;;
+20739;Faz. Jacarandá;ARAGUAIANA;330;;;;;2008-10-20;;Outros - Privado;SEM NOME;;
+20754;Fazenda 3 irmãos;CUIABÁ;217;0;0;;;2006-08-20;;Pessoa Física;SEM NOME;2025-01-29;
+20764;Fazenda Alvorada;NOVA UBIRATÃ;55;0;0;;;2009-12-17;;Pessoa Física;Ribeirão Desejado;;
+20998;Estância Maristela - Barragem 01;PORTO ESPERIDIÃO;;0;0;;;2020-07-01;;;Barragem 01 - Estância Maristela;2024-05-27;
+20999;Estância Maristela - Barragem 02;PORTO ESPERIDIÃO;;0;0;;;2020-07-01;;;Barragem 02 - Estância Maristela;2024-05-27;
+21000;Estância Maristela - Barragem 03;PORTO ESPERIDIÃO;;0;0;;;2020-07-01;;;Barragem 03 - Estância Maristela;2024-05-27;
+21001;Fazenda Boa Vista;PLANALTO DA SERRA;;;;;;2020-07-01;;Pessoa Física;Rio Culuene;;
+21002;Sítio Santa Helena;RONDOLÂNDIA;;;;;;2020-07-01;;Pessoa Física;Igarapé Cajueiro;;
+21003;Gleba Barranqueira XIII;CÁCERES;;;;;;2020-07-01;;;Córrego Acorizinho;;
+21004;Gleba Barranqueira XIII;CÁCERES;;;;;;2020-07-01;;;Córrego Acorizinho;;
+21005;Gleba Barranqueira XIII;CÁCERES;;;;;;2020-07-01;;;Córrego Acorizinho;;
+21006;Fazenda Santa Marina;SANTA CRUZ DO XINGU;;;;;;2020-07-01;;Pessoa Física;Igarapé Fontourinha;;
+21007;Estância Santa Mônica;CÁCERES;;;;;;2020-07-01;;Pessoa Física;SEM NOME;;
+21008;Fazenda Iriri;GUARANTÃ DO NORTE;;;;;;2020-07-01;;Pessoa Física;SEM NOME;;
+21010;Fazenda Bom Pastor;CÁCERES;;;;;;2020-07-01;;Pessoa Física;SEM NOME;;
+21011;Fazenda Bela Vista;GUARANTÃ DO NORTE;;;;;;2020-07-01;;Pessoa Física;SEM NOME;;
+21013;Gleba Tarumã;VILA BELA DA SANTÍSSIMA TRINDADE;;;;;;2020-07-01;;;Córrego Água Branca;;
+218;Barragem do Córrego Longa Vida;VILA BELA DA SANTÍSSIMA TRINDADE;142;0;0;;;2005-02-02;;;Barragem Mineração Apoena S/A;2025-01-29;
+21862;BONANZA;Alta Floresta;70;;;;;2010-04-14;;Empresas em Geral - Privado;SEM NOME;;
+219;Fazenda Santa Maria;PRIMAVERA DO LESTE;144;0;0;;;2004-06-06;;Pessoa Física;Barragem 148/2011;2024-10-09;
+21903;Fazenda Del Mar;SORRISO;133;;;;;2005-03-02;;Pessoa Física;Córrego Galheiro;;
+21924;Berion;PONTES E LACERDA;330.07;0;0;2024-03-20;2021-09-13;2020-08-01;;;CÓRREGO BARREIRO;;Classe II B - Inertes
+21927;BR BRASÃO;NOSSA SENHORA DO LIVRAMENTO;1866;0;0;2025-10-14;;2020-01-01;;Pessoa Física;Rio Santana;2025-11-26;Classe II B - Inertes
+21935;córrego Sapateiro;VÁRZEA GRANDE;170;;;;;2002-05-14;;Empresas em Geral - Privado;Córrego Sapateiro;;
+21940;BR PIRÂMIDE;NOSSA SENHORA DO LIVRAMENTO;1022;0;0;2023-05-23;2021-09-13;2020-02-15;;;Córrego Tarumã;;Classe II A - Não inertes
+21941;CAMPOS;PONTES E LACERDA;1003;0;0;2025-10-14;2021-09-14;2022-07-11;;;CÓRREGO BARREIRO;;Classe II B - Inertes
+21942;Elvo 1;PONTES E LACERDA;750.6;0;0;2025-10-14;2022-04-01;2019-04-08;;;CÓRREGO BARREIRO;;Classe II B - Inertes
+21943;Elvo Captação;PONTES E LACERDA;258.9;0;0;2024-03-20;2021-09-14;2019-04-08;;;CÓRREGO BARREIRO;;Classe II B - Inertes
+21944;Alvo Crente;PARANAÍTA;;0;0;;;2022-07-19;;;SEM NOME;;
+21945;ARENAL;ARIPUANÃ;295;0;0;;;2021-05-12;;;SEM NOME;2025-12-04;Classe II B - Inertes
+21946;Fortuna;PONTES E LACERDA;962.31;0;0;2025-10-14;2023-11-07;2018-06-15;;Pessoa Física;Rio Branco;2025-11-28;Classe I – Perigosos
+21948;Bacia de Decantação S1;NOSSA SENHORA DO LIVRAMENTO;500;;;;;2015-05-01;;Pessoa Física;SEM NOME;;Classe II B - Inertes
+21949;Barragem Água Branca;Rosário Oeste;;;;;;2022-07-19;;Pessoa Física;Córrego Chiqueirinho;;
+21950;Barragem Candonga;NOSSA SENHORA DO LIVRAMENTO;1435;;;;;2013-04-10;;;Córrego Santa Bárbara;;Classe II B - Inertes
+21951;Barragem de Mineração-CPM;Poconé;1000;0;0;2025-10-14;2022-08-01;2022-01-02;;Pessoa Física;Rio Bento Gomes;;Classe II B - Inertes
+21952;Barragem Jatobá;Poconé;172;;;2026-04-29;;2022-07-11;;Pessoa Física;Rio Bento Gomes;2025-11-26;Classe II B - Inertes
+21954;Barragem Magrini;Poconé;853.63;;;;;2012-05-21;;Pessoa Física;Córrego Piraputanga;;Classe II B - Inertes
+21957;Barragem T08;NOSSA SENHORA DO LIVRAMENTO;2039;0;0;2023-08-31;;2022-08-24;;;Ribeirão Bento Gomes;2025-11-24;Classe II B - Inertes
+22006;Barragem T09;NOSSA SENHORA DO LIVRAMENTO;2362;;;;;2023-08-08;;;Ribeirão Bento Gomes;2025-11-24;Classe II B - Inertes
+22007;Barragem TB02;NOSSA SENHORA DO LIVRAMENTO;1116.86;;;2024-09-20;;2021-08-02;;;Ribeirão Bento Gomes;2025-11-24;Classe II B - Inertes
+22009;BR SANTA FELICIDADE 02;NOSSA SENHORA DO LIVRAMENTO;817.65;;;2026-06-27;;2024-07-03;;;Barragem BR Santa 01;2025-11-12;Classe II B - Inertes
+22011;Davi;Poconé;1295;13;0;2025-10-14;2021-10-06;2020-06-15;;Pessoa Física;Córrego Fundo;2025-11-26;Classe II B - Inertes
+22041;Dorival;NOVA SANTA HELENA;;;;;;2022-07-19;;;SEM NOME;;
+22042;Fazenda Nova;Poconé;1016.47;;;;;2010-08-16;;Pessoa Física;Córrego da Formiga;;Classe II B - Inertes
+22043;FRANCÊS;Poconé;500;0;0;2023-11-20;2023-11-24;2021-05-01;;;Rio Bento Gomes;2025-11-24;Classe II B - Inertes
+22045;JABURU;NOSSA SENHORA DO LIVRAMENTO;1400;0;0;2026-04-29;2022-05-31;2017-10-19;;Pessoa Física;Córrego do Cervo;2025-11-24;Classe II B - Inertes
+22157;Rabo de Bica;NOSSA SENHORA DO LIVRAMENTO;475;;;;;2010-01-01;;Pessoa Física;SEM NOME;;Classe II B - Inertes
+22158;Santa Helena;NOVA SANTA HELENA;;;;;;2022-07-19;;;SEM NOME;;
+22164;T G de Souza;NOSSA SENHORA DO LIVRAMENTO;4;0;0;2023-03-02;2023-11-07;2023-05-19;;;Córrego Barbeiro;2025-11-24;Classe II B - Inertes
+22223;Massa d'Água #56662;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22224;Massa d'Água #57710;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22229;Fazenda Europa;VILA RICA;390;;;;;2001-01-01;;Pessoa Física;SEM NOME;2025-12-26;
+22230;Massa d'Água #65759;BOM JESUS DO ARAGUAIA;;;;;;;;;Córrego Bela Manhã;;
+22259;Massa d'Água #69653;BRASNORTE;;;;;;;;;SEM NOME;;
+22260;Massa d'Água #69922;BRASNORTE;;;;;;;;;SEM NOME;;
+22263;Massa d'Água #70232;GENERAL CARNEIRO;;;;;;;;;Córrego Jeriguiga;;
+22264;Massa d'Água #70517;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22279;Massa d'Água #76964;BRASNORTE;;;;;;;;;SEM NOME;;
+22307;Massa d'Água #79702;BRASNORTE;;;;;;;;;SEM NOME;;
+22322;Massa d'Água #83563;BRASNORTE;;;;;;;;;SEM NOME;;
+22327;Massa d'Água #84492;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22330;Massa d'Água #85328;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22331;Massa d'Água #86130;BRASNORTE;;;;;;;;;SEM NOME;;
+22335;Massa d'Água #87134;BRASNORTE;;;;;;;;;Rio Treze-de-maio;;
+22371;Massa d'Água #91738;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22374;Massa d'Água #94452;PONTES E LACERDA;;;;;;;;;Rio Barbado;;
+22379;Massa d'Água #95945;BRASNORTE;;;;;;;;;SEM NOME;;
+22390;Massa d'Água #100513;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+22392;Massa d'Água #101453;ALTO BOA VISTA;;;;;;;;;Córrego Grande;;
+22393;Massa d'Água #102561;BRASNORTE;;;;;;;;;SEM NOME;;
+22394;Massa d'Água #102797;BRASNORTE;;;;;;;;;Rio do Sangue;;
+22395;Massa d'Água #102961;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22396;Massa d'Água #102989;SANTA TEREZINHA;;;;;;;;;SEM NOME;;
+22397;T.I Sangradouro;GENERAL CARNEIRO;;;;;;;;;SEM NOME;2025-03-17;
+22398;Massa d'Água #103693;BOM JESUS DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22403;Massa d'Água #105287;LUCIARA;;;;;;;;;Córrego Santa Vitória;;
+22407;Massa d'Água #107029;QUERÊNCIA;;;;;;;;;Córrego das Amoreiras;;
+22421;Massa d'Água #111714;ALTO BOA VISTA;;;;;;;;;Córrego Bela Manhã;;
+22422;Massa d'Água #111848;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22434;Massa d'Água #116795;QUERÊNCIA;;;;;;;;;Córrego das Amoreiras;;
+22435;Massa d'Água #117161;COMODORO;;;;;;;;;Córrego Piolho;;
+22448;Massa d'Água #121634;BRASNORTE;;;;;;;;;SEM NOME;;
+22459;Massa d'Água #125702;PONTES E LACERDA;;;;;;;;;Rio Barbado;;
+22464;Massa d'Água #127461;BRASNORTE;;;;;;;;;SEM NOME;;
+22465;Massa d'Água #127642;BRASNORTE;;;;;;;;;SEM NOME;;
+22468;Massa d'Água #129111;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22469;Massa d'Água #129310;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22488;Massa d'Água #137078;ALTO BOA VISTA;;;;;;;;;Córrego das Cabaças;;
+22490;Massa d'Água #137748;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22492;Massa d'Água #137918;ALTO BOA VISTA;;;;;;;;;Córrego Grotão;;
+22493;Massa d'Água #138208;BRASNORTE;;;;;;;;;Rio Cravari;;
+22496;Massa d'Água #138439;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+22498;Massa d'Água #139258;PONTES E LACERDA;;;;;;;;;Rio Barbado;;
+22500;Massa d'Água #139738;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22502;Massa d'Água #140018;ALTO BOA VISTA;;0;0;;;;;;SEM NOME;;
+22503;Massa d'Água #140377;PONTES E LACERDA;;;;;;;;;Rio Barbado;;
+22511;Massa d'Água #142297;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22513;Massa d'Água #143022;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+22517;Massa d'Água #143787;SANTA TEREZINHA;;;;;;;;;Córrego da Onça;;
+22519;Massa d'Água #144145;ALTO BOA VISTA;;;;;;;;;Córrego das Cabaças;;
+22532;Massa d'Água #147210;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Preto;;
+22539;Massa d'Água #149061;BRASNORTE;;;;;;;;;SEM NOME;;
+22540;Massa d'Água #149722;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22551;Massa d'Água #150115;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+22560;Massa d'Água #151451;BRASNORTE;;;;;;;;;Rio Ulisses;;
+22564;Massa d'Água #151821;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22565;Massa d'Água #151852;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+22567;Massa d'Água #152660;ALTO BOA VISTA;;;;;;;;;Córrego Bela Manhã;;
+22569;Massa d'Água #153877;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22570;Massa d'Água #154055;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Ribeirãozinho Ribeirãozinho;;
+22574;Massa d'Água #155534;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22607;Massa d'Água #158075;BOM JESUS DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22613;Massa d'Água #160670;BRASNORTE;;;;;;;;;SEM NOME;;
+22615;Massa d'Água #160929;ALTO BOA VISTA;;;;;;;;;Córrego do Nelsinho;;
+22619;Massa d'Água #161814;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Preto;;
+22621;Massa d'Água #162788;PONTES E LACERDA;;;;;;;;;Rio Barbado;;
+22624;Massa d'Água #163699;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+22627;Barragem Aldeia Isibaiadzatsi;BOM JESUS DO ARAGUAIA;;;;;;;;;SEM NOME;2025-03-17;
+22630;Massa d'Água #164671;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22641;Massa d'Água #166622;ALTO BOA VISTA;;;;;;;;;Rio Comandante Fontoura;;
+22738;PCH Beleza - PCH BELEZA;JUSCIMEIRA;322;0;0;2026-07-01;;2020-08-07;;Empresas em Geral - Privado;Córrego Beleza;;
+23099;PCH Rondonópolis - Canal de Adução;RONDONÓPOLIS;;;;;;2007-12-12;;Empresas em Geral - Privado;;;
+23104;PCH Engenheiro José Gelásio da Rocha - Canal de Adução;RONDONÓPOLIS;;;;2026-07-01;;2007-02-17;;Empresas em Geral - Privado;;;
+23391;Massa d'Água #170373;SAPEZAL;;;;;;;;;SEM NOME;;
+23395;Massa d'Água #172010;BRASNORTE;;;;;;;;;Rio Ulisses;;
+23398;Massa d'Água #172607;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+23401;Massa d'Água #174258;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+23404;Massa d'Água #178229;BRASNORTE;;;;;;;;;SEM NOME;;
+23498;Massa d'Água #182958;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+23512;Massa d'Água #188820;ALTO BOA VISTA;;;;;;;;;Córrego das Cabaças;;
+23573;Massa d'Água #191605;BRASNORTE;;0;0;;;;;;SEM NOME;;
+23587;Massa d'Água #196269;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23592;Massa d'Água #197494;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Ribeirão das Traíras;;
+23594;Massa d'Água #198298;BRASNORTE;;;;;;;;;SEM NOME;;
+23599;Massa d'Água #200215;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23600;Massa d'Água #201014;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+23602;Massa d'Água #201444;BRASNORTE;;;;;;;;;SEM NOME;;
+23632;Massa d'Água #203851;NOVA MARINGÁ;;;;;;;;;;;
+23634;Massa d'Água #203966;ALTO BOA VISTA;;;;;;;;;Córrego Três Pontes;;
+23642;Massa d'Água #204819;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Ribeirãozinho Ribeirãozinho;;
+23646;Massa d'Água #205134;BRASNORTE;;;;;;;;;SEM NOME;;
+23657;Massa d'Água #208270;BRASNORTE;;;;;;;;;Rio Membeca;;
+23671;Massa d'Água #212282;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23678;Massa d'Água #216360;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23704;Massa d'Água #217286;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23711;Massa d'Água #218398;BRASNORTE;;;;;;;;;SEM NOME;;
+23746;Massa d'Água #221315;ALTO BOA VISTA;;;;;;;;;SEM NOME;;
+23755;Massa d'Água #223691;BRASNORTE;;;;;;;;;SEM NOME;;
+23757;Massa d'Água #224375;CANARANA;;;;;;;;;Rio Tanguro;;
+23760;Massa d'Água #224991;BRASNORTE;;;;;;;;;SEM NOME;;
+23767;Massa d'Água #226576;SANTA TEREZINHA;;;;;;;;;SEM NOME;;
+23768;Massa d'Água #226789;ALTO BOA VISTA;;;;;;;;;Ribeirão das Traíras;;
+23769;Massa d'Água #227046;GENERAL CARNEIRO;;;;;;;;;Córrego Jeriguiga;;
+23774;Massa d'Água #228290;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Ribeirão das Traíras;;
+23784;Massa d'Água #233184;BRASNORTE;;;;;;;;;Rio Ulisses;;
+23789;Massa d'Água #234042;ALTO BOA VISTA;;;;;;;;;Córrego das Cabaças;;
+23791;Massa d'Água #234391;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;SEM NOME;2025-03-25;
+23798;BARRAGEM 01;Poconé;487;0;0;2023-11-07;2021-11-09;2021-10-22;2021-10-01;Pessoa Física;Córrego Piraputanga;2025-11-24;Classe II B - Inertes
+23799;Barragem 02;Poconé;1442;0;0;2023-11-07;2021-11-09;2019-06-10;;Pessoa Física;Córrego Piraputanga;2025-11-24;Classe II B - Inertes
+23801;Isa;Poconé;745;0;0;2026-04-29;2021-09-20;2025-10-01;;Pessoa Física;Rio Bento Gomes;2025-11-24;Classe II B - Inertes
+23802;JABURU 2;NOSSA SENHORA DO LIVRAMENTO;;0;0;;;2022-07-19;;Pessoa Física;Córrego do Cervo;;
+23809;Massa d'Água #237472;SÃO FÉLIX DO ARAGUAIA;;;;;;;;;Rio Comandante Fontoura;;
+23810;Massa d'Água #237564;ALTO BOA VISTA;;0;0;;;;;;SEM NOME;;
+23811;Massa d'Água #237597;BRASNORTE;;;;;;;;;SEM NOME;;
+23813;Massa d'Água #240264;COMODORO;;;;;;;;;Córrego Piolho;;
+23815;Massa d'Água #240888;BRASNORTE;;;;;;;;;SEM NOME;;
+23871;Massa d'Água #243819;RONDOLÂNDIA;;;;;;;;;Igarapé Cajueiro;;
+23873;Massa d'Água #243832;VILA BELA DA SANTÍSSIMA TRINDADE;;;;;;;;;Córrego Água Branca;;
+23878;Massa d'Água #243864;RONDOLÂNDIA;;;;;;;;;Igarapé Manuel;;
+23957;CGH Caramujo - Barramento Caramujo;SALTO DO CÉU;44;;;;;2019-10-01;;Empresas em Geral - Privado;;;
+23960;CGH Cambará - Cambará;JACIARA;80;;;;;2012-12-21;;Empresas em Geral - Privado;;;
+23961;CGH Embaúba - Embaúba;JACIARA;46;;;;;2012-08-25;;Empresas em Geral - Privado;;;
+23962;CGH Sucupira - Sucupira;JACIARA;99;;;;;2008-10-17;;Empresas em Geral - Privado;;;
+23987;CGH Desiderio - Barragem 1;CAMPINÁPOLIS;135.5;;;;;2009-08-15;;Empresas em Geral - Privado;;;
+23988;CGH Dona Assunta - Barragem 01;CAMPINÁPOLIS;129;;;;;1994-06-01;;Empresas em Geral - Privado;;;
+23989;CGH Noidore - Barragem 01;CAMPINÁPOLIS;45;;;;;2002-04-30;;Empresas em Geral - Privado;;;
+23991;CGH Sapezal - CGH Sapezal;SAPEZAL;380;;;;;2002-04-10;;Empresas em Geral - Privado;;;
+23992;CGH Margarida 2 Duplicidade  - MARGARIDA;COMODORO;25;;;;;1995-05-20;;Empresas em Geral - Privado;;;
+23993;CGH SM-01 - CGH SM-01;Itiquira;45;;;;;1984-11-13;;Empresas em Geral - Privado;;;
+23994;CGH SM-06 - CGH SM-06;Itiquira;50;;;;;1984-11-29;;Empresas em Geral - Privado;;;
+23998;CGH Masutti - MASUTTI;CAMPOS DE JÚLIO;30;;;;;1995-02-20;;Empresas em Geral - Privado;;;
+23999;CGH Rio Margarida 2 - MARGARIDA;COMODORO;15;;;;;1995-05-20;;Empresas em Geral - Privado;;;
+24022;CGH Tucunaré - CGH Tucunaré;SAPEZAL;564.3;;;;;1987-01-01;;Empresas em Geral - Privado;;;
+24061;CGH Rio Vermelho - Usina Rio Vermelho;Itaúba;30;;;;;1986-11-04;;Empresas em Geral - Privado;;;
+24088;CGH Santa Cecília - Santa Cecília;JACIARA;100;;;;;2015-04-18;;Empresas em Geral - Privado;;;
+24089;CGH Mestre - Mestre;JACIARA;100;;;;;2014-10-27;;Empresas em Geral - Privado;;;
+24104;CGH Alto Garças - ALTO GARÇAS;ALTO ARAGUAIA;30.2;;;;;2015-02-03;;Empresas em Geral - Privado;;;
+24105;CGH Araguaia - ARAGUAIA;ALTO ARAGUAIA;24.45;;;;;2015-01-18;;Empresas em Geral - Privado;;;
+24106;CGH Araguainha - ARAGUAINHA;ALTO ARAGUAIA;122;;;;;2014-07-01;;Empresas em Geral - Privado;;;
+24107;CGH MAX-01 (Nova Lacerda)  - NOVA LACERDA;NOVA LACERDA;37;;;;;2015-01-21;;Empresas em Geral - Privado;;;
+24181;CGH Ronuro - 1;Boa Esperança do Norte;26.6;;;;;1994-01-01;;Empresas em Geral - Privado;;;
+243;Barramento Fazenda Maranata e Maranata II;PRIMAVERA DO LESTE;150;0;0;;;2004-06-06;;Pessoa Física;SEM NOME;2024-10-01;
+24302;CGH Matula - CGH Matula;NOVO SÃO JOAQUIM;10;;;;;2011-05-01;;Empresas em Geral - Privado;;;
+24306;CGH Itaquerê I - Barragem 1;NOVO SÃO JOAQUIM;47;;;;;1984-06-15;;Pessoa Física;;;
+24307;CGH Itaquerê II - Barragem 1;NOVO SÃO JOAQUIM;310;;;;;1985-05-10;;Pessoa Física;;;
+26130;Barragem B1;NOSSA SENHORA DO LIVRAMENTO;1350;15;1.15;;;2024-01-21;;;Rio Santana;2026-02-26;
+26131;BARRAGEM JVR;CUIABÁ;2040;13;0;2025-10-14;2023-11-07;2018-03-20;;Pessoa Física;Ribeirão da Ponte ou Olipa;;Classe II B - Inertes
+26133;Martins;Poconé;1050;0;0;2023-07-24;2023-07-24;2003-03-04;;Pessoa Física;SEM NOME;2025-11-26;Classe II B - Inertes
+26138;Barragem Serrinha;CUIABÁ;1253;0;0;2024-02-20;2023-07-25;2001-10-17;;;Rio Coxipó;2025-11-24;Classe II B - Inertes
+26139;TUPA 2;Poconé;1250;0;0;;2022-05-31;2024-06-29;;;Ribeirão Bento Gomes;2025-11-24;Classe II B - Inertes
+26140;TUPA 3;Poconé;519.05;0;0;;;2024-06-29;;;Ribeirão Bento Gomes;2025-11-26;Classe II B - Inertes
+26142;Barragem  LVR;JUÍNA;532;0;0;;;2024-06-19;;;Rio Cinta Larga;2025-11-12;Classe II B - Inertes
+26145;Barragem de Rejeitos SB 02;Poconé;1365;0;0;2025-10-14;;2021-12-10;;Pessoa Física;Rio Bento Gomes;2025-11-24;Classe II B - Inertes
+26146;Barragem TB;CUIABÁ;;0;1.507;2023-02-15;;2022-07-19;;;Ribeirão da Ponte ou Olipa;2026-04-01;
+26147;BR ÁGUA DE COCO;NOSSA SENHORA DO LIVRAMENTO;765;0;0;;;2012-01-01;;;Córrego Barbeiro;2025-11-24;Classe II B - Inertes
+26150;CHIMBUVA;NOSSA SENHORA DO LIVRAMENTO;3355.07;0;0;;;2021-07-28;;Pessoa Física;Córrego do Cervo;2025-11-26;Classe II B - Inertes
+26156;Barragem JL;NOSSA SENHORA DO LIVRAMENTO;719;0;0;;;2015-06-09;;;SEM NOME;2025-11-24;Classe II B - Inertes
+26158;BRITO;NOSSA SENHORA DO LIVRAMENTO;860;0;0;;;2017-08-15;;Pessoa Física;SEM NOME;2025-11-24;Classe II B - Inertes
+26164;Bacia Grota da Onça;PONTES E LACERDA;980;0;0;2023-02-15;2023-01-31;2022-01-03;;Pessoa Física;Córrego Lavrinha;;Classe II B - Inertes
+26169;Barragem Jauru;São José dos Quatro Marcos;741.2;0;0;;;2026-01-18;;;Rio Jauru;2026-04-09;Classe II B - Inertes
+26171;MULTI 1;NOSSA SENHORA DO LIVRAMENTO;480;0;0;;;2022-09-30;;Pessoa Física;Córrego Tarumã;2025-11-26;Classe II B - Inertes
+26229;Fazenda Eduina Teresa;SORRISO;158;0;0;;;;;Empresas em Geral - Privado;SEM NOME;2025-03-31;
+26231; VALE GOLD;NOSSA SENHORA DO LIVRAMENTO;;0;0;;;2022-07-19;;;Ribeirão Bento Gomes;2025-02-04;
+26234;BARRAGEM BLOCO  SUL;NOVA SANTA HELENA;5;0;0;;;2016-02-01;;Pessoa Física;Rio do Pombo;2025-11-26;Classe II B - Inertes
+26235;BARRAGEM COOP 01;NOSSA SENHORA DO LIVRAMENTO;277;0;0;;;2021-08-09;;;Córrego Barbeiro;2025-11-24;Classe II B - Inertes
+26236;Barragem Fazenda Aguassu;NOSSA SENHORA DO LIVRAMENTO;778.85;0;0;;;2022-11-08;;;Córrego Barbeiro;2025-11-24;Classe II B - Inertes
+26239;Barragem Torio 01;PARANAÍTA;90.16;0;0;;;2020-11-18;;;SEM NOME;2025-11-26;Classe II B - Inertes
+26240;BP-01;NOSSA SENHORA DO LIVRAMENTO;504.5;0;0;;;2020-03-16;;;SEM NOME;2025-11-24;Classe II B - Inertes
+26241;BP-02;NOSSA SENHORA DO LIVRAMENTO;379;0;0;;;2020-03-16;;;SEM NOME;2025-11-24;Classe II B - Inertes
+26251;FAZENDA 4M;NOSSA SENHORA DO LIVRAMENTO;1495;0;0;2023-06-15;2021-04-13;2005-05-10;;Pessoa Física;Bacia RB Mineração;;Classe II B - Inertes
+26254;Neta;NOSSA SENHORA DO LIVRAMENTO;500;0;0;2026-06-20;2023-11-07;2020-09-15;;;Córrego do Cervo;2025-11-24;Classe I – Perigosos
+26261;SR.PEDRINHO;PONTES E LACERDA;150;0;0;2024-03-19;;2022-09-05;;;CÓRREGO BARREIRO;;Classe II B - Inertes
+26265;BRAVO II;VÁRZEA GRANDE;;0;0;;;2022-07-19;;;Ribeirão Espinheiro;;
+26266;Serra;VILA BELA DA SANTÍSSIMA TRINDADE;;0;0;;;2022-07-19;;;SEM NOME;;
+26267;Tadeu;NOSSA SENHORA DO LIVRAMENTO;;0;0;;;2022-07-19;;Pessoa Física;SEM NOME;;
+26328;Fazenda Água Boa;POXORÉU;85;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Sangradourozinho;2026-02-04;
+26331;Prefeitura Municipal de Nova Santa Helena;NOVA SANTA HELENA;140;0;0;;;1800-01-01T00:00:00;;Órgãos - Público;SEM NOME;2025-12-18;
+26332;Fazenda Vila Rica I;VILA RICA;693;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2025-01-31;
+26333;PREFEITURA MUNICIPAL DE CONFRESA;CONFRESA;0;0;0;;;2015-07-22;;Órgãos - Público;SEM NOME;2025-12-18;
+26334;Associação dos Trabalhadores Rurais do Projeto de Assentamento Mãe Maria Núcleo Imbu e Vizinhos - ITOG;SÃO FÉLIX DO ARAGUAIA;200;0;0;;;1800-01-01T00:00:00;;Outros - Privado;SEM NOME;2025-12-18;
+26335;Barramento - Fazenda Guapeva;BOM JESUS DO ARAGUAIA;345;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-12-29;
+26401;Barragem Principal na Fazenda Campo Claro;RIBEIRÃO CASCALHEIRA;255.63;0;0;;;2024-06-24;;Pessoa Física;SEM NOME;2026-02-04;
+26442;Fazenda Cristalina;CAMPO VERDE;179;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2024-10-03;
+26448;Barragem 1 - PREFEITURA MUNICIPAL DE CAMPO VERDE;CAMPO VERDE;153;0;0;2024-08-22;;2022-11-24;;Órgãos - Público;SEM NOME;2025-12-19;
+26532;ÁGUAS DE PRIMAVERA LTDA;PRIMAVERA DO LESTE;50;0;0;;;2014-06-20;;Outros - Privado;Cabeceira das Traíras;;
+26533;Fazenda Nossa Senhora Aparecida;NOVA UBIRATÃ;176;0;0;;;2018-09-17;;Pessoa Física;Barragem 152/2012;;
+26534;Fazenda KM;CUIABÁ;50;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+26535;Fazenda Nossa Senhora Aparecida;NOVA UBIRATÃ;105;0;0;;;2016-11-04;;Pessoa Física;Córrego do Pato Branco;;
+26536;SAAF;NOSSA SENHORA DO LIVRAMENTO;135;0;0;;;2021-10-29;;;SEM NOME;2025-12-18;
+26537;Gilmar Mioranza;NOVA SANTA HELENA;370.12;0;0;;;2023-10-19;;Pessoa Física;SEM NOME;2024-10-04;
+26538;Sitio Pirapora;NOSSA SENHORA DO LIVRAMENTO;490;0;0;;;2021-10-01;;Pessoa Física;Rio Pari;;
+26539;FRIGOPESCA PSICULTURA E FRIGORÍFICO LTDA-EPP;Poconé;270;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;Ribeirão Bento Gomes;;
+26570;Barramento Fazenda Trabuco;Poconé;208;0;0;;;2024-05-16;;Pessoa Física;Ribeirão Bento Gomes;2024-10-03;
+26629;Diego;Poconé;900;0;0.883;;;2022-03-09;;;Córrego Guanandi;2026-02-26;
+26632;Córrego Tonto;TABAPORÃ;269.25;0;0;;;;;Pessoa Física;Córrego Tonto;2024-10-04;
+26655;Fazenda Bacurí;ARENÁPOLIS;115.35;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Mirassol;;
+26669;Fazenda Nove de Julho;BRASNORTE;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+26670;BURITI;DENISE;0;0;0;;;;;;CÓRREGO BURITI;2025-01-27;
+26671;BARRAGEM 2;NOSSA SENHORA DO LIVRAMENTO;0;0;0;;;;;;Ribeirão Bento Gomes;;
+26672;Faz São Paulo;BARRA DO BUGRES;0;0;0;;;;;Empresas em Geral - Privado;Ribeirão Queimado;;
+26673;Galerinha;VILA BELA DA SANTÍSSIMA TRINDADE;;0;0;;;1800-01-01T00:00:00;;;Rio Galerinha;;
+27277;Fazenda Jauquara;BARRA DO BUGRES;170;0;0;;;;;Pessoa Física;Córrego das Onças;;
+27278;Fazenda Copacabana;POXORÉU;200;0;0;;;;;Pessoa Física;rio Cabeceira da Gordura;2024-09-30;
+27283;Fazenda Santa Regina;IPIRANGA DO NORTE;129;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+27292;Fazenda Novo Campo;CAMPO NOVO DO PARECIS;125.46;0;0;;;1800-01-01T00:00:00;;Pessoa Física;córrego da Fé;2025-03-14;
+27354;Fazenda Taguá I - Barragem II;VERA;87.83;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+27373;Fazenda Estrela;BARRA DO BUGRES;131.35;0;0;;;1800-01-01T00:00:00;;Pessoa Física;córrego sem denominação;2024-10-08;
+27377;Fazenda Tereré;TAPURAH;123;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2024-10-08;
+27403;Fazenda Fortaleza;ARENÁPOLIS;106;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Boa Esperança;2024-10-08;
+27404;Barragem Ramax;NOVO HORIZONTE DO NORTE;120;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2024-10-08;
+27405;Fazenda Taguá I;VERA;133.21;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+27508;Fazenda Nandico;VERA;49.51;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Rio Celeste;2024-10-08;
+27548;BIG BERION;PONTES E LACERDA;840;0;0;2025-10-14;;2021-11-25;;;CÓRREGO BARREIRO;2025-12-12;Classe II B - Inertes
+27549;Novo Astro I;NOVA BANDEIRANTES;;0;0;;;2022-07-19;;;SEM NOME;;
+27570;BR ÁGUIA DO SOL;Santo Antônio de Leverger;858;0;0;;;2022-08-18;;;Rio Aricá-açu;2025-11-12;Classe II B - Inertes
+27571;Santa Bárbara;NOSSA SENHORA DO LIVRAMENTO;790;0;0;;;2022-05-15;;Pessoa Física;Córrego Santa Bárbara;2025-11-26;Classe II B - Inertes
+27572;LIPINISKY;CARLINDA;443;0;0;;;2017-05-14;;;SEM NOME;2025-11-24;Classe II B - Inertes
+27573;STC03;Poconé;1185;0;0;;;2022-04-28;;Pessoa Física;Córrego da Formiga;2025-11-24;Classe II B - Inertes
+276;Santa Juliana II;CAMPO VERDE;196;;;;;1996-06-11;;Empresas em Geral - Privado;Barragem Erai Maggi Scheffer 1;2026-02-04;
+27619;MD-01;NOVA LACERDA;684.14;0;0;;;2024-02-08;;;SEM NOME;2025-11-24;Classe II B - Inertes
+27620;BARRAGEM DE MINERAÇÃO;NOSSA SENHORA DO LIVRAMENTO;315;0;0;;;2022-10-26;;;Ribeirão Cocaes;2025-11-24;Classe II B - Inertes
+27623;PURO OURO;CUIABÁ;545;0;0;;;2010-07-10;;Pessoa Física;SEM NOME;2025-11-12;Classe II B - Inertes
+27624;Barragem_Valdenir2;NOSSA SENHORA DO LIVRAMENTO;62.57;0;0;;;2019-09-02;;Pessoa Física;Córrego Tarumã;2025-11-25;Classe II B - Inertes
+27626;Barragem - Valdenir;NOSSA SENHORA DO LIVRAMENTO;116;0;0;;;2017-05-15;;Pessoa Física;Córrego Tarumã;2025-11-24;Classe II B - Inertes
+27627;Barragem Novo Astro;NOVA BANDEIRANTES;;0;0;;;2022-07-19;;;SEM NOME;;
+27628;TARUMÃ II;Poconé;950;0;0;;;2022-02-01;;;Córrego Fundo;2026-04-09;Classe II B - Inertes
+277;Santa Juliana I;CAMPO VERDE;243;;;2024-05-15;;2000-07-22;;Empresas em Geral - Privado;SEM NOME;2026-02-04;
+27745;Fazenda Boitanga;Tangará da Serra;;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2024-10-08;
+27753;Barragem B9;SANTA CRUZ DO XINGU;112.25;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-02-19;
+27780;Palmital Grande;DENISE;321.98;0;0;;;1800-01-01T00:00:00;;;Córrego Palmital Grande;2024-10-08;
+278;Fazenda Santo Antonio 3;CAMPO VERDE;190;;;;;1996-06-11;;Empresas em Geral - Privado;Barragem Erai Maggi Scheffer 3;2024-12-23;
+27881;Fazenda Santa Fé;SANTA CRUZ DO XINGU;103;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+27882;Tanque Fundo;NOSSA SENHORA DO LIVRAMENTO;1864.43;0;0;2022-01-27;2022-01-31;2013-08-08;;Pessoa Física;Rio Santana;2025-11-24;Classe II B - Inertes
+27890;Sitio Morada das Rosas;Tangará da Serra;64.5;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-24;
+27896;BARBA;Poconé;522.7;0;0;;;2023-06-29;;;Córrego Fundo;2025-11-26;Classe II B - Inertes
+27897;Mocotó;Poconé;100;14;0.317;;;2022-12-15;;Pessoa Física;Córrego Fundo;2026-02-26;
+27898;VCS;Poconé;906.81;0;0;;;2023-08-10;;Pessoa Física;Córrego Fundo;2025-11-26;Classe II B - Inertes
+279;Fazenda São Judas Tadeu;PRIMAVERA DO LESTE;0;;;;;2010-09-17;;;Rio das Mortes;;
+27906;Fazenda São Marcos A;IPIRANGA DO NORTE;183.9;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2024-10-08;
+27937;BRAVO 1;VÁRZEA GRANDE;805;0;0;;2021-04-14;2017-08-17;;;SEM NOME;2025-11-24;Classe II B - Inertes
+27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;46.64;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão do Engenho;2025-01-27;
+27954;Lago Recreativo Cuiabá;CUIABÁ;882;0;0;2024-05-08;;2021-08-09;;Empresas em Geral - Privado;CÓRREGO DO OURO;2026-02-04;
+28141;Fazenda Confluência;SANTA RITA DO TRIVELATO;1800;0;0;;;1800-01-01T00:00:00;;Pessoa Física;córrego sem denominação;2024-10-08;
+28304;BARRAGEM 4;VÁRZEA GRANDE;0;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;córrego sem denominação;2024-10-09;
+28361;BARRAGEM 2;SANTA CRUZ DO XINGU;90;0;0;;;1800-01-01T00:00:00;;Pessoa Física;córrego sem denominação;;
+28616;Fazenda Santa Fé;SANTA CRUZ DO XINGU;115;0;0;;;2022-10-21;;Pessoa Física;SEM NOME;2024-10-08;
+28620;Barramento II - Fazenda Cascata;IPIRANGA DO NORTE;222.43;11.81;0.448;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Vai-Vem;2026-02-04;
+28709;BARRAGEM 1;IPIRANGA DO NORTE;180.46;0;0;;;2023-06-19;;Pessoa Física;SEM NOME;2024-10-08;
+28719;Barragem Carnaíba;MIRASSOL D'OESTE;305;0;0;;;1992-01-01;;Órgãos - Público;Represa Carnaiba;2026-02-04;
+28805;Fazenda Roncador;QUERÊNCIA;207.8;0;0;;;1800-01-01T00:00:00;;Outros - Privado;SEM NOME;2024-10-09;
+28863;Barragem 13;SANTA CRUZ DO XINGU;119.55;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2024-10-08;
+28886;Mariana II;POXORÉU;102;0;0;;;2023-03-17;;Pessoa Física;Ribeirão Sangradourozinho;2024-10-08;
+28918;Barragem 03;SANTA CRUZ DO XINGU;65.5;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego do Pedro;2025-02-19;
+28934;BR02;NOSSA SENHORA DO LIVRAMENTO;1439;;;2026-04-29;;2022-06-01;;;Córrego Barbeiro;2026-06-23;Classe II B - Inertes
+293;Fazenda Carol I, II e III - Barragem I;SORRISO;61.6;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Carol 2;2025-01-31;
+29376;VALE DO OURO;NOSSA SENHORA DO LIVRAMENTO;;;;;;2023-01-13;;Pessoa Física;Ribeirão Bento Gomes;;
+29377;Barragem MSJ;CUIABÁ;783;;;;;2024-07-01;;;Córrego Aricazinho;2025-11-24;Classe II B - Inertes
+29378;TB04;NOSSA SENHORA DO LIVRAMENTO;;14;1.299;;;2022-07-19;;;Ribeirão Bento Gomes;2026-02-26;
+29380;Barragem de Rejeito Capim Gold 2;NOSSA SENHORA DO LIVRAMENTO;850;12.02;0.28;;;2026-02-12;;;Ribeirão Bento Gomes;2026-04-09;Classe II B - Inertes
+29381;BR03;NOSSA SENHORA DO LIVRAMENTO;1350;;;;;2022-06-01;;;Córrego Barbeiro;2025-11-24;Classe II B - Inertes
+29382;Barragem de Rejeito - Mineração Ouro Fino;NOSSA SENHORA DO LIVRAMENTO;287.5;;;;;2024-01-15;;;Ribeirão Cocaes;2025-12-08;Classe II B - Inertes
+29383;Mineração Livramento;NOSSA SENHORA DO LIVRAMENTO;;;;;;2023-04-06;;;Córrego Tarumã;;
+29384;BR SANTA FELICIDADE 04;NOSSA SENHORA DO LIVRAMENTO;1870;25;0;;;2023-07-14;;;Córrego Tarumã;2026-02-26;
+29385;TR1;NOSSA SENHORA DO LIVRAMENTO;873.04;;;2024-09-20;;2023-08-01;;;Córrego Perobas;2025-11-25;Classe II A - Não inertes
+29386;LD-01;NOSSA SENHORA DO LIVRAMENTO;673.53;14;0;;;2023-03-16;;;Rio Cuiabá;2026-02-26;
+29387;CATARINO;Poconé;424.13;;;;;2023-08-10;;Pessoa Física;Rio Bento Gomes;2025-11-26;Classe II B - Inertes
+29388;P.R.A;PONTES E LACERDA;460;;;;;2022-12-28;;;córrego Água Azul;2025-11-24;Classe II B - Inertes
+294;FAZENDA LUIZ EDUARDO I e II;SORRISO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego A. Alves;;
+295;FAZENDA CAROL I, II e III - Barragem II;SORRISO;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Boi Morto;2025-01-27;
+29564;UISA A;BARRA DO BUGRES;269.27;0;0;;;1988-01-01;;;Rio Branco;2025-12-11;
+29579;Barramento II;CONFRESA;340;0;0;;;1990-08-09;;Empresas em Geral - Privado;SEM NOME;2025-01-28;
+29886;B1;ARAGUAIANA;0;0;0;;;2023-08-22;;Pessoa Física;SEM NOME;2025-01-24;
+29888;BARRAGEM FAZENDA PANFLORA;Rosário Oeste;185;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;Córrego Cocal;2024-10-09;
+29889;B2;ARAGUAIANA;135;0;0;;;2023-08-23;;Pessoa Física;Córrego Ramagem ou São Joãozinho;2024-10-09;
+29894;B3;ARAGUAIANA;248;0;0;;;2023-08-24;;Pessoa Física;SEM NOME;2024-10-09;
+29953;Barragem 02;CLÁUDIA;170;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Naida;2024-10-25;
+30131;Fazenda Tanguro;CANARANA;0;0;0;;;;;Pessoa Física;SEM NOME;;
+30135;NSL 01;NOSSA SENHORA DO LIVRAMENTO;1063.58;;;;;2012-10-15;;;Ribeirão Cocaes;2025-11-24;Classe II B - Inertes
+304;CARLOS ALBERTO CAPELETTI - FAZENDA TOLEDO;TAPURAH;234.24;;;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Carlos Alberto Capeletti - Fazenda Toledo;2024-12-04;
+30462;BARRAGEM 01;CLÁUDIA;210;0;0;;;2023-11-28;;Pessoa Física;Córrego Naida;2024-10-25;
+305;FAZENDA MEU PEDAÇO;SORRISO;130;;;;;2003-02-08;;Pessoa Física;Barragem Fazenda Meu Pedaço;2025-03-31;
+30591;Barragem na Fazenda Gera;CAMPO NOVO DO PARECIS;203.18;0;0;;;2023-12-14;;Pessoa Física;SEM NOME;2025-01-27;
+306;FAZENDA POTRICH;SORRISO;0;0;0;;;1993-03-14;;Empresas em Geral - Privado;Barragem Fazenda Potrich;2024-10-08;
+307;Fazenda Vitória;SORRISO;0;0;0;;;2003-06-27;;Pessoa Física;Barragem Sergio Adão Esteves;2025-12-18;
+30796;Fazenda Possamai II;SORRISO;107.09;0;0;;;2022-10-27;;Pessoa Física;Córrego Caititu;2025-01-24;
+30797;Martins 2;Poconé;1307;16;1330;;;2025-02-19;;Pessoa Física;SEM NOME;2025-11-12;Classe II B - Inertes
+30798;Fazenda Furnas;RIBEIRÃO CASCALHEIRA;389;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2025-01-27;
+30819;Fazenda Cambará;PARANATINGA;254.8;0;0;;;2024-01-08;;Empresas em Geral - Privado;SEM NOME;2024-10-03;
+30821;Fazenda Cambará;PARANATINGA;113.3;0;0;;;2024-01-08;;Empresas em Geral - Privado;SEM NOME;2025-01-27;
+30836;Mariana IB;POXORÉU;140;0;0;;;2023-03-17;;Pessoa Física;SEM NOME;2024-12-05;
+30852;FAZENDA CELESTE III;VERA;63.7;0;0;;;2023-07-20;;Pessoa Física;córrego sem denominação;2025-01-27;
+30856;Fazenda Tropeiro Velho;SORRISO;;0;0;;;2024-01-15;;Pessoa Física;Córrego da Ponte;2025-01-28;
+30879;Fazenda Paraúna;NOVA UBIRATÃ;172.3;0;0;;;2023-03-24;;Pessoa Física;Córrego Água do Macaco;2025-04-28;
+30884;Barragem na Fazenda Paulista III;NOVA MARILÂNDIA;147.45;0;0;;;2024-01-22;;Pessoa Física;Ribeirão Maria Joana de Paula;2025-12-19;
+30886;UISA A;NOVA OLÍMPIA;;0;0;;;2023-04-20;;;Córrego São Lourenço;2025-12-12;
+30900;Lagemann;IPIRANGA DO NORTE;45.6;0;0;;;2023-02-01;;Pessoa Física;SEM NOME;2024-10-03;
+30902;Barramento 4 - Fazenda Guanabara – Gleba A;DENISE;112.01;0;0;;;2024-01-24;;;Córrego Ponta de Cerne;2024-10-01;
+30908;Barragem I - Fazenda Nandico;VERA;48.44;0;0;;;2023-02-02;;Pessoa Física;Rio Nandico;2025-10-13;
+30909;BARRAGEM PRINCIPAL;Água Boa;299.1;0;0;2024-11-06;;2023-08-16;2025-03-31;Pessoa Física;SEM NOME;2026-06-23;
+30913;Barragem Fazenda Adriana;GUIRATINGA;398.75;0;0;;;2025-01-29;;Empresas em Geral - Privado;Barragem Fazenda Adriana;2025-12-19;
+30922;Barragem na Fazenda Izabel;RONDONÓPOLIS;202;0;0;;;2025-12-22;;Empresas em Geral - Privado;Rio Itiquira;2026-06-22;
+30939;BARRAMENTO 09;BARRA DO BUGRES;69.62;0;0;;;2024-02-01;;;Rio dos Bugres;2025-02-11;
+30947;Barramento 8 - Fazenda Guanabara – Gleba A;DENISE;;0;0;;;2024-02-02;;;CÓRREGO LOBO;2024-10-09;
+30960;Barramento - Fazenda Progresso I e II;PRIMAVERA DO LESTE;303.69;0;0;;;2024-02-15;;Empresas em Geral - Privado;Córrego Fundo;2025-01-29;
+30962;Barramento 1 - Fazenda Guanabara – Gleba A;NOVA OLÍMPIA;152.26;0;0;;;2024-02-08;;;Rio Bracinho;2024-10-09;
+31000;Barramento II - Fazenda Cabeceira;IPIRANGA DO NORTE;240.06;0;0;;;2024-02-20;;Pessoa Física;SEM NOME;2026-06-23;
+31011;Reservatório de Água P.R.A.;PONTES E LACERDA;235;0;0;;;2024-02-21;;;córrego Água Azul;2024-10-04;
+31048;Barragem na Fazenda Santa Fé;CANARANA;111.26;0;0;;;2024-02-29;;Pessoa Física;Ribeirão Bonito;2024-09-30;
+31105;Fazenda Santa Helena;MARCELÂNDIA;138.3;0;0;;;2024-03-18;;Pessoa Física;Córrego Saudade;2025-10-01;
+31117;Depósito Mocelin;TABAPORÃ;81.62;0;0;;;2024-03-21;;Pessoa Física;SEM NOME;2024-10-08;
+31174;LOTES 79 E 80;SINOP;127.94;0;0;;;2023-03-06;;Fundações Privadas - Privado;Córrego Isaura Egle;2026-02-04;
+31175;LOTES 79 E 80;SINOP;127.94;0;0;;;2024-03-06;;Fundações Privadas - Privado;Córrego Isaura Egle;2026-02-04;
+31228;Barragem na Fazenda dos Sonhos;ALTO ARAGUAIA;117;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego do Rancho;2025-01-28;
+31258;Salinas;NOSSA SENHORA DO LIVRAMENTO;447;0;0;;;1800-01-01T00:00:00;;;SEM NOME;2024-09-30;
+31286;Reservatório  B1;CUIABÁ;218;0;0;;;2023-12-27;;;Córrego Aricazinho;2024-10-02;
+31305;Manga;PONTES E LACERDA;539;;;2025-10-14;;2024-01-17;;;CÓRREGO BARREIRO;2025-11-12;Classe II B - Inertes
+31358;BARRAGEM DE REJEITO NORMA;Poconé;693;;;;;2024-04-26;;Pessoa Física;Rio Bento Gomes;2025-11-12;Classe II B - Inertes
+31360;Barramento I - Rio Fontoura Agropecuária;SÃO FÉLIX DO ARAGUAIA;227.36;0;0;;;;;Empresas em Geral - Privado;SEM NOME;2024-10-03;
+31361;Pascoal;QUERÊNCIA;450;0;0;;;2023-05-19;;Pessoa Física;SEM NOME;2025-01-27;
+31362;Barragem II;QUERÊNCIA;207;0;0;;;2023-05-19;;Pessoa Física;SEM NOME;2025-01-27;
+31363;Barragem III;QUERÊNCIA;175;0;0;;;2023-05-19;;Pessoa Física;SEM NOME;2025-01-27;
+31371;Barragem 01 – Fazenda Ubatuba;SÃO JOSÉ DO XINGU;275;0;0;;;2023-03-17;;Pessoa Física;SEM NOME;2025-01-28;
+31383;SÃO RAFAEL;Poconé;90;;;;;2024-05-01;;;SEM NOME;2025-11-26;Classe II B - Inertes
+31468;BARRAGEM PRINCIPAL;SORRISO;112.47;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-24;
+31517;Barragem Bem-te-vi;LUCAS DO RIO VERDE;74.5;0;0;;;2019-01-24;;Pessoa Física;Rio Marapé;2024-10-04;
+31525;BRAVO IV;VÁRZEA GRANDE;1147;;;;;2024-05-25;;;;;
+31533;Campinas;NOVO SÃO JOAQUIM;115;0;0;;;2023-12-12;;Pessoa Física;SEM NOME;2025-01-27;
+31541;Barramento principal (1A);CARLINDA;94.85;0;0;;;1800-01-01T00:00:00;;Outros - Privado;SEM NOME;2025-01-27;
+31551;Barragem 07 - Fazenda Zeniiti III;Alta Floresta;47.42;0;0;;;2024-01-17;;Pessoa Física;Rio Santa Helena;2025-01-24;
+31556;Fazenda Selva de Pedra;DENISE;109.97;0;0;;;2024-06-03;;Pessoa Física;Córrego Mococa;2024-09-30;
+31561;Prefeitura Municipal de Lucas do Rio Verde;LUCAS DO RIO VERDE;115.65;0;0;;;2024-06-04;;Órgãos - Público;SEM NOME;2024-10-04;
+31563;BARRAGEM URUTAU;Barra do Garças;512;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;SEM NOME;2026-02-04;
+31568;Barramento Fazenda Vera Cruz;Barra do Garças;265.98;0;0;;;2024-06-06;;Pessoa Física;córrego Água Azul;2025-09-17;
+31569;Fazenda Luta;CONFRESA;1147;0;0;2024-06-25;;2021-01-05;2025-12-31;Empresas em Geral - Privado;SEM NOME;2025-01-27;
+31577;Barramento Montante Fazenda Carajas  - Lote 64;LUCAS DO RIO VERDE;123.08;0;0;;;2024-06-18;;Pessoa Física;SEM NOME;2025-01-29;
+31578;Barragem Taguá;CUIABÁ;68;0;0;;;2023-07-24;;Outros - Privado;SEM NOME;2024-09-30;
+31590;FLG Agro e Investimento LTDA;Itiquira;31.22;0;0;;;2024-06-12;;Empresas em Geral - Privado;Rio Correntes;2026-06-22;
+31606;Santa Maria;VERA;245.01;0;0;;;2023-12-05;;Pessoa Física;Córrego Desespero;2024-10-04;
+31618;Barragem Fazenda Morada do Sol;CÁCERES;197;0;0;;;2023-01-25;;Empresas em Geral - Privado;SEM NOME;2025-01-24;
+31620;Loteamento Brisas do Campo;CUIABÁ;;0;0;;;2024-06-24;;Empresas em Geral - Privado;Rio Bandeira;2025-01-23;
+31622;Barragem 1 Fazenda Pesa III;SÃO JOSÉ DO XINGU;0;0;0;;;2023-03-17;;Pessoa Física;SEM NOME;2025-01-24;
+31629;Lago Azul;NOVA MUTUM;199.29;0;0;;;2023-12-05;;Pessoa Física;SEM NOME;2024-10-02;
+31632;Barramento Fazenda Remanso II;SINOP;179.6;0;0;;;2000-06-27;;Pessoa Física;Córrego Fundo;2024-10-02;
+31633;Barragem na Fazenda Remanso I;SINOP;218.67;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Caldeirão;2025-01-27;
+31635;Barragem I - Fazenda Batista;BRASNORTE;0;0;0;;;2023-09-21;;Pessoa Física;SEM NOME;2025-01-24;
+31643;Beariz;PONTES E LACERDA;1408;25;0.814;;;2024-06-28;;;Rio do Cágado;2026-02-26;
+31648;Barragem I Fazenda Santana;SORRISO;0;0;0;;;2023-09-06;;Pessoa Física;SEM NOME;2025-01-24;
+31656;Barragerm Chácara nº269;SINOP;106.52;0;0;2024-09-03;;2023-01-31;;Pessoa Física;Rio Curupi;2025-01-24;
+31661;Barragem na Fazenda Nova Esperança II;CANARANA;113.61;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Fundo;2025-01-27;
+31665;Barramento Fazenda Sossego 2;NOVA MUTUM;173.87;0;0;;;2024-07-08;;Pessoa Física;Rio Marapé;2025-01-29;
+31709;Barragem Chácara nº 270;SINOP;113.28;0;0;2024-11-06;;2022-12-08;;Pessoa Física;Rio Curupi;2026-02-21;
+31722;Barragem 2  Fazenda Sossego;NOSSA SENHORA DO LIVRAMENTO;190;0;0;;;2023-10-25;;Pessoa Física;Córrego Perobas;2025-02-11;
+31744;Barragem Fazenda Nossa Senhora Salete;VERA;307.21;0;0;;;2025-11-12;;Pessoa Física;Ribeirão Engano;2026-01-22;
+31747;Fazenda Gravataí;Itiquira;224;0;0;;;2024-08-05;;Pessoa Física;SEM NOME;2026-06-22;
+31748;Fazenda Agrocondor II;Alta Floresta;247.9;0;0;;;2023-09-27;;Pessoa Física;Ribeirão Taxidermista;2025-01-24;
+31769;Sítio Estrela;Tangará da Serra;112;0;0;;;2023-05-08;;Pessoa Física;SEM NOME;2024-10-01;
+31779;Barramento II - Fazenda Gravataí;Itiquira;134;0;0;;;2024-08-13;;Pessoa Física;SEM NOME;2026-06-23;
+31784;Barragem Canaã;TAPURAH;154.3;0;0;;;2023-12-05;;Empresas em Geral - Privado;córrego sem denominação;2024-10-01;
+31785;Barramento MONTANTE;TAPURAH;164.48;0;0;;;2023-12-05;;Empresas em Geral - Privado;córrego sem denominação;2025-01-27;
+31827;FAZENDA CAMPO FLORIDO;CANARANA;95.11;0;0;;;2023-10-03;;Pessoa Física;SEM NOME;2024-09-30;
+31920;Fazenda Zeniiti III - Barramento 4;Alta Floresta;116.7;0;0;;;2019-07-30;;Pessoa Física;SEM NOME;2025-12-18;
+31954;SS RANCH;CUIABÁ;328.7;0;0;2024-05-15;;2023-12-12;2025-12-31;Pessoa Física;CÓRREGO DO OURO;2024-11-05;
+31977;2B;Alta Floresta;200.47;0;0;;;2024-01-19;;Pessoa Física;SEM NOME;2024-09-10;
+31990;1A;Alta Floresta;136.57;0;0;;;2024-01-23;;Pessoa Física;SEM NOME;2024-09-19;
+31994;Fazenda L Cristina - Barragem 1;CANARANA;94.14;0;0;;;2024-03-25;;Pessoa Física;SEM NOME;2025-01-29;
+31998;Barramento Aeroporto Municipal de Juína;JUÍNA;198.21;0;0;;;2024-08-07;;;SEM NOME;2025-12-18;
+32029;BARRAGEM NA FAZENDA ÁGUA SANTA II;LUCAS DO RIO VERDE;153.47;;;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;Ribeirão do Cedro;2025-01-27;
+32031;Barragem Rejeito Max 2;NOSSA SENHORA DO LIVRAMENTO;2520;22;4.051;;;2024-09-17;;Pessoa Física;SEM NOME;2026-02-26;
+32034;Fazenda Três Marcos – Barragem 1;Água Boa;163.89;;;;;2024-04-29;;Pessoa Física;SEM NOME;2025-01-31;
+32064;Fazenda Cafundó - Barramento I;IPIRANGA DO NORTE;334.74;;;;;2024-03-20;;Pessoa Física;SEM NOME;2025-01-24;
+32067;Barramento Lagoa da Garça;JUÍNA;127.67;;;;;2024-09-24;;;SEM NOME;2025-12-18;
+32071;Barragem 03;RIBEIRÃO CASCALHEIRA;419.65;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-01-27;
+32077;Barramento Fazenda Bonanza;SANTA CRUZ DO XINGU;58.92;;;;;2024-09-25;;Pessoa Física;SEM NOME;2025-01-29;
+32088;Fazenda Poconé – Barramento I;Poconé;718.41;;;;;2024-08-15;;Pessoa Física;Córrego das Traíras;2025-01-31;
+32118;BARRAGEM NA FAZENDA WENTZ;QUERÊNCIA;268.35;;;;;2024-09-27;;Pessoa Física;SEM NOME;2024-11-05;
+32150;Fazenda Alvorada III;SINOP;269.5;;;;;2024-05-16;;Pessoa Física;SEM NOME;2024-12-04;
+32159;Barragem na Fazenda Iguaçu;SANTO ANTÔNIO DO LESTE;138.87;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2026-03-27;
+32261;Represa da Estrada;CUIABÁ;192.15;;;;;2023-12-11;;Pessoa Física;SEM NOME;2025-10-06;
+32376;Fazenda Dall Asta – Barramento 1;CANARANA;142.34;;;;;2024-05-02;;Empresas em Geral - Privado;SEM NOME;2025-01-31;
+32377;Fazenda Sant’Ana de Vargem Grande – Barramento 1 (Principal);GAÚCHA DO NORTE;146.21;;;;;;;Pessoa Física;SEM NOME;2025-01-31;
+32379;Condomínio Adama Duvalle – Barragem 1;Água Boa;;;;;;2024-01-19;;Empresas em Geral - Privado;Barragem Faz. Estância Bahia Leilões;2025-12-18;
+32385;QB-01;NOSSA SENHORA DO LIVRAMENTO;626.29;14;0.158;;;2024-10-25;;;Córrego Mata Cavalo;2026-02-26;
+32386;Barragem 1 - Fazenda Mirandopolis;JUSCIMEIRA;;;;;;2024-08-17;;Empresas em Geral - Privado;SEM NOME;2025-12-18;
+32390;Barragem VERA;Poconé;1334.54;;;;;2023-11-01;;Pessoa Física;Ribeirão Bento Gomes;2025-11-26;Classe II B - Inertes
+32394;Barragem XAVIER;Poconé;566;;;;;2023-12-01;;Pessoa Física;Córrego Fundo;2025-11-24;Classe II B - Inertes
+32398;Barragem 02 – Fazenda 3 Irmãos;CUIABÁ;350;;;;;2023-12-11;;Pessoa Física;SEM NOME;2025-01-31;
+32400;FAZENDA HARAS;Água Boa;220;;;2024-11-06;;2023-05-19;2025-12-31;Pessoa Física;SEM NOME;2024-12-04;
+32421;Barragem 03 – Fazenda 3 Irmãos;CUIABÁ;190;;;;;2023-12-11;;Pessoa Física;SEM NOME;2025-01-31;
+32441;Barragem I - Fazenda Vedana;VERA;163.22;;;;;2023-04-05;;Pessoa Física;SEM NOME;2025-12-18;
+32445;Mangaba e Aterrado;CUIABÁ;580.4;;;;;2024-05-13;;Outros - Privado;Rio Bandeira;2024-12-04;
+32449;Barramento Principal – Fazenda Jaó;NOVA XAVANTINA;140.92;;;;;2024-11-12;;Empresas em Geral - Privado;SEM NOME;2025-01-29;
+32740;Barragem Nogueira I e II;SANTO ANTÔNIO DO LESTE;97;;;;;2024-01-17;;Pessoa Física;Córrego Mimoso;2025-12-19;
+32906;Fazenda São Roque II e São João – Barragem I;VERA;156.56;;;;;2024-05-02;;Empresas em Geral - Privado;SEM NOME;2025-12-18;
+32970;Fazenda Frente da Mata – Barragem I;UNIÃO DO SUL;150.56;;;;;2024-05-03;;Pessoa Física;Ribeirão Amarelinho;2025-01-28;
+32989;Dall Asta 2;CANARANA;222.11;;;;;2024-06-21;;Empresas em Geral - Privado;SEM NOME;2025-02-12;
+330;Barramento I (montante) ?  Fazenda São Domingos;PRIMAVERA DO LESTE;205.37;;;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda São Luiz I;2025-12-15;
+33041;Fazenda Canaã – Barragem 1;SANTA TEREZINHA;198.22;;;;;2024-03-25;;Pessoa Física;SEM NOME;2025-01-24;
+33076;Barramento – Munícipio de Bom Jesus do Araguaia;BOM JESUS DO ARAGUAIA;311;;;;;2024-12-11;;Órgãos - Público;SEM NOME;2024-12-17;
+331;Barramento I (montante)  Fazenda São Domingos;PRIMAVERA DO LESTE;290;;;;;2009-12-22;;Pessoa Física;Barragem Getulio Luiz Barchet e outro 2;2026-02-10;
+332;Fazenda São Martinho XII - 2;SORRISO;219.09;0;0;;;2000-05-10;;Pessoa Física;Barragem Eduardo Fuhr/Milton Paulo Cella;2026-02-04;
+333;Sítio São Judas Tadeu;Alta Floresta;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Taxidermista;;
+33351;Barragem Taquaral I;NOSSA SENHORA DO LIVRAMENTO;89;;;;;2024-05-02;;Outros - Privado;Córrego Sangradouro;2025-02-10;
+33352;Barragem 01 – Fazenda Esplanada;SÃO FÉLIX DO ARAGUAIA;;;;;;2023-11-23;;Pessoa Física;SEM NOME;2025-12-18;
+33355;Barramento 2 - Mangaba Urbanismo LTDA;CUIABÁ;20.55;;;;;2025-01-06;;Outros - Privado;Rio Bandeira;2025-02-10;
+33358;Taquaral II;NOSSA SENHORA DO LIVRAMENTO;83;;;;;2024-05-02;;Outros - Privado;Córrego Sangradouro;2025-02-10;
+33359;Barragem Goiana II;QUERÊNCIA;207;;;;;2024-11-28;;Pessoa Física;SEM NOME;2025-02-17;
+33360;Três Marias II;RIBEIRÃO CASCALHEIRA;424.43;;;;;2024-02-15;;Pessoa Física;SEM NOME;2025-02-10;
+33376;Fazenda Junges;QUERÊNCIA;252.69;;;;;2024-01-24;;Pessoa Física;SEM NOME;2025-02-10;
+33384;Barragem 02 – Fazenda Esplanada;SÃO FÉLIX DO ARAGUAIA;;;;;;2023-11-23;;Pessoa Física;SEM NOME;2025-02-10;
+334;Fazenda Dal Molin V;SORRISO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Angelo Virginio Dal Molin;;
+33406;Estrela de Fogo;SORRISO;247.3;;;;;2019-08-30;;Outros - Privado;SEM NOME;2025-02-10;
+335;Fazenda Barreiro;SORRISO;0;0;0;;;;;Pessoa Física;Barragem Edson Dal Molin;;
+336;CHACARA NOSSA SENHORA DE FATIMA;JUÍNA;100;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+337;Fazenda Jaborandi;SORRISO;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego do Verde;;
+338;Barragem A2;NOVA UBIRATÃ;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem 152/2012;2025-01-27;
+339;Refugio dos Pardais;Alta Floresta;60;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Santa Helena;;
+33942;Barramento Juína - Principal;JUÍNA;147.72;;;;;2025-01-15;;;SEM NOME;2025-10-08;
+33943;Barramento Juína - Montante;JUÍNA;154.84;;;;;2025-01-15;;;SEM NOME;2025-12-18;
+33944;Barramento Juína – Montante 2;JUÍNA;130.55;;;;;2025-01-15;;;SEM NOME;2025-12-18;
+33949;Barragem I Fazenda Talismã;RONDONÓPOLIS;150;;;;;2023-11-28;;Pessoa Física;SEM NOME;2025-02-10;
+33960;Barramento 1 - Mangaba Urbanismo LTDA;CUIABÁ;173.33;;;;;2025-01-16;;Outros - Privado;Rio Bandeira;2025-02-12;
+33981;Vila Rica IV;VILA RICA;170;;;;;2024-08-05;;Empresas em Geral - Privado;SEM NOME;2025-02-10;
+340;Piscicultura São Rafael;NOSSA SENHORA DO LIVRAMENTO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Silmar de Souza Gonçalves;;
+34001;Barramento 1 - Fazenda Progresso Vista Alegre;CANARANA;129.17;;;;;2025-01-21;;Pessoa Física;Rio Tanguro;2025-02-10;
+34019;Fazenda Talismã II;NOVA UBIRATÃ;176.25;;;;;2024-11-30;;Pessoa Física;Rio Tartaruga;2025-02-12;
+34024;Barramento 3-  São Cristóvão;SORRISO;317;;;;;2025-01-24;;Pessoa Física;SEM NOME;2025-02-10;
+34025;Barramento 01 (Montante) São Cristóvão;SORRISO;112.18;;;;;2025-01-24;;Pessoa Física;SEM NOME;2025-10-06;
+34034;CGH Rancho Fundo - CGH RANCHO FUNDO;PORTO DOS GAÚCHOS;250;;;;;2017-05-25;;Pessoa Física;;;
+34038;CGH Matula I - CGH MATULA I;NOVO SÃO JOAQUIM;;;;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;;;
+34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;CONQUISTA D'OESTE;20.61;;;;;2014-09-29;;Pessoa Física;;;
+34040;CGH Oeiras - principal;CHAPADA DOS GUIMARÃES;20;;;;;2015-03-20;;Empresas em Geral - Privado;;;
+34041;CGH Portal do Vale - principal;CHAPADA DOS GUIMARÃES;21;;;;;2015-05-15;;Empresas em Geral - Privado;;;
+34042;CGH Vale do Roncador - principal;CHAPADA DOS GUIMARÃES;21;;;;;2015-10-24;;Empresas em Geral - Privado;;;
+34043;CGH Saxão - principal;NOVA LACERDA;;;;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;;;
+34064;PCH Jesuíta - PCH Jesuíta;SAPEZAL;646;;;2026-07-01;;2023-04-28;;Empresas em Geral - Privado;;;
+34078;PCH Rio Claro (Antiga Perdidos) - PCH Rio Claro;SÃO JOSÉ DO RIO CLARO;;;;;;2022-11-26;;Empresas em Geral - Privado;;;
+34094;PCH Nova Guaporé - Nova Guaporé;VALE DE SÃO DOMINGOS;540;;;2026-07-01;;2022-09-03;;Empresas em Geral - Privado;;;
+341;Faz. Espera Feliz;LUCAS DO RIO VERDE;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Marapé;;
+34123;CGH Miranda Estância - CGH Rio Piolho;COMODORO;40;;;;;2009-12-16;;Empresas em Geral - Privado;;;
+34130;CGH Fazenda Sao Jose I - Sorriso - BARRAGEM - FAZ. SÃO JOSÉ;SORRISO;2300;;;;;1983-01-01;;Pessoa Física;;;
+34134;CGH Santiago Fazenda Agrochapada - SANTIAGO;PARANATINGA;10;;;;;2014-03-25;;Empresas em Geral - Privado;;;
+34135;CGH ITAUBÁ - USINA;Itaúba;102;;;2026-07-01;;1974-01-20;;Empresas em Geral - Privado;;;
+34136;CGH Aprovale - Associação Dos Produtores Do Vale Do Cedro - cedro;LUCAS DO RIO VERDE;108;;;;;2019-12-10;;Empresas em Geral - Privado;;;
+34137;CGH PICCINI V - CGH Piccini V;TABAPORÃ;;;;;;2005-09-08;;Pessoa Física;;;
+34138;CGH Jatobazinho - Jatobazinho;PARANATINGA;60;;;;;2014-05-14;;Empresas em Geral - Privado;;;
+34145;UHE Manso - Barragem da Margem Direita;CHAPADA DOS GUIMARÃES;1180;;;2026-07-01;;2000-11-29;;Empresas em Geral - Privado;;;
+34146;UHE Manso - Barragem da Margem Esquerda;CHAPADA DOS GUIMARÃES;2015;;;2026-07-01;;2000-11-29;;Empresas em Geral - Privado;;;
+34157;CGH Faxinal I - CAPTAÇÃO LATERAL SIMPLES (CGH FAXINAL I);ARIPUANÃ;;;;;;1997-03-01;;Empresas em Geral - Privado;;;
+34159;CGH Água Clara - Agua Clara;JACIARA;90;;;;;2022-10-26;;Empresas em Geral - Privado;;;
+34160;PCH Mantovilis - Mantovilis;SANTO ANTÔNIO DO LEVERGER;66;;;2026-07-01;;2022-10-14;;Empresas em Geral - Privado;;;
+34181;PCH Foz do Cedro (Antiga A1E8) - 1;SORRISO;315;;;2026-07-01;;2022-11-30;;Empresas em Geral - Privado;;;
+34184;CGH Agromar - BARRAMENTO 1;DIAMANTINO;90;;;;;1985-06-01;;Empresas em Geral - Privado;;;
+34185;CGH Cocal (75 Kw) - MCH COCAL;CANARANA;450;;;;;2017-07-05;;Empresas em Geral - Privado;;;
+34186;PCH Juí 117 - NÃO POSSUI BARRAMENTO, DERIVAÇÃO LATERAL DIREITA;COMODORO;;;;2026-07-01;;2019-12-17;;Empresas em Geral - Privado;;;
+34225;CGH Fazenda Galera 1 - Galera 1A;NOVA LACERDA;13.5;;;;;1984-04-17;;Pessoa Física;;;
+34226;CGH Galera Centrais Eletricas 1a - 1;CONQUISTA D'OESTE;13.5;;;;;1997-09-23;;Empresas em Geral - Privado;;;
+34227;PCH Faxinal II - PCH FAXINAL II;ARIPUANÃ;346;;;2026-07-01;;2005-11-22;;Empresas em Geral - Privado;;;
+34233;UHE Juruena - Barragem UHE Juruena;SAPEZAL;455;;;2026-07-01;;2025-09-03;;Empresas em Geral - Privado;;;
+34465;Fazenda Marta;CAMPOS DE JÚLIO;155;;;;;2024-06-07;;Pessoa Física;SEM NOME;2025-03-14;
+34468;Fazenda Zeniiti III – Barramento 05;Alta Floresta;127.28;;;;;2024-08-14;;Pessoa Física;SEM NOME;2025-02-10;
+34471;Vila Rica VII;VILA RICA;195;;;;;2024-07-29;;Empresas em Geral - Privado;SEM NOME;2025-12-18;
+34473;Vila Rica VIII;VILA RICA;90;;;;;2024-07-29;;Empresas em Geral - Privado;SEM NOME;2025-02-12;
+34474;Vila Rica IX;VILA RICA;80;;;;;2024-07-29;;Empresas em Geral - Privado;SEM NOME;2025-02-12;
+34480;Barramento - Fazenda Alvorada II;SINOP;173.17;;;;;2025-02-05;;Pessoa Física;SEM NOME;2025-03-14;
+34482;Barragem Paranoá;MIRASSOL D'OESTE;180;;;;;2024-08-30;;;Ribeirão Caeté;2025-02-26;
+34483;BARRAGEM MANAH 1;NOSSA SENHORA DO LIVRAMENTO;1600;;;2026-05-13;;2014-01-02;;Pessoa Física;Rio Santana;2025-12-04;Classe I – Perigosos
+34484;Fazenda Bacuri, Cachoeira e Castanheira;JUARA;146.08;;;;;2024-09-03;;Outros - Privado;SEM NOME;2025-02-20;
+34498;Fazenda Nossa Senhora Aparecida;POXORÉU;85.4;;;;;2024-01-03;;Pessoa Física;Ribeirão do Sapé;2025-02-20;
+34508;Santa Terezinha;QUERÊNCIA;797;;;;;2024-12-20;;Pessoa Física;Rio Suiá-miçu ou Suiazão;2025-03-05;
+34519;Barramento 15 - Fazenda Zeniiti III;Alta Floresta;131.1;;;;;2025-02-17;;Pessoa Física;SEM NOME;2026-02-04;
+34520;Barramento 16 - Montante;Alta Floresta;83.98;;;;;2025-02-17;;Pessoa Física;SEM NOME;2026-02-04;
+34521;Barramento 17 (montante) - Fazenda Zeniiti III;Alta Floresta;110.99;;;;;2025-02-17;;Pessoa Física;SEM NOME;2026-02-04;
+34522;Barramento 18 (montante) - Fazenda Zeniiti III;Alta Floresta;87.05;;;;;2025-02-17;;Pessoa Física;SEM NOME;2026-02-04;
+34534;barragem 7;SANTA CRUZ DO XINGU;134;;;;;2022-10-17;;Pessoa Física;SEM NOME;2025-02-25;
+34535;BARRAGEM 4;SANTA CRUZ DO XINGU;105.64;;;;;2022-10-17;;Pessoa Física;SEM NOME;2025-02-25;
+34536;BARRAGEM 5;SANTA CRUZ DO XINGU;130;;;;;2022-10-17;;Pessoa Física;SEM NOME;2025-02-25;
+34537;BARRAGEM 6;SANTA CRUZ DO XINGU;;;;;;2022-10-17;;Pessoa Física;SEM NOME;2025-02-25;
+34545;Barramento - Fazenda Fiorese I;FELIZ NATAL;148.91;;;;;2014-02-20;;Pessoa Física;SEM NOME;2025-02-26;
+34554;Barramento II - Fazenda Fiorese I;FELIZ NATAL;136.69;;;;;2005-02-24;;Pessoa Física;Ribeirão São João;2025-03-05;
+34567;Barragem 1 Fazenda Santa Maria;BARRA DO BUGRES;70;;;;;2023-10-10;;Empresas em Geral - Privado;SEM NOME;2025-03-05;
+34579;Barragem Fazenda Dois Filhos;Água Boa;202.78;;;;;2024-12-11;;Pessoa Física;SEM NOME;2025-03-14;
+34580;Barramento I - Fazenda Recanto;TABAPORÃ;216.27;;;;;2005-02-27;;Pessoa Física;SEM NOME;2025-03-14;
+34581;Barramento montante - Fazenda Recanto;TABAPORÃ;86.2;;;;;2005-02-27;;Pessoa Física;SEM NOME;2025-03-14;
+34585;Barramento - Fazenda Cristalino III;Alta Floresta;127.24;;;;;2015-02-27;;Outros - Privado;Córrego do Vale;2025-03-14;
+34589;Barrametno a montante 2;VERA;111.14;;;;;2024-02-15;;Outros - Privado;SEM NOME;2025-03-14;
+34590;Barramento a montante 2;VERA;44.08;;;;;2024-02-15;;Outros - Privado;SEM NOME;2025-03-14;
+34599;Barragem I - Fazenda Tapena – Gleba Santa Maria-M-4863;TABAPORÃ;97.78;;;;;2024-08-15;;Pessoa Física;SEM NOME;2025-03-14;
+34610;Barramento - Fazenda Luchese I;PRIMAVERA DO LESTE;82.61;;;;;2015-03-06;;Pessoa Física;Ribeirão Sangradourozinho;2025-03-20;
+34622;Barramento – Fazenda São Sebastião;BARRA DO BUGRES;181.9;;;;;2025-03-10;;Pessoa Física;Córrego Grande;2025-03-14;
+34623;Barramento montante – Fazenda São Sebastião;BARRA DO BUGRES;74;;;;;2025-03-10;;Pessoa Física;Córrego Grande;2025-03-14;
+34631;Sítio Recanto Feliz – Lote Nº 131-B;VERA;95.6;;;;;2020-03-12;;Pessoa Física;SEM NOME;2025-03-20;
+34694;Barragem Rios Psicultura;Tangará da Serra;68;;;;;;;Pessoa Física;SEM NOME;2026-02-04;
+34700;Barragem Rios Psicultura - a montante;Tangará da Serra;;;;;;2023-10-27;;Pessoa Física;SEM NOME;2026-02-04;
+34706;Barramento 3 – Fazenda Santa Maria;BARRA DO BUGRES;181;;;;;2025-03-19;;Pessoa Física;Rio Paraguai;2025-03-31;
+34707;Barramento 2 – Fazenda Santa Maria;BARRA DO BUGRES;123.4;;;;;2025-03-19;;Pessoa Física;SEM NOME;2025-03-31;
+34712;Barragem I - Fazenda Lucion;VERA;74.81;;;;;2024-12-05;;Pessoa Física;Córrego Desespero;2025-03-31;
+34713;Rancho Queixo Duro I;SORRISO;126.8;;;;;2015-03-21;;Pessoa Física;Rio São Manuel ou Teles Pires;2025-03-31;
+34718;Barragem 1 - Fazenda Dois Filhos;NORTELÂNDIA;195.88;;;;;2024-03-01;;Pessoa Física;SEM NOME;2025-12-18;
+34730;Barragem Bravin;PRIMAVERA DO LESTE;126;;;;;2015-03-31;;Pessoa Física;SEM NOME;2025-04-22;
+34731;Barragem 2  Principal;CUIABÁ;154;;;;;2025-02-24;;Empresas em Geral - Privado;SEM NOME;2025-12-18;
+34732;BARRAGEM 1;CUIABÁ;181;;;;;2025-02-24;;Empresas em Geral - Privado;SEM NOME;2025-05-09;
+34733;BARRAGEM 2 SUPERIOR;CUIABÁ;;;;;;;;Empresas em Geral - Privado;SEM NOME;2025-05-09;
+34734;Barragem 3;CUIABÁ;;;;;;2025-02-24;;Empresas em Geral - Privado;Rio Bandeira;2025-05-09;
+34737;Barragem PM1;JURUENA;9;14;0;;;2025-03-31;;;SEM NOME;2026-03-13;
+34750;Barragem Mutuca;NOSSA SENHORA DO LIVRAMENTO;;;;;;2024-11-28;;Outros - Privado;Córrego Mata Cavalo;2025-12-18;
+34751;Fazenda Cristo Rei I –Barramento 01;TAPURAH;100.69;;;;;2015-04-07;;Empresas em Geral - Privado;SEM NOME;2025-04-22;
+34760;Fazenda Cristo Rei I – Barramento 04;TAPURAH;117.27;;;;;2015-04-09;;Empresas em Geral - Privado;SEM NOME;2025-05-06;
+34767;Barragem I - Fazenda Lagoa Vermelha;CANARANA;171.92;;;;;2024-08-15;;Pessoa Física;SEM NOME;2025-04-22;
+34774;Barragem I - Fazenda Santa Maria do Jurigue;PEDRA PRETA;;;;;;2024-07-30;;Outros - Privado;Rio Jurigue;2025-05-06;
+34787;Tupa 1;Poconé;875;;;2026-04-29;;2019-06-03;;Pessoa Física;Ribeirão Bento Gomes;2025-11-24;Classe II B - Inertes
+34793;Fazenda Canarana – Barramento 01;CANARANA;381.29;;;;;2024-09-03;;Pessoa Física;SEM NOME;2025-05-19;
+34809;PCH Rio Claro (Antiga Perdidos) - PCH Rio Claro;SÃO JOSÉ DO RIO CLARO;567.6;;;2026-07-01;;2022-11-26;;Empresas em Geral - Privado;;;
+34820;CGH PICCINI V - CGH Piccini V;TABAPORÃ;74.1;;;2026-07-01;;2005-09-08;;Pessoa Física;;;
+34834;CGH Guimarães 02 - Guimarães 2;CUIABÁ;42.7;;;;;2023-08-16;;Empresas em Geral - Privado;;;
+34836;CGH Michelin - Michelin;Itiquira;230;;;;;1986-02-20;;Empresas em Geral - Privado;;;
+34847;PCH Mutum I - MUTUM-1;SANTO ANTÔNIO DO LEVERGER;240;;;2026-07-01;;;;Empresas em Geral - Privado;;;
+34856;Barragem GMX;NOSSA SENHORA DO LIVRAMENTO;;;0.891;;;2025-04-29;;Pessoa Física;SEM NOME;2026-02-26;
+34857;Barragem I Jangada Agropastoril;JANGADA;292.32;;;;;2024-10-29;;Outros - Privado;SEM NOME;2025-05-09;
+34978;Barramento principal - Fazenda Sinop I;PORTO DOS GAÚCHOS;529.26;;;;;2024-12-27;;Outros - Privado;Córrego Barracão;2025-12-18;
+34991;Barramento 2 Principal - Fazenda Cocal;CANARANA;209.31;;;;;2015-05-13;;Empresas em Geral - Privado;Córrego do Caminho;2025-05-19;
+34992;Barramento 3 Montante - Fazenda Cocal;CANARANA;164.94;;;;;2015-05-13;;Empresas em Geral - Privado;SEM NOME;2025-05-19;
+34993;Fazenda Brasil Central ? Barramento I;CONFRESA;181;;;;;2025-01-03;;Pessoa Física;Córrego Samambaia;2026-06-23;
+34995;Barramento I – Fazenda Futura;NOVA UBIRATÃ;194.07;;;;;2015-05-14;;;SEM NOME;2025-05-19;
+35000;Barragem 01 - Fazenda 3 Irmãos;CUIABÁ;192.15;;;;;2023-12-11;;Pessoa Física;SEM NOME;2025-12-18;
+35001;Barramento Santa Rita;PORTO DOS GAÚCHOS;105.48;;;;;2025-05-15;;Pessoa Física;Igarapé Alfredo Carison;2026-02-12;
+35003;Fazenda Brasil Central ? Barramento II;CONFRESA;145.36;;;;;;;Pessoa Física;SEM NOME;2026-06-23;
+35005;Barramento - Fazenda Tropeiro Velho IV e V;Alta Floresta;214.17;;;;;2015-05-19;;Pessoa Física;SEM NOME;2025-06-05;
+35019;Barramento - Fazenda Paraná - São Bento;BRASNORTE;149.47;;;;;2015-05-27;;Pessoa Física;SEM NOME;2025-06-05;
+35020;Barramento 1 (montante) - Fazenda Paraná - São Bento;BRASNORTE;77.37;;;;;2015-05-27;;Pessoa Física;SEM NOME;2025-06-05;
+35021;Barragem Charrua;CAMPO VERDE;87;;;;;2025-05-28;;Empresas em Geral - Privado;SEM NOME;2026-02-27;
+35023;Barramento - Mineração Casa de Pedra;CUIABÁ;703.8;;;;;2020-05-29;;;Represa Casa de Pedra;2025-06-05;
+35025;CGH DUAS PONTES - Barramento Duas Pontes;NOVA MARINGÁ;39.17;;;;;2023-11-27;;Empresas em Geral - Privado;;;
+35027;Barramento ? Fazenda Jardim;CUIABÁ;51;;;;;2015-06-03;;Pessoa Física;Rio Coxipó-açu;2026-02-27;
+35059;Barragem na Fazenda Havaí;SÃO JOSÉ DO XINGU;281.48;;;;;;;Pessoa Física;Ribeirão Capivara;2025-07-16;
+35070;Barramento - Fazenda Lagoa Azul;Tangará da Serra;149.15;;;;;2025-06-25;;Pessoa Física;Córrego Duas Antas;2025-07-16;
+35071;Barramento 1 ? Lote n° 114-B, 114-C E 115;CLÁUDIA;52.74;;;;;2015-06-25;;Pessoa Física;Córrego Tânia;2025-07-16;
+35072;Barramento - Fazenda Belo Horizonte;Barra do Garças;149.35;;;;;2025-06-26;;Pessoa Física;Córrego Desconhecido;2026-03-11;
+35075;Barramento - Fazenda Estância Gaúcha;CAMPO NOVO DO PARECIS;110;;;;;2025-06-30;;Pessoa Física;SEM NOME;2025-07-22;
+35076;Barramento - Fazenda Belo Horizonte II;Barra do Garças;205.5;;;;;2025-06-30;;Pessoa Física;Córrego Desconhecido;2025-07-22;
+35077;Barragem Primavera;Tangará da Serra;58;;;;;2025-07-02;;Pessoa Física;Rio Juba;2025-07-22;
+35081;VICTOR;Poconé;;;1.12;;;2025-03-31;;;Córrego Guanandi;2026-03-13;
+35082;Barragem de Rejeito 01;NOSSA SENHORA DO LIVRAMENTO;412;;;;;2022-01-05;;;Córrego Santa Bárbara;2025-11-24;Classe II B - Inertes
+35083;Tanque Pulmão Trojan;PRIMAVERA DO LESTE;800;;;;;2025-07-07;;Empresas em Geral - Privado;Córrego Corrente;2025-07-16;
+35084;Barragem Terra Nova;GAÚCHA DO NORTE;215;;;;;2025-07-08;;Pessoa Física;SEM NOME;2026-02-27;
+35091;Barragem Ághata II;SANTA CRUZ DO XINGU;63;;;;;2025-07-10;;Pessoa Física;Igarapé Fontourinha;2025-07-16;
+35097;B1;ARAGUAIANA;215;;;;;;;Pessoa Física;SEM NOME;2026-02-27;
+35098;Fazenda Zeniiti III (Barramento 6);Alta Floresta;131;;;;;2025-07-17;;Pessoa Física;SEM NOME;2025-08-01;
+35099;LV-01;PONTES E LACERDA;;;0.021;;;2025-07-17;;;SEM NOME;2026-03-13;
+35102;Barragem XVII;NOSSA SENHORA DO LIVRAMENTO;175;;;;;2015-07-22;;Pessoa Física;Barragem Silmar de Souza Gonçalves;2025-08-01;
+35103;Barragem Tamboril I;PONTES E LACERDA;270;;;;;2024-11-06;;Outros - Privado;CÓRREGO BARREIRO;2025-08-01;
+35104;Barragem Tamboril II;PONTES E LACERDA;137;;;;;2025-11-06;;Outros - Privado;SEM NOME;2025-12-18;
+35105;Roncador VI SEDE;QUERÊNCIA;860;;;;;2025-07-22;;Outros - Privado;SEM NOME;2025-08-01;
+35106;Barragem VIII (principal);NOSSA SENHORA DO LIVRAMENTO;145;;;;;2015-07-23;;Pessoa Física;SEM NOME;2025-08-01;
+35107;Barragem VII (montante);NOSSA SENHORA DO LIVRAMENTO;145;;;;;2015-07-23;;Pessoa Física;SEM NOME;2026-02-27;
+35108;Barragem VI (montante);NOSSA SENHORA DO LIVRAMENTO;165;;;;;2015-07-23;;Pessoa Física;SEM NOME;2026-02-27;
+35109;Barragem II;QUERÊNCIA;210;;;;;;;Outros - Privado;SEM NOME;2025-08-01;
+35110;Barramento 10 - Fazenda Zeniiti III;Alta Floresta;132.56;;;;;;;Pessoa Física;SEM NOME;2025-08-01;
+35113;Barramento 12 - fazenda Zeniiti III;Alta Floresta;70.25;;;;;;;Pessoa Física;SEM NOME;2025-08-01;
+35114;BARRAGEM XI - DO PERERECA;QUERÊNCIA;694;;;;;2025-07-24;;Outros - Privado;SEM NOME;2025-08-01;
+35115;Barragem XIX;NOSSA SENHORA DO LIVRAMENTO;295;;;;;2025-07-24;;Pessoa Física;Ribeirão dos Peixes;2025-08-01;
+35116;Barragem XVIII;NOSSA SENHORA DO LIVRAMENTO;220;;;;;2025-07-24;;Pessoa Física;SEM NOME;2026-02-27;
+35118;Barramento 05 - Fazenda Zeniiti III;Alta Floresta;120.69;;;;;2025-07-25;;Pessoa Física;SEM NOME;2025-12-18;
+35119;BARRAGEM ROSA CRISTINA I;VÁRZEA GRANDE;216;;;;;;;Pessoa Física;Ribeirão Esmeril;2025-12-17;
+35120;Barragem Sankara;NOVA LACERDA;;;0.19;;;2025-07-25;;;SEM NOME;2026-02-26;
+35121;Barragem Canário;Barra do Garças;202;;;;;2024-12-12;;Empresas em Geral - Privado;SEM NOME;2025-08-14;
+35123;Barramento - Fazenda Seriema;SORRISO;214.15;;;;;;;Pessoa Física;SEM NOME;2025-08-08;
+35124;Barramento Sítio Recanto da Natureza;SINOP;321.72;;;;;2025-07-29;;Outros - Privado;Rio São Manuel ou Teles Pires;2025-08-08;
+35126;Barragem III ? Fazenda Nossa Senhora Aparecida;ARAGUAIANA;87.73;;;;;2025-03-21;;Pessoa Física;Córrego Laje;2025-08-08;
+35127;Barragem V -  Fazenda Nossa Senhora Aparecida;ARAGUAIANA;198.34;;;;;2025-03-21;;Pessoa Física;SEM NOME;2025-08-08;
+35128;BARRAMENTO PRINCIPAL;SORRISO;132.45;;;;;2025-07-30;;Outros - Privado;SEM NOME;2025-11-24;
+35130;Barramento MONTANTE;SORRISO;373.49;;;;;2025-07-31;;Outros - Privado;Barragem Fazenda Poranga II - III;2025-11-24;
+35131;Barramento MONTANTE 2;SORRISO;78.25;;;;;2025-07-31;;Outros - Privado;SEM NOME;2025-11-24;
+35132;Barramento - Fazenda Santa Maria - Gleba A;CAMPO NOVO DO PARECIS;96.28;;;;;2025-07-31;;Outros - Privado;SEM NOME;2025-08-08;
+35135;Barramento Green Fish;PARANAÍTA;148;;;;;2025-08-01;;Pessoa Física;Represa de Piscicultura Pappen;2025-08-08;
+35136;Barramento 4;CUIABÁ;153.55;;;;;2015-08-01;;Outros - Privado;Rio Bandeira;2025-08-08;
+35147;Fazenda Curió - Barramento 3;Rosário Oeste;289.55;;;;;2025-08-04;;Pessoa Física;SEM NOME;2025-11-24;
+35148;Barragem Fazenda Ana Paula;Itiquira;887.5;;;;;2025-04-16;;Pessoa Física;Ribeirão Ponte de Pedra;2025-12-17;
+35149;Barragem Fazenda Tocantins;NOVA UBIRATÃ;;;;;;2025-03-07;;Pessoa Física;SEM NOME;2025-08-18;
+35150;Fazenda Curió - Barramento I;Rosário Oeste;586.44;;;;;2025-08-04;;Pessoa Física;SEM NOME;2025-11-24;
+35152;Barragem Vitória I ? Principal;Barra do Garças;250;;;;;;;Empresas em Geral - Privado;SEM NOME;2025-08-18;
+35155;Barramento I;GUARANTÃ DO NORTE;71.16;;;;;;;Pessoa Física;SEM NOME;2025-10-01;
+35156;Fazenda Eldorado ? Barramento 01;SÃO JOSÉ DO XINGU;273.61;;;;;2024-06-25;;Pessoa Física;SEM NOME;2025-10-01;
+35160;BARRAGEM SANTA TEREZINHA;NOVA SANTA HELENA;120;;;;;2025-08-07;;Órgãos - Público;SEM NOME;2025-11-24;
+35161;Barragem B1 - Fazenda Sol Nascente;PONTAL DO ARAGUAIA;;;;;;2024-02-29;;Pessoa Física;Córrego Montenegro;2025-12-18;
+35162;Fazenda Água Branca - Barramento;CAMPO VERDE;165.3;;;;;2025-08-08;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35164;BARRAGEM TROJAN;PRIMAVERA DO LESTE;252;;;;;2025-08-11;;Pessoa Física;SEM NOME;2025-11-24;
+35165;Fazenda Ranchinho ? Barramento (Principal);NOVA MARINGÁ;349.29;;;;;2025-08-13;;Empresas em Geral - Privado;Córrego das Tordas;2025-10-01;
+35166;Barramento (montante) - Fazenda Ranchinho;NOVA MARINGÁ;155.42;;;;;2025-12-18;;Empresas em Geral - Privado;SEM NOME;2025-12-17;
+35168;Barragem Jatobá ? Principal;VILA BELA DA SANTÍSSIMA TRINDADE;500;;;;;2025-08-15;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35170;BARRAGEM SÃO JOSÉ I;QUERÊNCIA;275;;;;;2025-08-18;;Empresas em Geral - Privado;SEM NOME;2026-01-28;
+35171;Fazenda São Luiz - Barramento 1 - Principal;SÃO FÉLIX DO ARAGUAIA;116.77;;;;;2025-08-19;;Pessoa Física;SEM NOME;2025-11-24;
+35175;Fazenda Massapé - Barramento (principal);PRIMAVERA DO LESTE;165.6;;;;;2025-08-20;;Pessoa Física;SEM NOME;2025-10-20;
+35176;Barragem Rotacionado 15 ? Fazenda Gravataí;Itiquira;131;;;;;2025-08-20;;Pessoa Física;Córrego Duas Pontes;2026-06-23;
+35177;BARRAMENTO PRINCIPAL FAZ. REUNIDAS SÃO ROBERTO;VERA;337.37;;;;;;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35178;Fazenda São Luiz - Barramento 1 Principal;SÃO FÉLIX DO ARAGUAIA;85.36;;;;;2025-08-21;;Pessoa Física;SEM NOME;2025-11-24;
+35179;Barramento 2 MONTANTE - Fazenda São Luiz;SÃO FÉLIX DO ARAGUAIA;54.87;;;;;2025-08-21;;Pessoa Física;SEM NOME;2025-11-24;
+35180;Barramento 7;CUIABÁ;174.75;;;;;2025-08-22;;Outros - Privado;Ribeirão Dois Córregos;2025-10-01;
+35181;BARRAMENTO 6;CUIABÁ;162.85;;;;;2025-08-22;;Outros - Privado;Ribeirão Dois Córregos;2025-10-01;
+35182;BARRAMENTO 5;CUIABÁ;157.25;;;;;2025-08-22;;Outros - Privado;Ribeirão Dois Córregos;2025-10-01;
+35185;Barramento Fazenda São Luiz;Água Boa;375.47;;;;;2025-08-25;;Pessoa Física;SEM NOME;2025-11-24;
+35193;Barragem - Fazenda Jaçanã;VERA;136.21;;;;;2025-08-28;;Pessoa Física;SEM NOME;2025-10-01;
+35195;Fazenda Cruzeiro I - Barramento (principal);GENERAL CARNEIRO;136.07;;;;;2025-08-28;;Pessoa Física;Córrego Pindaibão;2025-10-01;
+35196;Fazenda Cruzeiro I - Barramento II - Montante I;GENERAL CARNEIRO;122.81;;;;;2025-08-28;;Pessoa Física;Córrego Pindaibão;2025-10-01;
+35197;Barramento III - Fazenda Cruzeiro ? Montante II;GENERAL CARNEIRO;79.19;;;;;2025-08-28;;Pessoa Física;Córrego Pindaibão;2025-10-01;
+35212;Fazenda Vitória ? Reservatório Pulmão;DOM AQUINO;643.02;;;;;2025-08-29;;Empresas em Geral - Privado;Córrego Cupim;2025-10-01;
+35223;Barramento (Principal) - Fazenda Progresso;TABAPORÃ;458.69;6.75;0.69;;;2025-09-11;;Pessoa Física;Barragem Fazenda Progresso;2025-10-01;
+35225;Barramento II (Montante) - Fazenda Progresso;TABAPORÃ;346.92;;;;;2025-09-12;;Pessoa Física;SEM NOME;2025-10-01;
+35226;Barragem Fazenda Santa Fé do Colorado;Itiquira;70;;;;;2025-09-12;;Pessoa Física;Córrego Grande;2026-06-22;
+35227;Barragem Principal - Fazenda Juliana;SORRISO;74.36;;;;;2025-09-12;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35228;Barramento principal - Fazenda Rio da Mata;CARLINDA;164.15;;;;;2024-12-19;;Pessoa Física;SEM NOME;2025-12-29;
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;JANGADA;175.22;;;;;2024-10-30;;Outros - Privado;SEM NOME;2025-12-29;
+35230;Barramento Montante - Fazenda Juliana;SORRISO;106.71;;;;;2025-09-12;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35231;Fazenda Jangada Agropastoril - Barragem a montante;JANGADA;166.28;;;;;2024-10-30;;Outros - Privado;SEM NOME;2025-12-29;
+35232;BARRAGEM CRUZEIRO DO SUL 2;TABAPORÃ;393.08;;;;;;;Pessoa Física;SEM NOME;2025-10-01;
+35236;Fazenda Roberto I ? Barragem principal;BRASNORTE;101.29;;;;;2025-01-29;;Pessoa Física;SEM NOME;2025-10-01;
+35239;Barragem Fazenda Sagarana;CANARANA;135;;;;;2024-11-06;;Pessoa Física;SEM NOME;2025-10-01;
+35248;Barragem Fazenda Divisa;VILA RICA;19;;;;;2024-08-19;;Pessoa Física;Rio Beleza;2025-10-01;
+35249;RESERVATÓRIO ELDORADO;NOVA XAVANTINA;918;;;;;2025-09-16;;Empresas em Geral - Privado;Rio das Mortes;2025-10-01;
+35250;Barramento III Fazenda Cocal;CANARANA;916.28;;;;;2025-09-17;;Empresas em Geral - Privado;SEM NOME;2025-10-01;
+35251;Fazenda Cocal (Barramento III) - Montante;CANARANA;117.96;;;;;2025-09-17;;Empresas em Geral - Privado;SEM NOME;2026-02-27;
+35252;Fazenda Roncador - Tanque Pulmão 2;QUERÊNCIA;148;;;;;2025-09-17;;Outros - Privado;SEM NOME;2025-10-01;
+35253;BARRAGEM PRINCIPAL 1A;CANARANA;;;;;;2025-09-17;;Pessoa Física;SEM NOME;2025-12-15;
+35254;Beariz 2;PONTES E LACERDA;156;;;;;2024-09-02;;;Rio do Cágado;2025-11-24;Classe II B - Inertes
+35256;Barragem São Miguel;SORRISO;120;;;;;2025-09-18;;Pessoa Física;Córrego Curicaca;2025-10-01;
+35257;Tanque Pulmão Agropecuária Roncador;QUERÊNCIA;;;;;;;;Outros - Privado;Rio Suiá-miçu ou Suiazão;2025-10-01;
+35272;Barramento 02 Fazenda Água Azul;SORRISO;93.64;;;;;2025-02-03;;Outros - Privado;Rio Celeste;2025-10-06;
+35273;Barragem Nossa Senhora Aparecida;Barra do Garças;60;;;;;2025-09-19;;Pessoa Física;SEM NOME;2025-10-06;
+35283;Barragem Agrocentro;Barra do Garças;314.84;;;;;2025-09-22;;Pessoa Física;Barragem Faz. Agrocentro Barra Brasil;2025-10-06;
+35286;Tanque Pulmão - Reservatório 2;PRIMAVERA DO LESTE;680.75;;;;;2025-09-22;;Pessoa Física;Rio das Mortes;2025-12-16;
+35322;Tanque Pulmão - Reservatório 1;PRIMAVERA DO LESTE;979.82;;;;;2025-09-26;;Pessoa Física;Rio das Mortes;2025-10-06;
+35338;Fazenda Cocal ? Barramento 04;CANARANA;78.68;;;;;;;Empresas em Geral - Privado;Córrego do Caminho;2025-10-14;
+35339;Barragem I - Fazenda Jerusalém VIII;Água Boa;229;;;;;2025-09-29;;Pessoa Física;SEM NOME;2025-12-17;
+35359;Barragem do Parque Oeste;LUCAS DO RIO VERDE;293.59;;;;;;;Órgãos - Público;Barragem # ASSOCIAÇÃO DOS PEQUENOS CHACAREIROS DA MICROBACIA DO CÓRREGO LUCAS;2025-12-18;
+35379;Barragem Fazenda Belo Horizonte;Barra do Garças;92.31;;;;;2025-10-01;;Pessoa Física;Córrego Desconhecido;2025-12-17;
+35382;Barragem Fazenda Jaó II;NOVA XAVANTINA;323.65;;;;;2025-01-30;;Empresas em Geral - Privado;SEM NOME;2025-10-20;
+35383;Barramento - Fazenda Gema;SANTO AFONSO;63.65;;;;;2025-10-01;;Pessoa Física;Ribeirão Água-branca;2025-10-13;
+35389;Fazenda Campo Forte I, II, III e IV;RIBEIRÃO CASCALHEIRA;149.94;;;;;2025-10-02;;;SEM NOME;2025-10-13;
+35390;Barramento - Fazenda Rancho Alegre;VILA BELA DA SANTÍSSIMA TRINDADE;598.42;;;;;;;Pessoa Física;Corixo São José;2025-12-17;
+35391;Barramento II (Montante) - Fazenda Rancho Alegre;VILA BELA DA SANTÍSSIMA TRINDADE;179.52;;;;;2025-10-02;;Pessoa Física;Corixo São José;2025-12-17;
+35396;Fazenda São José;Rosário Oeste;415.63;;;;;2025-10-03;;Pessoa Física;SEM NOME;2025-12-18;
+35409;BARRAGEM PRINCIPAL;SANTA CRUZ DO XINGU;225.82;;;;;2025-10-03;;Pessoa Física;Barragem Fazendas Reunidas Filipinas;2025-10-14;
+35410;Barramento 1 (montante);SANTA CRUZ DO XINGU;165.5;;;;;2025-10-03;;Pessoa Física;Igarapé Fontourinha;2025-12-17;
+35411;Barramento 1.1;SANTA CRUZ DO XINGU;103.72;;;;;2025-10-03;;Pessoa Física;Igarapé Fontourinha;2025-12-17;
+35460;Fazenda Vila Nova ? Barragem I;SÃO JOSÉ DO RIO CLARO;107.9;;;;;2025-02-04;;Pessoa Física;Ribeirão Cabeceira Comprida;2025-10-14;
+35461;Barramento - Fazenda Santo Antônio;SORRISO;188;;;;;2025-10-06;;Pessoa Física;SEM NOME;2025-10-14;
+35477;Barramento III - Fazenda São José I;Rosário Oeste;303.21;;;;;2025-10-08;;Pessoa Física;SEM NOME;2025-10-14;
+35482;Tanque Cascata Produtiva;SERRA NOVA DOURADA;;;;;;2025-10-08;;Pessoa Física;Córrego Boa Nova ou da Estiva;2026-03-18;
+35483;Barragem II - Tanque II;SERRA NOVA DOURADA;405.58;;;;;2025-10-08;;Pessoa Física;SEM NOME;2025-12-17;
+35484;Barragem III;SERRA NOVA DOURADA;;;;;;2025-10-08;;Pessoa Física;Córrego Boa Nova ou da Estiva;2025-10-14;
+35485;Barragem IV;SÃO FÉLIX DO ARAGUAIA;395.78;;;;;2025-10-08;;Pessoa Física;Córrego Boa Nova ou da Estiva;2025-12-17;
+35486;Barragem V;SERRA NOVA DOURADA;;;;;;2025-10-08;;Pessoa Física;Córrego Boa Nova ou da Estiva;2025-10-14;
+35487;Fazenda Aline ? Reservatório Pulmão;QUERÊNCIA;632.19;;;;;2025-10-08;;Empresas em Geral - Privado;Ribeirão Bétis;2025-10-20;
+35488;Barragem VI;SERRA NOVA DOURADA;133.47;;;;;2025-10-08;;Pessoa Física;SEM NOME;2025-12-17;
+35489;Barragem Bom Jesus do Kuluene;GAÚCHA DO NORTE;293.19;;;;;2025-10-08;;Empresas em Geral - Privado;SEM NOME;2025-11-24;
+35490;Fazenda Futura ? Barramento VI;NOVA UBIRATÃ;68.2;;;;;2025-03-06;;;SEM NOME;2025-10-20;
+35491;Fazenda Schneider - Lote Rural nº69 ? Reservatório Pulmão;QUERÊNCIA;852;;;;;2025-10-08;;Empresas em Geral - Privado;Córrego das Flores;2025-10-20;
+35507;Fazenda Encosta do Varjão I ? Gleba B ?  Barragem I;SÃO JOSÉ DO RIO CLARO;95.08;;;;;2025-02-04;;Pessoa Física;SEM NOME;2025-10-20;
+35534;Barramento Fazenda Água Azul II;SORRISO;116.41;;;;;2025-10-13;;Pessoa Física;SEM NOME;2025-10-20;
+35535;Lote Rural N°76;QUERÊNCIA;88.13;;;;;2025-10-13;;Pessoa Física;SEM NOME;2025-10-20;
+35537;Barragem Fazenda Barreiro III;SORRISO;1046.46;;;;;2025-03-24;;Pessoa Física;SEM NOME;2025-12-12;
+35568;Barragem Lagoa Dourada;QUERÊNCIA;106;;;;;2025-10-17;;Pessoa Física;SEM NOME;2025-11-10;
+35573;BARRAGEM DO POÇO;PONTES E LACERDA;189;;;;;2025-10-20;;;Rio do Cágado;2025-12-17;
+35608;FAZENDA JAÇANÃ - RESERVATÓRIO PULMÃO;VERA;489;;;;;;;Pessoa Física;SEM NOME;2025-12-15;
+35611;BARRAGEM DE MINERAÇÃO HUMBERTO;NOSSA SENHORA DO LIVRAMENTO;511;;;;;2019-01-01;;Pessoa Física;SEM NOME;2025-11-26;Classe II B - Inertes
+35614;PCH Braço Sul - Braço Sul;GUARANTÃ DO NORTE;240;;;2026-07-01;;2026-06-17;;Empresas em Geral - Privado;;;
+35629;BARRAGEM SM3;Itiquira;260;;;;;2025-11-04;;Empresas em Geral - Privado;CGH Michelin;2025-12-18;
+35630;Barramento 2A - Fazenda Santa Helena;CANARANA;122.82;;;;;2025-11-04;;Pessoa Física;SEM NOME;2026-02-10;
+35633;Fazenda Cocal - Barramento 05;CANARANA;328.78;;;;;2025-11-04;;Empresas em Geral - Privado;SEM NOME;2025-12-12;
+35636;Sítio Bom Futuro;NOVA UBIRATÃ;193.91;;;;;2025-11-05;;Pessoa Física;SEM NOME;2025-12-18;
+35637;BA-01;NOSSA SENHORA DO LIVRAMENTO;263.15;;;;;;;;Barragem BR Santa 01;2026-01-20;
+35650;BARRAGEM SÃO JOSÉ II;QUERÊNCIA;183.22;;;;;;;Empresas em Geral - Privado;Rio Darro ou Feio;2025-12-15;
+35701;V.S. de Souza & Cia LTDA ? Barramento;RONDONÓPOLIS;254.06;;;;;2025-11-11;;Empresas em Geral - Privado;Rio Vermelho;2025-12-12;
+35702;Fazenda Tupi;IPIRANGA DO NORTE;216.19;;;;;2025-11-11;;Empresas em Geral - Privado;Barragem Fazenda Tupi Barão;2025-12-29;
+35703;Fazenda Tupi;IPIRANGA DO NORTE;194.18;;;;;2025-11-11;;Empresas em Geral - Privado;SEM NOME;2026-02-26;
+35726;Fazenda Olho D'Água - Barramento 1;NOVA CANAÃ DO NORTE;216.72;;;;;2025-11-12;;Pessoa Física;SEM NOME;2025-12-29;
+35727;Fazenda Olho D'Água - Barramento 2;NOVA CANAÃ DO NORTE;216.72;;;;;2025-11-12;;Pessoa Física;SEM NOME;2025-12-29;
+35728;Barramento Jerusalém;PORTO DOS GAÚCHOS;45;;;;;2025-11-12;;Outros - Privado;Córrego Bocaiúva;2025-12-18;
+35760;Barramento Santa Rita;SÃO JOSÉ DO POVO;250;;;;;2025-11-13;;Pessoa Física;Rio Tadarimana;2025-12-12;
+35785;Barramento - Fazenda Sorriso I;UNIÃO DO SUL;126.2;;;;;2025-11-14;;Pessoa Física;Ribeirão Tranqueira;2025-12-12;
+35795;Estância Nogueira Agropecuária - Barramento;RONDONÓPOLIS;100;;;;;2025-11-18;;Empresas em Geral - Privado;SEM NOME;2025-12-12;
+35824;Fazenda Três Marias ? Barramento;RIBEIRÃO CASCALHEIRA;301.33;;;;;2025-11-24;;Pessoa Física;SEM NOME;2025-12-12;
+35825;RESERVATÓRIO 1 - FAZENDA NOVA CONQUISTA;NOVO SÃO JOAQUIM;45;;;;;2025-11-24;;Pessoa Física;Córrego Cambaúva;2025-12-18;
+35856;Barramento Salinas 2;NOSSA SENHORA DO LIVRAMENTO;321.06;;;;;2025-11-25;;;SEM NOME;2025-12-12;
+35857;BARRAGEM FORTALEZA;NOVA LACERDA;661.9;;;;;;;Empresas em Geral - Privado;SEM NOME;2026-02-04;
+35892;Fazenda Casa Grande ? Lote 202;QUERÊNCIA;;;;;;2025-10-06;;Pessoa Física;SEM NOME;2025-12-15;
+35913;Barramento - Fazenda Galerinha;VILA BELA DA SANTÍSSIMA TRINDADE;336;;;;;2025-12-03;;Empresas em Geral - Privado;SEM NOME;2026-02-27;
+35914;Barramento montante - Galerinha;VILA BELA DA SANTÍSSIMA TRINDADE;123.4;;;;;2025-12-03;;Empresas em Geral - Privado;SEM NOME;2025-12-15;
+35939;Barragem Barba 02;Poconé;250;;;;;2023-01-01;;;Córrego Fundo;2025-12-12;Classe II B - Inertes
+360;Sítio Boa Vista;RONDONÓPOLIS;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Tugore;;
+36004;Barramento II - Fazenda São Domingos;PRIMAVERA DO LESTE;205.37;;;;;2025-12-09;;Pessoa Física;Barragem Fazenda São Luiz - Barragem 02;2025-12-15;
+36005;Barramento III (montante) ? Fazenda São Domingos;PRIMAVERA DO LESTE;123;;;;;2025-12-09;;Pessoa Física;Barragem 416/2015;2025-12-15;
+36061;Barramento - Fazenda São Matheus I;POXORÉU;93.28;;;;;2025-12-11;;Pessoa Física;Rio do Peixe;2025-12-29;
+36066;BARRAGEM I;CONFRESA;158;;;;;2025-12-11;;Órgãos - Público;SEM NOME;2025-12-29;
+36068;BARRAGEM TRIUNFO IV;NOVA LACERDA;266;;;;;;;Empresas em Geral - Privado;SEM NOME;2025-12-29;
+36069;Reservatório São José;POXORÉU;595;;;;;2025-11-19;;;Rio das Mortes;2025-12-29;
+36098;Fazenda Filipina;SANTA CRUZ DO XINGU;;;;;;2025-12-15;;Pessoa Física;Igarapé Fontourinha;2025-12-29;
+36099;Lote nº 316;CLÁUDIA;120.23;;;;;2025-03-24;;Pessoa Física;Ribeirão Leda;2026-03-17;
+361;Fazenda Nadin;LUCAS DO RIO VERDE;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Nadin;;
+36100;Barragem a montante;CLÁUDIA;86.82;;;;;2025-03-24;;Pessoa Física;Ribeirão Leda;2025-12-29;
+36101;Prefeitura Municipal de Juara;JUARA;13;;;;;2025-12-15;;Órgãos - Público;SEM NOME;2025-12-29;
+36102;Fazenda Poconé - Barramento 2;Poconé;195.01;;;;;2025-12-15;;Pessoa Física;Córrego Pau de Cerne;2025-12-29;
+36103;Barragem 1 Fazenda Primavera;VILA RICA;;;;;;2025-12-15;;Pessoa Física;SEM NOME;2025-12-29;
+36132;Fazenda Menolli II ? Barramento;Poconé;485;;;;;2025-12-16;;Pessoa Física;SEM NOME;2025-12-29;
+362;Fazenda Palmeira;QUERÊNCIA;0;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+36278;Barragem Jusante Fazenda Santa Filipina;SANTA CRUZ DO XINGU;123.19;;;;;2025-12-22;;Pessoa Física;SEM NOME;2026-01-20;
+363;Fazenda São Roque II;SORRISO;248;;;;;2010-03-10;;Pessoa Física;Córrego Galheiro;;
+36332;Barramento II ? Fazenda São Domingos;PRIMAVERA DO LESTE;133.7;;;;;2026-01-06;;Pessoa Física;Barragem Fazenda São Luiz - Barragem 04;2026-01-20;
+36335;Barramento III? Fazenda São Domingos;PRIMAVERA DO LESTE;133.7;;;;;2026-01-06;;Pessoa Física;SEM NOME;2026-01-20;
+36350; Sítio Nossa Senhora Aparecida;Tangará da Serra;67.66;;;;;2026-01-07;;Pessoa Física;Rio Branco;2026-04-24;
+36352;Fazenda Santo Antônio do Membeca;CAMPO NOVO DO PARECIS;483.54;;;;;;;Pessoa Física;Rio Membeca;2026-01-20;
+36365;Barramento I - Fazenda Três Coqueiros;BRASNORTE;;;;;;2026-01-09;;Pessoa Física;SEM NOME;2026-01-22;
+36366;Barramento II - Fazenda Três Coqueiros;BRASNORTE;;;;;;2026-01-09;;Pessoa Física;Rio Norato;2026-01-22;
+36367;Barramento III - Fazenda Três Coqueiros;BRASNORTE;;;;;;2026-01-09;;Pessoa Física;Rio Norato;2026-01-22;
+36407;Fazenda Alegria - Reservatório Pulmão  I;SORRISO;483.24;;;;;2025-12-10;;Pessoa Física;Córrego da Ponte;2026-01-22;
+36408;Reservatório artificial - Fazenda Iberê;PRIMAVERA DO LESTE;1005;;;;;2026-01-13;;Pessoa Física;Rio das Mortes;2026-01-22;
+36409;Barramento I;GAÚCHA DO NORTE;334;;;;;2026-01-13;;Pessoa Física;SEM NOME;2026-01-22;
+36436;BARRAMENTO FAZENDA SANTANA;Água Boa;152.56;;;;;2026-01-14;;Pessoa Física;SEM NOME;2026-01-28;
+36469;Fazenda Gleba Wilma;NOVO SÃO JOAQUIM;825;;;;;2025-10-01;;Empresas em Geral - Privado;Rio Matrinxã;2026-01-22;
+36471;Barragem Fazenda Campina do Sul;TAPURAH;;;;;;;;Pessoa Física;SEM NOME;2026-01-22;
+36473;Barragem B3;ARAGUAIANA;456.97;;;;;2026-01-19;;Pessoa Física;SEM NOME;2026-01-28;
+36474;Fazenda Centro Oeste;NOVA MARINGÁ;276.23;;;;;2026-01-19;;Empresas em Geral - Privado;SEM NOME;2026-01-28;
+36475;Agropecuária Madeirinha ? Barramento;COLNIZA;152.11;;;;;2026-01-20;;Empresas em Geral - Privado;SEM NOME;2026-01-28;
+36476;Reservatório Milênio;CAMPO NOVO DO PARECIS;297;;;;;2026-01-20;;Empresas em Geral - Privado;Rio Cravari;2026-01-28;
+36477;BARRAGEM B2;ARAGUAIANA;250.97;;;;;2026-01-20;;Pessoa Física;SEM NOME;2026-01-28;
+36492;Fazenda Espigão do Leste ? Barramento I;SÃO FÉLIX DO ARAGUAIA;;;;;;2026-01-23;;Pessoa Física;SEM NOME;2026-02-05;
+36493;Barramento II Fazenda Espigão do Leste;SÃO FÉLIX DO ARAGUAIA;;;;;;;;Pessoa Física;SEM NOME;2026-02-05;
+36494;BARRAGEM IBF;PRIMAVERA DO LESTE;198.5;;;;;2026-01-26;;Empresas em Geral - Privado;SEM NOME;2026-02-05;
+36496;Barramento Fazenda Primavera;VILA RICA;186.05;;;;;;;Pessoa Física;SEM NOME;2026-02-05;
+36497;Fazenda Santa Maria ? Barramento II;Itiquira;106.58;;;;;2026-02-02;;Empresas em Geral - Privado;SEM NOME;2026-02-05;
+36498;Fazenda Buriti  - Barramento Principal;NOVA MUTUM;93.1;;;;;2025-12-11;;Pessoa Física;SEM NOME;2026-02-05;
+36499;Fazenda Buriti  - Barramento Montante 1;NOVA MUTUM;107.2;;;;;2025-12-11;;Pessoa Física;SEM NOME;2026-02-05;
+36500;Fazenda Buriti ? Barramento Montante 2;NOVA MUTUM;107.2;;;;;2026-02-02;;Pessoa Física;SEM NOME;2026-02-05;
+36502;Barragem Fazenda Passo Fundo;CANARANA;251.73;;;;;2026-02-03;;Pessoa Física;Córrego do Coelho;2026-02-10;
+36503;Barragem Montante Fazenda Passo Fundo;CANARANA;199.08;;;;;2026-02-03;;Pessoa Física;Córrego do Coelho;2026-02-10;
+36507;Fazenda Ponta Bonita ? Parte 1;CANARANA;203.92;;;;;2026-02-04;;Pessoa Física;SEM NOME;2026-02-10;
+36508;Fazenda Santo Antônio;SANTA CARMEM;574.92;;;;;2025-02-02;;Empresas em Geral - Privado;Córrego da Volta;2026-02-10;
+36510;Fazenda Sossego;NOVA MUTUM;;;;;;2025-11-25;;Pessoa Física;Ribeirão Tauá;2026-02-12;
+36511;Barramento Fazenda Cascata e Cascata II;SORRISO;161.82;;;;;2026-02-05;;Outros - Privado;SEM NOME;2026-02-12;
+36512;Fazenda Potrich II, IV e V;SORRISO;103.74;;;;;2026-02-06;;Empresas em Geral - Privado;SEM NOME;2026-02-12;
+36513;Fazenda Reunidas do Papagaio - Barramento Jusante;SAPEZAL;113.2;;;;;;;Empresas em Geral - Privado;SEM NOME;2026-02-27;
+36514;Fazenda Reunidas do Papagaio - Barramento Montante;SAPEZAL;;;;;;;;Empresas em Geral - Privado;SEM NOME;2026-02-27;
+36515;BARRAGEM LAGOA TREVISAN;CUIABÁ;290;;;;;;;Pessoa Física;Lagoa Trevisan;2026-02-25;
+36516;Barramento 3;CUIABÁ;155.5;;;;;2026-02-09;;Outros - Privado;Rio Bandeira;2026-04-24;
+36517;Barramento 2 (Montante);CUIABÁ;147.45;;;;;2026-02-09;;Outros - Privado;Rio Bandeira;2026-04-24;
+36518;Barramento I ? Fazenda Ponte de Pedra;TORIXORÉU;120;;;;;2026-02-11;;Pessoa Física;Rio São Domingos;2026-02-27;
+36519;Barramento II - Fazenda Ponte de Pedra;TORIXORÉU;210;;;;;2026-02-11;;Pessoa Física;SEM NOME;2026-02-27;
+36520;Barramento III- Fazenda Ponte de Pedra;TORIXORÉU;105;;;;;2026-02-11;;Pessoa Física;Rio São Domingos;2026-02-27;
+36521;Fazenda Toca da Onça ? Barramento 01;SORRISO;286.26;;;;;2026-02-11;;Pessoa Física;SEM NOME;2026-02-25;
+36523;Fazenda Espigão do Leste ? Barragem I;SÃO FÉLIX DO ARAGUAIA;200.39;;;;;2026-02-12;;Pessoa Física;SEM NOME;2026-04-09;
+36524;Fazenda Espigão do Leste – Barragem II;SÃO FÉLIX DO ARAGUAIA;156.15;;;;;2026-02-12;;Pessoa Física;SEM NOME;2026-02-12;
+36525;Fazenda Santa Rita de Cássia;SORRISO;582;;;;;2025-12-23;;Pessoa Física;Rio Irmandade;2026-03-05;
+36532;Barragem Gran Fish - Jusante;NOVA MARILÂNDIA;94;;;;;2026-02-18;;Pessoa Física;Córrego Sucuri;2026-04-24;
+36533;Barragem Gran Fish – Montante;NOVA MARILÂNDIA;75;;;;;2026-02-18;;Pessoa Física;Córrego Sucuri;2026-02-18;
+36534;Barragem II - Fazenda Santa Maria do Jurigue;PEDRA PRETA;139.43;;;;;2026-02-18;;Outros - Privado;Rio Jurigue;2026-04-24;
+36535;PRODULIRA;SORRISO;168.61;;;;;2026-02-19;;Outros - Privado;Ribeirão Sossego;2026-03-05;
+36536;Reservatório artificial - Fazenda Gardin III;VERA;628.42;;;;;2026-02-19;;Pessoa Física;Ribeirão Engano;2026-03-11;
+36537;Fazenda Gaúcha;Itiquira;124.95;;;;;2025-11-12;;Pessoa Física;SEM NOME;2026-03-05;
+36538;Fazenda Vale do Rio Verde - Barragem Vale 01;TAPURAH;277.15;;;;;2026-02-19;;Empresas em Geral - Privado;SEM NOME;2026-03-05;
+36539;Barramento Pé de Pequi I;CHAPADA DOS GUIMARÃES;96;;;;;2026-02-20;;Pessoa Física;Ribeirão Mutum;2026-03-05;
+36540;Fazenda Rubin II;SORRISO;;;;;;2026-02-23;;Pessoa Física;Ribeirão Alvim;2026-03-11;
+36541;BARRAGEM ANGICO;VILA RICA;24700;;;;;2026-02-23;;Outros - Privado;SEM NOME;2026-03-05;
+36543;Barragem Prefeitura Ponte Branca;PONTE BRANCA;29;;;;;2025-10-02;;Órgãos - Público;Córrego do Mato;2026-03-05;
+36550;Fazenda Formosa;CUIABÁ;167.56;;;;;2026-02-27;;Outros - Privado;SEM NOME;2026-04-09;
+36554;FAZENDA SANTA LÚCIA;NOVA UBIRATÃ;438.74;;;;;2025-11-17;;;Ribeirão do Palmito;2026-03-11;
+36555;Barragem I ? Fazenda Machado I;DENISE;161.49;;;;;2026-03-02;;Pessoa Física;Córrego Palmital Grande;2026-03-11;
+36556;Fazenda Cachoeira II;SORRISO;494.35;;;;;2025-12-10;;Empresas em Geral - Privado;Ribeirão do Ouro;2026-03-11;
+36559;Barragem Lago Bétis;QUERÊNCIA;337;;;;;2026-03-04;;Órgãos - Público;SEM NOME;2026-04-09;
+36565;Fazenda Santa Clara ? Área B;POXORÉU;316.19;;;;;2026-01-06;;Empresas em Geral - Privado;SEM NOME;2026-03-11;
+36566;Reservatório Artificial - Fazenda Nossa Senhora Aparecida;SORRISO;238.06;;;;;2026-03-05;;Pessoa Física;Córrego da Ponte;2026-03-11;
+36567;Reservatório artificial ? Fazenda São Miguel I;SORRISO;561.56;;;;;2026-03-05;;Pessoa Física;SEM NOME;2026-03-11;
+36570;BARRAGEM I;RIBEIRÃO CASCALHEIRA;550;;;;;2026-03-06;;Outros - Privado;SEM NOME;2026-03-12;
+36571;Fazenda Brasil Central;CONFRESA;147.94;;;;;2025-10-07;;Pessoa Física;Córrego Samambaia;2026-04-09;
+36573;Barragem Comodoro;COMODORO;74.87;;;;;;;Empresas em Geral - Privado;Rio Margarida;2026-06-23;
+36574;Barramento Rancho Grande;INDIAVAÍ;877.3;;;;;2026-03-13;;Pessoa Física;Córrego do Sangue;2026-03-13;
+36576;Fazenda Vera Cruz do Xingú;CANARANA;317.85;;;;;2026-03-17;;Empresas em Geral - Privado;SEM NOME;2026-04-09;
+36577;Barramento Principal ? Fazenda Celentano;PORTO DOS GAÚCHOS;158.02;;;;;2025-11-07;;Pessoa Física;Rio Mestre Falcão;2026-04-09;
+36578;Barramento 1 a montante ? Fazenda Celentano;PORTO DOS GAÚCHOS;69.66;;;;;2025-11-07;;Pessoa Física;Rio Mestre Falcão;2026-04-09;
+36581;Fazenda Cabanha da Vitória;COMODORO;104.33;;;;;2026-03-24;;Pessoa Física;SEM NOME;2026-06-02;
+36582;Árica;CUIABÁ;2980;;;;;2026-03-17;;;;;
+36585;CPO1;PONTES E LACERDA;730;;;;;2025-10-28;;;;;
+36607;PRIMAVERA;NOSSA SENHORA DO LIVRAMENTO;662.5;;;;;2022-08-01;;Pessoa Física;Ribeirão Cocaes;2026-04-09;Classe II B - Inertes
+36611;Sítio Navarro I;VERA;438.72;;;;;2026-04-09;;Empresas em Geral - Privado;Córrego Desengano;2026-06-02;
+36612;Barramento Juruena;JURUENA;396.5;;;;;2026-04-14;;Órgãos - Público;SEM NOME;2026-05-08;
+36615;Barragem XIV ? Fazenda Buriti;ARAGUAIANA;151.63;;;;;2025-03-21;;Pessoa Física;SEM NOME;2026-05-08;
+36618;Barramento I ? Fazenda Caetetu;SAPEZAL;262.21;;;;;2026-04-17;;Empresas em Geral - Privado;SEM NOME;2026-05-08;
+36622;Barramento I ? Fazenda Froes;DENISE;165.58;;;;;2026-04-24;;Empresas em Geral - Privado;SEM NOME;2026-05-08;
+36623;Fazenda Varjão;POXORÉU;;;;;;2026-04-27;;Pessoa Física;Rio Coité;2026-05-08;
+36624;Fazenda Froes? Barramento 2;DENISE;82.3;;;;;2026-04-27;;Empresas em Geral - Privado;Córrego Água Amarela;2026-05-08;
+36626; Casa do Lago;Tangará da Serra;92.86;;;;;2026-04-28;;Pessoa Física;Rio Angelim e Córrego Angelim do Campo;2026-05-08;
+36627;Fazenda Concorcia;NOVA UBIRATÃ;468.47;;;;;2026-02-23;;Pessoa Física;Ribeirão do Palmito;2026-05-08;
+36628;Fazenda Dona Rosália;FELIZ NATAL;;;;;;2026-04-29;;Pessoa Física;SEM NOME;2026-05-08;
+36632;Fazenda Concordia - Reservatório 2;NOVA UBIRATÃ;568.4;;;;;2026-02-23;;Pessoa Física;Córrego do Ribeirão;2026-05-08;
+36633;Reservatório São Matheus;QUERÊNCIA;744;;;;;2026-03-25;;Pessoa Física;SEM NOME;2026-05-08;
+36642;Barramento III ? Fazenda Froes;DENISE;99.4;;;;;2026-05-05;;Empresas em Geral - Privado;SEM NOME;2026-06-02;
+36645;Fazenda Laualo (Morada Nova) - Barramento 2;SÃO FÉLIX DO ARAGUAIA;189.42;3.87;3.87;;;2026-05-06;;Pessoa Física;SEM NOME;2026-05-27;
+36649;Barragem I - Fazenda Água Cristalina;ALTO BOA VISTA;87.2;;;;;;;Pessoa Física;Córrego Três Pontes;2026-05-27;
+36650;Barramento II Fazenda Água Cristalina;SERRA NOVA DOURADA;130;;;;;2026-05-11;;Pessoa Física;Córrego Três Pontes;2026-05-27;
+36651;Chácara Esteio - Barramento I;Alta Floresta;79.75;;;;;2026-05-11;;Pessoa Física;SEM NOME;2026-06-23;
+36652;Fazenda São Miguel ? Barramento 02;IPIRANGA DO NORTE;77.4;;;;;2026-03-06;;Pessoa Física;SEM NOME;2026-05-27;
+36666;Reservatório Goiana I;QUERÊNCIA;874;;;;;2026-05-14;;Pessoa Física;Rio Suiá-miçu ou Suiazão;2026-05-27;
+36669;Chácara Esteio ? Barramento 02;Alta Floresta;146.95;;;;;2026-05-18;;Pessoa Física;SEM NOME;2026-05-27;
+36671;Barramento Fazenda Ouro Branco;BARRA DO BUGRES;182.4;;;;;2026-05-18;;Empresas em Geral - Privado;Barragem FAZENDA OURO FINO - Barragem 04;2026-06-02;
+36679;Barragem Perin II;Tangará da Serra;120;;;;;2024-12-10;;Pessoa Física;Rio Ararão;2026-05-27;
+36680;Barragem Perin II (a montante);Tangará da Serra;120;;;;;2024-12-11;;Pessoa Física;Barragem Sitio Pica Pau;2026-05-19;
+36689;Barragem I - Fazenda Pouso da Garça;CUIABÁ;245;;;;;2026-05-20;;;SEM NOME;2026-05-20;
+36690;Barragem II - Fazenda Pouso da Garça;CUIABÁ;;;;;;2026-05-20;;Pessoa Física;SEM NOME;2026-05-20;
+36691;Barragem III - Fazenda Pouso da Garça;CUIABÁ;;;;;;2026-05-20;;Pessoa Física;SEM NOME;2026-05-20;
+37351;Fazenda Bom Jesus;CAMPO NOVO DO PARECIS;480.34;;;;;2026-02-06;;Pessoa Física;Rio Verde;2026-06-02;
+37352;Barragem I - Fazenda Mariana II;Alta Floresta;73.71;;;;;2026-05-25;;Pessoa Física;Ribeirão Taxidermista;2026-06-02;
+37353;Barragem II - Fazenda Mariana II;Alta Floresta;64.4;;;;;2026-05-25;;Pessoa Física;Ribeirão Taxidermista;2026-06-02;
+37360;Fazenda São Pedro do Parecis;CAMPO NOVO DO PARECIS;630.75;;;;;2026-05-27;;Pessoa Física;Rio Verde;2026-06-22;
+37386;Tanque Pulmão Fazenda Jacarandá;ARAGUAIANA;611.18;;;;;2026-06-01;;Pessoa Física;Córrego do Brejão;2026-06-22;
+37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;NOSSA SENHORA DO LIVRAMENTO;190;;;;;2026-06-02;;Empresas em Geral - Privado;SEM NOME;2026-07-08;
+37412;Barragem Terra Nova;Barra do Garças;382;;;;;2025-07-09;;Empresas em Geral - Privado;SEM NOME;2026-07-01;
+37413;Barragem Adelcir Grigoletto;CLÁUDIA;182.27;;;;;2026-06-18;;Pessoa Física;Rio Azul;2026-07-01;
+37415;Sítio São Vicente;SORRISO;270.41;;;;;2026-06-01;;Empresas em Geral - Privado;Ribeirão Alvim;2026-07-01;
+37416;Fazenda Santa Helena -  Montante 1;Alta Floresta;155.58;;;;;2026-06-22;;Pessoa Física;Córrego do Neguinha;2026-07-01;
+37418;Barramento Sítio Nossa Senhora Aparecida;Tangará da Serra;95.81;;;;;2026-06-23;;Pessoa Física;Rio Branco;2026-07-01;
+37419;Barragem Fazenda Marajoara;Itiquira;;;;;;;;Pessoa Física;SEM NOME;2026-07-08;
+37420;Barragem Fazenda Laualo – Morada Nova;SÃO FÉLIX DO ARAGUAIA;241.65;;;;;2026-06-23;;Pessoa Física;SEM NOME;2026-06-23;
+37430;Barramento Caxambu II;QUERÊNCIA;170.04;;;;;2026-06-26;;Empresas em Geral - Privado;SEM NOME;2026-07-08;
+37431;Fazenda Mundo Novo -;NOVA UBIRATÃ;490.1;;;;;2026-03-27;;Pessoa Física;Rio Irmandade;2026-07-08;
+37432;Fazenda Santa Helena - Barramento 02;Alta Floresta;297.34;;;;;2026-06-26;;Pessoa Física;Córrego do Neguinha;2026-07-08;
+37433;BARRAGEM PICOLÉ;NOSSA SENHORA DO LIVRAMENTO;984;;;;;2026-06-26;;Pessoa Física;;;
+37441;FAZENDA SÃO FRANCISCO;RONDONÓPOLIS;;;;;;2026-01-06;;Pessoa Física;Ribeirão Ponte de Pedra;2026-07-08;
+37442;Fazenda Paraíso I - Montante 1;NOVA UBIRATÃ;228.81;;;;;2026-06-30;;Pessoa Física;Córrego Aracema;2026-07-08;
+37446;Fazenda Paraíso I - Principal;NOVA UBIRATÃ;121.72;;;;;2026-06-30;;Pessoa Física;Córrego Aracema;2026-07-08;
+37450;Fazenda Córrego Fundo;Água Boa;195.57;;;;;2026-06-30;;Empresas em Geral - Privado;SEM NOME;2026-07-08;
+37452;Fazenda Atlântica - Araras;VERA;638.54;;;;;2026-06-30;;Pessoa Física;Córrego Fonseca;2026-07-08;
+37458;Fazenda Mundo Novo - Reservatório Pulmão 1;Boa Esperança do Norte;260.5;;;;;2026-03-27;;Pessoa Física;Rio Irmandade;2026-07-24;
+37519;Fazenda Confiança (Reservatório 1);VERA;;;;;;2026-05-06;;Pessoa Física;Córrego Desengano;2026-07-24;
+37527;Fazenda Ventania;NOVA MUTUM;;;;;;2026-06-25;;Pessoa Física;Ribeirão Tauá;2026-07-24;
+37539;Fazenda Prediger III;Boa Esperança do Norte;584.21;;;;;2026-06-02;;;Rio Irmandade;2026-07-24;
+37548;TSF Figueira Branca;NOVA SANTA HELENA;600;;;;;2026-04-24;;;;;
+37571;Fazenda Confiança (Reservatório 2);VERA;572.25;;;;;2026-05-06;;Pessoa Física;SEM NOME;2026-07-28;
+386;Fazenda Macape;SORRISO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem da Fazenda Macape;2026-03-03;
+387;Fazenda Pau da Onça;SANTA RITA DO TRIVELATO;0;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Pau da Onça;;
+388;Fazenda Cabeceira;IPIRANGA DO NORTE;184.5;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Igor Rampelotto Gatto e outros;2024-10-03;
+389;Fazenda Santo Antonio I;LUCAS DO RIO VERDE;0;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Ranchão;;
+4157;UHE Dardanelos - UHE Dardanelos;ARIPUANÃ;2585;;;2026-07-01;;2011-08-09;2019-09-30;Empresas em Geral - Privado;Rio Canamã;;
+4172;PCH Garganta da Jararaca - Garganta da Jararaca;NOVA MARINGÁ;1377;;;2026-07-01;;2006-11-28;2018-12-27;Empresas em Geral - Privado;Rio do Sangue;;
+4178;PCH Esperança - DESVIO;COMODORO;;;;2026-07-01;;2012-09-27;;Empresas em Geral - Privado;Rio Piolhinho;;
+4202;PCH Indiavaí - Indiavaí;JAURU;175;;;2026-07-01;;2003-08-01;2019-12-16;Empresas em Geral - Privado;;;
+4207;PCH Sete Quedas Alta - Sete Quedas Alta;JUSCIMEIRA;372;;;2026-07-01;;2010-12-28;2020-01-30;Empresas em Geral - Privado;;;
+4211;PCH Engenheiro José Gelásio da Rocha - Barragem Principal;RONDONÓPOLIS;286;;;;;2007-02-17;2019-02-05;Empresas em Geral - Privado;;;
+4212;PCH Telegráfica - Principal;SAPEZAL;360;;;2026-07-01;;2011-08-27;2019-06-04;Empresas em Geral - Privado;;;
+4216;PCH Ilha Comprida - Barramento PCH Ilha Comprida;CAMPOS DE JÚLIO;540;;;2026-07-01;;2013-07-04;2019-06-06;Empresas em Geral - Privado;;;
+4218;PCH Maracanã - Córrego Maracanã;NOVA MARILÂNDIA;200;;;2026-07-01;;2013-08-20;;Empresas em Geral - Privado;;;
+4224;UHE Manso - Dique 1;NOBRES;;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+4256;PCH Salto Corgão - Salto Corgão;NOVA LACERDA;40;;;2026-07-01;;2005-06-29;2019-08-21;Empresas em Geral - Privado;;;
+4257;PCH Primavera - Primavera;POXORÉU;787.83;;;2026-07-01;;1995-12-01;2019-12-20;Empresas em Geral - Privado;;;
+4278;PCH Inxú - S/N;NOVA MARINGÁ;480;;;2026-07-01;;2016-06-30;2019-11-30;Empresas em Geral - Privado;;;
+4297;PCH Graça Brennand (Antiga Terra Santa)  - Graça Brennand;Tangará da Serra;1150;;;2026-07-01;;2008-06-28;2019-03-08;Empresas em Geral - Privado;;;
+4313;PCH Segredo - Barramento PCH Segredo;SAPEZAL;790;;;2026-07-01;;2013-04-25;2019-05-28;Empresas em Geral - Privado;;;
+4330;PCH Paranatinga II - Paranatinga II;PARANATINGA;867;;;2026-07-01;;2008-02-12;2018-12-27;Empresas em Geral - Privado;;;
+4336;UHE Juba II - Juba II;BARRA DO BUGRES;900;;;2026-07-01;;1995-08-16;2019-03-11;Empresas em Geral - Privado;;;
+4338;PCH Culuene - Culuene;PARANATINGA;432;;;2026-07-01;;1985-06-01;;Empresas em Geral - Privado;;;
+4350;PCH Riacho Preto - PCH RIACHO PRETO;QUERÊNCIA;141;;;2026-07-01;;2008-09-04;;Empresas em Geral - Privado;Rio Palmeiras;;
+4410;PCH Pampeana - Pampeana;Tangará da Serra;580;;;2026-07-01;;2009-05-14;2019-03-08;Empresas em Geral - Privado;;;
+4436;UHE Manso - Barragem de Terra do Leito do Rio;CHAPADA DOS GUIMARÃES;369;;;2026-07-01;;2000-11-29;2019-12-18;Empresas em Geral - Privado;;;
+4487;PCH Salto - Salto;INDIAVAÍ;1650;;;2026-07-01;;2007-12-29;2019-08-21;Empresas em Geral - Privado;;;
+4489;PCH Lajari - Barragem Laje;ALTO TAQUARI;493;;;2026-07-01;;2019-05-10;2018-06-16;Empresas em Geral - Privado;;;
+4518;PCH Ombreiras - Ombreiras;ARAPUTANGA;690;;;2026-07-01;;2005-07-25;2019-03-09;Empresas em Geral - Privado;;;
+4519;PCH São Lourenço (Antiga Zé Fernando) - São Lourenço;JUSCIMEIRA;311.81;;;2026-07-01;;2009-04-28;2020-01-02;Empresas em Geral - Privado;;;
+4548;PCH São Domingos (Torixoréo) - Torixoréo;RIBEIRÃOZINHO;218.4;;;2026-07-01;;1983-06-01;;Empresas em Geral - Privado;;;
+4554;PCH Cabixi II - CABIXI II;COMODORO;133;;;2026-07-01;;2002-08-12;;Empresas em Geral - Privado;;;
+4560;PCH Sacre II - (NÃO EXISTE BARRAGEM NESTA USINA);BRASNORTE;0;;;2026-07-01;;2006-09-14;2019-09-25;Empresas em Geral - Privado;Rio Sacre;;
+4564;PCH Alto Araguaia - Alto Araguaia;ALTO ARAGUAIA;180;;;2026-07-01;;1968-06-01T00:00:00;;Empresas em Geral - Privado;;;
+4580;PCH Cidezal - Principal;SAPEZAL;660;;;2026-07-01;;2011-06-25;2019-06-03;Empresas em Geral - Privado;;;
+4594;PCH São Tadeu I - São Tadeu I;CUIABÁ;211.16;;;2026-07-01;;2010-12-24;2019-06-30;Empresas em Geral - Privado;;;
+4642;UHE Juba I - Juba I;Tangará da Serra;470;;;2026-07-01;;1995-11-10;2019-03-08;Empresas em Geral - Privado;;;
+4668;PCH Divisa - Divisa;CAMPOS DE JÚLIO;919;;;;;2011-11-09;;Empresas em Geral - Privado;;;
+4679;PCH Braço Norte - Braço Norte;GUARANTÃ DO NORTE;285.95;;;2026-07-01;;1986-06-01;;Empresas em Geral - Privado;;;
+4682;PCH Juína - Barragem da PCH Juína;JUÍNA;750;;;2026-07-01;;1993-10-01;2019-08-08;Empresas em Geral - Privado;;;
+4715;PCH Antônio Brennand (Antiga  Alto Jauru) - Antônio Brennand;JAURU;290;;;2026-07-01;;2002-09-13;;Empresas em Geral - Privado;;;
+4723;UHE Itiquira (Casas de Forças  I e  II)  - Itiquira;Itiquira;1200;;;2026-07-01;;2002-11-06;2019-09-01;Empresas em Geral - Privado;;;
+4726;PCH Santa Lúcia - Barramento Central;SAPEZAL;40;;;;;1994-01-01;;Empresas em Geral - Privado;Rio Buriti;;
+4739;CGH Aripuanã - Dique da UHE Dardanelos;ARIPUANÃ;;;;;;1987-08-01;;Empresas em Geral - Privado;SEM NOME;;
+4798;PCH Água Prata - Prata;JACIARA;72;;;2026-07-01;;2017-08-05;;Empresas em Geral - Privado;;;
+4814;UHE Colíder - Colíder;NOVA CANAÃ DO NORTE;1525.3;;;2026-07-01;;2019-03-09;2019-06-26;Empresas em Geral - Privado;;;
+4818;PCH Nova Mutum - PCH Nova Mutum;NOVA MUTUM;388.5;;;2026-07-01;;2014-11-26;;Empresas em Geral - Privado;;;
+4843;PCH Braço Norte II - Barragem da Usina Braço Norte II;GUARANTÃ DO NORTE;320;;;2026-07-01;;1998-01-01;;Empresas em Geral - Privado;;;
+4888;PCH Rondon - Principal;SAPEZAL;386.6;;;2026-07-01;;2011-08-06;2019-06-04;Empresas em Geral - Privado;;;
+4925;PCH Cabeça de Boi - Cabeça de Boi;Alta Floresta;857.13;;;2026-07-01;;2016-11-05;2019-12-22;Empresas em Geral - Privado;;;
+4931;PCH Casca II - B01 - CASCA I;CHAPADA DOS GUIMARÃES;90;;;2026-07-01;;1954-06-01T00:00:00;;Empresas em Geral - Privado;;;
+4946;UHE Ponte de Pedra - Barragem Principal;Itiquira;1470;;;;;2005-07-19;2019-02-07;Empresas em Geral - Privado;;;
+4955;PCH Figueirópolis - Figueirópolis;INDIAVAÍ;130;;;2026-07-01;;2010-09-28;2019-10-31;Empresas em Geral - Privado;;;
+4959;PCH Baruíto - Baruíto;CAMPO NOVO DO PARECIS;320000;;;;;2003-04-29;;Empresas em Geral - Privado;;;
+4967;PCH Pequi - Pequi;JACIARA;56;;;2026-07-01;;2008-12-05;;Empresas em Geral - Privado;;;
+4984;PCH Poxoréo (José Fragelli) - Poxoréo;POXORÉU;240;;;2026-07-01;;1976-06-01;2019-12-20;Empresas em Geral - Privado;;;
+5;FAZENDA SÃO PEDRO;PORTO ESPERIDIÃO;178;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Rio das Palmas e Córrego Acurizinho;2024-03-26;
+5025;PCH Santa Lúcia II - Barramento Central;SAPEZAL;40;;;;;2003-04-14;;Empresas em Geral - Privado;Rio Buriti;;
+5034;PCH Rio Prata - prata;COMODORO;;;;2026-07-01;;1994-09-30;;Empresas em Geral - Privado;SEM NOME;;
+5038;PCH Canoa Quebrada - 1;SORRISO;920;;;2026-07-01;;2006-12-13;2018-12-27;Empresas em Geral - Privado;;;
+5054;PCH Sapezal - Principal;SAPEZAL;254;;;2026-07-01;;2011-06-23;2019-06-03;Empresas em Geral - Privado;;;
+5056;UHE São Manoel - 1;PARANAÍTA;900;;;2026-07-01;;2017-12-28;2019-11-20;Empresas em Geral - Privado;;;
+5065;PCH Água Brava - Brava;JUSCIMEIRA;116;;;2026-07-01;;2019-04-27;;Empresas em Geral - Privado;Rio Prata;;
+5097;PCH Bocaiúva - PCH Bocaiúva;BRASNORTE;2116.14;;;2026-07-01;;2010-06-24;2019-12-20;Empresas em Geral - Privado;;;
+5108;UHE Jauru - Barragem Principal;VILA BELA DA SANTÍSSIMA TRINDADE;570;;;2026-07-01;;2003-06-06;2020-01-15;Empresas em Geral - Privado;;;
+5115;CGH Salto Belo - Barragem 01;NOVO SÃO JOAQUIM;132.5;;;;;1996-01-01;;Empresas em Geral - Privado;;;
+5123;PCH Rio do Sapo - 1;Tangará da Serra;65;;;2026-07-01;;2016-02-27;;Empresas em Geral - Privado;;;
+5140;UHE Salto Apiacás - Salto Apiacás;JUARA;485.76;;;2026-07-01;;2016-09-17;2019-12-20;Empresas em Geral - Privado;;;
+5147;PCH ARS - BARRAGEM;NOVA UBIRATÃ;485;;;2026-07-01;;2009-08-07;;Empresas em Geral - Privado;;;
+5154;PCH Faxinal II - PCH FAXINAL II;ARIPUANÃ;346;;;;;2005-11-22;2018-01-20;Empresas em Geral - Privado;;;
+5159;PCH Da Fazenda - Da Fazenda;Alta Floresta;502.7;;;2026-07-01;;2016-09-22;2019-12-04;Empresas em Geral - Privado;;;
+5169;CGH Diamante - Diamante;NORTELÂNDIA;631;;;2026-07-01;;2005-12-29;2019-10-23;Empresas em Geral - Privado;;;
+5176;PCH Parecis - Principal;SAPEZAL;386;;;2026-07-01;;2011-07-06;2019-06-05;Empresas em Geral - Privado;;;
+5212;UHE Guaporé - Guaporé;VALE DE SÃO DOMINGOS;1011.8;;;2026-07-01;;2003-04-08;2019-08-22;Empresas em Geral - Privado;;;
+5298;Fazenda Serra Negra;VILA BELA DA SANTÍSSIMA TRINDADE;160;0;0;;;1800-01-01T00:00:00;;;SEM NOME;2025-12-18;
+5314;Cabeceiras;VILA BELA DA SANTÍSSIMA TRINDADE;279.6;0;0;2023-12-13;2020-03-27;2005-01-31;;;Córrego Cabeceira;;Classe II B - Inertes
+5315;Casarão;VILA BELA DA SANTÍSSIMA TRINDADE;191.4;0;0;2023-12-12;2020-03-27;2005-01-30;;;SEM NOME;;Classe II B - Inertes
+5316; JBS S.A - S.J. DOS QUATRO MARCOS;São José dos Quatro Marcos;0;0;0;;;1800-01-01T00:00:00;;;SEM NOME;2025-12-18;
+5317;Planta;RIO BRANCO;200;0;0;2025-10-14;2022-08-01;2019-07-01;;;Rio Cabaçal;2025-11-25;Classe II A - Não inertes
+5318;REPRESA CARNAIBA;MIRASSOL D'OESTE;340;0;0;;;1800-01-01T00:00:00;;;Represa Carnaiba;2025-12-18;
+5319;REPRESA SIGLA;MIRASSOL D'OESTE;178;0;0;;;1800-01-01T00:00:00;;;Córrego Rancho Alegre;2025-12-18;
+5320;Fazenda Itapiranga;BRASNORTE;400;;;;;2012-10-08;;Pessoa Física;Rio Ulisses;;
+5321;ETA QUEIMA-PÉ;Tangará da Serra;50;0;0;;;1800-01-01T00:00:00;;;Barragem SAMAE - Serviço Autônomo Municipal de Água e Esgoto;2025-12-18;
+5328;Sitio Pica Pau;Tangará da Serra;125;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;2025-12-19;
+5339; ESTÂNCIA RANCHO DOURADO;VÁRZEA GRANDE;300;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Guanandi;2025-12-19;
+5361;FAZENDA OURO FINO- Barragem 01;BARRA DO BUGRES;103;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem FAZENDA OURO FINO - Barragem 03;2025-12-19;
+5362;FAZENDA OURO FINO - Barragem 02;BARRA DO BUGRES;90;0;0;;;2011-08-16;;Pessoa Física;Barragem FAZENDA OURO FINO - Barragem 03;2025-12-19;
+5364;FAZENDA OURO FINO;BARRA DO BUGRES;110;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem FAZENDA OURO FINO - Barragem 02;2025-10-08;
+5371;FAZENDA OURO BRANCO;BARRA DO BUGRES;180;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem FAZENDA OURO FINO - Barragem 04;2025-12-19;
+5372;Fazenda Guanabara;BARRA DO BUGRES;25;0;0;;;2005-02-22;;;Barragem Fazenda Guanabara;;
+5436;SANDRO GOMES;Poconé;2615;0;0;2023-10-11;2020-04-30;2012-02-06;;Pessoa Física;Córrego da Formiga;2025-02-27;Classe II B - Inertes
+5439;Barragem de Rejeito 1;Poconé;1221.42;0;0;2023-10-10;2020-04-30;2024-09-11;2019-12-23;;Córrego da Formiga;2025-01-16;Classe II B - Inertes
+5458;RODUÍ II;Poconé;190;;;;;2020-01-15;;Pessoa Física;Córrego Fundo;;Classe II B - Inertes
+5459;Ouro Fino;Poconé;300;0;0;2023-03-14;2021-04-13;2022-08-17;;;Córrego Piraputanga;;Classe II B - Inertes
+5475;GAÚCHO;Poconé;50;;;;;2023-10-10;;;Córrego Fundo;2025-01-21;Classe II B - Inertes
+5477;BR ISMAEL;Poconé;1027;0;0;2025-10-14;2021-04-13;2016-12-12;;Pessoa Física;Córrego Fundo;;Classe II B - Inertes
+5479;Fazenda Padre Cicero;PORTO DOS GAÚCHOS;180;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Ortigueira;2025-12-19;
+5490;Fazenda Dona Leila - RESERVATÓRIO 1;Rosário Oeste;420;0;0;;;1800-01-01T00:00:00;;;Reservatório 1 VIDEPLAST;;
+5551;Moça Bonita;NOSSA SENHORA DO LIVRAMENTO;2623.47;0;0;;;2018-06-05;;;Ribeirão Bento Gomes;;Classe II B - Inertes
+5559;Barragem de Rejeito Estrela 03;NOSSA SENHORA DO LIVRAMENTO;285;0;0;2022-01-20;2021-07-29;2021-05-04;2019-12-21;;Barragem de Rejeito Estrela 03;;Classe II A - Não inertes
+5560;Barragem de Rejeito Estrela;NOSSA SENHORA DO LIVRAMENTO;456;0;0;2023-08-30;2021-09-29;2011-07-14;2019-12-21;;Córrego Pirapora;;Classe II A - Não inertes
+5562;Barragem de Rejeito Estrela 02;NOSSA SENHORA DO LIVRAMENTO;852;0;0;2022-01-24;;2018-05-21;2019-12-21;;Córrego Pirapora;;Classe II A - Não inertes
+5563;Santa Maria;NOSSA SENHORA DO LIVRAMENTO;296;0;0;2025-10-14;2022-03-23;2017-01-01;;Pessoa Física;Córrego Pirapora;2025-03-07;Classe II A - Não inertes
+5573;BR SANTA 01;NOSSA SENHORA DO LIVRAMENTO;349;0;0;2026-06-27;2021-09-13;2017-05-01;2019-12-26;;Barragem BR Santa 01;2026-06-23;Classe II B - Inertes
+5603;Barragem de Rejeitos Bom Futuro;NOSSA SENHORA DO LIVRAMENTO;210;0;0;2024-04-15;2020-04-30;2017-01-01;2019-12-26;;Rio Pari;2024-04-01;Classe II B - Inertes
+5608;Fazenda São Miguel;IPIRANGA DO NORTE;115;0;0;;;2004-11-10;;Pessoa Física;Barragem Fazenda São Luiz;;
+5622;Fazenda Tupi Barão;IPIRANGA DO NORTE;245;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;Barragem Fazenda Tupi Barão;2025-12-19;
+5645;Santa Tereza;NOSSA SENHORA DO LIVRAMENTO;1921;0;0;2022-03-28;2021-08-26;2014-01-06;;Pessoa Física;Córrego Santa Bárbara;;Classe II B - Inertes
+5646;Santa Tereza II;NOSSA SENHORA DO LIVRAMENTO;460;0;0;2022-03-28;2021-08-27;2012-10-10;;Pessoa Física;Barragem Santa Tereza II;;Classe II B - Inertes
+5648;Barragem do Serginho;NOSSA SENHORA DO LIVRAMENTO;1300;0;0;2026-03-27;2022-04-06;2017-01-12;2019-11-28;Pessoa Física;SEM NOME;;Classe II B - Inertes
+5679;Fazenda Juliandre II;LUCAS DO RIO VERDE;178;0;0;;;1997-02-15;;Pessoa Física;Barragem Fazenda Juliandre;2024-09-30;
+574;Barragem de Rejeito 01;NOSSA SENHORA DO LIVRAMENTO;153.76;0;0;2024-09-20;;2024-10-08;;;Ribeirão Cocaes;;Classe II B - Inertes
+5751;Prefeitura de LUCAS DO RIO VERDE;LUCAS DO RIO VERDE;185;0;0;;;1800-01-01T00:00:00;;Órgãos - Público;Barragem # ASSOCIAÇÃO DOS PEQUENOS CHACAREIROS DA MICROBACIA DO CÓRREGO LUCAS;2025-12-19;
+577;Barragem EPP;PONTES E LACERDA;3458;0;0;2023-12-11;2020-03-27;2012-06-01;2019-12-30;;Córrego Lavrinha;;Classe II A - Não inertes
+5776;Fazenda Progresso;TABAPORÃ;280;;;;;2007-07-05;;Pessoa Física;SEM NOME;;
+578;Barragem de Rejeito Max;NOSSA SENHORA DO LIVRAMENTO;2616.43;0;0;;2020-03-30;2012-11-05;2019-11-28;;SEM NOME;;Classe II B - Inertes
+5780;Fazenda Santo Antonio I;SORRISO;807;0;0;;;2002-04-22;;;Barragem Gaspar Empreendimentos Agropecuários Industria e Comércio Ltda.;2025-12-19;
+5786;Fazenda Rio Verde III ? Barramento 3;SORRISO;427.23;0;0;;;2026-03-04;;Empresas em Geral - Privado;Barragem da Fazenda Rio Verde;2026-04-09;
+5794;BARRAGEM T02;CUIABÁ;6337;0;0;2023-09-21;2018-06-01;2012-03-08;2019-12-20;;SEM NOME;;Classe II B - Inertes
+5797;Fazenda Santo Rosseto;SORRISO;120;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Santo Rosseto;2025-12-19;
+581;GONÇA;Poconé;1500;0;0;2024-06-26;;2010-10-19;2019-12-27;Pessoa Física;Barragem Gonçalo;;Classe II B - Inertes
+582;Bom Pastor;Poconé;1200;0;0;;;2017-06-01;;;SEM NOME;2025-05-21;Classe II B - Inertes
+586;BR BOSCO;NOSSA SENHORA DO LIVRAMENTO;300;0;0;2023-05-22;2021-04-12;2013-01-01;2019-12-26;Pessoa Física;Córrego Tarumã;2024-02-21;Classe II B - Inertes
+5873;Barragem I - Fazenda Militância I;VERA;108.75;0;0;;;1800-01-01T00:00:00;;Outros - Privado;Barragem Fazenda Militancia;2025-02-28;
+588;BR SANTA FELICIDADE;NOSSA SENHORA DO LIVRAMENTO;230;0;0;2026-06-27;2021-09-13;2015-07-01;2019-12-26;;Barragem Santa Felicidade;2026-06-23;Classe II B - Inertes
+5891;Balneário Boa Esperança;SORRISO;100;0;0;;;1800-01-01T00:00:00;;Órgãos - Público;Barragem Fazenda Veridiane;2025-12-19;
+5904;Fazenda Orion;NOVA UBIRATÃ;185;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Orion;2025-10-13;
+6026;COOP. SERINGUEIROS DE OURO BRANCO;Itiquira;300;0;0;;;1800-01-01T00:00:00;;;CGH Michelin;2025-12-19;
+6156;Barragem Carnaíba;MIRASSOL D'OESTE;200;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Represa Carnaiba;2025-09-17;
+6192;Fazenda Batovi;TESOURO;281;0;0;;;2003-04-18;;Pessoa Física;SEM NOME;;
+6475;Fazenda AFB Brasil;Barra do Garças;407.36;;;;;;;Empresas em Geral - Privado;Córrego Caveira;;
+73;Fazenda Reunidas Filipinas;SANTA CRUZ DO XINGU;177;;;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Reunidas Filipinas;;
+787;CHICO;Poconé;220;;;;;2017-05-01;;Pessoa Física;Córrego da Formiga;;Classe II B - Inertes
+788;COQUEIRAL;Poconé;1500;0;0;2024-06-25;2020-04-30;2006-08-02;;Pessoa Física;Reservatório Coqueiral 1;;Classe II B - Inertes
+790;Dique de Finos;VILA BELA DA SANTÍSSIMA TRINDADE;700;0;0;2023-12-14;2020-03-27;2007-06-30;;;Córrego Longa Vida;;Classe II A - Não inertes
+792;FRED;Poconé;2700;0;0;2024-06-24;;2013-11-01;;;SEM NOME;;Classe II B - Inertes
+7957;Mineração Dardanelos;ARIPUANÃ;380;0;0;;;1800-01-01T00:00:00;;;Córrego Arrainha;2026-03-17;
+7959;Chácara Patrícia;JUÍNA;113;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+7960;Fazenda Barra Grande II- Barragem III;JURUENA;170;0;0;;;2009-02-20;;Pessoa Física;Barragem Fazenda Barra Grande II- Barragem III;2025-01-27;
+7961;Fazenda Barra Grande II- Barragem I;JURUENA;165;0;0;;;2009-07-07;;Pessoa Física;Barragem Fazenda Barra Grande II- Barragem II;2025-01-24;
+7962;Fazenda Barra Grande II- Barragem II;JURUENA;210;0;0;;;2009-03-06;;Pessoa Física;Barragem Fazenda Barra Grande II- Barragem II;2025-01-24;
+7963;Fazenda Catavento jusante;BRASNORTE;150;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem 36433/2013;2026-06-26;
+7964;Fazenda Catavento montante;BRASNORTE;150;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem 36433/2013;2026-06-26;
+7965;Fazenda São João VIII;BRASNORTE;110;0;0;;;;;Pessoa Física;Barragem Fazenda São João VIII;2024-03-25;
+7966;Barramento - Fazenda Horizonte VI;CAMPO NOVO DO PARECIS;218.03;;;;;2025-11-12;;Pessoa Física;Barragem Fazenda Horizonte VII;2025-12-18;
+7976;Fazenda Tucano;BARRA DO BUGRES;130;0;0;;;2003-08-10;;;Barragem Fazenda Tucano;;
+7977;Fazenda Triangulo;NOVA OLÍMPIA;366;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+7978;Faz. Triângulo - Reservatório 06 / 10 / 11;NOVA OLÍMPIA;438;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+7979;Faz. Triângulo - Reservatório 03;NOVA OLÍMPIA;320;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Riozinho;;
+7980;Faz. Triângulo - Reservatório 04 / 05 / 13;NOVA OLÍMPIA;218;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Riozinho;;
+7981;Faz. Triângulo - Reservatório 02;NOVA OLÍMPIA;180;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Riozinho;;
+7982;Faz. Triângulo - Reservatório 01;NOVA OLÍMPIA;300;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Riozinho;;
+7983;Faz. Triângulo - Reservatório 12;NOVA OLÍMPIA;150;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Branco;;
+7984;Estância Céu Azul;Tangará da Serra;34;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego do meio;;
+7985;Faz. Ouro Fino - Barragem 06;BARRA DO BUGRES;102;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Raizama;;
+7986;Faz. Ouro Fino - Barragem 07;BARRA DO BUGRES;120;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Raizama;;
+7987;Faz. Ouro Fino - Barragem 05;BARRA DO BUGRES;114;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Raizama;;
+7988;Faz. Ponte de Pedra;NOVA MARINGÁ;175;0;0;;;2016-10-08;;Pessoa Física;Barragem Faz. Ponte de Pedra;2025-01-24;
+7989;Faz. Cabeça Branca - Barragem 06;NOSSA SENHORA DO LIVRAMENTO;185;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Taquara;;
+7990;Faz. Cabeça Branca - Barragem 05;NOSSA SENHORA DO LIVRAMENTO;85;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Taquara;;
+7991;Faz. Cabeça Branca - Barragem 04;NOSSA SENHORA DO LIVRAMENTO;106;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Taquara;;
+7992;Fazenda Cabeça Branca - Barragem 03;NOSSA SENHORA DO LIVRAMENTO;286;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Taquara;;
+7993;Faz. Cabeça Branca - Barragem 02;NOSSA SENHORA DO LIVRAMENTO;307;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Taquara;;
+7994;Faz. Cabeça Branca - Barragem 01;NOSSA SENHORA DO LIVRAMENTO;229;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Jangada;;
+7995;Barragem T06;Poconé;682.56;;;;;2023-11-04;;Pessoa Física;Córrego da Formiga;2025-11-21;Classe II B - Inertes
+7996;Barragem T05;Poconé;1028.76;;;;;2016-03-08;;;Córrego da Formiga;;Classe II B - Inertes
+8000;JOAO PAULO;Poconé;600000;0;0;2023-11-22;2020-04-30;2015-02-02;;Pessoa Física;Barragem José Vicente Nunes Rondon;;Classe II B - Inertes
+8001;CAMPOS;Poconé;260;0;0;;;2009-08-03;;Pessoa Física;Rio Bento Gomes;;Classe II B - Inertes
+8002;BACIA DE REJEITOS BOM JARDIM;Poconé;1285;0;0;2024-03-12;;2008-01-01;;;Rio Bento Gomes;2025-11-26;Classe II B - Inertes
+8003;BACIA DE REJEITOS SÃO BENTO;Poconé;1453;0;0;2025-10-14;2022-05-31;2021-01-15;;Pessoa Física;Rio Bento Gomes;2025-11-24;Classe II B - Inertes
+8004;CANGAS;Poconé;1800;0;0;;;2009-01-23;;;Córrego Guanandi;;Classe II B - Inertes
+8006;VALE DOURADO;Rosário Oeste;368.91;;;;;2016-04-20;;;Ribeirão da Cutia;;Classe II B - Inertes
+8007;Destilaria de Álcool Libra LTDA;SÃO JOSÉ DO RIO CLARO;221;;;;;1800-01-01T00:00:00;;;Córrego Diamante;;
+8008;Estância Recreio;NOSSA SENHORA DO LIVRAMENTO;230;;;;;2008-11-12;;Pessoa Física;Rio Pari;;
+8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;254;;;;;1800-01-01T00:00:00;;;SEM NOME;;
+8010;Faz. Dona Leila - Reservatório 13;Rosário Oeste;420;;;;;1800-01-01T00:00:00;;;SEM NOME;;
+8011;Faz. Dona Leila - Reservatório 29;Rosário Oeste;400;;;;;1800-01-01T00:00:00;;;Reservatório 28 VIDEPLAST;2025-11-05;
+8012;Faz. Dona Leila - Reservatório 28;Rosário Oeste;320;;;;;1800-01-01T00:00:00;;;Rio Cuiabá;;
+8013;Faz. Dona Leila - Reservatório 27;Rosário Oeste;470;;;;;1800-01-01T00:00:00;;;Rio Cuiabá;;
+8014;Barragem Salinas 1;NOSSA SENHORA DO LIVRAMENTO;1228;;;;;2020-03-02;;;Ribeirão Bento Gomes;;Classe II B - Inertes
+8015;Faz. Porta do Céu;NOVA MUTUM;116;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Mula Manca;;
+8018;Faz. Propecus - Lagoa 02;NOVA MUTUM;109;;;;;1800-01-01T00:00:00;;;Córrego do Cerrado;;
+8019;Faz. Mafra - Barragem 03;NOVA MUTUM;120;;;;;1800-01-01T00:00:00;;;SEM NOME;;
+8020;Faz. Propecus - Lagoa 04;NOVA MUTUM;111;;;;;1800-01-01T00:00:00;;;Córrego Mata Escura;;
+8022;Faz. Bogorni;IPIRANGA DO NORTE;150;;;;;2014-10-16;;Pessoa Física;SEM NOME;;
+8023;Faz. Mafra - Barragem 01;NOVA MUTUM;165;;;;;1800-01-01T00:00:00;;;SEM NOME;;
+8024;Faz. Guarantã - Lotes 21, 22 e 23;TAPURAH;40;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Esmeralda;;
+8027;Faz. Mafra - Barragem 02;NOVA MUTUM;225;;;;;1800-01-01T00:00:00;;;Ribeirão Tauá;;
+8028;FAZENDA DONA IRILDE;LUCAS DO RIO VERDE;145.59;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem FAZENDA DONA IRILDE;2024-09-30;
+8031;Fazenda Vale do Rio Verde;TAPURAH;256;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+8032;Fazenda Vale do Rio Verde;TAPURAH;256;;;;;2015-02-20;;Pessoa Física;SEM NOME;;
+8033;Fazenda Botucatu lll;LUCAS DO RIO VERDE;157.92;;;;;2024-09-26;;Pessoa Física;Barragem Fazenda Botucatu lll;2025-10-20;
+8034;Fazenda Ogliari;LUCAS DO RIO VERDE;150;0;0;;;2000-02-15;;Pessoa Física;Barragem FAZENDA OGLIARI;2025-01-29;
+8035;Barragem Caititu;SORRISO;168.4;0;0;;;;;Pessoa Física;Barragem Fazenda Possamai;;
+8036;Fazenda Piva;LUCAS DO RIO VERDE;160;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Piva;;
+8037;Fazenda Palmeira ll;LUCAS DO RIO VERDE;90;0;0;;;1800-01-01T00:00:00;;Empresas em Geral - Privado;Barragem Fazenda Palmeira ll;2026-02-11;
+8038;Faz. Pinheiros;SORRISO;74;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego do Verde;;
+8039;Faz. Paraíso;SORRISO;485;;;;;2000-10-20;;Pessoa Física;Córrego Brilhante;;
+8040;Fazenda Córrego Grande;SORRISO;200;;;;;;;Pessoa Física;SEM NOME;;
+8041;Barragem T04;CUIABÁ;1875;;;;;2015-04-14;;Pessoa Física;SEM NOME;;Classe II B - Inertes
+8042;FAZ. CEOLATTO;SORRISO;110;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Gracioso;;
+8043;Barramento Sede;SORRISO;142.7;;;;;;;Pessoa Física;Barragem Faz. Estrela de Fogo;2025-03-14;
+8044;Fazenda Quatrilho;SANTA RITA DO TRIVELATO;180;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Moderno ou São Carlos;;
+8046;Fazenda Capixaba;SORRISO;134.2;0;0;;;1800-01-01T00:00:00;;;córrego Cerrado;2026-02-04;
+8047;Fazenda Poranga II - III;SORRISO;415;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Sossego;;
+8048;Fazenda Recanto II e III;SORRISO;120;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Recanto II e III;2024-07-01;
+8049;Fazenda Marauense;SORRISO;89.23;0;0;;;2024-07-25;;Empresas em Geral - Privado;Barragem Fazenda Marauense;2024-10-01;
+8050;Barramento Fazenda Rodeio;SORRISO;358.23;0;0;;;1999-07-04;;Pessoa Física;SEM NOME;2024-10-02;
+8051;FAZENDA POTRICH;SORRISO;200;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Sete Lagoas;;
+8052;Fazenda Reolon;SORRISO;141;;;;;1800-01-01T00:00:00;;Pessoa Física;Córrego Rico;;
+8053;Fazenda Caravaggio;SORRISO;128;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Caravaggio;2024-05-16;
+8054;Fazenda Bela Vista II;VERA;237;;;;;2003-04-21;;Pessoa Física;Barragem Fazenda Bela Vista II;2025-03-19;
+8055;Fazenda Sempre Verde;SORRISO;110;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+8056;Fazenda Sorriso;NOVA UBIRATÃ;126;;;;;;;Pessoa Física;SEM NOME;;
+8058;Fazenda Parauna;NOVA UBIRATÃ;106;0;0;;;2011-11-27;;Pessoa Física;Barragem Fazenda Parauna;;
+8062;Fazenda Nossa Senhora Aparecida;NOVA UBIRATÃ;241.6;0;0;;;2000-07-12;;Pessoa Física;Barragem Fazenda Nossa Senhora Aparecida;2024-10-03;
+8063;Fazenda São Pedro do jatobá II;JACIARA;150;0;0;;;2005-05-27;;Pessoa Física;Barragem Fazenda São Pedro do jatobá II;2025-12-19;
+8064;PREFEITURA MUNICIPAL DE TERRA NOVA DO NORTE;TERRA NOVA DO NORTE;45;;;;;1800-01-01T00:00:00;;;Córrego Boa Esperança;;
+8065;Matrícula 7164, 2464, 2095 e 2096;NOVA UBIRATÃ;120;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão do Palmito;;
+8066;Faz. Jatobá;FELIZ NATAL;110;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Faz. Jatobá;2025-09-17;
+8071;Fazenda Nossa Senhora de Caacupê;FELIZ NATAL;99.1;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Rio Arraias;2025-02-26;
+8079;BARRAGEM  BLOCO NORTE;NOVA SANTA HELENA;30;;;;;2019-06-01;;Pessoa Física;Rio do Pombo;;Classe II B - Inertes
+8092;Faz. Sopave;NOVA UBIRATÃ;212;;;;;1800-01-01T00:00:00;;;SEM NOME;;
+8093;Fazenda Santa Maria;Itiquira;90;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Santa Maria;2024-09-30;
+8094;Piscicultura Arco Iris;DOM AQUINO;247;0;0;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+8095;FAZENDA CONQUISTA;RONDONÓPOLIS;180;0;0;;;1800-01-01T00:00:00;;Outros - Privado;Barragem Fazenda Conquista;2026-02-04;
+8096;FAZENDA GUARITA;RONDONÓPOLIS;;0;0;;;2002-11-30;;;SEM NOME;;
+8099;Fazenda São Luiz - Barragem 04;PRIMAVERA DO LESTE;133;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio das Mortes;;
+8100;Fazenda São Luiz - Barragem 03;PRIMAVERA DO LESTE;290;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio das Mortes;;
+8101;Fazenda São Judas;PRIMAVERA DO LESTE;155;;;;;1800-01-01T00:00:00;;;Rio das Mortes;;
+8102;Fazenda Sucuri;Itiquira;140;0;0;;;2017-08-10;;Empresas em Geral - Privado;Córrego Sacuri;2024-12-17;
+8103;Fazenda São Luiz - Barragem 01;PRIMAVERA DO LESTE;380;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio das Mortes;;
+8104;Fazenda São Luiz - Barragem 02;PRIMAVERA DO LESTE;205;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio das Mortes;;
+8106;Assentamento Tio Elias;Itiquira;;0;0;;;2011-05-24;;;Barragem Assentamento Tio Elias;;
+8122;Barramento Atto Agropecuária LTDA;ALTO GARÇAS;398.75;0;0;;;2024-05-08;;Empresas em Geral - Privado;Barragem Fazenda Adriana;2026-02-04;
+8159;Fazenda Araribá;CANARANA;153;;;;;1991-11-26;;;Córrego Água Parada;;
+8164;Fazenda Alto Areões - Barragem 01;Água Boa;280;;;;;2010-10-08;;Pessoa Física;Rio Sete de Setembro;;
+8165;Fazenda Alto Areões-Barragem 02;Água Boa;450;;;;;1800-01-01T00:00:00;;Pessoa Física;Rio Sete de Setembro;;
+8166;Barramento Principal - Fazenda Estância Bahia II;Água Boa;285.63;0;0;;;1800-01-01T00:00:00;;Pessoa Física;Barragem Fazenda Alto Areões-Barragem 03;2025-01-31;
+8174;Faz. Agrocentro Barra Brasil;Barra do Garças;20;;;;;1800-01-01T00:00:00;;Pessoa Física;Ribeirão Taquaral;;
+8176;Barragem principal Estância Bahia Leilões;Água Boa;304.81;0;0;;;2023-08-16;;Outros - Privado;Barragem Faz. Estância Bahia Leilões;2025-01-31;
+8197;Faz. Produtiva;SÃO FÉLIX DO ARAGUAIA;460;;;;;1800-01-01T00:00:00;;Pessoa Física;SEM NOME;;
+894;LU;Poconé;20;;;;;2007-03-02;;;Córrego Fundo;;Classe II B - Inertes
+895;MARANATA;Poconé;230;0;0;;;2009-02-19;;;Represa Maranata;;Classe II B - Inertes
+899;OURINHOS I;Poconé;625;;;;;2019-07-09;;Pessoa Física;Córrego Guanandi;;Classe II B - Inertes
+945;POND 1 - BARRAGEM DE LIXIVIAÇÃO;NOVA XAVANTINA;732.91;0;0;2024-11-26;2022-01-31;2010-08-02;;;Barragem de Lixiviação POND 1;2025-11-24;Classe I – Perigosos
+946;POND 2 - BARRAGEM DE FLOTAÇÃO;NOVA XAVANTINA;502.02;0;0;2024-11-26;2022-01-31;2011-10-13;;;Barragem de Lixiviação POND 1;;Classe II A - Não inertes
+947;POND 3 - BARRAGEM DE FLOTAÇÃO;NOVA XAVANTINA;499.55;0;0;2024-11-26;2022-01-31;2011-10-13;;;Barragem de Flotação POND 3;2025-11-25;Classe II A - Não inertes
+948;Rejeito;JUÍNA;420.35;0;0;;;2008-07-02;;;Barragem de Rejeito;;Classe II B - Inertes

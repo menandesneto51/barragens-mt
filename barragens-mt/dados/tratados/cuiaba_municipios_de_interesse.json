@@ -1,0 +1,120 @@
+{
+ "secao_de_controle": "896573",
+ "criterio": "municipios atravessados pelo eixo de drenagem entre o Manso e a capital, municipios do eixo a jusante da capital e municipios com barragens que drenam para a secao de controle",
+ "eixo_manso_capital": [
+  "Chapada dos Guimarães",
+  "Rosário Oeste",
+  "Nobres",
+  "Acorizal",
+  "Jangada",
+  "Cuiabá",
+  "Várzea Grande"
+ ],
+ "eixo_jusante_capital": [
+  "Várzea Grande",
+  "Cuiabá",
+  "Nossa Senhora do Livramento",
+  "Santo Antônio de Leverger",
+  "Barão de Melgaço",
+  "Poconé"
+ ],
+ "municipios_com_barragens_a_montante": [
+  "Chapada dos Guimarães",
+  "Cuiabá",
+  "Jangada",
+  "Nobres",
+  "Nossa Senhora do Livramento",
+  "Rosário Oeste",
+  "Várzea Grande"
+ ],
+ "municipios": [
+  {
+   "nome": "Acorizal",
+   "codigo_ibge": "5100102",
+   "codigo_cnes": "510010",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": false,
+   "tem_barragem_a_montante": false
+  },
+  {
+   "nome": "Barão de Melgaço",
+   "codigo_ibge": "5101605",
+   "codigo_cnes": "510160",
+   "no_eixo_montante": false,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": false
+  },
+  {
+   "nome": "Chapada dos Guimarães",
+   "codigo_ibge": "5103007",
+   "codigo_cnes": "510300",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": false,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Cuiabá",
+   "codigo_ibge": "5103403",
+   "codigo_cnes": "510340",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Jangada",
+   "codigo_ibge": "5104906",
+   "codigo_cnes": "510490",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": false,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Nobres",
+   "codigo_ibge": "5105903",
+   "codigo_cnes": "510590",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": false,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Nossa Senhora do Livramento",
+   "codigo_ibge": "5106109",
+   "codigo_cnes": "510610",
+   "no_eixo_montante": false,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Poconé",
+   "codigo_ibge": "5106505",
+   "codigo_cnes": "510650",
+   "no_eixo_montante": false,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": false
+  },
+  {
+   "nome": "Rosário Oeste",
+   "codigo_ibge": "5107701",
+   "codigo_cnes": "510770",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": false,
+   "tem_barragem_a_montante": true
+  },
+  {
+   "nome": "Santo Antônio de Leverger",
+   "codigo_ibge": "5107800",
+   "codigo_cnes": "510780",
+   "no_eixo_montante": false,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": false
+  },
+  {
+   "nome": "Várzea Grande",
+   "codigo_ibge": "5108402",
+   "codigo_cnes": "510840",
+   "no_eixo_montante": true,
+   "no_eixo_jusante": true,
+   "tem_barragem_a_montante": true
+  }
+ ]
+}

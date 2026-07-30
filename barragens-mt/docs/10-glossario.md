@@ -1,0 +1,127 @@
+# 10. Glossário
+
+Siglas e termos usados nesta documentação. Onde a definição depende de norma, a norma está
+citada. Onde o termo é criação deste projeto, está indicado.
+
+## 10.1 Marco regulatório e cadastro de barragens
+
+| Termo | Definição |
+| --- | --- |
+| **PNSB** | Política Nacional de Segurança de Barragens, instituída pela Lei nº 12.334/2010, alterada pela Lei nº 14.066/2020. Define quais barragens são reguladas, as responsabilidades do empreendedor e dos órgãos fiscalizadores, e os instrumentos de segurança (plano de segurança, PAE, revisão periódica, inspeções). Uma barragem só é "regulada pela PNSB" se atender aos critérios de altura, volume, classe de resíduo ou dano potencial |
+| **SNISB** | Sistema Nacional de Informações sobre Segurança de Barragens, mantido pela ANA. Camada consolidada que reúne o cadastro de **todos** os órgãos fiscalizadores do país. Fonte de 1.248 barragens em MT neste projeto |
+| **SIGBM** | Sistema Integrado de Gestão em Segurança de Barragens de Mineração, mantido pela ANM. Contém apenas barragens de mineração, mas com muito mais detalhe operacional que o SNISB — nível de emergência, anomalias, instrumentação, população a jusante. 183 barragens em MT |
+| **ANA** | Agência Nacional de Águas e Saneamento Básico. Gestora do SNISB e fiscalizadora de barragens de uso múltiplo em corpos hídricos de domínio federal |
+| **ANM** | Agência Nacional de Mineração. Fiscalizadora das barragens de rejeito e de resíduo de mineração |
+| **ANEEL** | Agência Nacional de Energia Elétrica. Fiscalizadora das barragens de geração hidrelétrica |
+| **SEMA-MT** | Secretaria de Estado de Meio Ambiente de Mato Grosso. Fiscaliza barragens de acumulação de água para usos múltiplos em corpos hídricos de **domínio estadual**, pela Instrução Normativa nº 02/2020, alterada pela IN nº 04/2021, que define cadastro, outorga de obra hidráulica e classificação por CRI e DPA. Órgão fiscalizador de 781 das 1.248 barragens de MT |
+| **CRI** | **Categoria de Risco**. Classificação que mede a probabilidade de ocorrência de acidente, a partir das características técnicas da estrutura, do estado de conservação e do atendimento ao plano de segurança. Domínio no SNISB: Alto, Médio, Baixo, Não Classificado, Não se Aplica. É o indicador B1 do IDAP |
+| **DPA** | **Dano Potencial Associado**. Classificação que mede a **consequência** de um eventual rompimento — volume, existência de população a jusante, impacto ambiental e socioeconômico. Não mede probabilidade. Domínio: Alto, Médio, Baixo, Não Classificado. Alimenta o indicador C1 do IDAP como *proxy* de exposição |
+| **Classe (CNRH)** | Classificação combinada de CRI × DPA, de A a E, conforme a Resolução CNRH nº 143/2012. Determina a exigência de instrumentos de segurança. No inventário consolidado é derivada da matriz CRI × DPA em `classe_cnrh` |
+| **PAE** | **Plano de Ação de Emergência**. Documento que define os procedimentos, os responsáveis e os fluxos de comunicação em caso de emergência com a barragem. Exigido conforme a classe. No SNISB de MT, 87,7% dos registros não informam se possuem PAE |
+| **PAEBM** | **Plano de Ação de Emergência para Barragens de Mineração**. Versão específica do PAE exigida pela ANM, com requisitos próprios: definição de ZAS e ZSS, sistema de alerta e alarme, rotas de fuga, pontos de encontro e entrega de cópias físicas às prefeituras e Defesas Civis |
+| **ZAS** | **Zona de Autossalvamento**. Trecho a jusante da barragem em que se considera não haver tempo suficiente para intervenção da autoridade competente em caso de rompimento — a população precisa se salvar por conta própria. Definida pela Resolução ANM nº 95/2022 como a maior distância entre 10 km ao longo do vale ou o trecho onde o tempo de chegada da onda é de até 30 minutos. É onde as sirenes são obrigatórias |
+| **ZSS** | **Zona de Segurança Secundária**. Trecho a jusante da ZAS, dentro da mancha de inundação, em que já se considera haver tempo para intervenção das autoridades. Menor urgência, mesma necessidade de planejamento |
+| **DCE** | **Declaração de Condição de Estabilidade**. Documento periódico em que o empreendedor, por meio de responsável técnico, atesta (ou não atesta) a estabilidade da barragem de mineração. Um "não atestado" é sinal de alto valor operacional |
+| **RISR** | **Revisão Periódica de Segurança de Barragem — Inspeção de Segurança Regular**. Um dos tipos de campanha de DCE registrado no SIGBM, no campo `Status DCE RISR` |
+| **RPSB** | **Revisão Periódica de Segurança de Barragem**. Revisão de maior profundidade, com periodicidade definida pela classe da estrutura. Registrada no SIGBM em `Status DCE RPSB` |
+| **DCO** | **Declaração de Condição de Operação**. Declaração periódica do empreendedor sobre a condição operacional da estrutura, registrada no SIGBM em `Status da DCO Atual` |
+| **Descaracterização** | Processo de eliminação definitiva da função de contenção de uma barragem de rejeito — a estrutura deixa de ser barragem. Obrigatória para barragens a montante pela Lei nº 14.066/2020. Em MT, 8 estruturas estão em descaracterização e 3 já descaracterizadas |
+| **Alteamento a montante** | Método construtivo em que cada novo alçamento se apoia sobre o próprio rejeito já depositado. É o método das barragens de Mariana e Brumadinho, e está proibido no Brasil pela Lei nº 14.066/2020. **Nenhuma barragem em MT usa este método nesta carga do SIGBM** |
+| **Alteamento a jusante** | Método em que cada alçamento se apoia sobre o corpo da barragem anterior, deslocando o eixo no sentido do vale. É o método mais seguro dos três. 89 das 183 barragens de MT |
+| **Alteamento por linha de centro** | Método intermediário: o eixo da crista se mantém, com apoio parcial sobre o rejeito e parcial sobre o corpo da estrutura. 33 barragens em MT |
+| **Back up dam** | Estrutura de contenção construída a jusante de uma barragem de rejeito, com a função de conter o material em caso de rompimento da estrutura principal, reduzindo a mancha de inundação. Em MT, apenas 1 barragem declara possuir |
+| **Linha de praia** | Faixa de rejeito depositado e drenado entre a lâmina de água do reservatório e a crista da barragem, em barragem de rejeito. Uma linha de praia mais estreita que a prevista em projeto aproxima a água do corpo da barragem e é sinal de risco operacional |
+| **Instrumentação** | Conjunto de sensores instalados na estrutura para medir seu comportamento: **piezômetro** (poropressão no interior do maciço e da fundação), **inclinômetro** (deslocamento horizontal e deformação), **medidor de vazão** (vazão do sistema de drenagem interna, cujo aumento com carreamento de material é sinal de erosão interna), **marco superficial** (deslocamento da superfície), **régua ou sensor de nível** (nível do reservatório) |
+| **Percolação** | Fluxo de água pelo interior do maciço ou da fundação. Controlada pelo sistema de drenagem interna, é normal; surgência a jusante com carreamento de material ou com vazão crescente indica erosão interna e é uma das anomalias mais graves |
+| **Recalque** | Assentamento vertical do maciço ou da fundação. Trincas e abatimentos associados a recalque diferencial são anomalia estrutural |
+| **Mancha de inundação** | Delimitação geográfica da área que seria atingida em caso de rompimento, produzida por estudo de ruptura hipotética (*dam break*) do empreendedor. É o insumo indispensável da dimensão C do IDAP. **Nenhuma das 1.248 barragens de MT tem mancha carregada neste projeto** |
+| **Tempo de chegada da onda** | Tempo entre o rompimento e a chegada da onda de cheia a um ponto a jusante. Define se existe possibilidade de resposta assistida: abaixo de 30 minutos, apenas o autossalvamento é viável — critério que define a própria ZAS. Indicador C6 do IDAP |
+| **Nível de emergência** | Escala oficial de emergência de barragem de mineração no SIGBM: Sem emergência, Nível de Alerta, Emergência Nível 1, Nível 2 e Nível 3. Níveis 2 e 3 disparam a regra determinística R01 do IDAP. Em MT, 16 barragens estão em Nível 1 e 2 em Nível de Alerta nesta carga |
+
+## 10.2 Vigilância em saúde e gestão de desastres
+
+| Termo | Definição |
+| --- | --- |
+| **Vigidesastres** | Vigilância em Saúde Ambiental relacionada aos Riscos Associados aos Desastres, do Ministério da Saúde. Estrutura a análise da situação de saúde **antes, durante e depois** de emergências e desastres, com uso de sistemas oficiais de informação, monitoramento de áreas de risco e de populações vulneráveis. É a diretriz nacional à qual esta plataforma se alinha |
+| **VIGIPÓS** | Vigilância pós-evento. Neste projeto, **VIGIPÓS-BARRAGENS** é o módulo de vigilância em saúde pós-desastre com barragens, especificado em `docs/05-vigipos-barragens.md` |
+| **Vigiagua** | Programa Nacional de Vigilância em Saúde Ambiental Relacionada à Qualidade da Água para Consumo Humano. Responsável pelo controle e vigilância da potabilidade, com parâmetros definidos pela Portaria GM/MS nº 888/2021, que alterou o Anexo XX da Portaria de Consolidação nº 5/2017. Sistema de informação: Sisagua |
+| **Sisagua** | Sistema de Informação de Vigilância da Qualidade da Água para Consumo Humano. Cadastro de sistemas e soluções de abastecimento, pontos de captação e resultados de análises |
+| **CIEVS** | Centro de Informações Estratégicas em Vigilância em Saúde. Estrutura de detecção, verificação e resposta a emergências em saúde pública, com plantão permanente. Existe nas esferas nacional, estadual e em municípios habilitados |
+| **COE** | Centro de Operações de Emergência. Estrutura temporária de coordenação da resposta a uma emergência em saúde pública, ativada quando o evento excede a capacidade de resposta rotineira |
+| **Sala de Situação** | Espaço, físico ou virtual, de monitoramento contínuo e apoio à decisão, com dados atualizados, mapas, indicadores e representantes das áreas envolvidas. Neste projeto é uma das saídas da arquitetura (§6.2) |
+| **SITREP** | *Situation Report*, relatório de situação. Documento periódico e padronizado que consolida a situação do evento: o que aconteceu, indicadores, ações executadas, pendências e próximos passos. Produto candidato à geração automática (Fase 4 do roadmap) |
+| **APS** | Atenção Primária à Saúde. Porta de entrada preferencial do SUS: unidades básicas de saúde, equipes de Saúde da Família, agentes comunitários. É a rede que primeiro sente e primeiro deixa de funcionar em um desastre |
+| **Defesa Civil** | Sistema Nacional de Proteção e Defesa Civil (SINPDEC), organizado nas esferas federal, estadual e municipal. Autoridade competente para determinar evacuação — atribuição que **não** pertence a esta plataforma nem à IA (§6.5.2) |
+| **Semana epidemiológica** | Unidade padrão de agregação temporal em vigilância epidemiológica, iniciando no domingo, com numeração de 1 a 52 ou 53 no ano. Base de comparação de todos os indicadores de excesso de agravos |
+| **Síndrome (vigilância sindrômica)** | Agrupamento de sinais e sintomas usado para detectar eventos antes da confirmação diagnóstica. As nove síndromes recomendadas neste projeto: diarreica, febril, febril-ictérica, respiratória, dermatológica, neurológica, intoxicação, traumática e sofrimento mental agudo |
+| **Canal endêmico** | Faixa de variação histórica esperada de um agravo, por semana epidemiológica, construída a partir de série de anos anteriores. Método clássico de detecção de excesso |
+| **CUSUM** | *Cumulative Sum*. Método de controle estatístico que acumula desvios sucessivos em relação ao esperado. Detecta mudanças pequenas e persistentes que um limite fixo não capta |
+| **EWMA** | *Exponentially Weighted Moving Average*, média móvel com ponderação exponencial. Dá mais peso às observações recentes; útil para detecção rápida em série curta |
+| **Razão O/E** | Razão entre casos observados e casos esperados no período. Valor 1 indica o esperado; valores acima indicam excesso. No exemplo trabalhado de leptospirose da §5.6.4: 12 observados, 1,8 esperado, razão 6,7 — sinal crítico |
+| **Controle sintético** | Método que constrói um "município de comparação" artificial, combinando municípios não atingidos, para estimar o que teria acontecido sem o desastre |
+| **Séries temporais interrompidas** | Desenho que compara a série antes e depois de um ponto de intervenção conhecido (o desastre), estimando mudança de nível e de tendência |
+
+## 10.3 Sistemas de informação em saúde citados
+
+| Sigla | Nome | O que fornece | Limitação para uso em desastre |
+| --- | --- | --- | --- |
+| **CNES** | Cadastro Nacional de Estabelecimentos de Saúde | Unidades, equipes, leitos, equipamentos, serviços, profissionais e ambulâncias | Representa **capacidade cadastrada**, com atualização periódica. Precisa ser complementado por informação operacional do momento: unidade funcionando ou interditada, profissionais presentes, leitos realmente disponíveis, estoque, energia, água, oxigênio e acesso viário |
+| **SINAN** | Sistema de Informação de Agravos de Notificação | Notificação de agravos de interesse: leptospirose, acidentes com animais peçonhentos, doenças transmitidas por água e alimentos, intoxicações exógenas, acidentes de trabalho, tétano acidental, violência | Essencial para vigilância, mas a **oportunidade da notificação varia por agravo e por fluxo local**. Exige complemento por ficha rápida durante o evento |
+| **SIM** | Sistema de Informações sobre Mortalidade | Mortalidade geral e por causa: causas externas, afogamentos, traumatismos, doenças infecciosas, cardiovasculares, respiratórias, suicídios, mortalidade infantil, mortalidade por território | Há intervalo entre ocorrência, investigação, codificação e consolidação. Serve para **linha de base, excesso de mortalidade e análise de médio e longo prazo — não para alerta imediato** |
+| **SIH** | Sistema de Informações Hospitalares | Internações hospitalares no SUS, por procedimento, diagnóstico e município | Base de faturamento: latência de semanas e cobertura restrita ao SUS |
+| **SIA** | Sistema de Informações Ambulatoriais | Produção ambulatorial do SUS | Mesma limitação de latência e de finalidade de faturamento |
+| **e-SUS APS** | Estratégia e sistema de informação da Atenção Primária | Atendimentos individuais, condições avaliadas, procedimentos e visitas domiciliares na APS | Cobertura e regularidade de envio variam por município |
+| **SISREG** | Sistema Nacional de Regulação | Solicitações e autorizações de internação e de procedimentos, fila de transferência | Reflete o que foi regulado, não necessariamente o que foi realizado |
+| **SAMU** | Serviço de Atendimento Móvel de Urgência | Ocorrências, tempo-resposta, frota operacional, natureza dos atendimentos | Cobertura territorial desigual; nem todo município é coberto |
+| **GAL** | Gerenciador de Ambiente Laboratorial | Solicitação e resultado de exames na rede de laboratórios de saúde pública | Latência entre coleta e resultado é indicador em si (§5.5.2) |
+| **LACEN** | Laboratório Central de Saúde Pública | Diagnóstico laboratorial de referência estadual | Capacidade finita; em surto, a fila cresce |
+| **Renaveh** | Rede Nacional de Vigilância Epidemiológica Hospitalar | Notificação de agravos a partir do ambiente hospitalar | Restrita aos hospitais integrantes da rede |
+
+## 10.4 Índices e conceitos deste projeto
+
+| Termo | Definição |
+| --- | --- |
+| **VIGIBARRAGENS–MT / Saúde 360** | Nome da plataforma estadual de alerta precoce, monitoramento de impactos e vigilância pós-desastre associada a barragens em Mato Grosso, especificada nesta documentação |
+| **IDAP** | **Índice Dinâmico de Alerta e Prontidão**, escala 0–100, criação deste projeto. Quatro dimensões: A — Pressão hidroclimática (30 pontos), B — Condição da barragem (30), C — Impacto sanitário potencial (25), D — Déficit de capacidade de resposta (15). Classifica em cinco faixas: 0–19 Verde (normalidade), 20–39 Amarelo (atenção), 40–59 Laranja (mobilização), 60–79 Vermelho (emergência potencial), 80–100 Roxo (resposta crítica). **Não calcula probabilidade de rompimento**: calcula nível de atenção e prontidão para o setor saúde. Especificado em `docs/03-idap.md` e implementado em `scripts/idap/` |
+| **Completude do IDAP** | Percentual dos pontos possíveis do índice cujos indicadores tinham dado disponível no momento do cálculo. Um IDAP de 30 com completude de 40% significa coisa muito diferente de um IDAP de 30 com completude de 95%. Todo IDAP exibido vem acompanhado da completude |
+| **IDAP projetado** | Valor que o índice atingiria se as lacunas fossem preenchidas com pontuação máxima. Serve para mostrar o pior caso compatível com a ignorância atual |
+| **Regra determinística de sobreposição** | Regra (R01 a R09) que eleva o nível de alerta **independentemente** da pontuação calculada, quando uma condição crítica é verificada — por exemplo, rompimento confirmado ou emergência oficial de nível 2 ou 3. Garante que o índice nunca produza tranquilidade diante de fato grave |
+| **IPAPD** | **Índice de Pressão Assistencial Pós-Desastre**, escala 0–1, criação deste projeto. Combinação ponderada de seis termos normalizados: `IPAPD = 0,25·Ocupação + 0,20·Aumento de atendimentos + 0,15·Indisponibilidade de profissionais + 0,15·Perda de acesso + 0,15·Autonomia crítica + 0,10·Interrupção de serviços`. Definido em `docs/05-vigipos-barragens.md` §5.5.5 |
+| **IRS** | **Índice de Recuperação Sanitária**, escala 0–1, criação deste projeto. Média das onze dimensões da recuperação: restabelecimento da APS, funcionamento hospitalar, retorno do abastecimento de água, acesso rodoviário, retorno das equipes, redução da população em abrigos, controle dos agravos, recuperação da rede de frio, continuidade dos tratamentos, acompanhamento de saúde mental e monitoramento ambiental. Definido em `docs/05-vigipos-barragens.md` §5.5.7 |
+| **Ficha rápida de saúde pós-desastre** | Formulário curto, preenchível em minutos, para captura de informação de saúde durante o evento, quando os sistemas oficiais ainda não refletem o que está acontecendo. Quatro blocos: Evento, Saúde, Serviços, e Água e ambiente. Especificado campo a campo em `docs/05-vigipos-barragens.md` §5.4 |
+| **Escopo negativo** | Declaração explícita do que a plataforma **não** faz. O caso mais importante: o sistema não calcula probabilidade automática de rompimento — isso exigiria modelos de engenharia e instrumentação da estrutura. Declarar o escopo negativo evita que o produto seja usado para o que ele não pode fazer |
+| **Máquina de estados de entrega** | Modelo que define os estados pelos quais um alerta passa (emitido, enviado, entregue tecnicamente, confirmado, escalonado, encerrado) e as transições entre eles. Um alerta só é considerado **entregue** após confirmação de recebimento, identificação do responsável e registro da hora. Definida em `docs/04-alertas.md` §4.6 |
+| **Versão de pesos** | Identificador da calibração usada em um cálculo, no formato `MAJOR.MINOR.PATCH-qualificador` — a atual é `0.1.0-metodologica`. Todo cálculo gravado registra a versão, sem o que nenhuma comparação histórica é válida |
+
+## 10.5 Fontes de dado ambiental e sensoriamento
+
+| Termo | Definição |
+| --- | --- |
+| **INMET** | Instituto Nacional de Meteorologia. Rede de estações automáticas com observação horária de precipitação, temperatura, umidade, pressão, vento e rajada |
+| **Cemaden** | Centro Nacional de Monitoramento e Alertas de Desastres Naturais. Fornece chuva acumulada e intensidade em pluviômetros automáticos, estações hidrológicas, radares onde disponíveis, previsão de risco geo-hidrológico e rede observacional |
+| **RHN** | Rede Hidrometeorológica Nacional, operada pela ANA. Chuva, nível, vazão, qualidade da água e sedimentos, com telemetria em parte das estações |
+| **GPM-IMERG** | *Global Precipitation Measurement — Integrated Multi-satellitE Retrievals for GPM*. Estimativa de precipitação por satélite em grade de 0,1°, a cada 30 minutos. **Early Run** com latência nominal de cerca de 4 horas; **Late Run** com latência maior e mais observações incorporadas |
+| **Sentinel-1** | Satélite de radar (SAR) do programa Copernicus. Opera **com nuvem e à noite**, o que o torna o sensor de escolha para delimitar área alagada durante o evento. **Não é sensor contínuo da barragem**: depende do horário da passagem orbital, da área coberta, da latência e do processamento. Complementa, mas não substitui, piezômetros, inclinômetros, medidores de vazão, sensores de nível, inspeções técnicas e telemetria própria |
+| **Sentinel-2** | Satélite óptico do Copernicus, resolução de 10 m, revisita de 5 dias. Útil para alterações no reservatório, exposição de solo, uso e cobertura, moradias novas em área de risco, avaliação de danos, vegetação e turbidez aparente. Limitação estrutural: **nuvem** — e a cobertura de nuvem é justamente maior durante chuva intensa |
+| **Landsat** | Série de satélites ópticos da NASA/USGS, resolução de 30 m, série histórica desde os anos 1970. Mesmo uso e mesma limitação de nuvem do Sentinel-2 |
+| **CBERS** | *China-Brazil Earth Resources Satellite*, programa conjunto Brasil–China operado no Brasil pelo INPE. Mesmo uso e mesma limitação de nuvem |
+| **Copernicus EMS** | *Copernicus Emergency Management Service*. Serviço europeu de mapeamento de emergência: delimitação de inundação, monitoramento e avaliação de danos. Acionável pela Defesa Civil ou por autoridade autorizada, em desastre de maior magnitude |
+| **GloFAS** | *Global Flood Awareness System*. Previsão diária de inundação e perspectiva sazonal em escala global. Sinal **complementar** e indicador de contexto regional; nunca substitui dado local de ANA, SEMA-MT, Cemaden ou empreendedor |
+| **Tempo quase real** | Expressão adotada deliberadamente nesta documentação em lugar de "tempo real". Todo produto de dado tem atraso de aquisição, de transmissão e de processamento: uma estação transmite a cada hora, o IMERG Early Run tem cerca de 4 horas de latência, uma imagem de satélite depende da passagem orbital. Chamar isso de "tempo real" cria uma expectativa falsa sobre a capacidade de reação do sistema |
+| **Saturação antecedente do solo** | Estimativa de quanto o solo da bacia já está encharcado antes da chuva atual, calculada a partir da chuva dos dias anteriores. Determina quanto da chuva nova vira escoamento imediato. Indicador A5 do IDAP |
+| **Percentil climatológico da chuva** | Posição da chuva observada na distribuição histórica daquele local e daquela época do ano. 80 mm em 24 h pode ser rotina em uma bacia e recorde em outra; o percentil normaliza essa diferença. Indicador A4 do IDAP |
+
+## 10.6 Termos técnicos de arquitetura
+
+| Termo | Definição |
+| --- | --- |
+| **PostGIS** | Extensão geoespacial do PostgreSQL. Fornece tipos de geometria e operações espaciais (interseção, buffer, distância, área) que uma ferramenta de visualização não substitui |
+| **TimescaleDB** | Extensão do PostgreSQL para séries temporais. Recomendada por permitir junção direta entre séries de chuva/nível/vazão e as tabelas relacionais do cadastro, sem integração entre bancos distintos |
+| **WebGIS** | Aplicação de mapas na web, com camadas, consulta espacial e interação. Neste projeto, a interface operacional para manchas, exposição e análise territorial |
+| **ETL** | *Extract, Transform, Load*. Processo de extração da fonte, transformação e carga no banco. Neste projeto, os coletores em `scripts/` |
+| **Proveniência** | Registro, para cada dado, de onde ele veio, quando foi coletado, a que instante se refere e qual foi a contagem e o hash do conteúdo. Sem proveniência não se sabe qual dado gerou qual alerta |
+| **Bbox** | *Bounding box*, retângulo envolvente. O de Mato Grosso, usado nos coletores, é `(-61,85; -18,25; -50,00; -7,15)` em graus decimais |
+| **EPSG:4326** | Sistema de referência de coordenadas geográficas WGS 84, em graus decimais de latitude e longitude. Padrão adotado em todos os dados espaciais deste projeto |
+| **LGPD** | Lei Geral de Proteção de Dados Pessoais, Lei nº 13.709/2018. Dado de saúde é **dado pessoal sensível** pelo art. 5º, II. As medidas de proteção adotadas estão em `docs/06-arquitetura.md` §6.6 |
+| **Supressão de célula pequena** | Prática de não publicar contagens muito baixas por localidade — proposta neste projeto: suprimir de 1 a 4 casos — para evitar reidentificação de pessoas em população pequena |
+| **Row Level Security** | Recurso do PostgreSQL que restringe, por perfil de usuário, quais linhas de uma tabela são visíveis. Mecanismo técnico de segregação do dado identificável |

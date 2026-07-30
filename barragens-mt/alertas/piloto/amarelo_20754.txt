@@ -1,0 +1,121 @@
+==============================================================================
+ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
+==============================================================================
+Identificador do alerta : ALERTA-20260730-0958-20754
+Barragem                : Fazenda 3 irmãos (código 20754)
+Município da estrutura  : Cuiabá — MT
+Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
+Empreendedor            : Dorismar Rodrigues dos Santos
+Uso principal           : Aquicultura
+Região de saúde         : Baixada Cuiabana
+Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
+IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
+Nível final             : Amarelo — elevado por regra determinística
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)
+Versão dos pesos        : 0.1.0-metodologica
+
+1. MOTIVOS
+   - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
+   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
+   - [B1] Categoria de Risco (CRI) oficial: Não se Aplica (1 de 5 pontos)
+   - [C1] População residente na Zona de Autossalvamento: 12 habitantes — até 49 residentes (1 de 5 pontos)
+   - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
+   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
+
+   Pontuação por dimensão:
+   - A. Pressão hidroclimática: 5/30 (completude 100%)
+   - B. Condição da barragem: 1/30 (completude 17%)
+   - C. Impacto sanitário potencial: 6/25 (completude 56%)
+   - D. Déficit de capacidade de resposta: 1/15 (completude 7%)
+
+2. POPULAÇÃO POTENCIALMENTE EXPOSTA
+   População residente estimada na ZAS: 12 pessoas.
+   Em grupos prioritários: cerca de 2 pessoas (15%).
+   Material predominante no reservatório: Água sem rejeito.
+
+3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
+   Unidades sem internação na mancha ou sem via de acesso: 3123.
+   Unidades com internação ou urgência: 56.
+   ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
+
+4. MUNICÍPIOS POTENCIALMENTE AFETADOS
+   - Cuiabá
+   - Nossa Senhora do Livramento
+   - Várzea Grande
+
+5. IMPACTO SANITÁRIO POR TIPO DE ESTRUTURA
+   Perfil de estrutura: Barragem de rejeitos / mineração
+   Material considerado: Rejeito não inerte ou perigoso (cadastro / ANM)
+   População potencialmente exposta (estimativa): 12 pessoas [método: area_x_densidade]
+   Área equivalente de lâmina (proxy, não mancha oficial): 0.08 km²
+   Proxy geométrico: área equivalente × densidade média (155.3 hab/km²) dos municípios do vínculo Otto/sede. Cenário de referência do alerta: 50% do volume / lâmina 2 m.
+   Efeitos imediatos a considerar:
+   - Trauma e soterramento por lama de rejeito (alta densidade)
+   - Contaminação química imediata de solo, cursos d'água e captações
+   - Intoxicação aguda (metais, cianeto ou outros conforme minério) — hipótese a confirmar
+   - Isolamento prolongado e interdição de áreas por risco tóxico, além da inundação
+   Agravos / síndromes a vigiar (VIGIPÓS-BARRAGENS):
+   - Intoxicação exógena e síndromes neurológicas / hepáticas / renais compatíveis com metais
+   - Dermatites de contato e lesões de pele por lama
+   - Doenças diarreicas e agravos de veiculação hídrica (água comprometida por longo prazo)
+   - Leptospirose e peçonhentos (como em inundação)
+   - Agravos respiratórios por poeira/particulado após secagem da lama
+   - Efeitos crônicos a médio prazo (exposição a metais) — linha de base e coorte
+   - Sofrimento psíquico e interrupção de cuidados contínuos
+   Ações sanitárias específicas deste perfil:
+   - Acionar Vigiagua + vigilância em saúde ambiental com painel laboratorial ampliado
+   - Suspender captações a jusante até liberação analítica; abastecimento alternativo
+   - Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
+   - Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
+   - Comunicar risco sem ordem de evacuação (competência da Defesa Civil / órgão fiscalizador)
+   - Preparar vigilância de médio prazo (meses a anos) para agravos de exposição química
+   Apoio laboratorial sugerido:
+   - Metais (Hg, As, Pb, Cd, Mn etc. conforme minério) em água e sedimento
+   - Cianeto livre/WAD se houver histórico de processo com cianeto
+   - pH, turbidez, sólidos e parâmetros de potabilidade
+   - Painel clínico conforme síndromes (função renal/hepática, carboxiemoglobina se couber)
+   Ressalva: estimativas de área/população são proxies na ausência de mancha oficial; agravos listados são hipóteses de vigilância, não diagnóstico.
+
+6. REGRAS DETERMINÍSTICAS DISPARADAS
+   - [R06] Falha simultânea de sensores críticos ou cadastro insuficiente — não altera a faixa; ação: emitir alerta técnico ao empreendedor e ao órgão fiscalizador; registrar que o IDAP está subestimado e não pode ser lido como normalidade
+   - [R10] Alerta Cemaden/ANA hidrológico na área da barragem — eleva o alerta a no mínimo Amarelo; ação: cruzar com IDAP e hidro SisClima; confirmar condição da estrutura com o empreendedor; reforçar monitoramento de chuva/nível nas próximas 24–72 h
+   - [R11] Alerta integrado SIS/TITAN hidrológico elevado — eleva o alerta a no mínimo Amarelo; ação: considerar o estágio integrado hidrológico/solo/chuva na priorização; alertas só de calor do SIS não elevam barragem
+
+7. AÇÕES RECOMENDADAS
+   - Acompanhar a evolução da chuva e do nível a jusante nas próximas 24 h.
+   - Confirmar com o empreendedor a condição da estrutura e da instrumentação.
+   - Verificar a vigência do plano de emergência e a lista de contatos dos municípios da ZAS.
+   - [perfil rejeito] Acionar Vigiagua + vigilância em saúde ambiental com painel laboratorial ampliado
+   - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
+   - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
+   - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
+   - Sanar as lacunas de dado que subestimam o índice: B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
+
+8. FONTES DOS DADOS
+   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
+   - CNES cruzado com a mancha de inundação e com as vias de acesso
+   - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
+   - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
+   - INMET (estações automáticas), Cemaden (pluviômetros) e NASA GPM-IMERG
+   - INMET (normais climatológicas) e série histórica das estações da bacia
+   - INMET, Cemaden (risco geo-hidrológico) e GloFAS como contexto regional
+   - SIGBM/ANM — minério principal, produtos químicos, cianeto, classe do resíduo (NBR 10004)
+   - SNISB/ANA (campo CATEGORIA_RISCO) e SIGBM/ANM (Categoria de Risco - CRI)
+   - cadastro de contatos institucionais da plataforma
+   - índice de precipitação antecedente derivado de IMERG/Cemaden; umidade de solo quando disponível
+   - Perfil sanitário: scripts/idap/impacto_sanitario.py (água vs rejeito)
+
+9. RESSALVAS
+   Este alerta não constitui ordem de evacuação. A determinação de evacuação é competência
+   exclusiva da Defesa Civil e das autoridades responsáveis pela estrutura.
+   O IDAP mede nível de atenção e prontidão do setor saúde; não estima
+   probabilidade de rompimento, que depende de modelo de engenharia e de
+   instrumentação da própria barragem.
+   Área/população por lâmina equivalente e agravos listados são hipóteses
+   de vigilância na ausência de mancha oficial — não são diagnóstico.
+   Confirmação de recebimento obrigatória em até 120 min, com identificação
+   do responsável; a ausência de confirmação escalona o alerta (regra R09).
+   Cálculo com completude 50%: o IDAP está subestimado e não deve
+   ser interpretado como ausência de risco.
+==============================================================================

@@ -1,0 +1,4 @@
+# Dependencias de execucao do pipeline (etapas 01 a 15 via executar.py).
+httpx==0.28.1
+matplotlib==3.11.1
+python-docx==1.2.0

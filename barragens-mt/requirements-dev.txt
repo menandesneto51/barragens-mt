@@ -1,0 +1,5 @@
+-r requirements.txt
+
+# Playwright entra apenas para conferir o painel gerado: fornece o Node usado por
+# scripts/_validar_painel.py e captura a imagem de previa em figuras/.
+playwright==1.61.0
