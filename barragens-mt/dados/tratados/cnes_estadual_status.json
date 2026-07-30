@@ -1,8 +1,8 @@
 {
-  "gerado": "2026-07-30T11:44:20",
-  "municipios_alvo": 115,
-  "com_codigo_ibge": 115,
-  "estabelecimentos_eixo_existentes": 3441,
-  "proximo_passo": "Coletar CNES por codigo_municipio (6 dígitos) para municípios sem cobertura, reusando a paginação de scripts/11_cnes_rede_saude.py. Requer acordo de volume/rate-limit com a API Dados Abertos.",
-  "bloqueio": "coleta completa estadual ainda não executada (scaffold)"
+  "gerado": "2026-07-30T14:31:02",
+  "estabelecimentos": 13060,
+  "com_coordenada_mt": 12426,
+  "arquivo_csv": "cnes_estabelecimentos_mt.csv",
+  "arquivo_geojson": "cnes_estabelecimentos_mt.geojson",
+  "bloqueio": null
 }

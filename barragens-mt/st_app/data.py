@@ -178,14 +178,17 @@ def carregar_densidades() -> dict[str, float]:
 
 @st.cache_data(show_spinner=False)
 def carregar_cnes_pontos(so_prioritarios: bool = False) -> pd.DataFrame:
-    """Pontos CNES com coordenada — eixo Cuiabá (todas as US por padrão)."""
+    """Pontos CNES com coordenada — estadual se existir; senão eixo Cuiabá."""
     from cnes_tipos import classificar_estabelecimento
 
-    caminho = TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.geojson"
+    estadual = TRATADOS / "cnes_estabelecimentos_mt.geojson"
+    eixo = TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.geojson"
+    caminho = estadual if estadual.exists() else eixo
     if not caminho.exists():
         return pd.DataFrame()
     geo = json.loads(caminho.read_text(encoding="utf-8"))
     linhas: list[dict] = []
+    vistos: set[tuple[float, float, str]] = set()
     for feicao in geo.get("features") or []:
         geom = feicao.get("geometry") or {}
         props = feicao.get("properties") or {}
@@ -203,6 +206,10 @@ def carregar_cnes_pontos(so_prioritarios: bool = False) -> pd.DataFrame:
         )
         if so_prioritarios and not cls["prioritario"]:
             continue
+        chave = (round(lat, 5), round(lon, 5), nome[:40])
+        if chave in vistos:
+            continue
+        vistos.add(chave)
         linhas.append(
             {
                 "latitude": round(lat, 5),

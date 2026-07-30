@@ -110,3 +110,55 @@ def montar_sitrep_docx(
     buf = io.BytesIO()
     doc.save(buf)
     return buf.getvalue()
+
+
+def montar_sitrep_pdf(
+    df: pd.DataFrame,
+    *,
+    municipio: str | None = None,
+    proj: dict[str, Any] | None = None,
+    tend_clima: str | None = None,
+) -> bytes:
+    """PDF simples de 1 página (fpdf2)."""
+    from fpdf import FPDF
+
+    md = montar_sitrep_md(df, municipio=municipio, proj=proj, tend_clima=tend_clima)
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=14)
+    pdf.set_margins(14, 14, 14)
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=10)
+    largura = pdf.epw
+    for linha in md.splitlines():
+        if linha.startswith("---") or not linha.strip():
+            pdf.ln(3)
+            continue
+        bruto = linha
+        if bruto.startswith("# "):
+            bruto = bruto[2:]
+            pdf.set_font("Helvetica", "B", 14)
+            h = 7
+        elif bruto.startswith("## "):
+            bruto = bruto[3:]
+            pdf.set_font("Helvetica", "B", 11)
+            h = 6
+        else:
+            if bruto.startswith("- "):
+                bruto = "* " + bruto[2:]
+            pdf.set_font("Helvetica", size=10)
+            h = 5
+        texto = (
+            bruto.replace("**", "")
+            .replace("—", "-")
+            .replace("→", "->")
+            .encode("latin-1", "replace")
+            .decode("latin-1")
+            .strip()
+        )
+        if not texto:
+            continue
+        pdf.multi_cell(largura, h, texto)
+    out = pdf.output()
+    if isinstance(out, (bytes, bytearray)):
+        return bytes(out)
+    return bytes(out)

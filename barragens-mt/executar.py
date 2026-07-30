@@ -58,6 +58,7 @@ ETAPAS = [
     ("30", "30_cnes_estadual_scaffold.py", "Scaffold CNES estadual (municípios-alvo)", True),
     ("31", "31_onda3_scaffolds.py", "Scaffolds PAE / Sisagua / VIGIPÓS", True),
     ("32", "32_rag_indice_docs.py", "Índice documental RAG leve", True),
+    ("33", "33_cnes_estadual.py", "Coleta CNES estadual (municípios com barragem)", True),
 ]
 
 

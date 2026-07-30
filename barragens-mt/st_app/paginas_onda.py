@@ -30,7 +30,7 @@ from st_app.indicadores import (
     tendencia_7d_score,
     tendencia_idap_48h,
 )
-from st_app.sitrep import montar_sitrep_docx, montar_sitrep_md
+from st_app.sitrep import montar_sitrep_docx, montar_sitrep_md, montar_sitrep_pdf
 
 
 def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
@@ -118,28 +118,36 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
         proj=proj,
         tend_clima=msg_t,
     )
-    c_dl1, c_dl2 = st.columns(2)
+    stem = f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}"
+    c_dl1, c_dl2, c_dl3 = st.columns(3)
     with c_dl1:
         st.download_button(
             "Baixar SITREP (Markdown)",
             data=sitrep.encode("utf-8"),
-            file_name=f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}.md",
+            file_name=f"{stem}.md",
             mime="text/markdown",
             help="Relatório de situação de 1 página para o recorte atual.",
         )
     with c_dl2:
         try:
-            docx_bytes = montar_sitrep_docx(
-                df, municipio=mun_ativo, proj=proj, tend_clima=msg_t
-            )
             st.download_button(
                 "Baixar SITREP (DOCX)",
-                data=docx_bytes,
-                file_name=f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}.docx",
+                data=montar_sitrep_docx(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
+                file_name=f"{stem}.docx",
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             )
         except Exception as exc:  # noqa: BLE001
             st.caption(f"DOCX indisponível ({exc})")
+    with c_dl3:
+        try:
+            st.download_button(
+                "Baixar SITREP (PDF)",
+                data=montar_sitrep_pdf(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
+                file_name=f"{stem}.pdf",
+                mime="application/pdf",
+            )
+        except Exception as exc:  # noqa: BLE001
+            st.caption(f"PDF indisponível ({exc})")
 
 
 def bloco_quase_atencao(df: pd.DataFrame) -> None:
@@ -389,30 +397,74 @@ def pagina_alertabilidade_despacho() -> None:
         st.subheader("Pendências de alertabilidade")
         st.dataframe(al, use_container_width=True, hide_index=True, height=280)
 
+    st.subheader("Validar contato (rápido)")
+    ct = carregar_contatos()
+    if not ct.empty:
+        mun_opt = sorted(ct["municipio"].dropna().unique().tolist())
+        papel_opt = sorted(ct["papel"].dropna().unique().tolist()) if "papel" in ct.columns else []
+        with st.form("validar_contato"):
+            mun_v = st.selectbox("Município", mun_opt)
+            papel_v = st.selectbox("Papel", papel_opt)
+            tel_v = st.text_input("Telefone / celular")
+            email_v = st.text_input("E-mail")
+            nome_v = st.text_input("Nome do responsável")
+            ok_v = st.form_submit_button("Gravar validação (hoje)")
+        if ok_v:
+            import datetime as dt
+
+            caminho = TRATADOS / "contatos_institucionais_piloto.csv"
+            df_ct = pd.read_csv(caminho, sep=";", encoding="utf-8-sig", dtype=str).fillna("")
+            mask = (df_ct["municipio"] == mun_v) & (df_ct["papel"] == papel_v)
+            if mask.any():
+                if nome_v:
+                    df_ct.loc[mask, "nome"] = nome_v
+                if tel_v:
+                    df_ct.loc[mask, "telefone"] = tel_v
+                if email_v:
+                    df_ct.loc[mask, "email"] = email_v
+                df_ct.loc[mask, "data_validacao"] = dt.date.today().isoformat()
+                df_ct.loc[mask, "fonte"] = "validacao_ui"
+                df_ct.to_csv(caminho, sep=";", index=False, encoding="utf-8-sig")
+                st.success(
+                    f"Contato {papel_v} em {mun_v} validado. "
+                    "Rode `python executar.py 19 16 18` para propagar alertável/D8."
+                )
+            else:
+                st.warning("Linha não encontrada no CSV de contatos.")
+
     st.subheader("Despacho (fila)")
     fila_dir = Path(__file__).resolve().parent.parent / "alertas" / "piloto"
     log_path = TRATADOS / "despacho_alertas_log.csv"
+    import importlib.util
+    import sys
+
+    raiz = Path(__file__).resolve().parent.parent
+    if str(raiz) not in sys.path:
+        sys.path.insert(0, str(raiz))
+    spec = importlib.util.spec_from_file_location(
+        "despacho29",
+        raiz / "scripts" / "29_despacho_alertas.py",
+    )
+    mod = None
+    if spec and spec.loader:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        st_cred = mod.credenciais_status()
+        st.caption(
+            f"Credenciais: Telegram={'ok' if st_cred['telegram'] else 'ausente'} · "
+            f"SMTP={'ok' if st_cred['smtp'] else 'ausente'} "
+            "(secrets `[vigi]` no Cloud ou `despacho_secrets.env`)."
+        )
     if fila_dir.exists():
         textos = sorted(fila_dir.glob("*.txt"))
         st.write(f"Textos de alerta prontos: **{len(textos)}** em `alertas/piloto/`")
-        if st.button("Gerar log de despacho (dry-run)"):
-            import importlib.util
-            import sys
-
-            raiz = Path(__file__).resolve().parent.parent
-            if str(raiz) not in sys.path:
-                sys.path.insert(0, str(raiz))
-            spec = importlib.util.spec_from_file_location(
-                "despacho29",
-                raiz / "scripts" / "29_despacho_alertas.py",
-            )
-            if spec and spec.loader:
-                mod = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(mod)
-                n = mod.despachar(dry_run=True)
-                st.success(f"Dry-run: {n} registros em {log_path.name}")
-            else:
-                st.error("Não foi possível carregar scripts/29_despacho_alertas.py")
+        b1, b2 = st.columns(2)
+        if b1.button("Gerar log de despacho (dry-run)") and mod:
+            n = mod.despachar(dry_run=True)
+            st.success(f"Dry-run: {n} registros em {log_path.name}")
+        if b2.button("Enviar agora (requer credenciais)") and mod:
+            n = mod.despachar(dry_run=False)
+            st.warning(f"Tentativa de envio: {n} registros no log — confira status.")
     else:
         st.info("Pasta alertas/piloto ausente — rode a etapa 18.")
 

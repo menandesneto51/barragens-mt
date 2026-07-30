@@ -329,6 +329,10 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     quase.sort(key=lambda x: (-(x.get("pa") or 0), -(x.get("cprev") or 0)))
     meta["sanitario"] = {
         "n_atencao": len(aten),
+        "pop_sob_pressao": None,
+        "us_sob_risco": None,
+        "us_prioritarias": None,
+        "razao_pop_us": None,
         "municipios_jusante": len(munis_jus),
         "completude_media": round(med_c, 1) if med_c is not None else None,
         "rejeito_atencao": sum(
@@ -355,11 +359,25 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             }
             for r in quase[:20]
         ],
-        "nota": (
-            "US/pop sob pressão detalhados no Streamlit (buffer CNES + densidade). "
-            "Aqui: território, cadastro e lista de vigília."
-        ),
+        "nota": "Território, cadastro e vigília; pop/US quando CNES estadual disponível.",
     }
+    try:
+        raiz = Path(__file__).resolve().parent.parent
+        if str(raiz) not in sys.path:
+            sys.path.insert(0, str(raiz))
+        from st_app.data import carregar_idap
+        from st_app.indicadores import indicadores_sanitarios
+
+        san = indicadores_sanitarios(carregar_idap())
+        meta["sanitario"]["pop_sob_pressao"] = san.get("pop_sob_pressao")
+        meta["sanitario"]["us_sob_risco"] = san.get("us_sob_risco")
+        meta["sanitario"]["us_prioritarias"] = san.get("us_prioritarias")
+        meta["sanitario"]["razao_pop_us"] = san.get("razao_pop_us")
+        meta["sanitario"]["nota"] = (
+            "População e US via buffer CNES (estadual se disponível) + densidade/SIGBM."
+        )
+    except Exception as exc:  # noqa: BLE001
+        print(f"  sanitário pop/US não calculado: {exc}")
 
     for faixa in ("Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"):
         if meta["niveis"].get(faixa, 0) > 0:
@@ -709,7 +727,11 @@ document.getElementById('kpiHelp').innerHTML =
   const S = META.sanitario || {};
   const el = document.getElementById('sanKpis');
   if (!el) return;
+  const fmtN = (v) => (v==null || v==='') ? '—' : String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const itens = [
+    ['População sob pressão sanitária', fmtN(S.pop_sob_pressao), S.pop_sob_pressao?'sev-atencao':'sev-ok'],
+    ['US na trajetória (proxy)', fmtN(S.us_sob_risco), S.us_sob_risco?'sev-atencao':'sev-ok'],
+    ['US prioritárias no buffer', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
     ['Municípios a jusante em atenção', S.municipios_jusante, 'sev-atencao'],
     ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
       (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],

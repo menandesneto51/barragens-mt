@@ -4,3 +4,7 @@ __pycache__/
 
 # Respostas cruas das APIs: sao regeneraveis e somam dezenas de MB.
 dados/brutos/
+
+# Segredos de despacho (nunca versionar)
+.streamlit/secrets.toml
+dados/tratados/despacho_secrets.env

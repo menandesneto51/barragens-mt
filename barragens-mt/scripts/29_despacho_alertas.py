@@ -33,6 +33,86 @@ FILA = comum.RAIZ / "alertas" / "piloto"
 LOG = comum.DADOS_TRATADOS / "despacho_alertas_log.csv"
 CONTATOS = comum.DADOS_TRATADOS / "contatos_institucionais_piloto.csv"
 
+_CHAVES_ENV = (
+    "VIGI_TELEGRAM_BOT_TOKEN",
+    "VIGI_TELEGRAM_CHAT_ID",
+    "VIGI_SMTP_HOST",
+    "VIGI_SMTP_PORT",
+    "VIGI_SMTP_USER",
+    "VIGI_SMTP_PASS",
+    "VIGI_SMTP_FROM",
+)
+
+
+_ALIAS_SECRET = {
+    "VIGI_TELEGRAM_BOT_TOKEN": ("telegram_bot_token", "TELEGRAM_BOT_TOKEN"),
+    "VIGI_TELEGRAM_CHAT_ID": ("telegram_chat_id", "TELEGRAM_CHAT_ID"),
+    "VIGI_SMTP_HOST": ("smtp_host", "SMTP_HOST"),
+    "VIGI_SMTP_PORT": ("smtp_port", "SMTP_PORT"),
+    "VIGI_SMTP_USER": ("smtp_user", "SMTP_USER"),
+    "VIGI_SMTP_PASS": ("smtp_pass", "SMTP_PASS"),
+    "VIGI_SMTP_FROM": ("smtp_from", "SMTP_FROM"),
+}
+
+
+def _pegar_secret(fonte: Any, *nomes: str) -> str | None:
+    for nome in nomes:
+        try:
+            if hasattr(fonte, "get"):
+                val = fonte.get(nome)
+            else:
+                val = fonte[nome]  # type: ignore[index]
+        except Exception:  # noqa: BLE001
+            val = None
+        if val not in (None, ""):
+            return str(val)
+    return None
+
+
+def _carregar_secrets_locais() -> None:
+    """Injeta secrets do Streamlit / arquivo local se as env vars estiverem vazias."""
+    # 1) Streamlit secrets (Cloud / local .streamlit/secrets.toml)
+    try:
+        import streamlit as st  # type: ignore
+
+        sec = getattr(st, "secrets", None)
+        if sec is not None:
+            try:
+                bloco = sec["vigi"]
+            except Exception:  # noqa: BLE001
+                bloco = sec
+            for chave, aliases in _ALIAS_SECRET.items():
+                if os.environ.get(chave):
+                    continue
+                val = _pegar_secret(bloco, chave, *aliases)
+                if val:
+                    os.environ[chave] = val
+    except Exception:  # noqa: BLE001
+        pass
+
+    # 2) Arquivo simples dados/tratados/despacho_secrets.env (não versionar)
+    env_path = comum.DADOS_TRATADOS / "despacho_secrets.env"
+    if not env_path.exists():
+        return
+    for linha in env_path.read_text(encoding="utf-8").splitlines():
+        linha = linha.strip()
+        if not linha or linha.startswith("#") or "=" not in linha:
+            continue
+        k, _, v = linha.partition("=")
+        k, v = k.strip(), v.strip().strip('"').strip("'")
+        if k in _CHAVES_ENV and v and not os.environ.get(k):
+            os.environ[k] = v
+
+
+def credenciais_status() -> dict[str, bool]:
+    _carregar_secrets_locais()
+    return {
+        "telegram": bool(
+            os.environ.get("VIGI_TELEGRAM_BOT_TOKEN") and os.environ.get("VIGI_TELEGRAM_CHAT_ID")
+        ),
+        "smtp": bool(os.environ.get("VIGI_SMTP_HOST") and os.environ.get("VIGI_SMTP_FROM")),
+    }
+
 
 def ler_contatos() -> list[dict[str, str]]:
     if not CONTATOS.exists():
@@ -48,6 +128,7 @@ def textos_fila() -> list[Path]:
 
 
 def enviar_telegram(texto: str) -> tuple[bool, str]:
+    _carregar_secrets_locais()
     token = os.environ.get("VIGI_TELEGRAM_BOT_TOKEN", "").strip()
     chat = os.environ.get("VIGI_TELEGRAM_CHAT_ID", "").strip()
     if not token or not chat:
@@ -65,6 +146,7 @@ def enviar_telegram(texto: str) -> tuple[bool, str]:
 
 
 def enviar_email(assunto: str, texto: str, destinatarios: list[str]) -> tuple[bool, str]:
+    _carregar_secrets_locais()
     host = os.environ.get("VIGI_SMTP_HOST", "").strip()
     user = os.environ.get("VIGI_SMTP_USER", "").strip()
     password = os.environ.get("VIGI_SMTP_PASS", "").strip()

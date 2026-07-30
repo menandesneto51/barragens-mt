@@ -59,8 +59,11 @@ def ler_csv(caminho: Path) -> list[dict[str, Any]]:
 
 
 def telefone_hospital_por_municipio() -> dict[str, dict[str, str]]:
-    """Melhor candidato a hospital de referência por município (CNES do eixo)."""
-    rows = ler_csv(comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv")
+    """Melhor candidato a hospital de referência por município (CNES estadual ou eixo)."""
+    estadual = comum.DADOS_TRATADOS / "cnes_estabelecimentos_mt.csv"
+    eixo = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    rows = ler_csv(estadual if estadual.exists() else eixo)
+    fonte = "cnes_estadual" if estadual.exists() else "cnes_eixo"
     melhor: dict[str, dict[str, str]] = {}
     for r in rows:
         mun = (r.get("municipio") or "").strip()
@@ -74,7 +77,12 @@ def telefone_hospital_por_municipio() -> dict[str, dict[str, str]]:
         atual = melhor.get(mun)
         # Preferir quem tem telefone.
         if atual is None or (tel and not atual.get("telefone")):
-            melhor[mun] = {"nome": nome, "telefone": tel, "cnes": r.get("codigo_cnes") or ""}
+            melhor[mun] = {
+                "nome": nome,
+                "telefone": tel,
+                "cnes": r.get("codigo_cnes") or "",
+                "fonte": fonte,
+            }
     return melhor
 
 
@@ -123,7 +131,7 @@ def gerar_contatos(interesse: dict[str, Any]) -> list[dict[str, Any]]:
             if papel == "hospital_referencia" and hosp:
                 nome_contato = hosp.get("nome") or ""
                 telefone = hosp.get("telefone") or ""
-                fonte = "cnes_eixo" if nome_contato else "esqueleto"
+                fonte = hosp.get("fonte") or ("cnes_eixo" if nome_contato else "esqueleto")
             linhas.append(
                 {
                     "municipio": nome,
