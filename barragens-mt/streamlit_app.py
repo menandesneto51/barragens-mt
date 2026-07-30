@@ -37,8 +37,12 @@ from st_app.data import (
 )
 from st_app.mapa_sim import html_mapa_simulacao
 from st_app.paginas_onda import (
+    bloco_atalhos_comando,
     bloco_quase_atencao,
-    bloco_sanitario_e_historico,
+    bloco_sanitario_compacto,
+    bloco_sitrep_downloads,
+    faixa_titulo,
+    frescor_chips_html,
     pagina_alertabilidade_despacho,
     pagina_confirmacao_persistente,
     pagina_extraterritorial,
@@ -46,8 +50,37 @@ from st_app.paginas_onda import (
     pagina_rag_docs,
     pagina_regiao_saude,
     pagina_vulneraveis,
+    tendencia_unificada,
 )
 from st_app.style import CSS
+
+JORNADAS: dict[str, list[str]] = {
+    "Situação": [
+        "Comando estadual",
+        "Hidro municipal",
+        "Eixo Manso–Cuiabá",
+    ],
+    "Território": [
+        "Populações vulneráveis",
+        "Impacto extraterritorial",
+        "Mapa por tipologia",
+        "Barragem 360°",
+    ],
+    "Ação": [
+        "Alertabilidade / despacho",
+        "Fila de alertas",
+        "Confirmação persistente",
+        "Ficha rápida",
+        "Simulação volume/área",
+    ],
+    "Dados e apoio": [
+        "Interpretação / KPIs",
+        "Região de saúde",
+        "Documentos (RAG leve)",
+        "Inventário",
+        "Confirmação (HTML)",
+    ],
+}
 
 st.set_page_config(
     page_title="VIGIBARRAGENS–MT",
@@ -74,8 +107,8 @@ def _semaforo(df: pd.DataFrame) -> str:
 def pagina_comando(df: pd.DataFrame) -> None:
     st.markdown("# VIGIBARRAGENS–MT")
     st.markdown(
-        '<p class="nota">Comando estadual — prontidão sanitária diante de barragens, '
-        "clima e previsão. Primeira leitura em linguagem operacional (sem siglas).</p>",
+        '<p class="nota">Comando estadual — <b>como está Mato Grosso agora</b> e '
+        "onde olhar primeiro. Linguagem operacional (sem siglas na 1ª leitura).</p>",
         unsafe_allow_html=True,
     )
     if df.empty:
@@ -84,6 +117,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
     munis = municipios_catalogo(df)
     from st_app.indicadores import carregar_contatos
+    from st_app.data import carregar_historico_indice
 
     contatos = carregar_contatos()
     regioes = (
@@ -94,20 +128,21 @@ def pagina_comando(df: pd.DataFrame) -> None:
     munis_por_regiao: dict[str, set[str]] = {}
     if regioes and "municipio" in contatos.columns:
         for _, row in contatos.dropna(subset=["regiao_saude", "municipio"]).iterrows():
-            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(str(row["municipio"]).strip())
+            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(
+                str(row["municipio"]).strip()
+            )
 
     with st.sidebar:
-        st.header("Filtros")
+        st.header("Filtros do comando")
         mun_sel = st.selectbox(
             "Município",
             ["(estado todo)"] + munis,
-            help="Inclui sede da barragem e municípios potencialmente afetados a jusante "
-            "(a barragem pode estar em outro município).",
+            help="Sede ou potencialmente afetado a jusante.",
         )
         reg_sel = st.selectbox(
             "Região de saúde",
             ["(todas)"] + regioes,
-            help="Filtra municípios do cadastro de contatos do eixo (expansão estadual pendente).",
+            help="Cadastro de contatos do eixo (expansão estadual pendente).",
             disabled=not regioes,
         )
         niveis = st.multiselect(
@@ -124,14 +159,17 @@ def pagina_comando(df: pd.DataFrame) -> None:
     if mun_ativo:
         view = filtrar_municipio(view, mun_ativo)
         st.markdown(
-            f'<p class="nota"><b>Recorte: {mun_ativo}</b> — lista barragens cuja sede é este '
-            "município <b>ou</b> que o têm como potencialmente afetado a jusante em caso de "
-            "rompimento (a estrutura pode estar em outro município).</p>",
+            f'<p class="nota"><b>Recorte: {mun_ativo}</b> — sede <b>ou</b> jusante '
+            "(a barragem pode estar em outro município).</p>",
             unsafe_allow_html=True,
         )
     elif reg_sel != "(todas)" and reg_sel in munis_por_regiao:
         alvos = munis_por_regiao[reg_sel]
-        mask = view["municipio_sede"].isin(alvos) if "municipio_sede" in view.columns else pd.Series(False, index=view.index)
+        mask = (
+            view["municipio_sede"].isin(alvos)
+            if "municipio_sede" in view.columns
+            else pd.Series(False, index=view.index)
+        )
         if "municipios_potencialmente_afetados" in view.columns:
             mask = mask | view["municipios_potencialmente_afetados"].fillna("").apply(
                 lambda t: any(m in str(t).split("|") for m in alvos)
@@ -139,7 +177,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
         view = view.loc[mask].copy()
         st.markdown(
             f'<p class="nota"><b>Região de saúde: {reg_sel}</b> — '
-            f"{len(alvos)} município(s) no cadastro de contatos.</p>",
+            f"{len(alvos)} município(s) no cadastro.</p>",
             unsafe_allow_html=True,
         )
     if niveis:
@@ -161,11 +199,6 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
     base_kpi = view
     sem = _semaforo(base_kpi)
-    st.markdown(
-        f"**Prontidão no recorte:** {_badge(sem)} — {len(base_kpi)} barragens",
-        unsafe_allow_html=True,
-    )
-
     cont = base_kpi["nivel"].value_counts()
     amarelo_mais = int(
         cont.get("Amarelo", 0)
@@ -200,6 +233,12 @@ def pagina_comando(df: pd.DataFrame) -> None:
         seta = "▲" if v > 0 else "▼" if v < 0 else "→"
         return f"{seta} {v:+d} vs rodada anterior"
 
+    # —— Faixa 1: Agora ——
+    faixa_titulo("1", "Agora", "Prontidão do recorte e tendência que manda na decisão")
+    st.markdown(
+        f"**Prontidão:** {_badge(sem)} — {len(base_kpi)} barragens no recorte",
+        unsafe_allow_html=True,
+    )
     cards = [
         card_kpi("Barragens no recorte", str(len(base_kpi)), sev="sev-neutro"),
         card_kpi(
@@ -210,16 +249,15 @@ def pagina_comando(df: pd.DataFrame) -> None:
             nota=f"{pct_atencao:.0f}% do recorte",
         ),
         card_kpi(
-            "Só faixa amarela",
-            str(int(cont.get("Amarelo", 0))),
-            sev="sev-atencao" if cont.get("Amarelo", 0) else "sev-ok",
-            delta=_delta(tend.get("amarelo")),
-        ),
-        card_kpi(
             "Situação estável (verde)",
             str(int(cont.get("Verde", 0))),
             sev="sev-ok",
             delta=_delta(tend.get("verde")),
+        ),
+        card_kpi(
+            "Com canal de alerta",
+            str(int(alertaveis)),
+            sev="sev-ok" if alertaveis else "sev-atencao",
         ),
         card_kpi(
             "Eixo Manso–Cuiabá",
@@ -227,191 +265,30 @@ def pagina_comando(df: pd.DataFrame) -> None:
             sev="sev-neutro",
             nota=f"{piloto_ama} em atenção+",
         ),
-        card_kpi(
-            "Com canal de alerta",
-            str(int(alertaveis)),
-            sev="sev-ok" if alertaveis else "sev-atencao",
-        ),
     ]
     st.markdown('<div class="grade-kpis">' + "".join(cards) + "</div>", unsafe_allow_html=True)
+    sev_u, msg_u = tendencia_unificada(base_kpi)
+    st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
+    st.markdown(frescor_chips_html(), unsafe_allow_html=True)
+    bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
 
-    proj = projecao_semana(base_kpi)
-    sev_t, msg_t = tendencia_climatica_texto(proj, base_kpi)
-    st.markdown(
-        f'<div class="tend-box {sev_t}"><b>Tendência para os próximos dias</b><br>{msg_t}</div>',
-        unsafe_allow_html=True,
-    )
+    # —— Faixa 2: Pessoas e resposta ——
+    faixa_titulo("2", "Pessoas e resposta", "Exposição sanitária e capacidade assistencial sob pressão")
+    bloco_sanitario_compacto(base_kpi)
 
+    # —— Faixa 3: Onde olhar ——
+    faixa_titulo("3", "Onde olhar", "Mapa, Top 15 e lista de vigília (quase atenção)")
     if mun_ativo:
-        pagina_municipio_360(base_kpi, mun_ativo)
-        bloco_quase_atencao(base_kpi)
-        st.divider()
-    else:
-        bloco_sanitario_e_historico(base_kpi, mun_ativo=None)
-        bloco_quase_atencao(base_kpi)
-
-    st.subheader("Painel de situação (cores = gravidade)")
-    idap_max = float(base_kpi["idap_n"].max()) if "idap_n" in base_kpi.columns else 0
-    idap_med = float(base_kpi["idap_n"].mean()) if "idap_n" in base_kpi.columns else 0
-    a_med = float(base_kpi["pontos_a"].mean()) if "pontos_a" in base_kpi.columns else 0
-    b_med = float(base_kpi["pontos_b"].mean()) if "pontos_b" in base_kpi.columns else 0
-    c_med = float(base_kpi["pontos_c"].mean()) if "pontos_c" in base_kpi.columns else 0
-    d_med = float(base_kpi["pontos_d"].mean()) if "pontos_d" in base_kpi.columns else 0
-    a_pct = 100.0 * a_med / 30.0
-    b_pct = 100.0 * b_med / 30.0
-    c_pct = 100.0 * c_med / 25.0
-    d_pct = 100.0 * d_med / 15.0
-    pressao_a = (
-        int((base_kpi.get("pontos_a", 0) > 0).sum()) if "pontos_a" in base_kpi.columns else 0
-    )
-    chuva24 = float(base_kpi["chuva_24h_mm"].max()) if "chuva_24h_mm" in base_kpi.columns else None
-    chuva72 = float(base_kpi["chuva_72h_mm"].max()) if "chuva_72h_mm" in base_kpi.columns else None
-    prev = (
-        float(base_kpi["chuva_prevista_24_72h_mm"].max())
-        if "chuva_prevista_24_72h_mm" in base_kpi.columns
-        else None
-    )
-    cem = 0
-    if "alerta_cemaden_nivel" in base_kpi.columns:
-        cem = int(
-            base_kpi["alerta_cemaden_nivel"]
-            .fillna("")
-            .str.lower()
-            .isin(["laranja", "vermelha", "vermelho", "roxa", "roxo", "moderado", "alto"])
-            .sum()
-        )
-    regras = base_kpi.get("regras_disparadas", pd.Series(dtype=str)).fillna("")
-    n_regras = int(regras.str.contains(r"R1[012]").sum())
-    cri_alto = (
-        int(base_kpi["categoria_risco"].fillna("").str.lower().eq("alto").sum())
-        if "categoria_risco" in base_kpi.columns
-        else 0
-    )
-    dpa_alto = (
-        int(base_kpi["dano_potencial_associado"].fillna("").str.lower().eq("alto").sum())
-        if "dano_potencial_associado" in base_kpi.columns
-        else 0
-    )
-    ext = (
-        int(
-            (
-                pd.to_numeric(base_kpi.get("n_municipios_extraterritoriais"), errors="coerce").fillna(
-                    0
-                )
-                > 0
-            ).sum()
-        )
-        if "n_municipios_extraterritoriais" in base_kpi.columns
-        else 0
-    )
-
-    def _mm(v):
-        return "—" if v is None else f"{v:.1f} mm".replace(".", ",")
-
-    risco_cards = [
-        card_kpi(
-            "Índice de alerta máximo",
-            f"{idap_max:.0f}",
-            sev=severidade_pct(idap_max),
-            nota="0–100 · quanto maior, mais atenção",
-        ),
-        card_kpi(
-            "Índice de alerta médio",
-            f"{idap_med:.1f}".replace(".", ","),
-            sev=severidade_pct(idap_med),
-        ),
-        card_kpi(
-            "Pressão climática média",
-            f"{a_pct:.0f}%",
-            sev=severidade_pct(a_pct),
-            nota=f"{a_med:.1f} de 30 pontos".replace(".", ","),
-        ),
-        card_kpi(
-            "Condição da estrutura (média)",
-            f"{b_pct:.0f}%",
-            sev=severidade_pct(b_pct),
-            nota=f"{b_med:.1f} de 30 pontos".replace(".", ","),
-        ),
-        card_kpi(
-            "Impacto sanitário potencial",
-            f"{c_pct:.0f}%",
-            sev=severidade_pct(c_pct),
-            nota=f"{c_med:.1f} de 25 pontos".replace(".", ","),
-        ),
-        card_kpi(
-            "Déficit de capacidade de resposta",
-            f"{d_pct:.0f}%",
-            sev=severidade_pct(d_pct),
-            nota=f"{d_med:.1f} de 15 pontos".replace(".", ","),
-        ),
-        card_kpi(
-            "Barragens com pressão climática",
-            str(pressao_a),
-            sev=severidade_pct(100.0 * pressao_a / max(len(base_kpi), 1)),
-        ),
-        card_kpi(
-            "Chuva nas últimas 24 h (máx.)",
-            _mm(chuva24),
-            sev=severidade_pct(None if chuva24 is None else min(100, chuva24)),
-        ),
-        card_kpi(
-            "Chuva nas últimas 72 h (máx.)",
-            _mm(chuva72),
-            sev=severidade_pct(None if chuva72 is None else min(100, chuva72 * 0.5)),
-        ),
-        card_kpi(
-            "Chuva prevista (próximos dias)",
-            _mm(prev),
-            sev=severidade_pct(
-                None
-                if prev is None
-                else (100 if prev >= 140 else 70 if prev >= 80 else 40 if prev >= 40 else 10)
-            ),
-        ),
-        card_kpi(
-            "Alertas oficiais de chuva/hidro",
-            str(cem),
-            sev="sev-alto" if cem else "sev-ok",
-        ),
-        card_kpi(
-            "Alertas externos / previsão extrema",
-            str(n_regras),
-            sev="sev-elevado" if n_regras else "sev-ok",
-        ),
-        card_kpi(
-            "Cadastro: risco estrutural alto",
-            str(cri_alto),
-            sev="sev-alto" if cri_alto else "sev-ok",
-        ),
-        card_kpi(
-            "Cadastro: dano potencial alto",
-            str(dpa_alto),
-            sev="sev-alto" if dpa_alto else "sev-ok",
-        ),
-        card_kpi(
-            "Impacto possível fora da sede",
-            str(ext),
-            sev="sev-atencao" if ext else "sev-ok",
-        ),
-    ]
-    st.markdown(
-        '<div class="grade-kpis">' + "".join(risco_cards) + "</div>",
-        unsafe_allow_html=True,
-    )
-    st.caption(
-        "Verde = confortável · amarelo = atenção · laranja/vermelho/roxo = gravidade crescente. "
-        "Pressão climática em % do teto (ex.: 90% = cenário alto, borda vermelha)."
-    )
-
+        pagina_municipio_360(base_kpi, mun_ativo, incluir_sanitario=False)
     view = view.sort_values("idap_n", ascending=False)
-    esquerda, direita = st.columns([1.35, 1])
-    with esquerda:
-        st.subheader("Mapa por faixa de prontidão")
+    col_mapa, col_listas = st.columns([1.25, 1])
+    with col_mapa:
+        st.markdown("##### Mapa por faixa de prontidão")
         pts = view.dropna(subset=["latitude", "longitude"])
         if pts.empty:
             st.info("Sem coordenadas no recorte filtrado.")
         else:
-            m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="OpenStreetMap")
+            m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
             for _, r in pts.iterrows():
                 cor = CORES_NIVEL.get(r["nivel"], "#888")
                 critico = r["nivel"] != "Verde"
@@ -437,10 +314,10 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 sw = [pts["latitude"].min(), pts["longitude"].min()]
                 ne = [pts["latitude"].max(), pts["longitude"].max()]
                 m.fit_bounds([sw, ne], padding=(30, 30))
-            st_folium(m, width=None, height=520, returned_objects=[])
+            st_folium(m, width=None, height=480, returned_objects=[])
 
-    with direita:
-        st.subheader("Top 15 — olhar primeiro")
+    with col_listas:
+        st.markdown("##### Top 15 — olhar primeiro")
         cols_top = [
             c
             for c in (
@@ -450,32 +327,111 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "municipio_sede",
                 "papel_municipio",
                 "pontos_a",
-                "chuva_24h_mm",
                 "chuva_prevista_24_72h_mm",
                 "alertavel",
+                "completude",
             )
             if c in view.columns
         ]
-        if "completude" in view.columns and "completude" not in cols_top:
-            cols_top.append("completude")
         top = view.head(15)[cols_top].rename(
             columns={
                 "idap": "Índice",
                 "nivel": "Prontidão",
                 "nome": "Barragem",
                 "municipio_sede": "Sede",
-                "papel_municipio": "Papel no município",
+                "papel_municipio": "Papel",
                 "pontos_a": "Pressão clima",
-                "chuva_24h_mm": "Chuva 24h",
                 "chuva_prevista_24_72h_mm": "Chuva prevista",
                 "alertavel": "Alertável",
                 "completude": "Completude",
             }
         )
-        st.caption("Completude baixa no Top 15 = risco de falso verde / índice frágil.")
-        st.dataframe(top, use_container_width=True, hide_index=True, height=520)
+        st.caption("Completude baixa = risco de falso verde.")
+        st.dataframe(top, use_container_width=True, hide_index=True, height=240)
+        bloco_quase_atencao(base_kpi, altura=200)
 
-    st.subheader(f"Fila operacional ({len(view)})")
+    bloco_atalhos_comando(so_piloto=so_piloto)
+
+    # —— Faixa 4: Fila e clima ——
+    faixa_titulo("4", "Fila e clima", "Detalhe operacional — abrir só quando precisar aprofundar")
+
+    with st.expander("Pressão climática e regras (dimensões A–D + hidro)", expanded=False):
+        idap_max = float(base_kpi["idap_n"].max()) if "idap_n" in base_kpi.columns else 0
+        idap_med = float(base_kpi["idap_n"].mean()) if "idap_n" in base_kpi.columns else 0
+        a_med = float(base_kpi["pontos_a"].mean()) if "pontos_a" in base_kpi.columns else 0
+        b_med = float(base_kpi["pontos_b"].mean()) if "pontos_b" in base_kpi.columns else 0
+        c_med = float(base_kpi["pontos_c"].mean()) if "pontos_c" in base_kpi.columns else 0
+        d_med = float(base_kpi["pontos_d"].mean()) if "pontos_d" in base_kpi.columns else 0
+        a_pct = 100.0 * a_med / 30.0
+        b_pct = 100.0 * b_med / 30.0
+        c_pct = 100.0 * c_med / 25.0
+        d_pct = 100.0 * d_med / 15.0
+        pressao_a = (
+            int((base_kpi.get("pontos_a", 0) > 0).sum()) if "pontos_a" in base_kpi.columns else 0
+        )
+        chuva24 = (
+            float(base_kpi["chuva_24h_mm"].max()) if "chuva_24h_mm" in base_kpi.columns else None
+        )
+        chuva72 = (
+            float(base_kpi["chuva_72h_mm"].max()) if "chuva_72h_mm" in base_kpi.columns else None
+        )
+        prev = (
+            float(base_kpi["chuva_prevista_24_72h_mm"].max())
+            if "chuva_prevista_24_72h_mm" in base_kpi.columns
+            else None
+        )
+        cem = 0
+        if "alerta_cemaden_nivel" in base_kpi.columns:
+            cem = int(
+                base_kpi["alerta_cemaden_nivel"]
+                .fillna("")
+                .str.lower()
+                .isin(["laranja", "vermelha", "vermelho", "roxa", "roxo", "moderado", "alto"])
+                .sum()
+            )
+        regras = base_kpi.get("regras_disparadas", pd.Series(dtype=str)).fillna("")
+        n_regras = int(regras.str.contains(r"R1[012]").sum())
+        cri_alto = (
+            int(base_kpi["categoria_risco"].fillna("").str.lower().eq("alto").sum())
+            if "categoria_risco" in base_kpi.columns
+            else 0
+        )
+        dpa_alto = (
+            int(base_kpi["dano_potencial_associado"].fillna("").str.lower().eq("alto").sum())
+            if "dano_potencial_associado" in base_kpi.columns
+            else 0
+        )
+
+        def _mm(v):
+            return "—" if v is None else f"{v:.1f} mm".replace(".", ",")
+
+        risco_cards = [
+            card_kpi("Índice máximo", f"{idap_max:.0f}", sev=severidade_pct(idap_max)),
+            card_kpi("Índice médio", f"{idap_med:.1f}".replace(".", ","), sev=severidade_pct(idap_med)),
+            card_kpi("Pressão climática", f"{a_pct:.0f}%", sev=severidade_pct(a_pct)),
+            card_kpi("Estrutura", f"{b_pct:.0f}%", sev=severidade_pct(b_pct)),
+            card_kpi("Impacto sanitário", f"{c_pct:.0f}%", sev=severidade_pct(c_pct)),
+            card_kpi("Déficit resposta", f"{d_pct:.0f}%", sev=severidade_pct(d_pct)),
+            card_kpi("Com pressão A", str(pressao_a), sev=severidade_pct(100.0 * pressao_a / max(len(base_kpi), 1))),
+            card_kpi("Chuva 24 h máx.", _mm(chuva24), sev=severidade_pct(None if chuva24 is None else min(100, chuva24))),
+            card_kpi("Chuva 72 h máx.", _mm(chuva72), sev=severidade_pct(None if chuva72 is None else min(100, chuva72 * 0.5))),
+            card_kpi(
+                "Chuva prevista",
+                _mm(prev),
+                sev=severidade_pct(
+                    None
+                    if prev is None
+                    else (100 if prev >= 140 else 70 if prev >= 80 else 40 if prev >= 40 else 10)
+                ),
+            ),
+            card_kpi("Alertas oficiais", str(cem), sev="sev-alto" if cem else "sev-ok"),
+            card_kpi("Regras R10–R12", str(n_regras), sev="sev-elevado" if n_regras else "sev-ok"),
+            card_kpi("CRI alto", str(cri_alto), sev="sev-alto" if cri_alto else "sev-ok"),
+            card_kpi("DPA alto", str(dpa_alto), sev="sev-alto" if dpa_alto else "sev-ok"),
+        ]
+        st.markdown('<div class="grade-kpis">' + "".join(risco_cards) + "</div>", unsafe_allow_html=True)
+
+    st.markdown(f"##### Fila operacional ({len(view)})")
     cols = [
         c
         for c in (
@@ -519,8 +475,15 @@ def pagina_comando(df: pd.DataFrame) -> None:
         ),
         use_container_width=True,
         hide_index=True,
-        height=420,
+        height=360,
     )
+
+    with st.expander("Histórico de snapshots do índice", expanded=False):
+        hist = carregar_historico_indice()
+        if hist.empty:
+            st.caption("Sem snapshots — rode a etapa 16 mais de uma vez.")
+        else:
+            st.dataframe(hist.tail(12), use_container_width=True, hide_index=True)
 
 
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
@@ -1002,35 +965,26 @@ def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
 
 
 def main() -> None:
+    jornadas_ordem = list(JORNADAS.keys())
+    if "jornada" not in st.session_state:
+        st.session_state["jornada"] = "Situação"
+    if "pagina" not in st.session_state:
+        st.session_state["pagina"] = "Comando estadual"
+
     with st.sidebar:
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
         st.markdown(
-            '<p class="submarca">Saúde 360 · SES-MT / CIEVS</p>',
+            '<p class="submarca">Saúde 360 · SES-MT / CIEVS · jornada '
+            "Situação → Território → Ação → Dados</p>",
             unsafe_allow_html=True,
         )
-        pagina = st.radio(
-            "Telas",
-            [
-                "Comando estadual",
-                "Hidro municipal",
-                "Eixo Manso–Cuiabá",
-                "Simulação volume/área",
-                "Barragem 360°",
-                "Populações vulneráveis",
-                "Impacto extraterritorial",
-                "Mapa por tipologia",
-                "Interpretação / KPIs",
-                "Alertabilidade / despacho",
-                "Confirmação persistente",
-                "Região de saúde",
-                "Documentos (RAG leve)",
-                "Fila de alertas",
-                "Ficha rápida",
-                "Confirmação (HTML)",
-                "Inventário",
-            ],
-            label_visibility="collapsed",
-        )
+        if st.session_state.get("jornada") not in JORNADAS:
+            st.session_state["jornada"] = "Situação"
+        jornada = st.selectbox("Jornada", jornadas_ordem, key="jornada")
+        telas = JORNADAS[jornada]
+        if st.session_state.get("pagina") not in telas:
+            st.session_state["pagina"] = telas[0]
+        pagina = st.radio("Tela", telas, key="pagina")
         st.divider()
         st.caption(f"Dados: `{(Path(__file__).parent / 'dados' / 'tratados').as_posix()}`")
 

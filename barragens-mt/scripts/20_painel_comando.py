@@ -482,6 +482,23 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
 .legenda i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
 .nota{margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:52rem}
 .leaflet-popup-content{font-size:12.5px;line-height:1.55}
+.faixa-titulo{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;font-weight:600;
+margin:22px 0 8px;letter-spacing:-.02em;color:var(--ses);border-bottom:2px solid var(--ses);
+padding-bottom:6px}
+.faixa-titulo span{display:inline-block;font-family:"Source Sans 3",sans-serif;font-size:11px;
+font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--ses);
+padding:2px 8px;margin-right:8px;vertical-align:middle}
+.faixa-titulo .sub{display:block;font-family:"Source Sans 3",sans-serif;font-size:0.85rem;
+font-weight:400;color:var(--muted);margin-top:2px}
+details.bloco{background:var(--card);border:1px solid var(--line);margin-bottom:14px;padding:0}
+details.bloco>summary{cursor:pointer;padding:10px 14px;font-size:12px;text-transform:uppercase;
+letter-spacing:.05em;color:var(--muted);font-weight:600;background:#f7f9fb;list-style:none}
+details.bloco>summary::-webkit-details-marker{display:none}
+details.bloco[open]>summary{border-bottom:1px solid var(--line)}
+.atalhos{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.atalhos a{color:var(--accent);font-weight:600;font-size:13px;text-decoration:none;
+padding:8px 12px;border:1px solid var(--line);background:var(--card)}
+.atalhos a:hover{background:#f3f8f5}
 </style>
 </head>
 <body>
@@ -489,53 +506,44 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
   <div>
     <h1 class="marca">VIGIBARRAGENS–MT</h1>
     <p>Comando estadual — como está Mato Grosso agora e onde olhar primeiro.
-    IDAP + hidro SisClima/TITAN · __GERADO__</p>
+    Jornada Situação → Território → Ação → Dados · __GERADO__</p>
   </div>
   <nav>
     <a href="hidro.html">Hidro municipal</a>
-    <a href="barragem.html">Barragem 360°</a>
-    <a href="simulacao.html">Simulação volume/área</a>
-    <a href="glossario.html">Interpretação / KPIs</a>
-    <a href="tipologia.html">Mapa por tipologia</a>
     <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
+    <a href="tipologia.html">Mapa por tipologia</a>
+    <a href="barragem.html">Barragem 360°</a>
     <a href="alertas.html">Fila de alertas</a>
+    <a href="simulacao.html">Simulação</a>
+    <a href="glossario.html">Interpretação</a>
     <a href="ficha_rapida.html">Ficha rápida</a>
     <a href="confirmacao_alerta.html">Confirmação</a>
     <a href="inventario.html">Inventário</a>
   </nav>
 </header>
 <main>
+  <!-- Faixa 1 — Agora -->
+  <div class="faixa-titulo"><span>Faixa 1</span>Agora
+    <span class="sub">Prontidão do recorte e tendência que manda na decisão</span></div>
   <div class="semaforo" id="semaforo"></div>
-  <div class="frescor" id="frescor"></div>
   <div class="kpis" id="kpis"></div>
   <p class="kpi-help" id="kpiHelp"></p>
   <div class="proj-box" id="projSemana"></div>
-  <div class="cartao" style="margin-bottom:14px">
-    <h2>Indicadores sanitários e vigília</h2>
-    <div class="kpis" id="sanKpis" style="padding:12px 14px;margin:0"></div>
-    <p id="sanNota" style="margin:0 14px 8px;font-size:12px;color:var(--muted)"></p>
-    <div class="rolagem" style="max-height:180px"><table>
-      <thead><tr><th>Barragem</th><th>Sede</th><th>Índice</th><th>Pressão A</th><th>Prevista</th><th>Completude</th></tr></thead>
-      <tbody id="quaseLista"></tbody>
-    </table></div>
-  </div>
-  <div class="cartao" style="margin-bottom:14px">
-    <h2>Painel de situação (cores = gravidade)</h2>
-    <div class="kpis" id="riscoKpis" style="padding:12px 14px;margin:0"></div>
-    <p style="margin:0 14px 12px;font-size:12px;color:var(--muted);line-height:1.45">
-      Linguagem operacional (sem siglas na primeira leitura). Borda/número mudam de cor com a
-      gravidade — ex.: pressão climática alta (~90% do teto) em vermelho. Filtro de município
-      inclui sede <b>e</b> potencialmente afetados a jusante.
-    </p>
-  </div>
-  <div class="cartao" style="margin-bottom:14px">
-    <h2>Histórico IDAP (snapshots)</h2>
-    <div id="histEstado" style="padding:10px 14px"></div>
-    <div class="rolagem" style="max-height:160px"><table>
-      <thead><tr><th>Barragem</th><th>Nível</th><th>Série</th><th>Último IDAP</th></tr></thead>
-      <tbody id="histBarragens"></tbody>
-    </table></div>
-  </div>
+  <div class="frescor" id="frescor"></div>
+
+  <!-- Faixa 2 — Pessoas e resposta -->
+  <div class="faixa-titulo"><span>Faixa 2</span>Pessoas e resposta
+    <span class="sub">Exposição sanitária e capacidade assistencial sob pressão</span></div>
+  <div class="kpis" id="sanKpis"></div>
+  <p id="sanNota" style="margin:0 0 8px;font-size:12px;color:var(--muted)"></p>
+  <details class="bloco">
+    <summary>Cadastro e tipológico (detalhe)</summary>
+    <div class="kpis" id="sanKpisExtra" style="padding:12px 14px;margin:0"></div>
+  </details>
+
+  <!-- Faixa 3 — Onde olhar -->
+  <div class="faixa-titulo"><span>Faixa 3</span>Onde olhar
+    <span class="sub">Mapa, Top 15 e lista de vigília (quase atenção)</span></div>
   <div class="filtros">
     <div><label>Nível IDAP</label>
       <select id="fNivel"><option value="">Todos</option>
@@ -556,8 +564,44 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
       <button type="button" class="sec" id="btnLimpar">Limpar</button>
       <button type="button" class="sec" id="btnAmarelo" title="Filtra e enquadra no mapa">Focar em atenção+</button></div>
   </div>
-  <div class="cartao" style="margin-bottom:14px">
-    <h2>Risco × pressão climática (dimensão A + hidro SisClima/TITAN)</h2>
+  <div class="grade">
+    <div class="cartao">
+      <h2>Mapa por faixa de prontidão</h2>
+      <div id="mapa"></div>
+      <div class="legenda" id="legenda"></div>
+    </div>
+    <div class="cartao">
+      <h2>Top 15 — olhar primeiro</h2>
+      <div class="rolagem" style="max-height:280px"><table>
+        <thead><tr>
+          <th data-k="idap">IDAP</th><th>Nível</th><th>A</th><th>Barragem</th><th>Sede</th>
+          <th>Comp.</th><th>Chuva 24h</th><th>Alertável</th>
+        </tr></thead>
+        <tbody id="top"></tbody>
+      </table></div>
+      <h2>Quase atenção — vigília</h2>
+      <div class="rolagem" style="max-height:180px"><table>
+        <thead><tr><th>Barragem</th><th>Sede</th><th>Índice</th><th>Pressão A</th><th>Prevista</th><th>Completude</th></tr></thead>
+        <tbody id="quaseLista"></tbody>
+      </table></div>
+    </div>
+  </div>
+  <div class="atalhos">
+    <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
+    <a href="alertas.html">Cobertura / fila de alertas</a>
+    <a href="tipologia.html">Mapa por tipologia</a>
+  </div>
+
+  <!-- Faixa 4 — Fila e clima -->
+  <div class="faixa-titulo"><span>Faixa 4</span>Fila e clima
+    <span class="sub">Detalhe operacional — abrir só quando precisar aprofundar</span></div>
+  <details class="bloco">
+    <summary>Pressão climática e regras (dimensões A–D + hidro)</summary>
+    <div class="kpis" id="riscoKpis" style="padding:12px 14px;margin:0"></div>
+    <p style="margin:0 14px 12px;font-size:12px;color:var(--muted);line-height:1.45">
+      Linguagem operacional (sem siglas na primeira leitura). Borda/número mudam de cor com a
+      gravidade. Filtro de município inclui sede <b>e</b> potencialmente afetados a jusante.
+    </p>
     <div class="rolagem" style="max-height:220px"><table>
       <thead><tr>
         <th>Nível</th><th>IDAP</th><th>A</th><th>Chuva 24h</th><th>Chuva 72h</th>
@@ -567,26 +611,8 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
     </table></div>
     <p style="margin:8px 14px 12px;font-size:12px;color:var(--muted)">
       Lista: nível ≠ Verde <em>ou</em> pontos A &gt; 0. Clique na linha para ir ao mapa.
-      A = pressão hidroclimática do IDAP; chuva/saturação/previsão vêm do coletor 17.
     </p>
-  </div>
-  <div class="grade">
-    <div class="cartao">
-      <h2>Mapa por faixa IDAP</h2>
-      <div id="mapa"></div>
-      <div class="legenda" id="legenda"></div>
-    </div>
-    <div class="cartao">
-      <h2>Top 10 por IDAP (olhar primeiro)</h2>
-      <div class="rolagem"><table>
-        <thead><tr>
-          <th data-k="idap">IDAP</th><th>Nível</th><th>A</th><th>Barragem</th><th>Sede</th>
-          <th>Comp.</th><th>Chuva 24h</th><th>Alertável</th>
-        </tr></thead>
-        <tbody id="top"></tbody>
-      </table></div>
-    </div>
-  </div>
+  </details>
   <div class="cartao">
     <h2>Fila operacional (<span id="nFila">0</span>)</h2>
     <div class="rolagem"><table>
@@ -597,6 +623,14 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
       <tbody id="fila"></tbody>
     </table></div>
   </div>
+  <details class="bloco">
+    <summary>Histórico de snapshots do índice</summary>
+    <div id="histEstado" style="padding:10px 14px"></div>
+    <div class="rolagem" style="max-height:160px"><table>
+      <thead><tr><th>Barragem</th><th>Nível</th><th>Série</th><th>Último IDAP</th></tr></thead>
+      <tbody id="histBarragens"></tbody>
+    </table></div>
+  </details>
   <p class="nota">
     Completude baixa não é “verde seguro”: leia lacunas no popup. Hidro = máximo sede+montante (Otto).
     C3 no eixo Cuiabá é proxy CNES (sem mancha). Alertável exige contatos validados (etapa 19).
@@ -730,25 +764,35 @@ document.getElementById('kpiHelp').innerHTML =
   const el = document.getElementById('sanKpis');
   if (!el) return;
   const fmtN = (v) => (v==null || v==='') ? '—' : String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  const itens = [
+  const razao = S.razao_pop_us;
+  const principais = [
     ['População sob pressão sanitária', fmtN(S.pop_sob_pressao), S.pop_sob_pressao?'sev-atencao':'sev-ok'],
     ['US nos municípios sob pressão', fmtN(S.us_sob_risco), S.us_sob_risco?'sev-atencao':'sev-ok'],
-    ['US prioritárias (hosp/UPA/UBS)', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
+    ['Razão pop. / US prioritária', razao==null?'—':fmtN(Math.round(razao)),
+      razao==null?'sev-neutro':(razao>=2000?'sev-alto':razao>=800?'sev-atencao':'sev-ok')],
     ['Municípios sob pressão', S.municipios_sob_pressao??S.municipios_jusante, 'sev-atencao'],
     ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
       (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],
+  ];
+  const extras = [
+    ['US prioritárias (hosp/UPA/UBS)', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
     ['Rejeito em atenção+', S.rejeito_atencao, S.rejeito_atencao?'sev-alto':'sev-ok'],
     ['Dano potencial alto sem canal', S.dpa_alto_sem_alerta, S.dpa_alto_sem_alerta?'sev-critico':'sev-ok'],
     ['Impacto extraterritorial ativo', S.extraterritorial_ativo, S.extraterritorial_ativo?'sev-atencao':'sev-ok'],
     ['Quase atenção (vigília)', S.quase_atencao, S.quase_atencao?'sev-atencao':'sev-ok'],
   ];
-  el.innerHTML = '';
-  itens.forEach(([rotulo, n, tom]) => {
-    const d = document.createElement('div');
-    d.className = 'kpi ' + tom;
-    d.innerHTML = `<div class="n">${n??'—'}</div><div class="r">${rotulo}</div>`;
-    el.appendChild(d);
-  });
+  const fill = (node, itens) => {
+    if (!node) return;
+    node.innerHTML = '';
+    itens.forEach(([rotulo, n, tom]) => {
+      const d = document.createElement('div');
+      d.className = 'kpi ' + tom;
+      d.innerHTML = `<div class="n">${n??'—'}</div><div class="r">${rotulo}</div>`;
+      node.appendChild(d);
+    });
+  };
+  fill(el, principais);
+  fill(document.getElementById('sanKpisExtra'), extras);
   const nota = document.getElementById('sanNota');
   if (nota) nota.textContent = S.nota || '';
   const tb = document.getElementById('quaseLista');
@@ -894,7 +938,7 @@ function render() {
     camada.addLayer(m);
   });
 
-  const top = lista.slice(0, 10);
+  const top = lista.slice(0, 15);
   document.getElementById('top').innerHTML = top.map(d => `<tr data-id="${d.id}">
     <td>${d.idap}</td><td><span class="etq ${d.nv}">${d.nv}</span></td>
     <td>${d.pa}</td>

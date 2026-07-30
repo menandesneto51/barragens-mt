@@ -141,5 +141,47 @@ div[data-testid="stMetricLabel"] {
   gap: 8px;
   margin-bottom: 12px;
 }
+.faixa-titulo {
+  font-family: "Fraunces", Georgia, serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em;
+  color: #1b3281;
+  margin: 18px 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid rgba(27,50,129,.25);
+}
+.faixa-titulo span {
+  display: block;
+  font-family: "Source Sans 3", system-ui, sans-serif !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #4a5d73;
+  margin-bottom: 2px;
+}
+.frescor-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+.frescor-chips .chip {
+  background: #fff;
+  border: 1px solid #c5d0e0;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #334155;
+}
+.frescor-chips .chip.ok { border-left: 3px solid #1e8449; }
+.frescor-chips .chip.velho { border-left: 3px solid #d35400; }
+.frescor-chips .chip.morto { border-left: 3px solid #c0392b; }
+.atalhos-cmd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+}
 </style>
 """

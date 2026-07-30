@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 from pathlib import Path
 
@@ -32,15 +33,106 @@ from st_app.indicadores import (
 )
 from st_app.sitrep import montar_sitrep_docx, montar_sitrep_md, montar_sitrep_pdf
 
+_SEV_RANK = {
+    "sev-critico": 5,
+    "sev-alto": 4,
+    "sev-elevado": 3,
+    "sev-atencao": 2,
+    "sev-ok": 1,
+    "sev-neutro": 0,
+}
 
-def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
-    san = indicadores_sanitarios(df)
+
+def faixa_titulo(numero: str, titulo: str, subtitulo: str) -> None:
+    st.markdown(
+        f'<div class="faixa-titulo"><span>Faixa {numero}</span>{titulo}'
+        f'<div style="font-family:Source Sans 3,sans-serif;font-size:0.85rem;'
+        f'font-weight:400;color:#4a5d73;margin-top:2px">{subtitulo}</div></div>',
+        unsafe_allow_html=True,
+    )
+
+
+def frescor_chips_html() -> str:
+    arquivos = [
+        "idap_estadual_mt.csv",
+        "hidro_barragens_mt.csv",
+        "piloto_manso_cuiaba.csv",
+        "alertabilidade_piloto.csv",
+        "cnes_estabelecimentos_mt.csv",
+    ]
+    chips = []
+    agora = dt.datetime.now()
+    for nome in arquivos:
+        caminho = TRATADOS / nome
+        if not caminho.exists():
+            chips.append(f'<div class="chip morto">{nome.replace(".csv","")}: ausente</div>')
+            continue
+        mtime = dt.datetime.fromtimestamp(caminho.stat().st_mtime)
+        idade_h = (agora - mtime).total_seconds() / 3600
+        cls = "ok" if idade_h <= 24 else ("velho" if idade_h <= 72 else "morto")
+        chips.append(
+            f'<div class="chip {cls}">{nome.replace(".csv","")}: '
+            f"{idade_h:.0f} h ({mtime.strftime('%d/%m %H:%M')})</div>"
+        )
+    return '<div class="frescor-chips">' + "".join(chips) + "</div>"
+
+
+def tendencia_unificada(df: pd.DataFrame) -> tuple[str, str]:
+    """Escolhe a tendência mais grave entre clima e histórico IDAP."""
+    proj = projecao_semana(df)
+    sev_c, msg_c = tendencia_climatica_texto(proj, df)
     hist = tendencia_idap_48h()
+    if hist.get("ok"):
+        sev_h = hist["classe"]
+        msg_h = hist["msg"]
+        if _SEV_RANK.get(sev_h, 0) >= _SEV_RANK.get(sev_c, 0):
+            return sev_h, f"<b>Tendência do índice (últimas rodadas)</b><br>{msg_h}<br><br><b>Clima:</b> {msg_c}"
+        return sev_c, f"<b>Tendência climática</b><br>{msg_c}<br><br><b>Índice:</b> {msg_h}"
+    return sev_c, f"<b>Tendência climática</b><br>{msg_c}"
+
+
+def bloco_sitrep_downloads(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
+    proj = projecao_semana(df)
+    _, msg_t = tendencia_climatica_texto(proj, df)
+    sitrep = montar_sitrep_md(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t)
+    stem = f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}"
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.download_button(
+            "SITREP (Markdown)",
+            data=sitrep.encode("utf-8"),
+            file_name=f"{stem}.md",
+            mime="text/markdown",
+        )
+    with c2:
+        try:
+            st.download_button(
+                "SITREP (DOCX)",
+                data=montar_sitrep_docx(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
+                file_name=f"{stem}.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            )
+        except Exception as exc:  # noqa: BLE001
+            st.caption(f"DOCX indisponível ({exc})")
+    with c3:
+        try:
+            st.download_button(
+                "SITREP (PDF)",
+                data=montar_sitrep_pdf(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
+                file_name=f"{stem}.pdf",
+                mime="application/pdf",
+            )
+        except Exception as exc:  # noqa: BLE001
+            st.caption(f"PDF indisponível ({exc})")
+
+
+def bloco_sanitario_compacto(df: pd.DataFrame) -> None:
+    """Faixa 2 — 5 cards SES + expander tipológico."""
+    san = indicadores_sanitarios(df)
     t7 = tendencia_7d_score(df)
     solo = solo_chuva_composta(df)
-    st.subheader("Indicadores sanitários")
     razao = san["razao_pop_us"]
-    cards = [
+    principais = [
         card_kpi(
             "População sob pressão sanitária",
             f"{san['pop_sob_pressao']:,}".replace(",", "."),
@@ -51,11 +143,7 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             "US nos municípios sob pressão",
             str(san["us_sob_risco"]),
             sev=severidade_pct(min(100, san["us_sob_risco"] / 50) if san["us_sob_risco"] else 0),
-            nota=(
-                f"Prioritárias: {san['us_prioritarias']} · "
-                f"método: {san.get('metodo_us', 'municipios')} · "
-                f"buffer dedup: {san.get('us_buffer_dedup', '—')}"
-            ),
+            nota=f"Prioritárias: {san['us_prioritarias']} · {san.get('metodo_us', '')}",
         ),
         card_kpi(
             "Razão pop. / US prioritária",
@@ -64,12 +152,12 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             nota="Quanto maior, maior sobrecarga potencial",
         ),
         card_kpi(
-            "Municípios sob pressão (sede+jusante)",
+            "Municípios sob pressão",
             str(san.get("municipios_sob_pressao") or san["municipios_jusante"]),
             sev=severidade_pct(
                 min(100, (san.get("municipios_sob_pressao") or san["municipios_jusante"]) * 5)
             ),
-            nota=f"Só jusante distintos: {san['municipios_jusante']}",
+            nota=f"Jusante distintos: {san['municipios_jusante']}",
         ),
         card_kpi(
             "Completude média do índice",
@@ -78,6 +166,10 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             if (san["completude_media"] or 0) >= 70
             else ("sev-atencao" if (san["completude_media"] or 0) >= 40 else "sev-alto"),
         ),
+    ]
+    st.markdown('<div class="grade-kpis">' + "".join(principais) + "</div>", unsafe_allow_html=True)
+
+    extras = [
         card_kpi(
             "Tendência 7 dias (score)",
             f"{t7['score']:.0f} · {t7['classe']}",
@@ -106,65 +198,22 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             sev="sev-atencao" if san["extraterritorial_ativo"] else "sev-ok",
         ),
     ]
-    st.markdown('<div class="grade-kpis">' + "".join(cards) + "</div>", unsafe_allow_html=True)
-
-    if hist.get("ok"):
-        st.markdown(
-            f'<div class="tend-box {hist["classe"]}"><b>Tendência do índice (24–48 h / últimas rodadas)</b><br>'
-            f'{hist["msg"]}</div>',
-            unsafe_allow_html=True,
-        )
-    else:
-        st.caption(hist.get("msg", ""))
-
-    proj = projecao_semana(df)
-    sev_t, msg_t = tendencia_climatica_texto(proj, df)
-    sitrep = montar_sitrep_md(
-        df,
-        municipio=mun_ativo,
-        proj=proj,
-        tend_clima=msg_t,
-    )
-    stem = f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}"
-    c_dl1, c_dl2, c_dl3 = st.columns(3)
-    with c_dl1:
-        st.download_button(
-            "Baixar SITREP (Markdown)",
-            data=sitrep.encode("utf-8"),
-            file_name=f"{stem}.md",
-            mime="text/markdown",
-            help="Relatório de situação de 1 página para o recorte atual.",
-        )
-    with c_dl2:
-        try:
-            st.download_button(
-                "Baixar SITREP (DOCX)",
-                data=montar_sitrep_docx(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
-                file_name=f"{stem}.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            )
-        except Exception as exc:  # noqa: BLE001
-            st.caption(f"DOCX indisponível ({exc})")
-    with c_dl3:
-        try:
-            st.download_button(
-                "Baixar SITREP (PDF)",
-                data=montar_sitrep_pdf(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t),
-                file_name=f"{stem}.pdf",
-                mime="application/pdf",
-            )
-        except Exception as exc:  # noqa: BLE001
-            st.caption(f"PDF indisponível ({exc})")
+    with st.expander("Cadastro e tipológico (detalhe)", expanded=False):
+        st.markdown('<div class="grade-kpis">' + "".join(extras) + "</div>", unsafe_allow_html=True)
 
 
-def bloco_quase_atencao(df: pd.DataFrame) -> None:
+# Compat: Município 360° e chamadas antigas
+def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
+    bloco_sanitario_compacto(df)
+    bloco_sitrep_downloads(df, mun_ativo=mun_ativo)
+
+
+def bloco_quase_atencao(df: pd.DataFrame, *, altura: int = 280) -> None:
     q = quase_atencao(df)
-    st.subheader("Quase atenção — vigília")
-    st.caption(
-        "Barragens ainda verdes, mas com pressão climática alta ou chuva prevista ≥40 mm."
-    )
+    st.markdown("##### Quase atenção — vigília")
+    st.caption("Verdes com pressão climática alta ou chuva prevista ≥40 mm.")
     if q.empty:
-        st.success("Nenhuma barragem verde sob pressão climática relevante no recorte.")
+        st.success("Nenhuma barragem verde sob pressão climática relevante.")
         return
     cols = [
         c
@@ -195,23 +244,30 @@ def bloco_quase_atencao(df: pd.DataFrame) -> None:
         ),
         use_container_width=True,
         hide_index=True,
-        height=280,
+        height=altura,
     )
 
 
-def pagina_municipio_360(df: pd.DataFrame, municipio: str) -> None:
-    st.markdown(f"## Município 360° — {municipio}")
+def pagina_municipio_360(df: pd.DataFrame, municipio: str, *, incluir_sanitario: bool = False) -> None:
+    st.markdown(f"### Município 360° — {municipio}")
     st.markdown(
-        '<p class="nota">Visão sanitária do município como <b>sede</b> e/ou '
-        "<b>potencialmente afetado a jusante</b> (a barragem pode estar em outro município).</p>",
+        '<p class="nota">Visão do município como <b>sede</b> e/ou '
+        "<b>potencialmente afetado a jusante</b>.</p>",
         unsafe_allow_html=True,
     )
     if df.empty:
         st.warning("Sem barragens vinculadas a este município.")
         return
-    bloco_sanitario_e_historico(df, mun_ativo=municipio)
-    sede = df[df.get("papel_municipio", pd.Series(dtype=str)).astype(str).str.contains("Sede", na=False)]
-    jus = df[df.get("papel_municipio", pd.Series(dtype=str)).astype(str).str.contains("jusante|Afetado", case=False, na=False)]
+    if incluir_sanitario:
+        bloco_sanitario_e_historico(df, mun_ativo=municipio)
+    sede = df[
+        df.get("papel_municipio", pd.Series(dtype=str)).astype(str).str.contains("Sede", na=False)
+    ]
+    jus = df[
+        df.get("papel_municipio", pd.Series(dtype=str))
+        .astype(str)
+        .str.contains("jusante|Afetado", case=False, na=False)
+    ]
     c1, c2 = st.columns(2)
     c1.metric("Como sede", len(sede) if "papel_municipio" in df.columns else "—")
     c2.metric("Como afetado a jusante", len(jus) if "papel_municipio" in df.columns else "—")
@@ -232,7 +288,7 @@ def pagina_municipio_360(df: pd.DataFrame, municipio: str) -> None:
                 fill_opacity=0.9,
                 popup=f"{r['nome']}<br>{r.get('papel_municipio','')}<br>{r['nivel']}",
             ).add_to(m)
-        st_folium(m, height=420, use_container_width=True, returned_objects=[])
+        st_folium(m, height=320, use_container_width=True, returned_objects=[])
     st.dataframe(
         df[
             [
@@ -251,8 +307,30 @@ def pagina_municipio_360(df: pd.DataFrame, municipio: str) -> None:
         ],
         use_container_width=True,
         hide_index=True,
-        height=360,
+        height=220,
     )
+
+
+def ir_para(jornada: str, pagina: str) -> None:
+    st.session_state["jornada"] = jornada
+    st.session_state["pagina"] = pagina
+    st.rerun()
+
+
+def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:
+    st.markdown("##### Continuar a investigação")
+    m = metricas_alertabilidade()
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        if st.button("Impacto extraterritorial", use_container_width=True):
+            ir_para("Território", "Impacto extraterritorial")
+    with c2:
+        if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", use_container_width=True):
+            ir_para("Ação", "Alertabilidade / despacho")
+    with c3:
+        rotulo = "Eixo Manso–Cuiabá" + (" (filtro ativo)" if so_piloto else "")
+        if st.button(rotulo, use_container_width=True):
+            ir_para("Situação", "Eixo Manso–Cuiabá")
 
 
 def pagina_vulneraveis() -> None:
@@ -323,7 +401,6 @@ def pagina_extraterritorial() -> None:
         view = view[view["municipio_potencialmente_afetado"] == mun]
     st.metric("Pares sede → afetado", len(view))
 
-    # Coordenadas: barragem do IDAP + centroide municipal (média de barragens na sede)
     from st_app.data import carregar_idap
 
     idap = carregar_idap()
@@ -417,8 +494,6 @@ def pagina_alertabilidade_despacho() -> None:
             nome_v = st.text_input("Nome do responsável")
             ok_v = st.form_submit_button("Gravar validação (hoje)")
         if ok_v:
-            import datetime as dt
-
             caminho = TRATADOS / "contatos_institucionais_piloto.csv"
             df_ct = pd.read_csv(caminho, sep=";", encoding="utf-8-sig", dtype=str).fillna("")
             mask = (df_ct["municipio"] == mun_v) & (df_ct["papel"] == papel_v)
@@ -515,8 +590,6 @@ def pagina_confirmacao_persistente() -> None:
         obs = st.text_area("Observação", "")
         ok = st.form_submit_button("Registrar confirmação")
     if ok and id_alerta and responsavel:
-        import datetime as dt
-
         registro = {
             "instante": dt.datetime.now().isoformat(timespec="seconds"),
             "id_alerta": id_alerta,
@@ -538,7 +611,7 @@ def pagina_confirmacao_persistente() -> None:
             use_container_width=True,
             hide_index=True,
         )
-    st.info("O painel HTML com timer permanece em «Confirmação (HTML)».")
+    st.info("O painel HTML com timer permanece em «Confirmação (HTML)» (Dados e apoio).")
 
 
 def pagina_rag_docs() -> None:
@@ -563,7 +636,6 @@ def pagina_rag_docs() -> None:
         score = sum(low.count(t) for t in termos)
         if score <= 0:
             continue
-        # trecho: primeira ocorrência
         idx = min((low.find(t) for t in termos if t in low), default=0)
         ini = max(0, idx - 80)
         trecho = texto[ini : ini + 420].replace("\n", " ")
