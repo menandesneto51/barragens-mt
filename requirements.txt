@@ -1,0 +1,5 @@
+# Streamlit Community Cloud — entrada na raiz do repositório.
+streamlit>=1.36.0
+pandas>=2.2.0
+folium>=0.17.0
+streamlit-folium>=0.23.0
