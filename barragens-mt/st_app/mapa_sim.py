@@ -104,6 +104,7 @@ function desenhar(fPct){{
   document.getElementById('hud').innerHTML =
     `<b>${{fPct}}%</b> liberado<br>Área <b>${{area.toFixed(1)}}</b> km²<br>` +
     `Raio <b>${{raio.toFixed(2)}}</b> km<br>` +
+    `US no buffer <b id="hudUs">0</b><br>` +
     (S.pop!=null ? `Pop. ref. <b>${{S.pop.toLocaleString('pt-BR')}}</b><br><small>${{S.metodo||''}}</small>` : '');
   camadaM.clearLayers(); camadaU.clearLayers(); camadaB.clearLayers();
   const mancha = L.circle([S.la,S.lo], {{
@@ -126,11 +127,20 @@ function desenhar(fPct){{
     if (d <= raio) noBuf.push({{...p, dist:d}});
   }}
   noBuf.sort((a,b)=> (a.pr-b.pr) || (a.dist-b.dist));
-  const lim = noBuf.length <= 80 ? noBuf : noBuf.filter(p=>p.h).concat(noBuf.filter(p=>!p.h).slice(0,30));
-  for (const p of lim) {{
-    L.marker([p.la,p.lo], {{pane:'us', icon:icone(p), zIndexOffset: p.h?300:100}})
-      .bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
-      .addTo(camadaU);
+  const hudUs = document.getElementById('hudUs');
+  if (hudUs) hudUs.textContent = String(noBuf.length);
+  for (const p of noBuf) {{
+    if (p.h || p.upa || p.ubs || p.prio) {{
+      L.marker([p.la,p.lo], {{pane:'us', icon:icone(p), zIndexOffset: p.h?300:100}})
+        .bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
+        .addTo(camadaU);
+    }} else {{
+      L.circleMarker([p.la,p.lo], {{
+        pane:'us', radius:4, color:'#fff', weight:1,
+        fillColor:'#64748b', fillOpacity:0.85
+      }}).bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
+        .addTo(camadaU);
+    }}
   }}
   if (!timer) mapa.fitBounds(mancha.getBounds().pad(0.2), {{maxZoom:13, animate:false}});
 }}

@@ -192,6 +192,41 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     amarelo_mais = sum(
         niveis.get(n, 0) for n in ("Amarelo", "Laranja", "Vermelho", "Roxo")
     )
+    hist = ler_historico_comando()
+    ind = hist.get("indice") or []
+    tend = {"amarelo_mais": None, "amarelo": None, "verde": None, "piloto": None}
+    if len(ind) >= 2:
+        ant, atu = ind[-2], ind[-1]
+        ama_ant = (ant.get("ama") or 0) + (ant.get("lar") or 0) + (ant.get("ver") or 0) + (ant.get("rox") or 0)
+        ama_atu = (atu.get("ama") or 0) + (atu.get("lar") or 0) + (atu.get("ver") or 0) + (atu.get("rox") or 0)
+        tend["amarelo_mais"] = ama_atu - ama_ant
+        tend["amarelo"] = (atu.get("ama") or 0) - (ant.get("ama") or 0)
+        verd_ant = (ant.get("n") or 0) - ama_ant
+        verd_atu = (atu.get("n") or 0) - ama_atu
+        tend["verde"] = verd_atu - verd_ant
+
+    # Projeção hidro próximos dias (proxy — não é IDAP recalculado).
+    limiar_atencao = 40.0
+    limiar_r12 = 140.0
+    prev_vals = [r["cprev"] for r in registros if r.get("cprev") is not None]
+    n_prev_atencao = sum(1 for v in prev_vals if v >= limiar_atencao)
+    n_prev_r12 = sum(1 for v in prev_vals if v >= limiar_r12)
+    # Verde com previsão alta entraria em pressão; Amarelo+ atual permanece baseline.
+    verdes = [r for r in registros if r["nv"] == "Verde"]
+    n_verde_risco_prev = sum(
+        1 for r in verdes if r.get("cprev") is not None and r["cprev"] >= limiar_atencao
+    )
+    proj_amarelo_mais = amarelo_mais + n_verde_risco_prev
+    if n_prev_r12:
+        # R12 eleva ao menos para Amarelo independentemente da pontuação.
+        ids_r12 = {
+            r["id"]
+            for r in registros
+            if r.get("cprev") is not None and r["cprev"] >= limiar_r12
+        }
+        ids_ja = {r["id"] for r in registros if r["nv"] in {"Amarelo", "Laranja", "Vermelho", "Roxo"}}
+        proj_amarelo_mais = max(proj_amarelo_mais, len(ids_ja | ids_r12))
+
     meta = {
         "gerado": dt.datetime.now().strftime("%d/%m/%Y %H:%M"),
         "total": len(registros),
@@ -201,9 +236,25 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "nao_alertaveis": sum(1 for r in registros if r["al"] == "não"),
         "extraterritoriais": sum(1 for r in registros if r["nex"] > 0),
         "piloto": sum(1 for r in registros if r["pi"] == 1),
+        "piloto_amarelo": sum(
+            1 for r in registros if r["pi"] == 1 and r["nv"] in {"Amarelo", "Laranja", "Vermelho", "Roxo"}
+        ),
         "instante_idap": next((r["inst"] for r in registros if r["inst"]), ""),
         "data_hidro": next((r["dh"] for r in registros if r["dh"]), ""),
         "frescor": frescor,
+        "tendencias": tend,
+        "projecao": {
+            "horizonte": "próximos 2–7 dias (chuva prevista ECMWF 24–72h como proxy)",
+            "prevista_max_mm": round(max(prev_vals), 1) if prev_vals else None,
+            "com_prevista_atencao": n_prev_atencao,
+            "com_prevista_extrema_r12": n_prev_r12,
+            "amarelo_mais_projetado": proj_amarelo_mais,
+            "delta_vs_atual": proj_amarelo_mais - amarelo_mais,
+            "nota": (
+                "Projeção hidroclimática simplificada: não recalcula o IDAP completo. "
+                "Conta Verdes com previsão ≥40 mm e aplica R12 (≥140 mm) quando houver."
+            ),
+        },
         "risco": {
             "amarelo_mais": amarelo_mais,
             "idap_max": max(idaps) if idaps else 0,
@@ -245,6 +296,71 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
             ),
         },
     }
+
+    # Indicadores sanitários / cadastro (sem CNES na geração HTML — proxy leve).
+    aten = [r for r in registros if r["nv"] in {"Amarelo", "Laranja", "Vermelho", "Roxo"}]
+    munis_jus: set[str] = set()
+    for r in aten:
+        for p in (r.get("af") or "").split("|"):
+            if p.strip():
+                munis_jus.add(p.strip())
+    comps = []
+    for r in registros:
+        raw = str(r.get("comp") or "").replace("%", "").replace(",", ".")
+        try:
+            comps.append(float(raw))
+        except ValueError:
+            pass
+    if comps:
+        med_c = sum(comps) / len(comps)
+        if med_c <= 1.5:
+            med_c *= 100.0
+    else:
+        med_c = None
+    quase = [
+        r
+        for r in registros
+        if r["nv"] == "Verde"
+        and (
+            (r.get("pa") or 0) >= 8
+            or (r.get("cprev") is not None and r["cprev"] >= 40)
+        )
+    ]
+    quase.sort(key=lambda x: (-(x.get("pa") or 0), -(x.get("cprev") or 0)))
+    meta["sanitario"] = {
+        "n_atencao": len(aten),
+        "municipios_jusante": len(munis_jus),
+        "completude_media": round(med_c, 1) if med_c is not None else None,
+        "rejeito_atencao": sum(
+            1
+            for r in aten
+            if "rejeito" in (r.get("us") or "").lower() or "miner" in (r.get("us") or "").lower()
+        ),
+        "dpa_alto_sem_alerta": sum(
+            1
+            for r in aten
+            if (r.get("dpa") or "").strip().lower() == "alto" and r.get("al") != "sim"
+        ),
+        "extraterritorial_ativo": sum(1 for r in aten if (r.get("nex") or 0) > 0),
+        "quase_atencao": len(quase),
+        "quase_lista": [
+            {
+                "id": r["id"],
+                "no": r["no"],
+                "mu": r["mu"],
+                "idap": r["idap"],
+                "pa": r["pa"],
+                "cprev": r.get("cprev"),
+                "comp": r.get("comp"),
+            }
+            for r in quase[:20]
+        ],
+        "nota": (
+            "US/pop sob pressão detalhados no Streamlit (buffer CNES + densidade). "
+            "Aqui: território, cadastro e lista de vigília."
+        ),
+    }
+
     for faixa in ("Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"):
         if meta["niveis"].get(faixa, 0) > 0:
             meta["semaforo"] = faixa
@@ -266,30 +382,49 @@ MODELO = r"""<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#15202b; --muted:#5a6b7a; --paper:#e9eef2; --card:#fff; --line:#d0d8e0;
-  --accent:#0b6e4f;
+  --ink:#15202b; --muted:#4a5d73; --paper:#e6ecf7; --card:#fff; --line:#c5d0e0;
+  --accent:#1b3281; --accent-soft:#2a4aad;
   --roxo:#5b2c6f; --verm:#c0392b; --lar:#d35400; --ama:#b7950b; --verd:#1e8449;
+  --ses:#1b3281;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
-background:radial-gradient(ellipse at 0% 0%,#d5e6dc 0%,transparent 42%),
-radial-gradient(ellipse at 100% 0%,#d4e0eb 0%,transparent 40%),var(--paper);font-size:14px}
-header{padding:22px 24px 14px;border-bottom:1px solid var(--line);
-background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55));
+background:
+  radial-gradient(ellipse at 12% -10%, rgba(42,74,173,.35), transparent 45%),
+  radial-gradient(ellipse at 100% 0%, rgba(27,50,129,.22), transparent 42%),
+  linear-gradient(180deg, #1b3281 0%, #243f9a 28%, var(--paper) 28%);
+font-size:14px}
+header{padding:22px 24px 14px;border-bottom:1px solid rgba(255,255,255,.18);
+background:transparent;
 display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
 .marca{font-family:"Fraunces",Georgia,serif;font-size:clamp(1.5rem,2.5vw,1.9rem);
-font-weight:600;margin:0 0 4px;letter-spacing:-.02em}
-header p{margin:0;color:var(--muted);max-width:36rem;line-height:1.4}
+font-weight:600;margin:0 0 4px;letter-spacing:-.02em;color:#fff}
+header p{margin:0;color:rgba(255,255,255,.82);max-width:36rem;line-height:1.4}
 nav{display:flex;flex-wrap:wrap;gap:8px}
-nav a{color:var(--accent);text-decoration:none;font-size:13px;font-weight:600;
-padding:6px 10px;border:1px solid var(--line);background:#fff}
-nav a:hover{background:#f0f7f3}
+nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;
+padding:6px 10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12)}
+nav a:hover{background:rgba(255,255,255,.22)}
 main{padding:16px 24px 40px;max-width:1600px;margin:0 auto}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:14px}
 .kpi{background:var(--card);border:1px solid var(--line);padding:11px 12px;
-box-shadow:0 1px 0 rgba(21,32,43,.04)}
+box-shadow:0 1px 0 rgba(21,32,43,.04);border-top:3px solid var(--line);position:relative}
 .kpi .n{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
 .kpi .r{font-size:10.5px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+.kpi .delta{font-size:11px;font-weight:600;margin-top:4px}
+.kpi .delta.up{color:var(--verm)}.kpi .delta.down{color:var(--verd)}.kpi .delta.flat{color:var(--muted)}
+.kpi.sev-ok .n{color:var(--verd)}.kpi.sev-ok{border-top-color:var(--verd)}
+.kpi.sev-atencao .n{color:#92740a}.kpi.sev-atencao{border-top-color:var(--ama)}
+.kpi.sev-elevado .n{color:#c2410c}.kpi.sev-elevado{border-top-color:var(--lar)}
+.kpi.sev-alto .n{color:#b91c1c}.kpi.sev-alto{border-top-color:var(--verm)}
+.kpi.sev-critico .n{color:var(--roxo)}.kpi.sev-critico{border-top-color:var(--roxo)}
+.kpi.sev-neutro .n{color:var(--ses)}.kpi.sev-neutro{border-top-color:var(--ses)}
+.kpi .sub{font-size:10px;color:var(--muted);margin-top:2px}
+.kpi-help{font-size:12px;color:var(--muted);line-height:1.45;margin:0 0 14px;max-width:52rem;
+background:rgba(255,255,255,.9);border:1px solid var(--line);padding:10px 12px}
+.proj-box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+padding:12px 14px;margin-bottom:14px}
+.proj-box h2{font-family:"Fraunces",Georgia,serif;font-size:1.05rem;margin:0 0 6px}
+.proj-box p{margin:0;color:#334155;line-height:1.45;font-size:13.5px}
 section h2{font-family:"Fraunces",Georgia,serif;font-size:1.15rem;font-weight:600;margin:18px 0 8px;
 letter-spacing:-.02em}
 .semaforo{display:flex;align-items:center;gap:10px;padding:10px 14px;margin-bottom:10px;
@@ -341,7 +476,8 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
     <a href="barragem.html">Barragem 360°</a>
     <a href="simulacao.html">Simulação volume/área</a>
     <a href="glossario.html">Interpretação / KPIs</a>
-    <a href="piloto_manso_cuiaba.html">Piloto Manso–Cuiabá</a>
+    <a href="tipologia.html">Mapa por tipologia</a>
+    <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
     <a href="alertas.html">Fila de alertas</a>
     <a href="ficha_rapida.html">Ficha rápida</a>
     <a href="confirmacao_alerta.html">Confirmação</a>
@@ -352,13 +488,24 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
   <div class="semaforo" id="semaforo"></div>
   <div class="frescor" id="frescor"></div>
   <div class="kpis" id="kpis"></div>
+  <p class="kpi-help" id="kpiHelp"></p>
+  <div class="proj-box" id="projSemana"></div>
   <div class="cartao" style="margin-bottom:14px">
-    <h2>Indicadores de risco (estadual)</h2>
+    <h2>Indicadores sanitários e vigília</h2>
+    <div class="kpis" id="sanKpis" style="padding:12px 14px;margin:0"></div>
+    <p id="sanNota" style="margin:0 14px 8px;font-size:12px;color:var(--muted)"></p>
+    <div class="rolagem" style="max-height:180px"><table>
+      <thead><tr><th>Barragem</th><th>Sede</th><th>Índice</th><th>Pressão A</th><th>Prevista</th><th>Completude</th></tr></thead>
+      <tbody id="quaseLista"></tbody>
+    </table></div>
+  </div>
+  <div class="cartao" style="margin-bottom:14px">
+    <h2>Painel de situação (cores = gravidade)</h2>
     <div class="kpis" id="riscoKpis" style="padding:12px 14px;margin:0"></div>
     <p style="margin:0 14px 12px;font-size:12px;color:var(--muted);line-height:1.45">
-      IDAP e dimensões A–D vêm do cálculo estadual. Chuva/previsão = máximo entre barragens
-      (SisClima + ECMWF). Cemaden/integrado = sede com alerta acima de verde. Regras R10–R12
-      elevam faixa por alerta externo ou previsão extrema.
+      Linguagem operacional (sem siglas na primeira leitura). Borda/número mudam de cor com a
+      gravidade — ex.: pressão climática alta (~90% do teto) em vermelho. Filtro de município
+      inclui sede <b>e</b> potencialmente afetados a jusante.
     </p>
   </div>
   <div class="cartao" style="margin-bottom:14px">
@@ -374,19 +521,20 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
       <select id="fNivel"><option value="">Todos</option>
         <option>Roxo</option><option>Vermelho</option><option>Laranja</option>
         <option>Amarelo</option><option>Verde</option></select></div>
-    <div><label>Município sede</label><input type="text" id="fMun" placeholder="parte do nome"></div>
+    <div><label>Município (sede ou afetado a jusante)</label>
+      <input type="text" id="fMun" placeholder="ex.: Cuiabá — inclui jusante"></div>
     <div><label>Órgão</label><input type="text" id="fOrg" placeholder="SEMA, ANM…"></div>
     <div><label>Alertável</label>
       <select id="fAl"><option value="">Todos</option><option value="sim">sim</option>
         <option value="não">não</option><option value="não avaliado">não avaliado</option></select></div>
     <div><label>Recorte</label>
-      <select id="fPi"><option value="">Estado todo</option><option value="1">Só piloto Manso–Cuiabá</option></select></div>
+      <select id="fPi"><option value="">Estado todo</option><option value="1">Só eixo Manso–Cuiabá</option></select></div>
     <div><label>Só extraterritorial</label>
       <select id="fExt"><option value="">Não</option><option value="1">Sim</option></select></div>
     <div><label>Busca</label><input type="text" id="fBusca" placeholder="nome ou id SNISB"></div>
     <div><button type="button" id="btnFiltrar">Filtrar</button>
       <button type="button" class="sec" id="btnLimpar">Limpar</button>
-      <button type="button" class="sec" id="btnAmarelo" title="Filtra e enquadra no mapa">Focar Amarelo+</button></div>
+      <button type="button" class="sec" id="btnAmarelo" title="Filtra e enquadra no mapa">Focar em atenção+</button></div>
   </div>
   <div class="cartao" style="margin-bottom:14px">
     <h2>Risco × pressão climática (dimensão A + hidro SisClima/TITAN)</h2>
@@ -486,7 +634,8 @@ function porIdBase(id){ return DADOS.find(d=>d.id===id); }
 document.getElementById('semaforo').innerHTML =
   `<div class="luz" style="background:${CORES[META.semaforo]}"></div>
    <div><strong>Prontidão estadual: ${META.semaforo}</strong>
-   — maior faixa vigente · ${META.total} barragens · piloto ${META.piloto||0}</div>`;
+   — maior faixa vigente · ${META.total} barragens · eixo Manso–Cuiabá ${META.piloto||0}
+   (em atenção+ no eixo: ${META.piloto_amarelo||0})</div>`;
 
 const frescorEl = document.getElementById('frescor');
 (META.frescor||[]).forEach(f => {
@@ -502,50 +651,133 @@ const frescorEl = document.getElementById('frescor');
   frescorEl.appendChild(d);
 });
 
+function fmtDelta(d){
+  if (d==null || d==='') return '';
+  if (d===0) return '<div class="delta flat">→ 0 vs rodada anterior</div>';
+  const seta = d>0 ? '▲' : '▼';
+  const cls = d>0 ? 'up' : 'down';
+  const sinal = d>0 ? '+' : '';
+  return `<div class="delta ${cls}">${seta} ${sinal}${d} vs rodada anterior</div>`;
+}
+
+const TEND = META.tendencias || {};
+const amareloMais = (META.risco && META.risco.amarelo_mais!=null)
+  ? META.risco.amarelo_mais
+  : ((META.niveis.Amarelo||0)+(META.niveis.Laranja||0)+(META.niveis.Vermelho||0)+(META.niveis.Roxo||0));
+
 const kpis = document.getElementById('kpis');
-[['Monitoradas', META.total],
- ...Object.entries(META.niveis),
- ['Piloto', META.piloto||0],
- ['Alertáveis', META.alertaveis],
- ['Não alertáveis', META.nao_alertaveis],
- ['Impacto fora da sede', META.extraterritoriais]
-].forEach(([r,n]) => {
+[
+  ['Barragens monitoradas', META.total, 'sev-neutro', null],
+  ['Em atenção+', amareloMais, 'sev-atencao', TEND.amarelo_mais],
+  ['Só faixa amarela', META.niveis.Amarelo||0, 'sev-atencao', TEND.amarelo],
+  ['Laranja', META.niveis.Laranja||0, 'sev-elevado', null],
+  ['Vermelho', META.niveis.Vermelho||0, 'sev-alto', null],
+  ['Roxo', META.niveis.Roxo||0, 'sev-critico', null],
+  ['Situação estável (verde)', META.niveis.Verde||0, 'sev-ok', TEND.verde],
+  ['Eixo Manso–Cuiabá', META.piloto||0, 'sev-neutro', null],
+  ['Com canal de alerta', META.alertaveis, 'sev-neutro', null],
+  ['Impacto fora da sede', META.extraterritoriais, 'sev-neutro', null],
+].forEach(([rotulo, n, tom, delta]) => {
   const d = document.createElement('div');
-  d.className = 'kpi';
-  d.innerHTML = `<div class="n">${n}</div><div class="r">${r}</div>`;
+  d.className = 'kpi ' + tom;
+  d.innerHTML = `<div class="n">${n}</div><div class="r">${rotulo}</div>${fmtDelta(delta)}`;
   kpis.appendChild(d);
 });
 
+document.getElementById('kpiHelp').innerHTML =
+  `<b>Como ler:</b> <b>Em atenção+</b> = barragens fora do Verde (Amarelo+Laranja+Vermelho+Roxo).
+  Nesta rodada ${amareloMais} = só Faixa Amarelo (${META.niveis.Amarelo||0}), porque não há Laranja/Vermelho/Roxo.
+  <b>Faixa Amarelo</b> = apenas IDAP 20–39. <b>Eixo Manso–Cuiabá</b> = ${META.piloto||0} barragens do recorte
+  operacional (destas, ${META.piloto_amarelo||0} em atenção+) — não é contagem de risco estadual.`;
+
+(function renderProj(){
+  const P = META.projecao || {};
+  const el = document.getElementById('projSemana');
+  if (!el) return;
+  const maxp = P.prevista_max_mm!=null ? String(P.prevista_max_mm).replace('.',',')+' mm' : '—';
+  const delta = P.delta_vs_atual;
+  const deltaTxt = delta==null ? '—' : (delta===0 ? 'estável (0)' : (delta>0?`+${delta}`:`${delta}`));
+  el.innerHTML = `<h2>Projeção hidro — próximos dias (proxy)</h2>
+    <p><b>Em atenção+ projetado:</b> ${P.amarelo_mais_projetado??'—'}
+    (${deltaTxt} vs atual) · chuva prevista máx. ${maxp} ·
+    sedes com previsão ≥40 mm: ${P.com_prevista_atencao??0} ·
+    ≥140 mm (R12): ${P.com_prevista_extrema_r12??0}.<br>
+    <span style="color:var(--muted)">${P.horizonte||''}. ${P.nota||''}</span></p>`;
+})();
+
+(function renderSanitario(){
+  const S = META.sanitario || {};
+  const el = document.getElementById('sanKpis');
+  if (!el) return;
+  const itens = [
+    ['Municípios a jusante em atenção', S.municipios_jusante, 'sev-atencao'],
+    ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
+      (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],
+    ['Rejeito em atenção+', S.rejeito_atencao, S.rejeito_atencao?'sev-alto':'sev-ok'],
+    ['Dano potencial alto sem canal', S.dpa_alto_sem_alerta, S.dpa_alto_sem_alerta?'sev-critico':'sev-ok'],
+    ['Impacto extraterritorial ativo', S.extraterritorial_ativo, S.extraterritorial_ativo?'sev-atencao':'sev-ok'],
+    ['Quase atenção (vigília)', S.quase_atencao, S.quase_atencao?'sev-atencao':'sev-ok'],
+  ];
+  el.innerHTML = '';
+  itens.forEach(([rotulo, n, tom]) => {
+    const d = document.createElement('div');
+    d.className = 'kpi ' + tom;
+    d.innerHTML = `<div class="n">${n??'—'}</div><div class="r">${rotulo}</div>`;
+    el.appendChild(d);
+  });
+  const nota = document.getElementById('sanNota');
+  if (nota) nota.textContent = S.nota || '';
+  const tb = document.getElementById('quaseLista');
+  if (!tb) return;
+  const lista = S.quase_lista || [];
+  tb.innerHTML = lista.length
+    ? lista.map(r => `<tr data-id="${r.id}"><td>${r.no}</td><td>${r.mu}</td><td>${r.idap}</td>
+        <td>${r.pa}</td><td>${r.cprev??'—'}</td><td>${r.comp||'—'}</td></tr>`).join('')
+    : '<tr><td colspan="6">Nenhuma barragem verde sob pressão climática relevante.</td></tr>';
+})();
+
 (function renderRisco(){
   const R = META.risco || {};
+  const P = META.projecao || {};
   const fmt = (v, s='') => (v==null || v==='') ? '—' : (typeof v==='number' ? String(v).replace('.',',')+s : v);
+  const sevPct = (p) => {
+    if (p==null) return 'sev-neutro';
+    if (p>=80) return 'sev-critico';
+    if (p>=60) return 'sev-alto';
+    if (p>=40) return 'sev-elevado';
+    if (p>=20) return 'sev-atencao';
+    return 'sev-ok';
+  };
   const el = document.getElementById('riscoKpis');
   if (!el) return;
-  [
-    ['Amarelo+', R.amarelo_mais],
-    ['IDAP máx.', R.idap_max],
-    ['IDAP médio', R.idap_medio],
-    ['Com pressão A', R.com_pressao_a],
-    ['A médio', R.a_medio],
-    ['B médio', R.b_medio],
-    ['C médio', R.c_medio],
-    ['D médio', R.d_medio],
-    ['Chuva 24h máx.', fmt(R.chuva24_max,' mm')],
-    ['Chuva 72h máx.', fmt(R.chuva72_max,' mm')],
-    ['Prevista 24–72h máx.', fmt(R.prevista_max,' mm')],
-    ['Percentil máx.', fmt(R.percentil_max)],
-    ['Cemaden ativos (sede)', R.cemaden_ativos],
-    ['Integrado alto (sede)', R.integrado_alto],
-    ['Regras R10', R.regras_r10],
-    ['Regras R11', R.regras_r11],
-    ['Regras R12', R.regras_r12],
-    ['CRI Alto', R.cri_alto],
-    ['DPA Alto', R.dpa_alto],
-    ['Rejeito / mineração', R.rejeito],
-  ].forEach(([rotulo, val]) => {
+  const aPct = (R.a_medio!=null) ? (100*R.a_medio/30) : null;
+  const bPct = (R.b_medio!=null) ? (100*R.b_medio/30) : null;
+  const cPct = (R.c_medio!=null) ? (100*R.c_medio/25) : null;
+  const dPct = (R.d_medio!=null) ? (100*R.d_medio/15) : null;
+  const itens = [
+    ['Índice de alerta máximo', R.idap_max, sevPct(R.idap_max), '0–100'],
+    ['Índice de alerta médio', R.idap_medio, sevPct(R.idap_medio), ''],
+    ['Pressão climática média', aPct==null?'—':Math.round(aPct)+'%', sevPct(aPct), fmt(R.a_medio)+' / 30'],
+    ['Condição da estrutura', bPct==null?'—':Math.round(bPct)+'%', sevPct(bPct), fmt(R.b_medio)+' / 30'],
+    ['Impacto sanitário potencial', cPct==null?'—':Math.round(cPct)+'%', sevPct(cPct), fmt(R.c_medio)+' / 25'],
+    ['Déficit de resposta', dPct==null?'—':Math.round(dPct)+'%', sevPct(dPct), fmt(R.d_medio)+' / 15'],
+    ['Chuva 24 h (máx.)', fmt(R.chuva24_max,' mm'), sevPct(R.chuva24_max), ''],
+    ['Chuva 72 h (máx.)', fmt(R.chuva72_max,' mm'), sevPct(R.chuva72_max!=null?R.chuva72_max*0.5:null), ''],
+    ['Chuva prevista (próx. dias)', fmt(R.prevista_max,' mm'),
+      sevPct(R.prevista_max==null?null:(R.prevista_max>=140?100:R.prevista_max>=80?70:R.prevista_max>=40?40:10)), ''],
+    ['Alertas oficiais de chuva/hidro', R.cemaden_ativos, R.cemaden_ativos?'sev-alto':'sev-ok', ''],
+    ['Alertas externos / previsão extrema', (R.regras_r10||0)+(R.regras_r11||0)+(R.regras_r12||0),
+      ((R.regras_r10||0)+(R.regras_r11||0)+(R.regras_r12||0))?'sev-elevado':'sev-ok', ''],
+    ['Cadastro: risco estrutural alto', R.cri_alto, R.cri_alto?'sev-alto':'sev-ok', ''],
+    ['Cadastro: dano potencial alto', R.dpa_alto, R.dpa_alto?'sev-alto':'sev-ok', ''],
+    ['Em atenção+ projetado (próx. dias)', P.amarelo_mais_projetado, sevPct(P.amarelo_mais_projetado), 
+      (P.delta_vs_atual==null?'':((P.delta_vs_atual>0?'+':'')+P.delta_vs_atual+' vs hoje'))],
+  ];
+  itens.forEach(([rotulo, val, sev, sub]) => {
     const d = document.createElement('div');
-    d.className = 'kpi';
-    d.innerHTML = `<div class="n">${val==null?'—':val}</div><div class="r">${rotulo}</div>`;
+    d.className = 'kpi ' + (sev||'sev-neutro');
+    d.innerHTML = `<div class="n">${val==null?'—':val}</div><div class="r">${rotulo}</div>` +
+      (sub ? `<div class="sub">${sub}</div>` : '');
     el.appendChild(d);
   });
 })();
@@ -572,7 +804,13 @@ function filtrados() {
   const q = document.getElementById('fBusca').value.trim().toLowerCase();
   return DADOS.filter(d => {
     if (nv && d.nv !== nv) return false;
-    if (mu && !(d.mu||'').toLowerCase().includes(mu)) return false;
+    if (mu) {
+      const sede = (d.mu||'').toLowerCase();
+      const afet = (d.af||'').toLowerCase();
+      const noSede = !(sede.includes(mu));
+      const noAf = !afet.split('|').some(p => p.trim() && (p.trim()===mu || p.trim().includes(mu)));
+      if (noSede && noAf) return false;
+    }
     if (og && !(d.og||'').toLowerCase().includes(og)) return false;
     if (al && d.al !== al) return false;
     if (pi && !(d.pi === 1)) return false;
@@ -582,20 +820,32 @@ function filtrados() {
   });
 }
 
+function papelMun(d, mu) {
+  if (!mu) return '';
+  const sede = (d.mu||'').toLowerCase();
+  const afet = (d.af||'').toLowerCase().split('|').map(p=>p.trim()).filter(Boolean);
+  const isSede = sede.includes(mu);
+  const isAf = afet.some(p => p===mu || p.includes(mu));
+  if (isSede && isAf) return 'Sede e jusante';
+  if (isSede) return 'Sede';
+  if (isAf) return 'Afetado a jusante (barragem pode estar em outro município)';
+  return '';
+}
+
 function popup(d) {
-  return `<b>${d.no}</b><br>IDAP ${d.idap}/100 — <b>${d.nv}</b><br>
+  const mu = document.getElementById('fMun').value.trim().toLowerCase();
+  const papel = papelMun(d, mu);
+  return `<b>${d.no}</b><br>Índice de alerta ${d.idap}/100 — <b>${d.nv}</b><br>
   Completude ${d.comp} (${d.conf})<br>
-  Dimensões A${d.pa} B${d.pb} C${d.pc} D${d.pd}<br>
+  Pressão clima ${d.pa} · Estrutura ${d.pb} · Impacto sanitário ${d.pc} · Déficit resposta ${d.pd}<br>
   Sede: ${d.mu}<br>
+  ${papel ? `<b>${papel}</b><br>` : ''}
   <b>Clima</b> — chuva 24h/72h: ${d.c24 ?? '—'} / ${d.c72 ?? '—'} mm<br>
-  Prevista 24–72h: ${d.cprev ?? '—'} mm · percentil: ${d.pct ?? '—'}<br>
-  Saturação: ${d.sat || '—'} · estágio hidro: ${d.nh || '—'}<br>
-  Cemaden: ${d.cem || '—'} · integrado SIS: ${d.aint || '—'}<br>
-  Aprox. espacial hidro: ${d.aprox || '—'}<br>
-  Alertável: ${d.al}<br>
-  Afetados: ${d.af || '—'}<br>
+  Prevista (próx. dias): ${d.cprev ?? '—'} mm<br>
+  Alertas oficiais: ${d.cem || '—'} · integrado: ${d.aint || '—'}<br>
+  Canal de alerta: ${d.al}<br>
+  Potencialmente afetados: ${d.af || '—'}<br>
   ${d.reg ? 'Regras: '+d.reg+'<br>' : ''}
-  <small>${(d.lac||'').slice(0,160)}</small><br>
   <a href="barragem.html?id=${encodeURIComponent(d.id)}">Abrir Barragem 360°</a>`;
 }
 
@@ -681,7 +931,7 @@ document.getElementById('btnLimpar').onclick = () => {
 const btnAm = document.getElementById('btnAmarelo');
 if (btnAm) btnAm.onclick = () => {
   const pts = DADOS.filter(d => d.nv !== 'Verde' && d.la != null && d.lo != null);
-  if (!pts.length) { alert('Nenhuma barragem Amarelo+ com coordenada nesta rodada.'); return; }
+  if (!pts.length) { alert('Nenhuma barragem em atenção+ com coordenada nesta rodada.'); return; }
   document.getElementById('fNivel').value = '';
   document.getElementById('fPi').value = '';
   document.getElementById('fMun').value = '';

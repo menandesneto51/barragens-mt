@@ -136,6 +136,11 @@ dimensão A do IDAP, sem recriar coletores. Piloto Manso–Cuiabá: `18_piloto_m
 Contatos/alertabilidade: `19_contatos_alertabilidade.py`. Ficha rápida (simulado):
 `painel/ficha_rapida.html`.
 
+### [13. Gancho Defesa Civil](13-defesa-civil-gancho.md)
+
+Payload padronizado de prontidão sanitária para articulação com a Defesa Civil (sem inventar
+API nem ordem de evacuação). Despacho técnico: `scripts/29_despacho_alertas.py`.
+
 ### [10. Glossário](10-glossario.md)
 
 Siglas e termos, organizados em marco regulatório e cadastro de barragens, vigilância em saúde e

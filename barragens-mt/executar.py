@@ -53,6 +53,11 @@ ETAPAS = [
     ("24", "24_video_simulacao.py", "GIF animado da simulação (Manso)", True),
     ("25", "25_barragem_360.py", "Barragem 360° (Tela 3)", True),
     ("27", "27_glossario_painel.py", "Interpretação / KPIs (glossário operacional)", True),
+    ("28", "28_mapa_tipologia.py", "Mapa estadual por tipologia de uso", True),
+    ("29", "29_despacho_alertas.py", "Despacho alertas (dry-run Telegram/e-mail)", True),
+    ("30", "30_cnes_estadual_scaffold.py", "Scaffold CNES estadual (municípios-alvo)", True),
+    ("31", "31_onda3_scaffolds.py", "Scaffolds PAE / Sisagua / VIGIPÓS", True),
+    ("32", "32_rag_indice_docs.py", "Índice documental RAG leve", True),
 ]
 
 

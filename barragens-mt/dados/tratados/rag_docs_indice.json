@@ -1,0 +1,92 @@
+{
+  "gerado": "2026-07-30T11:44:20",
+  "modo": "lexical",
+  "n_docs": 14,
+  "docs": [
+    {
+      "arquivo": "00-indice.md",
+      "bytes": 12239,
+      "n_palavras_unicas": 648,
+      "titulo": "0. Índice da documentação"
+    },
+    {
+      "arquivo": "01-visao-geral.md",
+      "bytes": 14137,
+      "n_palavras_unicas": 580,
+      "titulo": "1. VIGIBARRAGENS–MT / Saúde 360 — visão geral"
+    },
+    {
+      "arquivo": "02-fontes-de-dados.md",
+      "bytes": 33654,
+      "n_palavras_unicas": 1233,
+      "titulo": "2. Catálogo de fontes de dados"
+    },
+    {
+      "arquivo": "03-idap.md",
+      "bytes": 48165,
+      "n_palavras_unicas": 1261,
+      "titulo": "3. IDAP-Barragens — Índice Dinâmico de Alerta e Prontidão"
+    },
+    {
+      "arquivo": "04-alertas.md",
+      "bytes": 19835,
+      "n_palavras_unicas": 723,
+      "titulo": "4. Modelo de emissão de alertas territorializados"
+    },
+    {
+      "arquivo": "05-vigipos-barragens.md",
+      "bytes": 32387,
+      "n_palavras_unicas": 1110,
+      "titulo": "5. VIGIPÓS-BARRAGENS — vigilância pós-desastre"
+    },
+    {
+      "arquivo": "06-arquitetura.md",
+      "bytes": 22729,
+      "n_palavras_unicas": 888,
+      "titulo": "6. Arquitetura de referência"
+    },
+    {
+      "arquivo": "07-telas.md",
+      "bytes": 26147,
+      "n_palavras_unicas": 941,
+      "titulo": "7. Telas da plataforma"
+    },
+    {
+      "arquivo": "08-roadmap.md",
+      "bytes": 20798,
+      "n_palavras_unicas": 844,
+      "titulo": "8. Roadmap de implantação"
+    },
+    {
+      "arquivo": "09-dicionario-de-dados.md",
+      "bytes": 36501,
+      "n_palavras_unicas": 1045,
+      "titulo": "9. Dicionário de dados"
+    },
+    {
+      "arquivo": "10-glossario.md",
+      "bytes": 25605,
+      "n_palavras_unicas": 1135,
+      "titulo": "10. Glossário"
+    },
+    {
+      "arquivo": "11-principio-estadual-e-sequencia.md",
+      "bytes": 4358,
+      "n_palavras_unicas": 233,
+      "titulo": "11. Princípio estadual, impacto extraterritorial e sequência de implantação"
+    },
+    {
+      "arquivo": "12-integracao-sisclima-titan.md",
+      "bytes": 3008,
+      "n_palavras_unicas": 162,
+      "titulo": "12. Integração hidrometeorológica — SIS Clima Saúde e TITAN"
+    },
+    {
+      "arquivo": "13-defesa-civil-gancho.md",
+      "bytes": 1925,
+      "n_palavras_unicas": 120,
+      "titulo": "13. Gancho Defesa Civil — payload padronizado"
+    }
+  ],
+  "nota": "Embeddings / Gold RAG só após SITREP supervisionado e CNES/PAE mínimos."
+}

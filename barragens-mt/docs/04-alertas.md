@@ -260,3 +260,16 @@ Um sistema que alerta demais deixa de ser lido. Quatro travas (**propostas a val
 | Reemissão | Um novo alerta do mesmo nível só é reemitido se algum motivo mudar, ou a cada 12 h em Laranja, 6 h em Vermelho e 1 h em Roxo |
 | Agrupamento por município | Quando várias barragens de um mesmo município estão em alerta, o gestor municipal recebe um alerta consolidado, com detalhe por barragem — não um alerta por estrutura |
 | Supressão de alerta técnico | O alerta técnico da regra R06 é agrupado em relatório diário, exceto quando a barragem estiver em Laranja ou acima, caso em que é imediato |
+
+## 4.8 Despacho unificado (implementação)
+
+A fila textual do piloto (`alertas/piloto/*.txt`) é despachável por:
+
+1. **Telegram** — `VIGI_TELEGRAM_BOT_TOKEN` + `VIGI_TELEGRAM_CHAT_ID`
+2. **E-mail SMTP** — `VIGI_SMTP_HOST`, `VIGI_SMTP_PORT`, `VIGI_SMTP_USER`, `VIGI_SMTP_PASS`, `VIGI_SMTP_FROM`
+
+Script: `scripts/29_despacho_alertas.py` (dry-run por padrão; `--enviar` para tentativa real).
+Log: `dados/tratados/despacho_alertas_log.csv`.
+
+Confirmação persistente: `dados/tratados/confirmacoes/confirmacoes.csv` (Streamlit) além do
+protótipo HTML em localStorage. Payload para Defesa Civil: `docs/13-defesa-civil-gancho.md`.

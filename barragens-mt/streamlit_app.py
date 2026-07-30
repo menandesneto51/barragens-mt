@@ -20,6 +20,7 @@ from streamlit_folium import st_folium
 
 from st_app.data import (
     CORES_NIVEL,
+    card_kpi,
     carregar_cnes_pontos,
     carregar_hidro_mun,
     carregar_idap,
@@ -27,8 +28,25 @@ from st_app.data import (
     carregar_populacao,
     cnes_no_buffer,
     estimar_pop_cenario,
+    filtrar_municipio,
+    municipios_catalogo,
+    projecao_semana,
+    severidade_pct,
+    tendencia_climatica_texto,
+    tendencias_estado,
 )
 from st_app.mapa_sim import html_mapa_simulacao
+from st_app.paginas_onda import (
+    bloco_quase_atencao,
+    bloco_sanitario_e_historico,
+    pagina_alertabilidade_despacho,
+    pagina_confirmacao_persistente,
+    pagina_extraterritorial,
+    pagina_municipio_360,
+    pagina_rag_docs,
+    pagina_regiao_saude,
+    pagina_vulneraveis,
+)
 from st_app.style import CSS
 
 st.set_page_config(
@@ -56,123 +74,74 @@ def _semaforo(df: pd.DataFrame) -> str:
 def pagina_comando(df: pd.DataFrame) -> None:
     st.markdown("# VIGIBARRAGENS–MT")
     st.markdown(
-        '<p class="nota">Comando estadual — IDAP + hidro SisClima/TITAN + previsão '
-        "ECMWF/GloFAS. Dados do pipeline local (CSVs tratados).</p>",
+        '<p class="nota">Comando estadual — prontidão sanitária diante de barragens, '
+        "clima e previsão. Primeira leitura em linguagem operacional (sem siglas).</p>",
         unsafe_allow_html=True,
     )
     if df.empty:
-        st.error("Base IDAP ausente. Rode `python executar.py 16 17` no projeto.")
+        st.error("Base de alerta ausente. Rode `python executar.py 16 17` no projeto.")
         return
 
-    sem = _semaforo(df)
-    st.markdown(
-        f"**Prontidão estadual:** {_badge(sem)} — {len(df)} barragens monitoradas",
-        unsafe_allow_html=True,
-    )
+    munis = municipios_catalogo(df)
+    from st_app.indicadores import carregar_contatos
 
-    c1, c2, c3, c4, c5, c6 = st.columns(6)
-    cont = df["nivel"].value_counts()
-    amarelo_mais = int(
-        cont.get("Amarelo", 0)
-        + cont.get("Laranja", 0)
-        + cont.get("Vermelho", 0)
-        + cont.get("Roxo", 0)
+    contatos = carregar_contatos()
+    regioes = (
+        sorted(contatos["regiao_saude"].dropna().unique().tolist())
+        if not contatos.empty and "regiao_saude" in contatos.columns
+        else []
     )
-    c1.metric("Monitoradas", len(df))
-    c2.metric("Amarelo+", amarelo_mais)
-    c3.metric("Amarelo", int(cont.get("Amarelo", 0)))
-    c4.metric("Verde", int(cont.get("Verde", 0)))
-    c5.metric("Piloto", int(df["piloto"].sum()) if "piloto" in df.columns else 0)
-    alertaveis = (df.get("alertavel") == "sim").sum() if "alertavel" in df.columns else 0
-    c6.metric("Alertáveis", int(alertaveis))
-
-    st.subheader("Indicadores de risco")
-    idap_max = float(df["idap_n"].max()) if "idap_n" in df.columns else 0
-    idap_med = float(df["idap_n"].mean()) if "idap_n" in df.columns else 0
-    pressao_a = int((df.get("pontos_a", 0) > 0).sum()) if "pontos_a" in df.columns else 0
-    r1 = st.columns(5)
-    r1[0].metric("IDAP máximo", f"{idap_max:.0f}")
-    r1[1].metric("IDAP médio", f"{idap_med:.1f}")
-    r1[2].metric("Com pressão A", pressao_a)
-    r1[3].metric(
-        "A médio",
-        f"{df['pontos_a'].mean():.1f}" if "pontos_a" in df.columns else "—",
-    )
-    r1[4].metric(
-        "B médio",
-        f"{df['pontos_b'].mean():.1f}" if "pontos_b" in df.columns else "—",
-    )
-    r2 = st.columns(5)
-    r2[0].metric(
-        "Chuva 24h máx.",
-        f"{df['chuva_24h_mm'].max():.1f} mm" if "chuva_24h_mm" in df.columns else "—",
-    )
-    r2[1].metric(
-        "Chuva 72h máx.",
-        f"{df['chuva_72h_mm'].max():.1f} mm" if "chuva_72h_mm" in df.columns else "—",
-    )
-    r2[2].metric(
-        "Prevista 24–72h máx.",
-        f"{df['chuva_prevista_24_72h_mm'].max():.1f} mm"
-        if "chuva_prevista_24_72h_mm" in df.columns
-        else "—",
-    )
-    cem = 0
-    if "alerta_cemaden_nivel" in df.columns:
-        cem = int(
-            df["alerta_cemaden_nivel"]
-            .fillna("")
-            .str.lower()
-            .isin(["laranja", "vermelha", "vermelho", "roxa", "roxo", "moderado", "alto"])
-            .sum()
-        )
-    r2[3].metric("Cemaden ativos", cem)
-    regras = df.get("regras_disparadas", pd.Series(dtype=str)).fillna("")
-    r2[4].metric("Com R10–R12", int(regras.str.contains(r"R1[012]").sum()))
-    r3 = st.columns(5)
-    r3[0].metric(
-        "C médio",
-        f"{df['pontos_c'].mean():.1f}" if "pontos_c" in df.columns else "—",
-    )
-    r3[1].metric(
-        "D médio",
-        f"{df['pontos_d'].mean():.1f}" if "pontos_d" in df.columns else "—",
-    )
-    cri_alto = (
-        int(df["categoria_risco"].fillna("").str.lower().eq("alto").sum())
-        if "categoria_risco" in df.columns
-        else 0
-    )
-    dpa_alto = (
-        int(df["dano_potencial_associado"].fillna("").str.lower().eq("alto").sum())
-        if "dano_potencial_associado" in df.columns
-        else 0
-    )
-    r3[2].metric("CRI Alto", cri_alto)
-    r3[3].metric("DPA Alto", dpa_alto)
-    ext = (
-        int((pd.to_numeric(df.get("n_municipios_extraterritoriais"), errors="coerce").fillna(0) > 0).sum())
-        if "n_municipios_extraterritoriais" in df.columns
-        else 0
-    )
-    r3[4].metric("Impacto fora da sede", ext)
-    st.caption(
-        "Indicadores agregados do estado. Chuva/previsão = máximo entre barragens. "
-        "Cemaden conta sedes com alerta hidrológico/chuva acima de verde."
-    )
+    munis_por_regiao: dict[str, set[str]] = {}
+    if regioes and "municipio" in contatos.columns:
+        for _, row in contatos.dropna(subset=["regiao_saude", "municipio"]).iterrows():
+            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(str(row["municipio"]).strip())
 
     with st.sidebar:
         st.header("Filtros")
+        mun_sel = st.selectbox(
+            "Município",
+            ["(estado todo)"] + munis,
+            help="Inclui sede da barragem e municípios potencialmente afetados a jusante "
+            "(a barragem pode estar em outro município).",
+        )
+        reg_sel = st.selectbox(
+            "Região de saúde",
+            ["(todas)"] + regioes,
+            help="Filtra municípios do cadastro de contatos do eixo (expansão estadual pendente).",
+            disabled=not regioes,
+        )
         niveis = st.multiselect(
-            "Nível IDAP",
+            "Nível de prontidão",
             ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
             default=["Roxo", "Vermelho", "Laranja", "Amarelo"],
         )
-        so_piloto = st.checkbox("Só piloto Manso–Cuiabá", value=False)
-        busca = st.text_input("Busca (nome ou SNISB)", "")
-        orgao = st.text_input("Órgão", "")
+        so_piloto = st.checkbox("Só eixo Manso–Cuiabá", value=False)
+        busca = st.text_input("Busca (nome ou código)", "")
+        orgao = st.text_input("Órgão fiscalizador", "")
 
     view = df.copy()
+    mun_ativo = None if mun_sel == "(estado todo)" else mun_sel
+    if mun_ativo:
+        view = filtrar_municipio(view, mun_ativo)
+        st.markdown(
+            f'<p class="nota"><b>Recorte: {mun_ativo}</b> — lista barragens cuja sede é este '
+            "município <b>ou</b> que o têm como potencialmente afetado a jusante em caso de "
+            "rompimento (a estrutura pode estar em outro município).</p>",
+            unsafe_allow_html=True,
+        )
+    elif reg_sel != "(todas)" and reg_sel in munis_por_regiao:
+        alvos = munis_por_regiao[reg_sel]
+        mask = view["municipio_sede"].isin(alvos) if "municipio_sede" in view.columns else pd.Series(False, index=view.index)
+        if "municipios_potencialmente_afetados" in view.columns:
+            mask = mask | view["municipios_potencialmente_afetados"].fillna("").apply(
+                lambda t: any(m in str(t).split("|") for m in alvos)
+            )
+        view = view.loc[mask].copy()
+        st.markdown(
+            f'<p class="nota"><b>Região de saúde: {reg_sel}</b> — '
+            f"{len(alvos)} município(s) no cadastro de contatos.</p>",
+            unsafe_allow_html=True,
+        )
     if niveis:
         view = view[view["nivel"].isin(niveis)]
     if so_piloto and "piloto" in view.columns:
@@ -186,11 +155,258 @@ def pagina_comando(df: pd.DataFrame) -> None:
     if orgao and "orgao_fiscalizador" in view.columns:
         view = view[view["orgao_fiscalizador"].fillna("").str.contains(orgao, case=False)]
 
-    view = view.sort_values("idap_n", ascending=False)
+    if view.empty:
+        st.warning("Nenhuma barragem no recorte. Amplie níveis ou limpe o município.")
+        return
 
+    base_kpi = view
+    sem = _semaforo(base_kpi)
+    st.markdown(
+        f"**Prontidão no recorte:** {_badge(sem)} — {len(base_kpi)} barragens",
+        unsafe_allow_html=True,
+    )
+
+    cont = base_kpi["nivel"].value_counts()
+    amarelo_mais = int(
+        cont.get("Amarelo", 0)
+        + cont.get("Laranja", 0)
+        + cont.get("Vermelho", 0)
+        + cont.get("Roxo", 0)
+    )
+    tend = (
+        tendencias_estado()
+        if not mun_ativo
+        else {"amarelo_mais": None, "amarelo": None, "verde": None}
+    )
+    piloto_n = int(base_kpi["piloto"].sum()) if "piloto" in base_kpi.columns else 0
+    piloto_ama = (
+        int(
+            base_kpi.loc[
+                base_kpi["piloto"]
+                & base_kpi["nivel"].isin(["Amarelo", "Laranja", "Vermelho", "Roxo"])
+            ].shape[0]
+        )
+        if "piloto" in base_kpi.columns
+        else 0
+    )
+    alertaveis = (
+        (base_kpi.get("alertavel") == "sim").sum() if "alertavel" in base_kpi.columns else 0
+    )
+    pct_atencao = 100.0 * amarelo_mais / max(len(base_kpi), 1)
+
+    def _delta(v):
+        if v is None:
+            return None
+        seta = "▲" if v > 0 else "▼" if v < 0 else "→"
+        return f"{seta} {v:+d} vs rodada anterior"
+
+    cards = [
+        card_kpi("Barragens no recorte", str(len(base_kpi)), sev="sev-neutro"),
+        card_kpi(
+            "Em atenção ou pior",
+            str(amarelo_mais),
+            sev=severidade_pct(pct_atencao),
+            delta=_delta(tend.get("amarelo_mais")),
+            nota=f"{pct_atencao:.0f}% do recorte",
+        ),
+        card_kpi(
+            "Só faixa amarela",
+            str(int(cont.get("Amarelo", 0))),
+            sev="sev-atencao" if cont.get("Amarelo", 0) else "sev-ok",
+            delta=_delta(tend.get("amarelo")),
+        ),
+        card_kpi(
+            "Situação estável (verde)",
+            str(int(cont.get("Verde", 0))),
+            sev="sev-ok",
+            delta=_delta(tend.get("verde")),
+        ),
+        card_kpi(
+            "Eixo Manso–Cuiabá",
+            str(piloto_n),
+            sev="sev-neutro",
+            nota=f"{piloto_ama} em atenção+",
+        ),
+        card_kpi(
+            "Com canal de alerta",
+            str(int(alertaveis)),
+            sev="sev-ok" if alertaveis else "sev-atencao",
+        ),
+    ]
+    st.markdown('<div class="grade-kpis">' + "".join(cards) + "</div>", unsafe_allow_html=True)
+
+    proj = projecao_semana(base_kpi)
+    sev_t, msg_t = tendencia_climatica_texto(proj, base_kpi)
+    st.markdown(
+        f'<div class="tend-box {sev_t}"><b>Tendência para os próximos dias</b><br>{msg_t}</div>',
+        unsafe_allow_html=True,
+    )
+
+    if mun_ativo:
+        pagina_municipio_360(base_kpi, mun_ativo)
+        bloco_quase_atencao(base_kpi)
+        st.divider()
+    else:
+        bloco_sanitario_e_historico(base_kpi, mun_ativo=None)
+        bloco_quase_atencao(base_kpi)
+
+    st.subheader("Painel de situação (cores = gravidade)")
+    idap_max = float(base_kpi["idap_n"].max()) if "idap_n" in base_kpi.columns else 0
+    idap_med = float(base_kpi["idap_n"].mean()) if "idap_n" in base_kpi.columns else 0
+    a_med = float(base_kpi["pontos_a"].mean()) if "pontos_a" in base_kpi.columns else 0
+    b_med = float(base_kpi["pontos_b"].mean()) if "pontos_b" in base_kpi.columns else 0
+    c_med = float(base_kpi["pontos_c"].mean()) if "pontos_c" in base_kpi.columns else 0
+    d_med = float(base_kpi["pontos_d"].mean()) if "pontos_d" in base_kpi.columns else 0
+    a_pct = 100.0 * a_med / 30.0
+    b_pct = 100.0 * b_med / 30.0
+    c_pct = 100.0 * c_med / 25.0
+    d_pct = 100.0 * d_med / 15.0
+    pressao_a = (
+        int((base_kpi.get("pontos_a", 0) > 0).sum()) if "pontos_a" in base_kpi.columns else 0
+    )
+    chuva24 = float(base_kpi["chuva_24h_mm"].max()) if "chuva_24h_mm" in base_kpi.columns else None
+    chuva72 = float(base_kpi["chuva_72h_mm"].max()) if "chuva_72h_mm" in base_kpi.columns else None
+    prev = (
+        float(base_kpi["chuva_prevista_24_72h_mm"].max())
+        if "chuva_prevista_24_72h_mm" in base_kpi.columns
+        else None
+    )
+    cem = 0
+    if "alerta_cemaden_nivel" in base_kpi.columns:
+        cem = int(
+            base_kpi["alerta_cemaden_nivel"]
+            .fillna("")
+            .str.lower()
+            .isin(["laranja", "vermelha", "vermelho", "roxa", "roxo", "moderado", "alto"])
+            .sum()
+        )
+    regras = base_kpi.get("regras_disparadas", pd.Series(dtype=str)).fillna("")
+    n_regras = int(regras.str.contains(r"R1[012]").sum())
+    cri_alto = (
+        int(base_kpi["categoria_risco"].fillna("").str.lower().eq("alto").sum())
+        if "categoria_risco" in base_kpi.columns
+        else 0
+    )
+    dpa_alto = (
+        int(base_kpi["dano_potencial_associado"].fillna("").str.lower().eq("alto").sum())
+        if "dano_potencial_associado" in base_kpi.columns
+        else 0
+    )
+    ext = (
+        int(
+            (
+                pd.to_numeric(base_kpi.get("n_municipios_extraterritoriais"), errors="coerce").fillna(
+                    0
+                )
+                > 0
+            ).sum()
+        )
+        if "n_municipios_extraterritoriais" in base_kpi.columns
+        else 0
+    )
+
+    def _mm(v):
+        return "—" if v is None else f"{v:.1f} mm".replace(".", ",")
+
+    risco_cards = [
+        card_kpi(
+            "Índice de alerta máximo",
+            f"{idap_max:.0f}",
+            sev=severidade_pct(idap_max),
+            nota="0–100 · quanto maior, mais atenção",
+        ),
+        card_kpi(
+            "Índice de alerta médio",
+            f"{idap_med:.1f}".replace(".", ","),
+            sev=severidade_pct(idap_med),
+        ),
+        card_kpi(
+            "Pressão climática média",
+            f"{a_pct:.0f}%",
+            sev=severidade_pct(a_pct),
+            nota=f"{a_med:.1f} de 30 pontos".replace(".", ","),
+        ),
+        card_kpi(
+            "Condição da estrutura (média)",
+            f"{b_pct:.0f}%",
+            sev=severidade_pct(b_pct),
+            nota=f"{b_med:.1f} de 30 pontos".replace(".", ","),
+        ),
+        card_kpi(
+            "Impacto sanitário potencial",
+            f"{c_pct:.0f}%",
+            sev=severidade_pct(c_pct),
+            nota=f"{c_med:.1f} de 25 pontos".replace(".", ","),
+        ),
+        card_kpi(
+            "Déficit de capacidade de resposta",
+            f"{d_pct:.0f}%",
+            sev=severidade_pct(d_pct),
+            nota=f"{d_med:.1f} de 15 pontos".replace(".", ","),
+        ),
+        card_kpi(
+            "Barragens com pressão climática",
+            str(pressao_a),
+            sev=severidade_pct(100.0 * pressao_a / max(len(base_kpi), 1)),
+        ),
+        card_kpi(
+            "Chuva nas últimas 24 h (máx.)",
+            _mm(chuva24),
+            sev=severidade_pct(None if chuva24 is None else min(100, chuva24)),
+        ),
+        card_kpi(
+            "Chuva nas últimas 72 h (máx.)",
+            _mm(chuva72),
+            sev=severidade_pct(None if chuva72 is None else min(100, chuva72 * 0.5)),
+        ),
+        card_kpi(
+            "Chuva prevista (próximos dias)",
+            _mm(prev),
+            sev=severidade_pct(
+                None
+                if prev is None
+                else (100 if prev >= 140 else 70 if prev >= 80 else 40 if prev >= 40 else 10)
+            ),
+        ),
+        card_kpi(
+            "Alertas oficiais de chuva/hidro",
+            str(cem),
+            sev="sev-alto" if cem else "sev-ok",
+        ),
+        card_kpi(
+            "Alertas externos / previsão extrema",
+            str(n_regras),
+            sev="sev-elevado" if n_regras else "sev-ok",
+        ),
+        card_kpi(
+            "Cadastro: risco estrutural alto",
+            str(cri_alto),
+            sev="sev-alto" if cri_alto else "sev-ok",
+        ),
+        card_kpi(
+            "Cadastro: dano potencial alto",
+            str(dpa_alto),
+            sev="sev-alto" if dpa_alto else "sev-ok",
+        ),
+        card_kpi(
+            "Impacto possível fora da sede",
+            str(ext),
+            sev="sev-atencao" if ext else "sev-ok",
+        ),
+    ]
+    st.markdown(
+        '<div class="grade-kpis">' + "".join(risco_cards) + "</div>",
+        unsafe_allow_html=True,
+    )
+    st.caption(
+        "Verde = confortável · amarelo = atenção · laranja/vermelho/roxo = gravidade crescente. "
+        "Pressão climática em % do teto (ex.: 90% = cenário alto, borda vermelha)."
+    )
+
+    view = view.sort_values("idap_n", ascending=False)
     esquerda, direita = st.columns([1.35, 1])
     with esquerda:
-        st.subheader("Mapa por faixa IDAP")
+        st.subheader("Mapa por faixa de prontidão")
         pts = view.dropna(subset=["latitude", "longitude"])
         if pts.empty:
             st.info("Sem coordenadas no recorte filtrado.")
@@ -199,6 +415,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
             for _, r in pts.iterrows():
                 cor = CORES_NIVEL.get(r["nivel"], "#888")
                 critico = r["nivel"] != "Verde"
+                papel = r.get("papel_municipio") or ""
                 folium.CircleMarker(
                     location=[r["latitude"], r["longitude"]],
                     radius=9 if critico else 4,
@@ -208,10 +425,11 @@ def pagina_comando(df: pd.DataFrame) -> None:
                     fill_color=cor,
                     fill_opacity=0.9 if critico else 0.55,
                     popup=folium.Popup(
-                        f"<b>{r['nome']}</b><br>IDAP {r.get('idap','—')} — {r['nivel']}<br>"
+                        f"<b>{r['nome']}</b><br>Índice {r.get('idap','—')} — {r['nivel']}<br>"
                         f"Sede: {r.get('municipio_sede','—')}<br>"
-                        f"Chuva 24/72h: {r.get('chuva_24h_mm','—')} / {r.get('chuva_72h_mm','—')} mm<br>"
-                        f"Prevista 24–72h: {r.get('chuva_prevista_24_72h_mm','—')} mm",
+                        + (f"{papel}<br>" if papel else "")
+                        + f"Chuva 24/72h: {r.get('chuva_24h_mm','—')} / {r.get('chuva_72h_mm','—')} mm<br>"
+                        f"Prevista: {r.get('chuva_prevista_24_72h_mm','—')} mm",
                         max_width=320,
                     ),
                 ).add_to(m)
@@ -223,22 +441,38 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
     with direita:
         st.subheader("Top 15 — olhar primeiro")
-        top = view.head(15)[
-            [
-                c
-                for c in (
-                    "idap",
-                    "nivel",
-                    "nome",
-                    "municipio_sede",
-                    "pontos_a",
-                    "chuva_24h_mm",
-                    "chuva_prevista_24_72h_mm",
-                    "alertavel",
-                )
-                if c in view.columns
-            ]
+        cols_top = [
+            c
+            for c in (
+                "idap",
+                "nivel",
+                "nome",
+                "municipio_sede",
+                "papel_municipio",
+                "pontos_a",
+                "chuva_24h_mm",
+                "chuva_prevista_24_72h_mm",
+                "alertavel",
+            )
+            if c in view.columns
         ]
+        if "completude" in view.columns and "completude" not in cols_top:
+            cols_top.append("completude")
+        top = view.head(15)[cols_top].rename(
+            columns={
+                "idap": "Índice",
+                "nivel": "Prontidão",
+                "nome": "Barragem",
+                "municipio_sede": "Sede",
+                "papel_municipio": "Papel no município",
+                "pontos_a": "Pressão clima",
+                "chuva_24h_mm": "Chuva 24h",
+                "chuva_prevista_24_72h_mm": "Chuva prevista",
+                "alertavel": "Alertável",
+                "completude": "Completude",
+            }
+        )
+        st.caption("Completude baixa no Top 15 = risco de falso verde / índice frágil.")
         st.dataframe(top, use_container_width=True, hide_index=True, height=520)
 
     st.subheader(f"Fila operacional ({len(view)})")
@@ -249,6 +483,8 @@ def pagina_comando(df: pd.DataFrame) -> None:
             "nivel",
             "nome",
             "municipio_sede",
+            "papel_municipio",
+            "municipios_potencialmente_afetados",
             "orgao_fiscalizador",
             "pontos_a",
             "pontos_b",
@@ -257,16 +493,33 @@ def pagina_comando(df: pd.DataFrame) -> None:
             "chuva_72h_mm",
             "chuva_prevista_24_72h_mm",
             "alerta_cemaden_nivel",
-            "nivel_alerta_integrado",
-            "regras_disparadas",
             "alertavel",
         )
         if c in view.columns
     ]
-    st.dataframe(view[cols], use_container_width=True, hide_index=True, height=360)
-    st.caption(
-        "Completude baixa ≠ verde seguro. Hidro = máximo sede+montante (Otto). "
-        "Alertas Cemaden/INMET no município-sede. A3 = Open-Meteo ECMWF."
+    st.dataframe(
+        view[cols].rename(
+            columns={
+                "idap": "Índice",
+                "nivel": "Prontidão",
+                "nome": "Barragem",
+                "municipio_sede": "Sede",
+                "papel_municipio": "Papel no município filtrado",
+                "municipios_potencialmente_afetados": "Municípios potencialmente afetados",
+                "orgao_fiscalizador": "Órgão",
+                "pontos_a": "Pressão clima",
+                "pontos_b": "Estrutura",
+                "pontos_c": "Impacto sanitário",
+                "pontos_d": "Déficit resposta",
+                "chuva_72h_mm": "Chuva 72h",
+                "chuva_prevista_24_72h_mm": "Chuva prevista",
+                "alerta_cemaden_nivel": "Alerta oficial",
+                "alertavel": "Alertável",
+            }
+        ),
+        use_container_width=True,
+        hide_index=True,
+        height=420,
     )
 
 
@@ -314,9 +567,10 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
 
 
 def pagina_piloto(piloto: pd.DataFrame) -> None:
-    st.markdown("# Piloto Manso–Cuiabá")
+    st.markdown("# Eixo Manso–Cuiabá")
     st.markdown(
-        '<p class="nota">Ciclo dado → IDAP → alerta no eixo que pode afetar Cuiabá / VG.</p>',
+        '<p class="nota">Recorte operacional do eixo que pode afetar Cuiabá / Várzea Grande '
+        "(antes chamado «piloto»).</p>",
         unsafe_allow_html=True,
     )
     if piloto.empty:
@@ -352,8 +606,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     if base.empty:
         st.warning("Sem volumes no inventário.")
         return
-    recorte = st.radio("Recorte", ["Piloto", "Top 40 volumes", "Todas com volume"], horizontal=True)
-    if recorte == "Piloto":
+    recorte = st.radio("Recorte", ["Eixo Manso–Cuiabá", "Top 40 volumes", "Todas com volume"], horizontal=True)
+    if recorte == "Eixo Manso–Cuiabá":
         base = base[base.get("piloto", False) == True]  # noqa: E712
     elif recorte == "Top 40 volumes":
         base = base.sort_values("capacidade_hm3", ascending=False).head(40)
@@ -404,13 +658,18 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     k3.metric("Raio equivalente", _fmt_br(raio, 2, " km"))
     k4.metric("IDAP", f"{r.get('idap', '—')} ({r.get('nivel', '—')})")
     p1, p2, p3, p4 = st.columns(4)
+    n_prio = (
+        int(us_buf["prioritario"].sum())
+        if n_us and "prioritario" in us_buf.columns
+        else (n_hosp + n_upa + n_ubs)
+    )
     p1.metric("População estimada", f"{pop_n:,}".replace(",", "."))
-    p2.metric("US no buffer", n_us)
+    p2.metric("US no buffer (todas)", n_us)
     p3.metric("Hospital / UPA", f"{n_hosp} / {n_upa}")
-    p4.metric("UBS / ESF", n_ubs)
+    p4.metric("Prioritárias (APS/urg.)", n_prio)
     st.caption(
         f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
-        "CNES: estabelecimentos prioritários com coordenada no raio "
+        "CNES: **todas** as unidades com coordenada no raio "
         "(rede do eixo Cuiabá; fora da região o contador pode ficar vazio)."
     )
 
@@ -426,6 +685,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "pr": int(row.prioridade),
                 "h": 1 if row.hospitalar else 0,
                 "upa": 1 if row.upa_ps else 0,
+                "ubs": 1 if row.ubs_esf else 0,
+                "prio": 1 if getattr(row, "prioritario", False) else 0,
             }
             for row in cnes.itertuples()
         ] if not cnes.empty else []
@@ -445,6 +706,35 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         components.html(html, height=500, scrolling=False)
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
+
+    from st_app.indicadores import carregar_exposicao_vulneraveis
+    from st_app.data import haversine_km
+
+    vul = carregar_exposicao_vulneraveis()
+    if (
+        not vul.empty
+        and pd.notna(r.get("latitude"))
+        and pd.notna(r.get("longitude"))
+    ):
+        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+        vul = vul.dropna(subset=["latitude", "longitude"]).copy()
+        vul["dist_km"] = vul.apply(
+            lambda row: haversine_km(lat0, lon0, float(row["latitude"]), float(row["longitude"])),
+            axis=1,
+        )
+        no_buf = vul[vul["dist_km"] <= raio].sort_values("dist_km")
+        st.subheader("Populações vulneráveis no buffer (proxy)")
+        if no_buf.empty:
+            st.caption("Nenhuma aldeia/assentamento/quilombo do eixo dentro do raio equivalente.")
+        else:
+            st.dataframe(
+                no_buf[
+                    [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_buf.columns]
+                ].head(40),
+                use_container_width=True,
+                hide_index=True,
+                height=220,
+            )
 
     if n_us:
         st.markdown(
@@ -506,9 +796,9 @@ def pagina_interpretacao() -> None:
             "Sem canal confirmado, o território fica menos preparado mesmo com IDAP moderado.",
         ),
         (
-            "Amarelo+ / semáforo estadual",
-            "Contagem de barragens em Amarelo ou acima. Define a prontidão agregada do estado "
-            "no comando (pior nível presente na base).",
+            "Em atenção+ / semáforo estadual",
+            "Contagem de barragens fora do Verde (Amarelo+Laranja+Vermelho+Roxo). "
+            "Define a prontidão agregada do estado no comando (pior nível presente na base).",
         ),
         (
             "População estimada (simulação)",
@@ -617,6 +907,100 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         st.warning(f"Lacunas: {r['lacunas']}")
 
 
+def pagina_tipologia(df: pd.DataFrame) -> None:
+    """Mapa estadual colorido por uso principal (tipologia)."""
+    st.markdown("# Barragens por tipologia")
+    st.markdown(
+        '<p class="nota">Uso principal do cadastro SNISB — visão estadual. '
+        "Cores institucionais SES-MT / agrupamento operacional.</p>",
+        unsafe_allow_html=True,
+    )
+    base = df.dropna(subset=["latitude", "longitude"]).copy()
+    if base.empty:
+        st.warning("Sem coordenadas.")
+        return
+
+    def _tip(uso: object) -> str:
+        u = str(uso or "").lower()
+        regras = [
+            ("Irrigação", ("irrig",)),
+            ("Rejeito / mineração", ("rejeito", "sedimento", "miner")),
+            ("Hidroelétrica", ("hidroel", "hidrel")),
+            ("Aquicultura", ("aquicult",)),
+            ("Abastecimento humano", ("abastec", "humano")),
+            ("Dessedentação animal", ("dessedent",)),
+            ("Recreação / paisagismo", ("recrea", "paisag")),
+        ]
+        for rotulo, chaves in regras:
+            if any(c in u for c in chaves):
+                return rotulo
+        return "Industrial / outros"
+
+    cores = {
+        "Irrigação": "#2a4aad",
+        "Rejeito / mineração": "#b91c1c",
+        "Hidroelétrica": "#0e7490",
+        "Aquicultura": "#0369a1",
+        "Abastecimento humano": "#1b3281",
+        "Dessedentação animal": "#854d0e",
+        "Recreação / paisagismo": "#64748b",
+        "Industrial / outros": "#475569",
+    }
+    uso_col = "uso_principal" if "uso_principal" in base.columns else None
+    if uso_col is None:
+        st.error("Coluna uso_principal ausente no inventário mesclado.")
+        return
+    base["tipologia"] = base[uso_col].map(_tip)
+    cont = base["tipologia"].value_counts()
+    cols = st.columns(min(4, len(cont)))
+    for i, (tip, n) in enumerate(cont.items()):
+        cols[i % len(cols)].metric(str(tip), int(n))
+
+    filtro = st.multiselect(
+        "Tipologias no mapa",
+        list(cont.index),
+        default=list(cont.index),
+    )
+    view = base[base["tipologia"].isin(filtro)] if filtro else base
+    m = folium.Map(location=[-13.0, -55.8], zoom_start=6, tiles="CartoDB positron")
+    for r in view.itertuples():
+        folium.CircleMarker(
+            [r.latitude, r.longitude],
+            radius=5,
+            color="#fff",
+            weight=1,
+            fill=True,
+            fill_color=cores.get(r.tipologia, "#888"),
+            fill_opacity=0.9,
+            popup=f"{r.nome}<br>{r.tipologia}<br>{getattr(r, uso_col, '')}",
+        ).add_to(m)
+    st_folium(m, height=520, use_container_width=True, returned_objects=[])
+    st.caption("Painel HTML equivalente: `painel/tipologia.html` (etapa 28).")
+
+
+def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
+    """Abre telas HTML do painel operacional (mesmas do comando estadual)."""
+    st.markdown(f"# {titulo}")
+    st.markdown(f'<p class="nota">{nota}</p>', unsafe_allow_html=True)
+    caminho = Path(__file__).parent / "painel" / nome_arquivo
+    if not caminho.exists():
+        st.error(
+            f"Arquivo `{nome_arquivo}` ausente. Regenere com "
+            "`python executar.py 07 20 21 22 23 25 27`."
+        )
+        return
+    st.caption(f"Fonte: `painel/{nome_arquivo}` — mesma tela do painel HTML.")
+    # Em Cloud o path file:// não abre; oferecemos o HTML embutido quando possível.
+    try:
+        html = caminho.read_text(encoding="utf-8")
+        # Páginas muito grandes (barragem/inventário) — iframe altura maior.
+        altura = 900 if caminho.stat().st_size > 400_000 else 720
+        components.html(html, height=altura, scrolling=True)
+    except Exception as exc:  # noqa: BLE001
+        st.warning(f"Não foi possível embutir o HTML ({exc}). Abra o arquivo localmente.")
+        st.code(str(caminho))
+
+
 def main() -> None:
     with st.sidebar:
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
@@ -629,10 +1013,21 @@ def main() -> None:
             [
                 "Comando estadual",
                 "Hidro municipal",
-                "Piloto Manso–Cuiabá",
+                "Eixo Manso–Cuiabá",
                 "Simulação volume/área",
                 "Barragem 360°",
+                "Populações vulneráveis",
+                "Impacto extraterritorial",
+                "Mapa por tipologia",
                 "Interpretação / KPIs",
+                "Alertabilidade / despacho",
+                "Confirmação persistente",
+                "Região de saúde",
+                "Documentos (RAG leve)",
+                "Fila de alertas",
+                "Ficha rápida",
+                "Confirmação (HTML)",
+                "Inventário",
             ],
             label_visibility="collapsed",
         )
@@ -644,12 +1039,52 @@ def main() -> None:
         pagina_comando(df)
     elif pagina == "Hidro municipal":
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
-    elif pagina == "Piloto Manso–Cuiabá":
+    elif pagina == "Eixo Manso–Cuiabá":
         pagina_piloto(carregar_piloto())
     elif pagina == "Simulação volume/área":
         pagina_simulacao(df)
+    elif pagina == "Mapa por tipologia":
+        pagina_tipologia(df)
+    elif pagina == "Populações vulneráveis":
+        pagina_vulneraveis()
+    elif pagina == "Impacto extraterritorial":
+        pagina_extraterritorial()
     elif pagina == "Interpretação / KPIs":
         pagina_interpretacao()
+    elif pagina == "Barragem 360°":
+        pagina_ficha(df)
+    elif pagina == "Alertabilidade / despacho":
+        pagina_alertabilidade_despacho()
+    elif pagina == "Confirmação persistente":
+        pagina_confirmacao_persistente()
+    elif pagina == "Região de saúde":
+        pagina_regiao_saude()
+    elif pagina == "Documentos (RAG leve)":
+        pagina_rag_docs()
+    elif pagina == "Fila de alertas":
+        pagina_html_painel(
+            "alertas.html",
+            "Fila de alertas",
+            "Fila do piloto — textos territorializados. Escalonamento a canais reais ainda não ligado.",
+        )
+    elif pagina == "Ficha rápida":
+        pagina_html_painel(
+            "ficha_rapida.html",
+            "Ficha rápida pós-desastre",
+            "Captura operacional quando os sistemas oficiais ainda não refletem o evento.",
+        )
+    elif pagina == "Confirmação (HTML)":
+        pagina_html_painel(
+            "confirmacao_alerta.html",
+            "Confirmação de alerta",
+            "Prazos por nível e registro local de confirmação (protótipo).",
+        )
+    elif pagina == "Inventário":
+        pagina_html_painel(
+            "inventario.html",
+            "Inventário de barragens",
+            "Cadastro consolidado SNISB/SIGBM/SEMA — visão de fiscalização.",
+        )
     else:
         pagina_ficha(df)
 
