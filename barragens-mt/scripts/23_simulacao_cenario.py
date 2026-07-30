@@ -26,10 +26,10 @@ if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
 from idap.impacto_sanitario import (  # noqa: E402
-    DENSIDADE_HAB_KM2,
     DENSIDADE_PADRAO,
     PERFIL_AGUA,
     PERFIL_REJEITO,
+    _carregar_densidades_ibge,
     eh_rejeito,
 )
 
@@ -175,7 +175,11 @@ MODELO = r"""<!DOCTYPE html>
 :root{--ink:#15202b;--muted:#5a6b7a;--paper:#e9eef2;--card:#fff;--line:#d0d8e0;--accent:#0b6e4f;--warn:#9a3412}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
-background:radial-gradient(ellipse at 0% 0%,#fde8d8,transparent 42%),var(--paper)}
+background:radial-gradient(ellipse at 0% 0%,#fde8d8,transparent 42%),
+radial-gradient(ellipse at 100% 8%,#d5e6dc,transparent 38%),var(--paper)}
+@keyframes fadeInUs{to{opacity:1}}
+@keyframes pulseRing{0%{opacity:.55}50%{opacity:.28}100%{opacity:.55}}
+.mancha-pulse{animation:pulseRing 1.4s ease-in-out infinite}
 header{padding:18px 22px 12px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.9);
 display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end}
 .marca{font-family:"Fraunces",Georgia,serif;font-size:1.65rem;margin:0 0 4px;font-weight:600}
@@ -256,6 +260,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <button type="button" id="btnPlay" style="padding:8px 12px;border:0;background:#9a3412;color:#fff;font:inherit;font-weight:600;cursor:pointer">▶ Animar no mapa</button>
         <button type="button" id="btnStop" style="padding:8px 12px;border:0;background:#e4e9ef;color:#15202b;font:inherit;font-weight:600;cursor:pointer">Parar</button>
       </div>
+      <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Animação leve no mapa (sem GIF). Expande a mancha e revela US no buffer.</p>
       <div class="kpis">
         <div class="kpi"><div class="n" id="kVol">—</div><div class="r">Volume cadastro (hm³)</div></div>
         <div class="kpi"><div class="n" id="kLib">—</div><div class="r">Volume liberado (hm³)</div></div>
@@ -414,7 +419,7 @@ function iconeUs(p) {
   </svg>`;
   return L.divIcon({
     className: 'leaflet-cross-icon',
-    html,
+    html: `<div style="opacity:0;animation:fadeIn .4s forwards">${html}</div>`,
     iconSize: [24, 24],
     iconAnchor: [12, 12],
     popupAnchor: [0, -12]
@@ -503,8 +508,9 @@ function desenhar() {
       color: corMancha,
       weight: 2,
       fillColor: fillMancha,
-      fillOpacity: 0.38,
-      opacity: 0.95
+      fillOpacity: 0.22 + 0.28 * Math.min(1, Math.max(0.15, frac)),
+      opacity: 0.7 + 0.25 * Math.min(1, frac),
+      className: 'mancha-pulse'
     }).bindPopup(
       `<b>Área atingida (proxy)</b><br>${fmt(area)} km² · raio ${fmt(raio,2)} km<br>` +
       `Pop. est. ${fmt(est.pop,0)}` +
@@ -568,7 +574,7 @@ document.getElementById('btnPlay').onclick = () => {
     if (f > 100) { clearInterval(timerAnim); timerAnim = null; desenhar(); return; }
     fracEl.value = f;
     desenhar();
-  }, 180);
+  }, 160);
 };
 document.getElementById('btnStop').onclick = () => {
   if (timerAnim) { clearInterval(timerAnim); timerAnim = null; }
@@ -606,7 +612,7 @@ def main() -> None:
             "__CNES__",
             json.dumps(pontos_cnes, ensure_ascii=False, separators=(",", ":")),
         )
-        .replace("__DENS__", json.dumps(DENSIDADE_HAB_KM2, ensure_ascii=False, separators=(",", ":")))
+        .replace("__DENS__", json.dumps(_carregar_densidades_ibge(), ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS_PADRAO__", str(DENSIDADE_PADRAO))
         .replace("__PERFIS__", json.dumps(perfis, ensure_ascii=False, separators=(",", ":")))
         .replace("__GERADO__", dt.datetime.now().strftime("%d/%m/%Y %H:%M"))

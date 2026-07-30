@@ -52,6 +52,7 @@ ETAPAS = [
     ("23", "23_simulacao_cenario.py", "Simulação volume → área atingida (proxy)", True),
     ("24", "24_video_simulacao.py", "GIF animado da simulação (Manso)", True),
     ("25", "25_barragem_360.py", "Barragem 360° (Tela 3)", True),
+    ("27", "27_glossario_painel.py", "Interpretação / KPIs (glossário operacional)", True),
 ]
 
 

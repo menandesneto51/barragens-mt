@@ -155,8 +155,15 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "pi": 1 if bid in piloto_ids else 0,
                 "c24": num(h.get("chuva_24h_mm")),
                 "c72": num(h.get("chuva_72h_mm")),
+                "cprev": num(h.get("chuva_prevista_24_72h_mm")),
+                "pct": num(h.get("percentil_climatologico")),
                 "sat": h.get("saturacao_antecedente") or "",
+                "satn": num(h.get("saturacao_antecedente")),
                 "nh": h.get("nivel_alerta_hidro") or "",
+                "cem": h.get("alerta_cemaden_nivel") or "",
+                "cemt": h.get("alerta_cemaden") or "",
+                "aint": h.get("nivel_alerta_integrado") or "",
+                "glofas": num(h.get("vazao_prevista_glofas_m3s")),
                 "aprox": h.get("aproximacao_espacial") or "",
                 "dh": h.get("data_referencia") or "",
                 "inst": linha.get("instante") or "",
@@ -172,6 +179,19 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         idade_arquivo("piloto_manso_cuiaba.csv"),
         idade_arquivo("alertabilidade_piloto.csv"),
     ]
+
+    def _max(campo: str) -> float | None:
+        vals = [r[campo] for r in registros if r.get(campo) is not None]
+        return round(max(vals), 1) if vals else None
+
+    def _media(campo: str) -> float | None:
+        vals = [float(r[campo]) for r in registros if r.get(campo) is not None]
+        return round(sum(vals) / len(vals), 1) if vals else None
+
+    idaps = [r["idap"] for r in registros]
+    amarelo_mais = sum(
+        niveis.get(n, 0) for n in ("Amarelo", "Laranja", "Vermelho", "Roxo")
+    )
     meta = {
         "gerado": dt.datetime.now().strftime("%d/%m/%Y %H:%M"),
         "total": len(registros),
@@ -184,6 +204,46 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "instante_idap": next((r["inst"] for r in registros if r["inst"]), ""),
         "data_hidro": next((r["dh"] for r in registros if r["dh"]), ""),
         "frescor": frescor,
+        "risco": {
+            "amarelo_mais": amarelo_mais,
+            "idap_max": max(idaps) if idaps else 0,
+            "idap_medio": round(sum(idaps) / len(idaps), 1) if idaps else 0,
+            "com_pressao_a": sum(1 for r in registros if r["pa"] > 0),
+            "a_medio": _media("pa") or 0,
+            "b_medio": _media("pb") or 0,
+            "c_medio": _media("pc") or 0,
+            "d_medio": _media("pd") or 0,
+            "chuva24_max": _max("c24"),
+            "chuva72_max": _max("c72"),
+            "prevista_max": _max("cprev"),
+            "percentil_max": _max("pct"),
+            "cemaden_ativos": sum(
+                1
+                for r in registros
+                if r.get("cem") and str(r["cem"]).lower() not in {"", "verde"}
+            ),
+            "integrado_alto": sum(
+                1
+                for r in registros
+                if str(r.get("aint") or "").lower()
+                in {"laranja", "vermelha", "vermelho", "roxa", "roxo"}
+            ),
+            "regras_r10": sum(1 for r in registros if "R10" in (r.get("reg") or "")),
+            "regras_r11": sum(1 for r in registros if "R11" in (r.get("reg") or "")),
+            "regras_r12": sum(1 for r in registros if "R12" in (r.get("reg") or "")),
+            "cri_alto": sum(
+                1 for r in registros if (r.get("cri") or "").strip().lower() == "alto"
+            ),
+            "dpa_alto": sum(
+                1 for r in registros if (r.get("dpa") or "").strip().lower() == "alto"
+            ),
+            "rejeito": sum(
+                1
+                for r in registros
+                if "rejeito" in (r.get("us") or "").lower()
+                or "miner" in (r.get("og") or "").lower()
+            ),
+        },
     }
     for faixa in ("Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"):
         if meta["niveis"].get(faixa, 0) > 0:
@@ -226,9 +286,12 @@ padding:6px 10px;border:1px solid var(--line);background:#fff}
 nav a:hover{background:#f0f7f3}
 main{padding:16px 24px 40px;max-width:1600px;margin:0 auto}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-bottom:14px}
-.kpi{background:var(--card);border:1px solid var(--line);padding:11px 12px}
+.kpi{background:var(--card);border:1px solid var(--line);padding:11px 12px;
+box-shadow:0 1px 0 rgba(21,32,43,.04)}
 .kpi .n{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
 .kpi .r{font-size:10.5px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+section h2{font-family:"Fraunces",Georgia,serif;font-size:1.15rem;font-weight:600;margin:18px 0 8px;
+letter-spacing:-.02em}
 .semaforo{display:flex;align-items:center;gap:10px;padding:10px 14px;margin-bottom:10px;
 background:var(--card);border:1px solid var(--line)}
 .semaforo .luz{width:18px;height:18px;border-radius:50%}
@@ -277,6 +340,7 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
     <a href="hidro.html">Hidro municipal</a>
     <a href="barragem.html">Barragem 360°</a>
     <a href="simulacao.html">Simulação volume/área</a>
+    <a href="glossario.html">Interpretação / KPIs</a>
     <a href="piloto_manso_cuiaba.html">Piloto Manso–Cuiabá</a>
     <a href="alertas.html">Fila de alertas</a>
     <a href="ficha_rapida.html">Ficha rápida</a>
@@ -288,6 +352,15 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
   <div class="semaforo" id="semaforo"></div>
   <div class="frescor" id="frescor"></div>
   <div class="kpis" id="kpis"></div>
+  <div class="cartao" style="margin-bottom:14px">
+    <h2>Indicadores de risco (estadual)</h2>
+    <div class="kpis" id="riscoKpis" style="padding:12px 14px;margin:0"></div>
+    <p style="margin:0 14px 12px;font-size:12px;color:var(--muted);line-height:1.45">
+      IDAP e dimensões A–D vêm do cálculo estadual. Chuva/previsão = máximo entre barragens
+      (SisClima + ECMWF). Cemaden/integrado = sede com alerta acima de verde. Regras R10–R12
+      elevam faixa por alerta externo ou previsão extrema.
+    </p>
+  </div>
   <div class="cartao" style="margin-bottom:14px">
     <h2>Histórico IDAP (snapshots)</h2>
     <div id="histEstado" style="padding:10px 14px"></div>
@@ -320,13 +393,13 @@ tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
     <div class="rolagem" style="max-height:220px"><table>
       <thead><tr>
         <th>Nível</th><th>IDAP</th><th>A</th><th>Chuva 24h</th><th>Chuva 72h</th>
-        <th>Saturação</th><th>Nível hidro</th><th>Barragem</th><th>Sede</th>
+        <th>Prevista</th><th>Saturação</th><th>Cemaden</th><th>Barragem</th><th>Sede</th>
       </tr></thead>
       <tbody id="clima"></tbody>
     </table></div>
     <p style="margin:8px 14px 12px;font-size:12px;color:var(--muted)">
       Lista: nível ≠ Verde <em>ou</em> pontos A &gt; 0. Clique na linha para ir ao mapa.
-      A = pressão hidroclimática do IDAP; chuva/saturação vêm do coletor 17.
+      A = pressão hidroclimática do IDAP; chuva/saturação/previsão vêm do coletor 17.
     </p>
   </div>
   <div class="grade">
@@ -443,6 +516,40 @@ const kpis = document.getElementById('kpis');
   kpis.appendChild(d);
 });
 
+(function renderRisco(){
+  const R = META.risco || {};
+  const fmt = (v, s='') => (v==null || v==='') ? '—' : (typeof v==='number' ? String(v).replace('.',',')+s : v);
+  const el = document.getElementById('riscoKpis');
+  if (!el) return;
+  [
+    ['Amarelo+', R.amarelo_mais],
+    ['IDAP máx.', R.idap_max],
+    ['IDAP médio', R.idap_medio],
+    ['Com pressão A', R.com_pressao_a],
+    ['A médio', R.a_medio],
+    ['B médio', R.b_medio],
+    ['C médio', R.c_medio],
+    ['D médio', R.d_medio],
+    ['Chuva 24h máx.', fmt(R.chuva24_max,' mm')],
+    ['Chuva 72h máx.', fmt(R.chuva72_max,' mm')],
+    ['Prevista 24–72h máx.', fmt(R.prevista_max,' mm')],
+    ['Percentil máx.', fmt(R.percentil_max)],
+    ['Cemaden ativos (sede)', R.cemaden_ativos],
+    ['Integrado alto (sede)', R.integrado_alto],
+    ['Regras R10', R.regras_r10],
+    ['Regras R11', R.regras_r11],
+    ['Regras R12', R.regras_r12],
+    ['CRI Alto', R.cri_alto],
+    ['DPA Alto', R.dpa_alto],
+    ['Rejeito / mineração', R.rejeito],
+  ].forEach(([rotulo, val]) => {
+    const d = document.createElement('div');
+    d.className = 'kpi';
+    d.innerHTML = `<div class="n">${val==null?'—':val}</div><div class="r">${rotulo}</div>`;
+    el.appendChild(d);
+  });
+})();
+
 document.getElementById('legenda').innerHTML = Object.entries(CORES).map(
   ([n,c]) => `<span><i style="background:${c}"></i>${n}</span>`
 ).join('');
@@ -481,7 +588,9 @@ function popup(d) {
   Dimensões A${d.pa} B${d.pb} C${d.pc} D${d.pd}<br>
   Sede: ${d.mu}<br>
   <b>Clima</b> — chuva 24h/72h: ${d.c24 ?? '—'} / ${d.c72 ?? '—'} mm<br>
+  Prevista 24–72h: ${d.cprev ?? '—'} mm · percentil: ${d.pct ?? '—'}<br>
   Saturação: ${d.sat || '—'} · estágio hidro: ${d.nh || '—'}<br>
+  Cemaden: ${d.cem || '—'} · integrado SIS: ${d.aint || '—'}<br>
   Aprox. espacial hidro: ${d.aprox || '—'}<br>
   Alertável: ${d.al}<br>
   Afetados: ${d.af || '—'}<br>
@@ -538,9 +647,10 @@ function render() {
       <td><span class="etq ${d.nv}">${d.nv}</span></td>
       <td>${d.idap}</td><td>${d.pa}</td>
       <td>${d.c24 ?? '—'}</td><td>${d.c72 ?? '—'}</td>
-      <td>${d.sat || '—'}</td><td>${d.nh || '—'}</td>
+      <td>${d.cprev ?? '—'}</td>
+      <td>${d.sat || '—'}</td><td>${d.cem || d.nh || '—'}</td>
       <td>${d.no}</td><td>${d.mu}</td></tr>`).join('')
-      || '<tr><td colspan="9">Nenhuma barragem com pressão A ou nível acima de Verde.</td></tr>';
+      || '<tr><td colspan="10">Nenhuma barragem com pressão A ou nível acima de Verde.</td></tr>';
   }
 
   document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
