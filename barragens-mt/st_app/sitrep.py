@@ -38,7 +38,9 @@ def montar_sitrep_md(
         "## 1. Prontidão",
         f"- Em atenção ou pior: **{san['n_atencao']}**",
         f"- População sob pressão sanitária (estimativa): **{san['pop_sob_pressao']:,}**".replace(",", "."),
-        f"- Unidades de saúde no buffer (proxy): **{san['us_sob_risco']}** (prioritárias: {san['us_prioritarias']})",
+        f"- US nos municípios sob pressão: **{san['us_sob_risco']}** "
+        f"(prioritárias: {san['us_prioritarias']}; método: {san.get('metodo_us', '—')})",
+        f"- Municípios sob pressão (sede+jusante): **{san.get('municipios_sob_pressao', san['municipios_jusante'])}**",
         f"- Municípios a jusante distintos: **{san['municipios_jusante']}**",
         f"- Completude média do índice: **{san['completude_media'] if san['completude_media'] is not None else '—'}**",
         "",

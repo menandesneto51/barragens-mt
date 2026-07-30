@@ -444,11 +444,21 @@ def cnes_no_buffer(
 ) -> pd.DataFrame:
     if cnes.empty or raio_km <= 0 or pd.isna(lat) or pd.isna(lon):
         return pd.DataFrame()
+    # Pré-filtro por bounding box (~1° ≈ 111 km) para não varrer 12k pontos à toa.
+    grau = raio_km / 111.0 + 0.02
+    cand = cnes[
+        (cnes["latitude"] >= lat - grau)
+        & (cnes["latitude"] <= lat + grau)
+        & (cnes["longitude"] >= lon - grau)
+        & (cnes["longitude"] <= lon + grau)
+    ]
+    if cand.empty:
+        return cand
     dists = [
         haversine_km(lat, lon, float(r.latitude), float(r.longitude))
-        for r in cnes.itertuples()
+        for r in cand.itertuples()
     ]
-    out = cnes.copy()
+    out = cand.copy()
     out["dist_km"] = dists
     out = out[out["dist_km"] <= raio_km].sort_values(["prioridade", "dist_km"])
     return out.reset_index(drop=True)

@@ -43,26 +43,59 @@ def pop_estimada_barragem(row: pd.Series, fracao: float = 0.5) -> dict[str, Any]
     )
 
 
+def _norm_mun(nome: Any) -> str:
+    return str(nome or "").strip().casefold()
+
+
+def _raio_proxy_km(capacidade_hm3: float, *, minimo: float = 5.0, maximo: float = 40.0) -> float:
+    """Raio equivalente volume→área, com piso operacional (evita buffer inútil no mato)."""
+    if capacidade_hm3 <= 0:
+        return minimo
+    area = capacidade_hm3 * 0.5 / 2.0
+    raio = (area / 3.14159265) ** 0.5 if area > 0 else 0.0
+    return max(minimo, min(maximo, raio))
+
+
+def us_nos_municipios(cnes: pd.DataFrame, municipios: set[str]) -> pd.DataFrame:
+    """US cujo município está no conjunto sob pressão (sede + jusante)."""
+    if cnes.empty or not municipios:
+        return cnes.iloc[0:0].copy()
+    alvos = {_norm_mun(m) for m in municipios if str(m).strip()}
+    if not alvos or "municipio" not in cnes.columns:
+        return cnes.iloc[0:0].copy()
+    return cnes[cnes["municipio"].map(_norm_mun).isin(alvos)].copy()
+
+
 def indicadores_sanitarios(df: pd.DataFrame) -> dict[str, Any]:
-    """Agrega KPIs sanitários do recorte (estado ou município)."""
+    """Agrega KPIs sanitários do recorte (estado ou município).
+
+    Capacidade assistencial: prioriza US nos municípios sede/jusante das Em atenção+
+    (visão SES). Complementa com buffer geométrico com raio mínimo, sem double-count.
+    """
     aten = _atencao(df)
     cnes = carregar_cnes_pontos(so_prioritarios=False)
 
     pops: list[int] = []
-    us_total = 0
-    us_prio = 0
+    munis_pressao: set[str] = set()
     munis_jusante: set[str] = set()
     rejeito = 0
     dpa_sem_alerta = 0
     extra_ativo = 0
+    chaves_buf: set[tuple[Any, ...]] = set()
+    us_buf_prio = 0
 
     for _, r in aten.iterrows():
         est = pop_estimada_barragem(r)
         pops.append(int(est.get("populacao_estimada") or 0))
+        sede = str(r.get("municipio_sede") or r.get("municipio") or "").strip()
+        if sede:
+            munis_pressao.add(sede)
         afet = str(r.get("municipios_potencialmente_afetados") or "")
         for p in afet.split("|"):
-            if p.strip():
-                munis_jusante.add(p.strip())
+            p = p.strip()
+            if p:
+                munis_jusante.add(p)
+                munis_pressao.add(p)
         uso = str(r.get("uso_principal") or "").lower()
         if "rejeito" in uso or "miner" in uso:
             rejeito += 1
@@ -79,28 +112,50 @@ def indicadores_sanitarios(df: pd.DataFrame) -> dict[str, Any]:
         if (
             pd.notna(r.get("latitude"))
             and pd.notna(r.get("longitude"))
-            and pd.notna(r.get("capacidade_hm3"))
-            and float(r.get("capacidade_hm3") or 0) > 0
             and not cnes.empty
         ):
-            area = float(r["capacidade_hm3"]) * 0.5 / 2.0
-            raio = (area / 3.14159265) ** 0.5 if area > 0 else 0
+            vol = float(r["capacidade_hm3"]) if pd.notna(r.get("capacidade_hm3")) else 0.0
+            raio = _raio_proxy_km(vol)
             buf = cnes_no_buffer(cnes, float(r["latitude"]), float(r["longitude"]), raio)
-            us_total += len(buf)
-            if not buf.empty and "prioritario" in buf.columns:
-                us_prio += int(buf["prioritario"].sum())
-            elif not buf.empty:
-                us_prio += int(
-                    buf.get("hospitalar", False).sum()
-                    + buf.get("upa_ps", False).sum()
-                    + buf.get("ubs_esf", False).sum()
+            for _, u in buf.iterrows():
+                chave = (
+                    round(float(u["latitude"]), 4),
+                    round(float(u["longitude"]), 4),
+                    str(u.get("nome") or "")[:40],
                 )
+                if chave in chaves_buf:
+                    continue
+                chaves_buf.add(chave)
+                if bool(u.get("prioritario")):
+                    us_buf_prio += 1
 
-    pop_total = sum(pops)
+    us_mun = us_nos_municipios(cnes, munis_pressao)
+    us_total = len(us_mun)
+    if us_total and "prioritario" in us_mun.columns:
+        us_prio = int(us_mun["prioritario"].sum())
+    else:
+        us_prio = 0
+    # Se não houver CNES municipal (nome divergente), cai no buffer deduplicado.
+    if us_total == 0 and chaves_buf:
+        us_total = len(chaves_buf)
+        us_prio = us_buf_prio
+
+    # População: evita somar 8× o mesmo complexo Manso — usa máx por sede + jusante texto.
+    pop_por_chave: dict[str, int] = {}
+    for _, r in aten.iterrows():
+        est = pop_estimada_barragem(r)
+        pop_n = int(est.get("populacao_estimada") or 0)
+        chave = (
+            str(r.get("municipio_sede") or "")
+            + "|"
+            + str(r.get("municipios_potencialmente_afetados") or "")
+        )
+        pop_por_chave[chave] = max(pop_por_chave.get(chave, 0), pop_n)
+    pop_total = sum(pop_por_chave.values()) if pop_por_chave else sum(pops)
+
     razao = (pop_total / us_prio) if us_prio > 0 else None
     completude = None
     if "completude" in df.columns and len(df):
-        # completude pode ser "72%", "0,72" ou número 0–100 / 0–1
         serie = (
             df["completude"]
             .astype(str)
@@ -119,12 +174,15 @@ def indicadores_sanitarios(df: pd.DataFrame) -> dict[str, Any]:
         "pop_sob_pressao": pop_total,
         "us_sob_risco": us_total,
         "us_prioritarias": us_prio,
+        "us_buffer_dedup": len(chaves_buf),
         "razao_pop_us": round(razao, 1) if razao is not None else None,
         "municipios_jusante": len(munis_jusante),
+        "municipios_sob_pressao": len(munis_pressao),
         "completude_media": round(completude, 1) if completude is not None else None,
         "rejeito_atencao": rejeito,
         "dpa_alto_sem_alerta": dpa_sem_alerta,
         "extraterritorial_ativo": extra_ativo,
+        "metodo_us": "municipios_sede_jusante" if len(us_mun) else "buffer_minimo",
     }
 
 

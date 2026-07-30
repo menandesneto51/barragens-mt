@@ -670,7 +670,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     st.caption(
         f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
         "CNES: **todas** as unidades com coordenada no raio "
-        "(rede do eixo Cuiabá; fora da região o contador pode ficar vazio)."
+        "(base estadual quando `cnes_estabelecimentos_mt` existir)."
     )
 
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):

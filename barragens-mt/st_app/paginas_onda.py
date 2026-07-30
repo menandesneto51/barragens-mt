@@ -48,10 +48,14 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             nota="Estimativa nas Em atenção+ (SIGBM ou área×densidade)",
         ),
         card_kpi(
-            "US na trajetória (proxy)",
+            "US nos municípios sob pressão",
             str(san["us_sob_risco"]),
-            sev=severidade_pct(min(100, san["us_sob_risco"] / 5) if san["us_sob_risco"] else 0),
-            nota=f"Prioritárias: {san['us_prioritarias']}",
+            sev=severidade_pct(min(100, san["us_sob_risco"] / 50) if san["us_sob_risco"] else 0),
+            nota=(
+                f"Prioritárias: {san['us_prioritarias']} · "
+                f"método: {san.get('metodo_us', 'municipios')} · "
+                f"buffer dedup: {san.get('us_buffer_dedup', '—')}"
+            ),
         ),
         card_kpi(
             "Razão pop. / US prioritária",
@@ -60,9 +64,12 @@ def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> N
             nota="Quanto maior, maior sobrecarga potencial",
         ),
         card_kpi(
-            "Municípios a jusante em atenção",
-            str(san["municipios_jusante"]),
-            sev=severidade_pct(min(100, san["municipios_jusante"] * 5)),
+            "Municípios sob pressão (sede+jusante)",
+            str(san.get("municipios_sob_pressao") or san["municipios_jusante"]),
+            sev=severidade_pct(
+                min(100, (san.get("municipios_sob_pressao") or san["municipios_jusante"]) * 5)
+            ),
+            nota=f"Só jusante distintos: {san['municipios_jusante']}",
         ),
         card_kpi(
             "Completude média do índice",

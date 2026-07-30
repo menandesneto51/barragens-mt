@@ -373,8 +373,10 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         meta["sanitario"]["us_sob_risco"] = san.get("us_sob_risco")
         meta["sanitario"]["us_prioritarias"] = san.get("us_prioritarias")
         meta["sanitario"]["razao_pop_us"] = san.get("razao_pop_us")
+        meta["sanitario"]["municipios_sob_pressao"] = san.get("municipios_sob_pressao")
         meta["sanitario"]["nota"] = (
-            "População e US via buffer CNES (estadual se disponível) + densidade/SIGBM."
+            "US nos municípios sede/jusante das Em atenção+ (CNES estadual). "
+            f"Método: {san.get('metodo_us')}; buffer geom. dedup: {san.get('us_buffer_dedup')}."
         )
     except Exception as exc:  # noqa: BLE001
         print(f"  sanitário pop/US não calculado: {exc}")
@@ -730,9 +732,9 @@ document.getElementById('kpiHelp').innerHTML =
   const fmtN = (v) => (v==null || v==='') ? '—' : String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const itens = [
     ['População sob pressão sanitária', fmtN(S.pop_sob_pressao), S.pop_sob_pressao?'sev-atencao':'sev-ok'],
-    ['US na trajetória (proxy)', fmtN(S.us_sob_risco), S.us_sob_risco?'sev-atencao':'sev-ok'],
-    ['US prioritárias no buffer', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
-    ['Municípios a jusante em atenção', S.municipios_jusante, 'sev-atencao'],
+    ['US nos municípios sob pressão', fmtN(S.us_sob_risco), S.us_sob_risco?'sev-atencao':'sev-ok'],
+    ['US prioritárias (hosp/UPA/UBS)', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
+    ['Municípios sob pressão', S.municipios_sob_pressao??S.municipios_jusante, 'sev-atencao'],
     ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
       (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],
     ['Rejeito em atenção+', S.rejeito_atencao, S.rejeito_atencao?'sev-alto':'sev-ok'],

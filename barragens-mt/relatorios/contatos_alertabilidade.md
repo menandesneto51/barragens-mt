@@ -1,6 +1,6 @@
 # Contatos institucionais e alertabilidade — piloto Manso–Cuiabá
 
-Gerado em 2026-07-30T14:32:35.
+Gerado em 2026-07-30T14:37:51.
 
 ## Cadastro
 
