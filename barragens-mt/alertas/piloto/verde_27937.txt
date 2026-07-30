@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-27937
+Identificador do alerta : ALERTA-20260730-1504-27937
 Barragem                : BRAVO 1 (código 27937)
 Município da estrutura  : Várzea Grande — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : NAGELLA CHRISSIE BRAVO SERRA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 16 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 30,20)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 28,30)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -23,13 +23,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [C1] População residente na Zona de Autossalvamento: 37 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 5/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 2/15 (completude 27%)
+   - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 37 pessoas.

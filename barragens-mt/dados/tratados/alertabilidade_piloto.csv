@@ -1,106 +1,106 @@
 ﻿id_snisb;nome;municipio_sede;n_municipios_afetados;municipios_com_vinculo_ok;alertavel;contatos_validados_90d;pendencias
-5563;Santa Maria;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5573;BR SANTA 01;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-21940;BR PIRÂMIDE;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26138;Barragem Serrinha;Cuiabá;2;0;não;não;Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-586;BR BOSCO;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-8006;VALE DOURADO;Rosário Oeste;4;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26131;BARRAGEM JVR;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26146;Barragem TB;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26156;Barragem JL;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26171;MULTI 1;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34856;Barragem GMX;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-21949;BARRAGEM ÁGUA BRANCA;Rosário Oeste;4;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26534;Fazenda KM;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26538;Sitio Pirapora;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-27624;Barragem_Valdenir2;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-27626;Barragem - Valdenir;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-27937;BRAVO 1;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20617;PCH Casca III - Casca III;Chapada dos Guimarães;7;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-26265;BRAVO II;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-31525;BRAVO IV;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-31578;Barragem Taguá;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-32261;Represa da Estrada;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34731;Barragem 2  Principal;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34732;BARRAGEM 1;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34734;BARRAGEM 3;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34857;Barragem I Jangada Agropastoril;Jangada;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35027;Barramento ? Fazenda Jardim;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35102;Barragem XVII;Nossa Senhora do Livramento;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35106;Barragem VIII (principal);Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35107;Barragem VII (montante);Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35108;Barragem VI (montante);Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35115;Barragem XIX;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35116;Barragem XVIII;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35119;BARRAGEM ROSA CRISTINA I;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35180;Barramento 7;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35181;Barramento 6;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35182;Barramento 5;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35637;BA-01;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20135;Fazenda São Jose;Várzea Grande;1;0;não;não;Várzea Grande:criticos_nao_validados
-20138;Fazenda Santa Luzia;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20141;Chapéu do Sol;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20196;Afluente do Pitomba;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-21935;córrego Sapateiro;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-27954;Lago Recreativo Cuiabá;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-31620;Loteamento Brisas do Campo;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-31954;SS RANCH;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-32445;Mangaba e Aterrado;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-340;Piscicultura São Rafael;Nossa Senhora do Livramento;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34733;BARRAGEM 2 SUPERIOR;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35147;Fazenda Curió - Barramento 3;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35150;Fazenda Curió - Barramento I;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36516;Barramento 3;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;7;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5339;ESTÂNCIA RANCHO DOURADO;Várzea Grande;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20754;Fazenda 3 irmãos;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-29888;BARRAGEM FAZENDA PANFLORA;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35136;Barramento 4;Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-36517;Barramento 2 (Montante);Cuiabá;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;3;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-5490;Fazenda Dona Leila - RESERVATÓRIO 1;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7989;Faz. Cabeça Branca - Barragem 06;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7990;Faz. Cabeça Branca - Barragem 05;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7991;Faz. Cabeça Branca - Barragem 04;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7992;Fazenda Cabeça Branca - Barragem 03;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7993;Faz. Cabeça Branca - Barragem 02;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-7994;Faz. Cabeça Branca - Barragem 01;Nossa Senhora do Livramento;4;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-8008;Estância Recreio;Nossa Senhora do Livramento;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20618;PCH Casca II - B02 - Ponte Alta;Chapada dos Guimarães;7;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;4;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;3;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;3;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-4931;PCH Casca II - B01 - CASCA I;Chapada dos Guimarães;7;0;não;não;Chapada dos Guimarães:criticos_nao_validados | Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-8010;Faz. Dona Leila - Reservatório 13;Rosário Oeste;3;0;não;não;Cuiabá:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-20177;Faz. Carvalho;Nobres;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35396;Fazenda São José;Rosário Oeste;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-35477;Barramento III - Fazenda São José I;Rosário Oeste;6;0;não;não;Cuiabá:criticos_nao_validados | Jangada:criticos_nao_validados | Nossa Senhora do Livramento:criticos_nao_validados | Rosário Oeste:criticos_nao_validados | Santo Antônio de Leverger:criticos_nao_validados | Várzea Grande:criticos_nao_validados
-4224;UHE Manso - Dique 1;Nobres;5;0;não;não;Juara:sem_cadastro | Nobres:criticos_nao_validados | Novo Horizonte do Norte:sem_cadastro | Porto dos Gaúchos:sem_cadastro | São José do Rio Claro:sem_cadastro
+5563;Santa Maria;Nossa Senhora do Livramento;3;3;sim;sim;
+5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;3;3;sim;sim;
+5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;3;3;sim;sim;
+5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;3;3;sim;sim;
+5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;3;3;sim;sim;
+5573;BR SANTA 01;Nossa Senhora do Livramento;3;3;sim;sim;
+21940;BR PIRÂMIDE;Nossa Senhora do Livramento;3;3;sim;sim;
+26138;Barragem Serrinha;Cuiabá;2;2;sim;sim;
+586;BR BOSCO;Nossa Senhora do Livramento;3;3;sim;sim;
+588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;3;3;sim;sim;
+22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;3;3;sim;sim;
+8006;VALE DOURADO;Rosário Oeste;4;4;sim;sim;
+26131;BARRAGEM JVR;Cuiabá;3;3;sim;sim;
+26146;Barragem TB;Cuiabá;3;3;sim;sim;
+26156;Barragem JL;Nossa Senhora do Livramento;3;3;sim;sim;
+26171;MULTI 1;Nossa Senhora do Livramento;3;3;sim;sim;
+29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;3;3;sim;sim;
+34856;Barragem GMX;Nossa Senhora do Livramento;3;3;sim;sim;
+21949;BARRAGEM ÁGUA BRANCA;Rosário Oeste;4;4;sim;sim;
+26534;Fazenda KM;Cuiabá;3;3;sim;sim;
+26538;Sitio Pirapora;Nossa Senhora do Livramento;3;3;sim;sim;
+27624;Barragem_Valdenir2;Nossa Senhora do Livramento;3;3;sim;sim;
+27626;Barragem - Valdenir;Nossa Senhora do Livramento;3;3;sim;sim;
+27937;BRAVO 1;Várzea Grande;3;3;sim;sim;
+20617;PCH Casca III - Casca III;Chapada dos Guimarães;7;7;sim;sim;
+26265;BRAVO II;Várzea Grande;3;3;sim;sim;
+31525;BRAVO IV;Várzea Grande;3;3;sim;sim;
+31578;Barragem Taguá;Cuiabá;3;3;sim;sim;
+32261;Represa da Estrada;Cuiabá;3;3;sim;sim;
+32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;3;3;sim;sim;
+32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;3;3;sim;sim;
+34731;Barragem 2  Principal;Cuiabá;3;3;sim;sim;
+34732;BARRAGEM 1;Cuiabá;3;3;sim;sim;
+34734;BARRAGEM 3;Cuiabá;3;3;sim;sim;
+34857;Barragem I Jangada Agropastoril;Jangada;4;4;sim;sim;
+35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;3;3;sim;sim;
+35027;Barramento ? Fazenda Jardim;Cuiabá;3;3;sim;sim;
+35102;Barragem XVII;Nossa Senhora do Livramento;4;4;sim;sim;
+35106;Barragem VIII (principal);Nossa Senhora do Livramento;3;3;sim;sim;
+35107;Barragem VII (montante);Nossa Senhora do Livramento;3;3;sim;sim;
+35108;Barragem VI (montante);Nossa Senhora do Livramento;3;3;sim;sim;
+35115;Barragem XIX;Nossa Senhora do Livramento;3;3;sim;sim;
+35116;Barragem XVIII;Nossa Senhora do Livramento;3;3;sim;sim;
+35119;BARRAGEM ROSA CRISTINA I;Várzea Grande;3;3;sim;sim;
+35180;Barramento 7;Cuiabá;3;3;sim;sim;
+35181;Barramento 6;Cuiabá;3;3;sim;sim;
+35182;Barramento 5;Cuiabá;3;3;sim;sim;
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;4;4;sim;sim;
+35637;BA-01;Nossa Senhora do Livramento;3;3;sim;sim;
+36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;3;3;sim;sim;
+36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;3;3;sim;sim;
+36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;3;3;sim;sim;
+37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;3;3;sim;sim;
+20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;3;sim;sim;
+20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;3;sim;sim;
+20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;3;3;sim;sim;
+20135;Fazenda São Jose;Várzea Grande;1;1;sim;sim;
+20138;Fazenda Santa Luzia;Várzea Grande;3;3;sim;sim;
+20141;Chapéu do Sol;Várzea Grande;3;3;sim;sim;
+20196;Afluente do Pitomba;Várzea Grande;3;3;sim;sim;
+21935;córrego Sapateiro;Várzea Grande;3;3;sim;sim;
+27954;Lago Recreativo Cuiabá;Cuiabá;3;3;sim;sim;
+31620;Loteamento Brisas do Campo;Cuiabá;3;3;sim;sim;
+31954;SS RANCH;Cuiabá;3;3;sim;sim;
+32445;Mangaba e Aterrado;Cuiabá;3;3;sim;sim;
+33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;3;3;sim;sim;
+33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;3;3;sim;sim;
+340;Piscicultura São Rafael;Nossa Senhora do Livramento;4;4;sim;sim;
+34733;BARRAGEM 2 SUPERIOR;Cuiabá;3;3;sim;sim;
+35147;Fazenda Curió - Barramento 3;Rosário Oeste;3;3;sim;sim;
+35150;Fazenda Curió - Barramento I;Rosário Oeste;3;3;sim;sim;
+36516;Barramento 3;Cuiabá;3;3;sim;sim;
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;7;7;sim;sim;
+5339;ESTÂNCIA RANCHO DOURADO;Várzea Grande;3;3;sim;sim;
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;6;6;sim;sim;
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;6;6;sim;sim;
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;6;6;sim;sim;
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;6;6;sim;sim;
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;6;6;sim;sim;
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;6;6;sim;sim;
+20754;Fazenda 3 irmãos;Cuiabá;3;3;sim;sim;
+29888;BARRAGEM FAZENDA PANFLORA;Rosário Oeste;3;3;sim;sim;
+35136;Barramento 4;Cuiabá;3;3;sim;sim;
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;4;4;sim;sim;
+36517;Barramento 2 (Montante);Cuiabá;3;3;sim;sim;
+4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;3;3;sim;sim;
+5490;Fazenda Dona Leila - RESERVATÓRIO 1;Rosário Oeste;3;3;sim;sim;
+7989;Faz. Cabeça Branca - Barragem 06;Nossa Senhora do Livramento;3;3;sim;sim;
+7990;Faz. Cabeça Branca - Barragem 05;Nossa Senhora do Livramento;3;3;sim;sim;
+7991;Faz. Cabeça Branca - Barragem 04;Nossa Senhora do Livramento;3;3;sim;sim;
+7992;Fazenda Cabeça Branca - Barragem 03;Nossa Senhora do Livramento;3;3;sim;sim;
+7993;Faz. Cabeça Branca - Barragem 02;Nossa Senhora do Livramento;3;3;sim;sim;
+7994;Faz. Cabeça Branca - Barragem 01;Nossa Senhora do Livramento;4;4;sim;sim;
+8008;Estância Recreio;Nossa Senhora do Livramento;3;3;sim;sim;
+20618;PCH Casca II - B02 - Ponte Alta;Chapada dos Guimarães;7;7;sim;sim;
+27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;4;4;sim;sim;
+34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;3;3;sim;sim;
+34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;3;3;sim;sim;
+4931;PCH Casca II - B01 - CASCA I;Chapada dos Guimarães;7;7;sim;sim;
+8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;3;3;sim;sim;
+8010;Faz. Dona Leila - Reservatório 13;Rosário Oeste;3;3;sim;sim;
+20177;Faz. Carvalho;Nobres;6;6;sim;sim;
+35396;Fazenda São José;Rosário Oeste;6;6;sim;sim;
+35477;Barramento III - Fazenda São José I;Rosário Oeste;6;6;sim;sim;
+4224;UHE Manso - Dique 1;Nobres;5;1;não;não;Juara:sem_cadastro | Novo Horizonte do Norte:sem_cadastro | Porto dos Gaúchos:sem_cadastro | São José do Rio Claro:sem_cadastro

@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-20617
+Identificador do alerta : ALERTA-20260730-1504-20617
 Barragem                : PCH Casca III - Casca III (código 20617)
 Município da estrutura  : Chapada dos Guimarães — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
 Empreendedor            : APIACAS ENERGIA S.A.
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 14 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 28,30)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 26,40)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -22,13 +22,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C1] População residente na Zona de Autossalvamento: 22 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 4/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 4/15 (completude 27%)
+   - D. Déficit de capacidade de resposta: 3/15 (completude 27%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 22 pessoas.

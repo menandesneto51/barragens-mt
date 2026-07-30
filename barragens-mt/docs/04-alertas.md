@@ -271,5 +271,23 @@ A fila textual do piloto (`alertas/piloto/*.txt`) é despachável por:
 Script: `scripts/29_despacho_alertas.py` (dry-run por padrão; `--enviar` para tentativa real).
 Log: `dados/tratados/despacho_alertas_log.csv`.
 
+### Secrets no Streamlit Cloud
+
+1. App → **Settings → Secrets**.
+2. Colar o bloco de `.streamlit/secrets.toml.example` (seção `[vigi]`).
+3. Preencher `telegram_bot_token` / `telegram_chat_id` (e SMTP se houver).
+4. Reiniciar o app. A tela **Alertabilidade / despacho** mostra se as credenciais foram lidas.
+5. Testar primeiro o botão **dry-run**; só depois **Enviar agora** em exercício controlado.
+
+Localmente: `dados/tratados/despacho_secrets.env` (não versionar) ou variáveis `VIGI_*`.
+
+### Contatos e alertável (piloto)
+
+- Esqueleto: `python scripts/19_contatos_alertabilidade.py`
+- Exercício técnico (destravar D8 com telefones CNES, rotulado):  
+  `python scripts/34_contatos_validacao_exercicio.py` → `19` → `16` → `18`
+- Validação humana: tela Streamlit **Alertabilidade / despacho** ou edição do CSV  
+  (`data_validacao` + telefone/e-mail nos 3 papéis críticos).
+
 Confirmação persistente: `dados/tratados/confirmacoes/confirmacoes.csv` (Streamlit) além do
 protótipo HTML em localStorage. Payload para Defesa Civil: `docs/13-defesa-civil-gancho.md`.

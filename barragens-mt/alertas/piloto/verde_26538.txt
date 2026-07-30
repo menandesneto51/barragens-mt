@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-26538
+Identificador do alerta : ALERTA-20260730-1504-26538
 Barragem                : Sitio Pirapora (código 26538)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : BENEDITO NORBERTO DE BARROS
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 17 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 16 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 34)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 32)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -21,13 +21,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 27 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 5/30 (completude 100%)
    - B. Condição da barragem: 5/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 1/15 (completude 7%)
+   - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 27 pessoas.

@@ -141,6 +141,10 @@ Contatos/alertabilidade: `19_contatos_alertabilidade.py`. Ficha rápida (simulad
 Payload padronizado de prontidão sanitária para articulação com a Defesa Civil (sem inventar
 API nem ordem de evacuação). Despacho técnico: `scripts/29_despacho_alertas.py`.
 
+### [14. Secrets Streamlit (despacho)](14-streamlit-secrets-despacho.md)
+
+Como colar `[vigi]` no Streamlit Cloud para Telegram/SMTP. Dry-run funciona sem credenciais.
+
 ### [10. Glossário](10-glossario.md)
 
 Siglas e termos, organizados em marco regulatório e cadastro de barragens, vigilância em saúde e

@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-588
+Identificador do alerta : ALERTA-20260730-1504-588
 Barragem                : BR SANTA FELICIDADE (código 588)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : SANTA FELICIDADE MINERACAO SPE LTDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 21 de 100 pontos (faixa Amarelo: atenção)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 20 de 100 pontos (faixa Amarelo: atenção)
 Nível final             : Amarelo
-Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 30,90)
+Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 29,40)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -24,13 +24,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [C1] População residente na Zona de Autossalvamento: 32 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 5/30 (completude 100%)
    - B. Condição da barragem: 6/30 (completude 67%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 2/15 (completude 27%)
+   - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 32 pessoas.

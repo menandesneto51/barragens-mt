@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-31578
+Identificador do alerta : ALERTA-20260730-1504-31578
 Barragem                : Barragem Taguá (código 31578)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : TAGUÁ AGROPECUÁRIA LTDA
 Uso principal           : Dessedentação Animal
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 14 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 28)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -20,13 +20,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
    - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 5/30 (completude 100%)
    - B. Condição da barragem: 3/30 (completude 17%)
    - C. Impacto sanitário potencial: 5/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 1/15 (completude 7%)
+   - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 0 pessoas.

@@ -59,31 +59,39 @@ def ler_csv(caminho: Path) -> list[dict[str, Any]]:
 
 
 def telefone_hospital_por_municipio() -> dict[str, dict[str, str]]:
-    """Melhor candidato a hospital de referência por município (CNES estadual ou eixo)."""
+    """Melhor candidato a hospital/US de referência por município (CNES estadual ou eixo)."""
     estadual = comum.DADOS_TRATADOS / "cnes_estabelecimentos_mt.csv"
     eixo = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
     rows = ler_csv(estadual if estadual.exists() else eixo)
     fonte = "cnes_estadual" if estadual.exists() else "cnes_eixo"
-    melhor: dict[str, dict[str, str]] = {}
+    hospitais: dict[str, dict[str, str]] = {}
+    fallback: dict[str, dict[str, str]] = {}
     for r in rows:
         mun = (r.get("municipio") or "").strip()
         if not mun:
             continue
-        hosp = (r.get("atendimento_hospitalar") or "").strip().lower() == "sim"
         tel = (r.get("numero_telefone_estabelecimento") or "").strip()
         nome = (r.get("nome_fantasia") or r.get("nome_razao_social") or "").strip()
-        if not hosp:
+        if not tel:
             continue
-        atual = melhor.get(mun)
-        # Preferir quem tem telefone.
-        if atual is None or (tel and not atual.get("telefone")):
-            melhor[mun] = {
-                "nome": nome,
-                "telefone": tel,
-                "cnes": r.get("codigo_cnes") or "",
-                "fonte": fonte,
-            }
-    return melhor
+        item = {
+            "nome": nome,
+            "telefone": tel,
+            "cnes": r.get("codigo_cnes") or "",
+            "fonte": fonte,
+        }
+        hosp = (r.get("atendimento_hospitalar") or "").strip().lower() == "sim"
+        if hosp:
+            atual = hospitais.get(mun)
+            if atual is None or (tel and not atual.get("telefone")):
+                hospitais[mun] = item
+        elif mun not in fallback:
+            fallback[mun] = item
+    # Sem hospital com telefone: usa qualquer US com telefone do município.
+    for mun, item in fallback.items():
+        if mun not in hospitais:
+            hospitais[mun] = item
+    return hospitais
 
 
 def mesclar_existente(
@@ -109,6 +117,7 @@ def mesclar_existente(
             "substituto",
             "telefone_substituto",
             "data_validacao",
+            "fonte",
             "observacao",
         ):
             if (velho.get(campo) or "").strip():

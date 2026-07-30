@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-0958-8010
+Identificador do alerta : ALERTA-20260730-1504-8010
 Barragem                : Faz. Dona Leila - Reservatório 13 (código 8010)
 Município da estrutura  : Rosário Oeste — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : VIDEPLAST INDUSTRIA DE EMBALAGEM - LTDA
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 09:58 (horário de Cuiabá, UTC-4)
-IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
+IDAP                    : 12 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 24)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -21,13 +21,12 @@ Versão dos pesos        : 0.1.0-metodologica
    - [A4] Percentil climatológico do acumulado observado: 59,60 de percentil — acima da mediana (1 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Não se Aplica (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
-   - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
    - A. Pressão hidroclimática: 4/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 7/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 1/15 (completude 7%)
+   - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
    População residente estimada na ZAS: 78 pessoas.
