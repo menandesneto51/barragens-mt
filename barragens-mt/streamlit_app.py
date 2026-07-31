@@ -975,9 +975,17 @@ def main() -> None:
         st.session_state["pagina"] = "Comando estadual"
 
     with st.sidebar:
+        # Assinatura conforme o manual: marca do governo + nome da secretaria.
+        st.markdown(
+            '<div class="assinatura-gov">'
+            '<span class="gov">Governo de Mato Grosso</span>'
+            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS</span>'
+            "</div>",
+            unsafe_allow_html=True,
+        )
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
         st.markdown(
-            '<p class="submarca">Saúde 360 · SES-MT / CIEVS · jornada '
+            '<p class="submarca">Saúde 360 · jornada '
             "Situação → Território → Ação → Dados</p>",
             unsafe_allow_html=True,
         )

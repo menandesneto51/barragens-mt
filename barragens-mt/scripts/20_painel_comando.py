@@ -435,23 +435,30 @@ MODELO = r"""<!DOCTYPE html>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* Cromo institucional GOV/SES-MT: azul #1b3281 e preto #231f20.
-   Cores de gravidade (roxo/vermelho/laranja/amarelo/verde) são semânticas. */
+/* Cromo institucional GOV/SES-MT: azul #1b3281 (Pantone 2758C) e preto #231f20.
+   Toda a escala neutra é derivada do azul. As cores de gravidade
+   (roxo/vermelho/laranja/amarelo/verde) são semânticas e não entram na paleta. */
 :root{
-  --ink:#231f20; --muted:#5b6b80; --paper:#f4f6fb; --card:#fff; --line:#dde3f0;
-  --accent:#1b3281; --accent-soft:#3b52a0; --accent-claro:#e9edf8;
+  --ink:#231f20; --muted:#5b6b80; --paper:#f7f8fb; --card:#fff; --line:#dfe2ed;
+  --accent:#1b3281; --accent-soft:#3d5194; --accent-claro:#e8eaf2; --accent-escuro:#1e2b5f;
   --roxo:#5b2c6f; --verm:#c0392b; --lar:#d35400; --ama:#b7950b; --verd:#1e8449;
   --ses:#1b3281;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
 background:var(--paper);font-size:14px}
+.barra-gov{background:var(--accent-escuro);color:#fff;padding:6px 24px;
+font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;
+text-transform:uppercase;letter-spacing:.14em}
+.barra-gov span{font-family:"Source Sans 3",sans-serif;font-weight:400;
+text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.85);margin-left:10px;
+padding-left:10px;border-left:1px solid rgba(255,255,255,.35)}
 header{padding:16px 24px 14px;border-bottom:3px solid var(--ses);background:var(--card);
 display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
-.marca{font-size:clamp(1.3rem,2.2vw,1.6rem);font-weight:700;margin:0 0 2px;
-letter-spacing:-.02em;color:var(--ses)}
+.marca{font-family:"Montserrat",sans-serif;font-size:clamp(1.2rem,2vw,1.5rem);
+font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var(--ses)}
 header p{margin:0;color:var(--muted);max-width:38rem;line-height:1.4;font-size:13px}
 nav{display:flex;flex-wrap:wrap;gap:6px}
 nav a{color:var(--accent);text-decoration:none;font-size:12.5px;font-weight:600;
@@ -476,9 +483,10 @@ border-top:3px solid var(--ses);position:relative}
 border-left:3px solid var(--accent-claro);padding:2px 0 2px 10px}
 .proj-box{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
 padding:10px 12px;margin-bottom:10px}
-.proj-box h2{font-size:1rem;font-weight:600;margin:0 0 4px}
+.proj-box h2{font-family:"Montserrat",sans-serif;font-size:0.98rem;font-weight:600;margin:0 0 4px}
 .proj-box p{margin:0;color:#334155;line-height:1.45;font-size:13px}
-section h2{font-size:1.1rem;font-weight:600;margin:16px 0 8px;letter-spacing:-.01em}
+section h2{font-family:"Montserrat",sans-serif;font-size:1.05rem;font-weight:600;
+margin:16px 0 8px;letter-spacing:-.01em}
 .semaforo{display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:8px;
 background:var(--card);border:1px solid var(--line)}
 .semaforo .luz{width:16px;height:16px;border-radius:50%}
@@ -520,8 +528,8 @@ tbody tr{cursor:pointer} tbody tr:hover{background:var(--accent-claro)}
 .faixa-titulo{margin:18px 0 6px;padding-bottom:5px;border-bottom:1px solid var(--line)}
 .faixa-titulo .kicker{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;
 letter-spacing:.1em;color:var(--ses);margin-bottom:1px}
-.faixa-titulo .titulo{display:block;font-size:1.18rem;font-weight:700;letter-spacing:-.02em;
-color:var(--ink);line-height:1.2}
+.faixa-titulo .titulo{display:block;font-family:"Montserrat",sans-serif;font-size:1.1rem;
+font-weight:700;letter-spacing:-.01em;color:var(--ink);line-height:1.2}
 .faixa-titulo .sub{display:block;font-size:0.82rem;font-weight:400;color:var(--muted);margin-top:1px}
 details.bloco{background:var(--card);border:1px solid var(--line);margin-bottom:10px;padding:0}
 details.bloco>summary{cursor:pointer;padding:9px 14px;font-size:11.5px;text-transform:uppercase;
@@ -547,6 +555,7 @@ margin-bottom:5px;font-size:12.5px}
 </style>
 </head>
 <body>
+<div class="barra-gov">Governo de Mato Grosso<span>Secretaria de Estado de Saúde · CIEVS</span></div>
 <header>
   <div>
     <h1 class="marca">VIGIBARRAGENS–MT</h1>

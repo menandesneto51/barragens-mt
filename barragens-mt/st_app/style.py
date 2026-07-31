@@ -22,17 +22,21 @@ SEV_CORES = {
 
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+/* Montserrat aproxima a Nexa/Uni Neue (títulos) e Source Sans 3 o Calibri (corpo);
+   nenhuma das duas oficiais é distribuível pelo Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap');
 
 :root {
-  /* Cromo institucional */
+  /* Escala derivada do azul institucional #1b3281 (nada de neutro "a olho"). */
   --ses-azul: #1b3281;
-  --ses-azul-medio: #3b52a0;
-  --ses-azul-claro: #e9edf8;
+  --ses-azul-escuro: #1e2b5f;
+  --ses-azul-medio: #3d5194;
+  --ses-azul-300: #98a3c6;
+  --ses-azul-claro: #e8eaf2;
   --ink: #231f20;
   --muted: #5b6b80;
-  --line: #dde3f0;
-  --canvas: #f4f6fb;
+  --line: #dfe2ed;
+  --canvas: #f7f8fb;
   --surface: #ffffff;
   /* Gravidade (semântica — não é cromo) */
   --sev-ok: #1e8449;
@@ -56,15 +60,21 @@ div[data-testid="stVerticalBlock"] { gap: 0.55rem; }
 div[data-testid="stMainBlockContainer"] { padding-top: 2.2rem; padding-bottom: 3rem; }
 
 h1 {
-  font-size: 1.65rem !important;
+  font-family: "Montserrat", "Source Sans 3", system-ui, sans-serif !important;
+  font-size: 1.55rem !important;
   font-weight: 700 !important;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--ses-azul) !important;
   margin: 0 0 2px !important;
   padding-bottom: 8px;
   border-bottom: 3px solid var(--ses-azul);
 }
-h2, h3 { font-weight: 600 !important; letter-spacing: -0.01em; color: var(--ink) !important; }
+h2, h3 {
+  font-family: "Montserrat", "Source Sans 3", system-ui, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  color: var(--ink) !important;
+}
 h5 {
   font-size: 0.82rem !important;
   font-weight: 700 !important;
@@ -74,13 +84,38 @@ h5 {
   margin: 10px 0 2px !important;
 }
 
-/* ---- Sidebar: bloco de marca azul + corpo claro ---- */
+/* ---- Sidebar: assinatura institucional (marca do governo + secretaria) ---- */
 section[data-testid="stSidebar"] {
   background: var(--surface);
   border-right: 1px solid var(--line);
 }
+.assinatura-gov {
+  background: var(--ses-azul);
+  color: #fff;
+  padding: 12px 14px 11px;
+  margin: -8px -14px 12px;
+}
+.assinatura-gov .gov {
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;  /* entreletras da marca, conforme manual */
+  line-height: 1.25;
+}
+.assinatura-gov .secretaria {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,.88);
+  letter-spacing: .04em;
+  margin-top: 3px;
+  padding-top: 3px;
+  border-top: 1px solid rgba(255,255,255,.35);
+}
 section[data-testid="stSidebar"] .marca {
-  font-size: 1.2rem;
+  font-family: "Montserrat", "Source Sans 3", sans-serif;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ses-azul);
@@ -88,7 +123,7 @@ section[data-testid="stSidebar"] .marca {
 }
 section[data-testid="stSidebar"] .submarca {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   line-height: 1.35;
   margin: 0 0 10px;
   padding-bottom: 10px;
@@ -112,9 +147,10 @@ section[data-testid="stSidebar"] .submarca {
 }
 .faixa-titulo .titulo {
   display: block;
-  font-size: 1.18rem;
+  font-family: "Montserrat", "Source Sans 3", sans-serif;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--ink);
   line-height: 1.2;
 }
