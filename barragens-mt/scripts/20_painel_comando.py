@@ -20,6 +20,35 @@ import comum
 
 SAIDA = comum.RAIZ / "painel"
 
+# Tipologia = agrupamento operacional do uso principal (espelha st_app/data.py).
+TIPOLOGIA_CORES = {
+    "Irrigação": "#2a4aad",
+    "Rejeito / mineração": "#b91c1c",
+    "Hidroelétrica": "#0e7490",
+    "Aquicultura": "#0369a1",
+    "Abastecimento humano": "#1b3281",
+    "Dessedentação animal": "#854d0e",
+    "Recreação / paisagismo": "#64748b",
+    "Industrial / outros": "#475569",
+}
+_TIPOLOGIA_REGRAS = (
+    ("Irrigação", ("irrig",)),
+    ("Rejeito / mineração", ("rejeito", "sedimento", "miner")),
+    ("Hidroelétrica", ("hidroel", "hidrel")),
+    ("Aquicultura", ("aquicult",)),
+    ("Abastecimento humano", ("abastec", "humano")),
+    ("Dessedentação animal", ("dessedent",)),
+    ("Recreação / paisagismo", ("recrea", "paisag")),
+)
+
+
+def tipologia_de_uso(uso: object) -> str:
+    u = str(uso or "").lower()
+    for rotulo, chaves in _TIPOLOGIA_REGRAS:
+        if any(c in u for c in chaves):
+            return rotulo
+    return "Industrial / outros"
+
 
 def _carregar_07():
     caminho = Path(__file__).resolve().parent / "07_painel.py"
@@ -135,6 +164,7 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "mu": linha.get("municipio_sede") or inv.get("municipio") or "",
                 "og": linha.get("orgao_fiscalizador") or "",
                 "us": linha.get("uso_principal") or "",
+                "tp": tipologia_de_uso(linha.get("uso_principal")),
                 "cri": linha.get("categoria_risco") or "",
                 "dpa": linha.get("dano_potencial_associado") or "",
                 "la": round(la, 5) if la is not None else None,
@@ -171,6 +201,7 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         )
 
     niveis = Counter(r["nv"] for r in registros)
+    tipologias = Counter(r["tp"] for r in registros)
     frescor = [
         idade_arquivo("idap_estadual_mt.csv"),
         idade_arquivo("hidro_barragens_mt.csv"),
@@ -241,6 +272,11 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         ),
         "instante_idap": next((r["inst"] for r in registros if r["inst"]), ""),
         "data_hidro": next((r["dh"] for r in registros if r["dh"]), ""),
+        "tipologias": [
+            {"tp": tp, "n": n, "cor": TIPOLOGIA_CORES.get(tp, "#888")}
+            for tp, n in tipologias.most_common()
+        ],
+        "cores_tipologia": TIPOLOGIA_CORES,
         "frescor": frescor,
         "tendencias": tend,
         "projecao": {
@@ -499,6 +535,13 @@ details.bloco[open]>summary{border-bottom:1px solid var(--line)}
 .atalhos a{color:var(--accent);font-weight:600;font-size:13px;text-decoration:none;
 padding:8px 12px;border:1px solid var(--line);background:var(--card)}
 .atalhos a:hover{background:#f3f8f5}
+.tip-linha{display:grid;grid-template-columns:170px 1fr 92px;gap:10px;align-items:center;
+margin-bottom:6px;font-size:12.5px}
+.tip-linha .rot{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tip-barra{position:relative;height:16px;background:#eef1f5;border:1px solid var(--line)}
+.tip-barra i{display:block;height:100%}
+.tip-barra b{position:absolute;top:-3px;bottom:-3px;width:3px;background:#15202b}
+.tip-linha .num{color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
 </style>
 </head>
 <body>
@@ -566,7 +609,15 @@ padding:8px 12px;border:1px solid var(--line);background:var(--card)}
   </div>
   <div class="grade">
     <div class="cartao">
-      <h2>Mapa por faixa de prontidão</h2>
+      <h2>Mapa — <span id="tituloMapa">faixa de prontidão</span></h2>
+      <div style="padding:8px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label for="fCor" style="font-size:11px;font-weight:600;color:var(--muted);
+          text-transform:uppercase;letter-spacing:.04em;margin:0">Colorir por</label>
+        <select id="fCor" style="width:auto">
+          <option value="nv">Prontidão</option>
+          <option value="tp">Tipologia (uso principal)</option>
+        </select>
+      </div>
       <div id="mapa"></div>
       <div class="legenda" id="legenda"></div>
     </div>
@@ -585,6 +636,15 @@ padding:8px 12px;border:1px solid var(--line);background:var(--card)}
         <tbody id="quaseLista"></tbody>
       </table></div>
     </div>
+  </div>
+  <div class="cartao" style="margin-bottom:14px">
+    <h2>Tipologia — para que serve cada barragem</h2>
+    <p style="margin:10px 14px 4px;font-size:12px;color:var(--muted);line-height:1.45">
+      Agrupamento operacional do uso principal (SNISB). Barra cheia = estado inteiro;
+      marca escura = quantas estão no recorte filtrado. Rejeito/mineração e abastecimento
+      humano puxam decisão sanitária diferente de irrigação.
+    </p>
+    <div id="tipologiaBarras" style="padding:4px 14px 14px"></div>
   </div>
   <div class="atalhos">
     <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
@@ -850,9 +910,52 @@ document.getElementById('kpiHelp').innerHTML =
   });
 })();
 
-document.getElementById('legenda').innerHTML = Object.entries(CORES).map(
-  ([n,c]) => `<span><i style="background:${c}"></i>${n}</span>`
-).join('');
+const CORES_TIP = META.cores_tipologia || {};
+
+function modoCor(){
+  const el = document.getElementById('fCor');
+  return el ? el.value : 'nv';
+}
+
+function corDe(d){
+  return modoCor() === 'tp'
+    ? (CORES_TIP[d.tp] || '#888')
+    : (CORES[d.nv] || '#888');
+}
+
+function renderLegenda(){
+  const porTipologia = modoCor() === 'tp';
+  const pares = porTipologia ? Object.entries(CORES_TIP) : Object.entries(CORES);
+  document.getElementById('legenda').innerHTML = pares.map(
+    ([n,c]) => `<span><i style="background:${c}"></i>${n}</span>`
+  ).join('');
+  document.getElementById('tituloMapa').textContent =
+    porTipologia ? 'tipologia (uso principal)' : 'faixa de prontidão';
+}
+renderLegenda();
+
+function renderTipologia(lista){
+  const el = document.getElementById('tipologiaBarras');
+  if (!el) return;
+  const estado = META.tipologias || [];
+  if (!estado.length) { el.innerHTML = '<p style="margin:0;color:var(--muted)">Uso principal ausente no cadastro.</p>'; return; }
+  const noRecorte = {};
+  (lista||[]).forEach(d => { noRecorte[d.tp] = (noRecorte[d.tp]||0) + 1; });
+  const maxN = Math.max(...estado.map(t => t.n), 1);
+  el.innerHTML = estado.map(t => {
+    const n = noRecorte[t.tp] || 0;
+    const pctEstado = 100 * t.n / maxN;
+    const pctRecorte = 100 * n / maxN;
+    return `<div class="tip-linha" title="${t.tp}: ${t.n} no estado · ${n} no recorte">
+      <span class="rot">${t.tp}</span>
+      <span class="tip-barra"><i style="width:${pctEstado.toFixed(1)}%;background:${t.cor}"></i>
+        ${n ? `<b style="left:calc(${pctRecorte.toFixed(1)}% - 1px)"></b>` : ''}</span>
+      <span class="num">${t.n} · <b style="color:var(--ink)">${n}</b></span>
+    </div>`;
+  }).join('')
+  + '<p style="margin:8px 0 0;font-size:11.5px;color:var(--muted)">'
+  + 'Números: estado · recorte filtrado.</p>';
+}
 
 const mapa = L.map('mapa').setView([-13.0, -55.8], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -907,6 +1010,7 @@ function popup(d) {
   Completude ${d.comp} (${d.conf})<br>
   Pressão clima ${d.pa} · Estrutura ${d.pb} · Impacto sanitário ${d.pc} · Déficit resposta ${d.pd}<br>
   Sede: ${d.mu}<br>
+  Tipologia: ${d.tp || '—'}${d.us ? ` (${d.us})` : ''}<br>
   ${papel ? `<b>${papel}</b><br>` : ''}
   <b>Clima</b> — chuva 24h/72h: ${d.c24 ?? '—'} / ${d.c72 ?? '—'} mm<br>
   Prevista (próx. dias): ${d.cprev ?? '—'} mm<br>
@@ -923,15 +1027,16 @@ function render() {
   const lista = filtrados().slice().sort((a,b) => b.idap - a.idap || a.no.localeCompare(b.no));
   camada.clearLayers();
   const desenho = lista.slice().sort((a,b) => (ORDEM_NV[b.nv]??9) - (ORDEM_NV[a.nv]??9));
+  const porTipologia = modoCor() === 'tp';
   desenho.forEach(d => {
     if (d.la == null || d.lo == null) return;
     const critico = d.nv !== 'Verde';
     const m = L.circleMarker([d.la, d.lo], {
-      radius: critico ? 10 : (d.pi ? 5 : 3.5),
-      color: critico ? '#111' : (d.pi ? '#0b6e4f' : '#555'),
-      weight: critico ? 2 : (d.pi ? 1.2 : 0.4),
-      fillColor: CORES[d.nv] || '#888',
-      fillOpacity: critico ? 0.95 : 0.55
+      radius: porTipologia ? 5 : (critico ? 10 : (d.pi ? 5 : 3.5)),
+      color: porTipologia ? '#fff' : (critico ? '#111' : (d.pi ? '#0b6e4f' : '#555')),
+      weight: porTipologia ? 1 : (critico ? 2 : (d.pi ? 1.2 : 0.4)),
+      fillColor: corDe(d),
+      fillOpacity: porTipologia ? 0.9 : (critico ? 0.95 : 0.55)
     });
     m.bindPopup(popup(d));
     m.on('click', () => destacar(d.id));
@@ -970,6 +1075,8 @@ function render() {
       <td>${d.no}</td><td>${d.mu}</td></tr>`).join('')
       || '<tr><td colspan="10">Nenhuma barragem com pressão A ou nível acima de Verde.</td></tr>';
   }
+
+  renderTipologia(lista);
 
   document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
     tr.onclick = () => {
@@ -1016,6 +1123,8 @@ if (btnAm) btnAm.onclick = () => {
   mapa.fitBounds(L.latLngBounds(pts.map(d => [d.la, d.lo])).pad(0.4));
 };
 ['fNivel','fAl','fPi','fExt'].forEach(id => document.getElementById(id).onchange = render);
+const selCor = document.getElementById('fCor');
+if (selCor) selCor.onchange = () => { renderLegenda(); render(); };
 ['fMun','fOrg','fBusca'].forEach(id => {
   document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') render(); });
 });

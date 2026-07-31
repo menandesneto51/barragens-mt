@@ -24,6 +24,44 @@ CORES_NIVEL = {
     "Verde": "#1e8449",
 }
 
+# Tipologia = agrupamento operacional do uso principal (SNISB).
+TIPOLOGIA_CORES = {
+    "Irrigação": "#2a4aad",
+    "Rejeito / mineração": "#b91c1c",
+    "Hidroelétrica": "#0e7490",
+    "Aquicultura": "#0369a1",
+    "Abastecimento humano": "#1b3281",
+    "Dessedentação animal": "#854d0e",
+    "Recreação / paisagismo": "#64748b",
+    "Industrial / outros": "#475569",
+}
+_TIPOLOGIA_REGRAS = (
+    ("Irrigação", ("irrig",)),
+    ("Rejeito / mineração", ("rejeito", "sedimento", "miner")),
+    ("Hidroelétrica", ("hidroel", "hidrel")),
+    ("Aquicultura", ("aquicult",)),
+    ("Abastecimento humano", ("abastec", "humano")),
+    ("Dessedentação animal", ("dessedent",)),
+    ("Recreação / paisagismo", ("recrea", "paisag")),
+)
+
+
+def tipologia_de_uso(uso: object) -> str:
+    u = str(uso or "").lower()
+    for rotulo, chaves in _TIPOLOGIA_REGRAS:
+        if any(c in u for c in chaves):
+            return rotulo
+    return "Industrial / outros"
+
+
+def com_tipologia(df: pd.DataFrame) -> pd.DataFrame:
+    """Adiciona a coluna `tipologia` a partir de `uso_principal`."""
+    if df.empty or "uso_principal" not in df.columns:
+        return df
+    out = df.copy()
+    out["tipologia"] = out["uso_principal"].map(tipologia_de_uso)
+    return out
+
 
 def _num(serie: pd.Series) -> pd.Series:
     return pd.to_numeric(

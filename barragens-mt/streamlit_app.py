@@ -20,8 +20,10 @@ from streamlit_folium import st_folium
 
 from st_app.data import (
     CORES_NIVEL,
+    TIPOLOGIA_CORES,
     card_kpi,
     carregar_cnes_pontos,
+    com_tipologia,
     carregar_hidro_mun,
     carregar_idap,
     carregar_piloto,
@@ -42,6 +44,7 @@ from st_app.paginas_onda import (
     bloco_quase_atencao,
     bloco_sanitario_compacto,
     bloco_sitrep_downloads,
+    bloco_tipologia,
     faixa_titulo,
     frescor_chips_html,
     pagina_alertabilidade_despacho,
@@ -350,6 +353,12 @@ def pagina_comando(df: pd.DataFrame) -> None:
         st.caption("Completude baixa = risco de falso verde.")
         st.dataframe(top, use_container_width=True, hide_index=True, height=240)
         bloco_quase_atencao(base_kpi, altura=200)
+
+    bloco_tipologia(
+        base_kpi,
+        df,
+        rotulo_recorte=mun_ativo or ("eixo Manso–Cuiabá" if so_piloto else "recorte atual"),
+    )
 
     bloco_atalhos_comando(so_piloto=so_piloto)
 
@@ -883,38 +892,11 @@ def pagina_tipologia(df: pd.DataFrame) -> None:
     if base.empty:
         st.warning("Sem coordenadas.")
         return
-
-    def _tip(uso: object) -> str:
-        u = str(uso or "").lower()
-        regras = [
-            ("Irrigação", ("irrig",)),
-            ("Rejeito / mineração", ("rejeito", "sedimento", "miner")),
-            ("Hidroelétrica", ("hidroel", "hidrel")),
-            ("Aquicultura", ("aquicult",)),
-            ("Abastecimento humano", ("abastec", "humano")),
-            ("Dessedentação animal", ("dessedent",)),
-            ("Recreação / paisagismo", ("recrea", "paisag")),
-        ]
-        for rotulo, chaves in regras:
-            if any(c in u for c in chaves):
-                return rotulo
-        return "Industrial / outros"
-
-    cores = {
-        "Irrigação": "#2a4aad",
-        "Rejeito / mineração": "#b91c1c",
-        "Hidroelétrica": "#0e7490",
-        "Aquicultura": "#0369a1",
-        "Abastecimento humano": "#1b3281",
-        "Dessedentação animal": "#854d0e",
-        "Recreação / paisagismo": "#64748b",
-        "Industrial / outros": "#475569",
-    }
-    uso_col = "uso_principal" if "uso_principal" in base.columns else None
-    if uso_col is None:
+    if "uso_principal" not in base.columns:
         st.error("Coluna uso_principal ausente no inventário mesclado.")
         return
-    base["tipologia"] = base[uso_col].map(_tip)
+    cores = TIPOLOGIA_CORES
+    base = com_tipologia(base)
     cont = base["tipologia"].value_counts()
     cols = st.columns(min(4, len(cont)))
     for i, (tip, n) in enumerate(cont.items()):
@@ -936,7 +918,7 @@ def pagina_tipologia(df: pd.DataFrame) -> None:
             fill=True,
             fill_color=cores.get(r.tipologia, "#888"),
             fill_opacity=0.9,
-            popup=f"{r.nome}<br>{r.tipologia}<br>{getattr(r, uso_col, '')}",
+            popup=f"{r.nome}<br>{r.tipologia}<br>{getattr(r, 'uso_principal', '')}",
         ).add_to(m)
     st_folium(m, height=520, use_container_width=True, returned_objects=[])
     st.caption("Painel HTML equivalente: `painel/tipologia.html` (etapa 28).")

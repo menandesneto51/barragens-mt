@@ -7,6 +7,7 @@ import json
 import re
 from pathlib import Path
 
+import altair as alt
 import folium
 import pandas as pd
 import streamlit as st
@@ -14,8 +15,10 @@ from streamlit_folium import st_folium
 
 from st_app.data import (
     CORES_NIVEL,
+    TIPOLOGIA_CORES,
     TRATADOS,
     card_kpi,
+    com_tipologia,
     projecao_semana,
     severidade_pct,
     tendencia_climatica_texto,
@@ -319,6 +322,92 @@ def pagina_municipio_360(df: pd.DataFrame, municipio: str, *, incluir_sanitario:
 
 
 NAV_DESTINO = "_nav_destino"
+
+
+def bloco_tipologia(recorte: pd.DataFrame, estado: pd.DataFrame, *, rotulo_recorte: str) -> None:
+    """Mapa por tipologia do recorte + tipologias presentes no estado."""
+    st.markdown("##### Tipologia — para que serve cada barragem")
+    st.caption(
+        "Tipologia = agrupamento operacional do uso principal (SNISB). "
+        "Rejeito/mineração e abastecimento humano puxam decisão sanitária diferente de irrigação."
+    )
+    est = com_tipologia(estado)
+    rec = com_tipologia(recorte)
+    if "tipologia" not in est.columns:
+        st.info("Coluna `uso_principal` ausente no inventário mesclado — tipologia indisponível.")
+        return
+
+    cont_est = est["tipologia"].value_counts()
+    cont_rec = rec["tipologia"].value_counts() if "tipologia" in rec.columns else pd.Series(dtype=int)
+    tabela = pd.DataFrame(
+        {
+            "Tipologia": cont_est.index,
+            "Estado": cont_est.to_numpy(),
+            "No recorte": [int(cont_rec.get(t, 0)) for t in cont_est.index],
+        }
+    )
+
+    col_mapa, col_graf = st.columns([1.25, 1])
+    with col_mapa:
+        pts = rec.dropna(subset=["latitude", "longitude"])
+        if pts.empty:
+            st.info("Sem coordenadas no recorte para o mapa de tipologia.")
+        else:
+            m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
+            for r in pts.itertuples():
+                folium.CircleMarker(
+                    [r.latitude, r.longitude],
+                    radius=5,
+                    color="#fff",
+                    weight=1,
+                    fill=True,
+                    fill_color=TIPOLOGIA_CORES.get(r.tipologia, "#888"),
+                    fill_opacity=0.9,
+                    popup=(
+                        f"<b>{r.nome}</b><br>{r.tipologia}<br>"
+                        f"{getattr(r, 'uso_principal', '') or '—'}<br>"
+                        f"Sede: {getattr(r, 'municipio_sede', '') or '—'} · {r.nivel}"
+                    ),
+                ).add_to(m)
+            if len(pts) <= 120:
+                sw = [pts["latitude"].min(), pts["longitude"].min()]
+                ne = [pts["latitude"].max(), pts["longitude"].max()]
+                m.fit_bounds([sw, ne], padding=(30, 30))
+            st_folium(m, height=420, use_container_width=True, returned_objects=[])
+            legenda = "".join(
+                f'<div class="chip" style="border-left:3px solid {TIPOLOGIA_CORES.get(t, "#888")}">'
+                f"{t}: {int(n)}</div>"
+                for t, n in cont_rec.items()
+            )
+            if legenda:
+                st.markdown(f'<div class="frescor-chips">{legenda}</div>', unsafe_allow_html=True)
+
+    with col_graf:
+        st.caption(f"Barras: estado inteiro (1.248). Marca: {rotulo_recorte}.")
+        grafico = (
+            alt.Chart(tabela)
+            .mark_bar()
+            .encode(
+                x=alt.X("Estado:Q", title="Barragens no estado"),
+                y=alt.Y("Tipologia:N", sort="-x", title=None),
+                color=alt.Color(
+                    "Tipologia:N",
+                    scale=alt.Scale(
+                        domain=list(TIPOLOGIA_CORES), range=list(TIPOLOGIA_CORES.values())
+                    ),
+                    legend=None,
+                ),
+                tooltip=["Tipologia", "Estado", "No recorte"],
+            )
+            .properties(height=260)
+        )
+        marca = (
+            alt.Chart(tabela)
+            .mark_tick(color="#15202b", thickness=2, size=18)
+            .encode(x="No recorte:Q", y=alt.Y("Tipologia:N", sort="-x"))
+        )
+        st.altair_chart(grafico + marca, use_container_width=True)
+        st.dataframe(tabela, use_container_width=True, hide_index=True, height=180)
 
 
 def ir_para(jornada: str, pagina: str) -> None:
