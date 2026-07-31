@@ -1,9 +1,14 @@
+# Tema institucional GOV/SES-MT: azul #1b3281 (Manual da Marca GOV-MT).
 [theme]
-primaryColor = "#0b6e4f"
-backgroundColor = "#e9eef2"
+primaryColor = "#1b3281"
+backgroundColor = "#f4f6fb"
 secondaryBackgroundColor = "#ffffff"
-textColor = "#15202b"
+textColor = "#231f20"
 font = "sans serif"
+
+[client]
+# Sem isto o Streamlit Cloud redige a mensagem de erro e o log fica ilegível.
+showErrorDetails = true
 
 [server]
 headless = true

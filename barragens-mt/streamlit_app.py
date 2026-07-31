@@ -370,7 +370,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
             }
         )
         st.caption("Completude baixa = risco de falso verde.")
-        st.dataframe(top, use_container_width=True, hide_index=True, height=240)
+        st.dataframe(top, width="stretch", hide_index=True, height=240)
         bloco_quase_atencao(base_kpi, altura=200)
 
     bloco_tipologia(
@@ -502,7 +502,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "alertavel": "Alertável",
             }
         ),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=360,
     )
@@ -512,7 +512,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
         if hist.empty:
             st.caption("Sem snapshots — rode a etapa 16 mais de uma vez.")
         else:
-            st.dataframe(hist.tail(12), use_container_width=True, hide_index=True)
+            st.dataframe(hist.tail(12), width="stretch", hide_index=True)
 
 
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
@@ -555,7 +555,7 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
     mostrar = ordenado.copy()
     if not pop.empty:
         mostrar = mostrar.merge(pop[["municipio", "populacao"]], on="municipio", how="left")
-    st.dataframe(mostrar, use_container_width=True, hide_index=True, height=400)
+    st.dataframe(mostrar, width="stretch", hide_index=True, height=400)
 
 
 def pagina_piloto(piloto: pd.DataFrame) -> None:
@@ -574,7 +574,7 @@ def pagina_piloto(piloto: pd.DataFrame) -> None:
         cols[i].metric(n, int(cont.get(n, 0)))
     st.dataframe(
         piloto.sort_values("idap_n", ascending=False),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=480,
     )
@@ -723,7 +723,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 no_buf[
                     [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_buf.columns]
                 ].head(40),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
                 height=220,
             )
@@ -737,7 +737,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             ["nome", "tipo", "municipio", "dist_km", "hospitalar", "upa_ps", "ubs_esf"]
         ].copy()
         mostrar["dist_km"] = mostrar["dist_km"].round(2)
-        st.dataframe(mostrar.head(60), use_container_width=True, hide_index=True, height=280)
+        st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
     else:
         st.info(
             "Nenhuma US CNES prioritária com coordenada neste raio "

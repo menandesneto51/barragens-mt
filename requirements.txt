@@ -1,6 +1,6 @@
 # Streamlit Community Cloud — entrada na raiz do repositório.
 # Espelha barragens-mt/requirements-streamlit.txt: o Cloud instala este arquivo.
-streamlit>=1.36.0
+streamlit>=1.50.0
 pandas>=2.2.0
 folium>=0.17.0
 streamlit-folium>=0.23.0

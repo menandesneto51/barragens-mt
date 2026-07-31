@@ -280,7 +280,7 @@ def bloco_quase_atencao(df: pd.DataFrame, *, altura: int = 280) -> None:
                 "nivel": "Prontidão",
             }
         ),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=altura,
     )
@@ -343,7 +343,7 @@ def pagina_municipio_360(df: pd.DataFrame, municipio: str, *, incluir_sanitario:
                 if c in df.columns
             ]
         ],
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=220,
     )
@@ -434,9 +434,9 @@ def bloco_tipologia(recorte: pd.DataFrame, estado: pd.DataFrame, *, rotulo_recor
             .mark_tick(color="#15202b", thickness=2, size=18)
             .encode(x="No recorte:Q", y=alt.Y("Tipologia:N", sort="-x"))
         )
-        st.altair_chart(grafico + marca, use_container_width=True)
+        st.altair_chart(grafico + marca, width="stretch")
         with st.expander("Contagem por tipologia (estado × recorte)", expanded=False):
-            st.dataframe(tabela, use_container_width=True, hide_index=True, height=300)
+            st.dataframe(tabela, width="stretch", hide_index=True, height=300)
 
 
 def ir_para(jornada: str, pagina: str) -> None:
@@ -456,14 +456,14 @@ def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:
     m = metricas_alertabilidade()
     c1, c2, c3 = st.columns(3)
     with c1:
-        if st.button("Impacto extraterritorial", use_container_width=True):
+        if st.button("Impacto extraterritorial", width="stretch"):
             ir_para("Território", "Impacto extraterritorial")
     with c2:
-        if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", use_container_width=True):
+        if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", width="stretch"):
             ir_para("Ação", "Alertabilidade / despacho")
     with c3:
         rotulo = "Eixo Manso–Cuiabá" + (" (filtro ativo)" if so_piloto else "")
-        if st.button(rotulo, use_container_width=True):
+        if st.button(rotulo, width="stretch"):
             ir_para("Situação", "Eixo Manso–Cuiabá")
 
 
@@ -509,7 +509,7 @@ def pagina_vulneraveis() -> None:
                 popup=f"{r.get('nome')}<br>{cat}<br>{r.get('municipio')} · {r.get('faixa')}",
             ).add_to(m)
         st_folium(m, height=480, use_container_width=True, returned_objects=[])
-    st.dataframe(view.head(200), use_container_width=True, hide_index=True, height=360)
+    st.dataframe(view.head(200), width="stretch", hide_index=True, height=360)
 
 
 def pagina_extraterritorial() -> None:
@@ -591,7 +591,7 @@ def pagina_extraterritorial() -> None:
             st.caption(f"{linhas_mapa} ligação(ões) desenhadas (amostra até 200).")
         else:
             st.info("Sem pares com coordenadas suficientes para o mapa.")
-    st.dataframe(view.head(500), use_container_width=True, hide_index=True, height=360)
+    st.dataframe(view.head(500), width="stretch", hide_index=True, height=360)
 
 
 def pagina_alertabilidade_despacho() -> None:
@@ -613,7 +613,7 @@ def pagina_alertabilidade_despacho() -> None:
     al = carregar_alertabilidade()
     if not al.empty:
         st.subheader("Pendências de alertabilidade")
-        st.dataframe(al, use_container_width=True, hide_index=True, height=280)
+        st.dataframe(al, width="stretch", hide_index=True, height=280)
 
     st.subheader("Validar contato (rápido)")
     ct = carregar_contatos()
@@ -688,7 +688,7 @@ def pagina_alertabilidade_despacho() -> None:
         st.subheader("Últimos despachos")
         st.dataframe(
             pd.read_csv(log_path, sep=";", encoding="utf-8-sig").tail(30),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -742,7 +742,7 @@ def pagina_confirmacao_persistente() -> None:
     if arq.exists():
         st.dataframe(
             pd.read_csv(arq, sep=";", encoding="utf-8-sig"),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     st.info("O painel HTML com timer permanece em «Confirmação (HTML)» (Dados e apoio).")
@@ -798,4 +798,4 @@ def pagina_regiao_saude() -> None:
     reg = st.selectbox("Região", sorted(ct["regiao_saude"].dropna().unique().tolist()))
     view = ct[ct["regiao_saude"] == reg]
     st.metric("Municípios/contatos na região", view["municipio"].nunique())
-    st.dataframe(view, use_container_width=True, hide_index=True, height=400)
+    st.dataframe(view, width="stretch", hide_index=True, height=400)
