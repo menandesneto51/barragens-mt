@@ -104,8 +104,12 @@ def _isolamento_cached(
     raio0: float,
     cnes_key: str,
     corredor_key: str = "",
+    sedes_key: str = "",
+    uniao_circular: bool = False,
 ) -> dict:
-    return analisar_isolamento_json(lat0, lon0, raio0, cnes_key, corredor_key)
+    return analisar_isolamento_json(
+        lat0, lon0, raio0, cnes_key, corredor_key, sedes_key, uniao_circular
+    )
 
 
 def _badge(nivel: str) -> str:
@@ -786,21 +790,19 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         ] if not cnes.empty else []
 
         incluir_vias = st.checkbox(
-            "Incluir vias/pontes e isolamento (OSM)",
+            "Incluir vias/pontes, US atingidas e pessoas isoladas (OSM+IBGE)",
             value=True,
-            help="Cruza arteriais/pontes OSM com a geometria ativa "
-            "(corredor, se trajeto; senão círculo). Proxy C7.",
+            help="Cruza arteriais/pontes OSM e CNES com a geometria ativa; "
+            "estima pessoas isoladas pela sede municipal sem rota ao hub. Proxy C7.",
         )
         iso = {}
         if incluir_vias:
             import json as _json
 
-            cnes_prio = [
-                p
-                for p in cnes_todos
-                if p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio")
-            ]
-            # Preferir corredor para corte de vias quando o trajeto está ativo.
+            from st_app.sedes_municipais import sedes_candidatas
+
+            # Todas as US georreferenciadas (atingidas); prioridade marca visual.
+            cnes_key = _json.dumps(cnes_todos, ensure_ascii=False)
             corredor_key = ""
             if mostrar_trajeto and trajeto.get("ok"):
                 corredor_key = _json.dumps(
@@ -810,31 +812,50 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     },
                     ensure_ascii=False,
                 )
-            with st.spinner("Cruzando malha viária OSM com a mancha proxy…"):
+            sedes = sedes_candidatas(
+                municipios_afetados=afetados or None,
+                so_eixo=True,
+            )
+            sedes_key = _json.dumps(sedes, ensure_ascii=False)
+            uniao = bool(
+                mostrar_circular and mostrar_trajeto and trajeto.get("ok")
+            )
+            with st.spinner(
+                "Cruzando CNES, vias/pontes OSM e sedes municipais com a mancha…"
+            ):
                 iso = _isolamento_cached(
                     float(r["latitude"]),
                     float(r["longitude"]),
                     round(float(raio), 2),
-                    _json.dumps(cnes_prio, ensure_ascii=False),
+                    cnes_key,
                     corredor_key,
+                    sedes_key,
+                    uniao,
                 )
 
-            i1, i2, i3, i4 = st.columns(4)
-            i1.metric("Vias na mancha (OSM)", iso.get("n_vias_interrompidas", 0))
-            i2.metric("Pontes comprometidas", iso.get("n_pontes_comprometidas", 0))
-            i3.metric("US potencialmente isoladas", iso.get("n_us_isoladas", 0))
+            i1, i2, i3, i4, i5 = st.columns(5)
+            i1.metric("US atingidas (CNES)", iso.get("n_us_atingidas", 0))
+            i2.metric("Vias / pontes", f"{iso.get('n_vias_interrompidas', 0)} / {iso.get('n_pontes_comprometidas', 0)}")
+            i3.metric("US isoladas", iso.get("n_us_isoladas", 0))
             i4.metric(
-                "C7 proxy (0–2)",
-                f"{iso.get('nivel_c7_proxy', 0)} — {iso.get('rotulo_c7', '—')}",
+                "Pessoas isoladas (proxy)",
+                f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", "."),
+            )
+            i5.metric(
+                "C7 proxy",
+                f"{iso.get('nivel_c7_proxy', 0)} · {iso.get('n_municipios_isolados', 0)} mun.",
             )
             geom_iso = iso.get("geom") or "circular"
             if iso.get("aviso"):
                 st.caption(f"Malha viária: {iso['aviso']}")
             else:
                 st.caption(
-                    f"Corte pela geometria **{geom_iso}** · {iso.get('fonte')} · "
-                    f"~{iso.get('km_vias_no_buffer', 0)} km de vias no polígono proxy. "
-                    "Isolamento = US fora da mancha sem caminho ao hub Cuiabá."
+                    f"Geometria **{geom_iso}** · {iso.get('fonte')} · "
+                    f"~{iso.get('km_vias_no_buffer', 0)} km de vias. "
+                    "US atingidas = CNES na mancha. "
+                    "Pessoas isoladas = soma da pop. IBGE dos municípios cuja sede "
+                    "perde rota terrestre ao hub (Cuiabá) após o corte — proxy, "
+                    "não censo de desalojados."
                 )
 
         html = html_mapa_simulacao(
@@ -849,15 +870,17 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             cnes=cnes_todos,
             vias=iso.get("vias") or [],
             pontes=iso.get("pontes") or [],
+            us_atingidas=iso.get("us_atingidas") or [],
             us_isoladas=iso.get("us_isoladas") or [],
+            municipios_isolados=iso.get("municipios_isolados") or [],
             isolamento=iso if incluir_vias else None,
             trajeto=trajeto if trajeto.get("ok") else None,
             mostrar_circular=mostrar_circular,
             mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
-            altura=540,
+            altura=560,
             autoplay=False,
         )
-        components.html(html, height=560, scrolling=False)
+        components.html(html, height=580, scrolling=False)
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
 
@@ -914,9 +937,41 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     height=200,
                 )
 
+    us_at = list(iso.get("us_atingidas") or []) if iso else []
+    if us_at:
+        st.subheader(f"US reais atingidas — CNES na mancha ({len(us_at)})")
+        st.dataframe(
+            pd.DataFrame(us_at).rename(
+                columns={"no": "nome", "mu": "municipio", "tp": "tipo", "dist": "dist_km"}
+            )[["nome", "tipo", "municipio", "dist_km"]],
+            width="stretch",
+            hide_index=True,
+            height=240,
+        )
+
+    mun_iso = list(iso.get("municipios_isolados") or []) if iso else []
+    if mun_iso:
+        st.subheader(
+            f"Pessoas isoladas (proxy) — "
+            f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", ".")
+            + f" hab. em {len(mun_iso)} município(s)"
+        )
+        st.dataframe(
+            pd.DataFrame(mun_iso)[["municipio", "populacao", "dist", "codigo_ibge"]].rename(
+                columns={"dist": "dist_km"}
+            ),
+            width="stretch",
+            hide_index=True,
+            height=220,
+        )
+        st.caption(
+            "População = Censo IBGE 2022 do município cuja sede (centroide) perde "
+            "caminho terrestre ao hub após corte de vias/pontes. Ordem de grandeza."
+        )
+
     us_iso = list(iso.get("us_isoladas") or []) if iso else []
     if us_iso:
-        st.subheader("US potencialmente isoladas (proxy C7)")
+        st.subheader("US isoladas — fora da mancha, sem rota ao hub")
         st.dataframe(
             pd.DataFrame(us_iso).rename(
                 columns={
@@ -928,17 +983,17 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             )[["nome", "tipo", "municipio", "dist_km"]],
             width="stretch",
             hide_index=True,
-            height=220,
+            height=200,
         )
 
-    if us_tr_ids and mostrar_trajeto and trajeto.get("ok"):
+    if us_tr_ids and mostrar_trajeto and trajeto.get("ok") and not us_at:
         st.markdown(
             f'<p class="lista-us-titulo">US prioritárias no corredor ({len(us_tr_ids)})</p>',
             unsafe_allow_html=True,
         )
         st.dataframe(pd.DataFrame(us_tr_ids).head(60), width="stretch", hide_index=True, height=220)
 
-    if n_us and mostrar_circular:
+    if n_us and mostrar_circular and not us_at:
         st.markdown(
             f'<p class="lista-us-titulo">US prioritárias no círculo ({n_us})</p>',
             unsafe_allow_html=True,
@@ -948,11 +1003,6 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         ].copy()
         mostrar["dist_km"] = mostrar["dist_km"].round(2)
         st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
-    elif not n_us and mostrar_circular:
-        st.info(
-            "Nenhuma US CNES prioritária com coordenada neste raio "
-            "(cobertura atual: eixo Cuiabá)."
-        )
 
     st.caption(
         "Circular: área_km² = (hm³ × fração) / profundidade_m → raio = √(área/π). "
@@ -1028,6 +1078,15 @@ def pagina_interpretacao() -> None:
             "Trajeto: percorre a calha BHO (eixo Manso–Cuiabá) jusante e forma um corredor "
             "com semi-largura ajustável — L ≈ área/(2×w). Ambos são proxies; a mancha PAE "
             "oficial (dam break) entra depois como camada própria, sem apagar estes modos.",
+        ),
+        (
+            "US atingidas, vias/pontes e pessoas isoladas",
+            "US atingidas = estabelecimentos CNES dentro da mancha proxy. "
+            "Vias/pontes = arteriais OSM que cruzam a mancha. "
+            "US isoladas = fora da mancha sem rota terrestre ao hub após o corte. "
+            "Pessoas isoladas = soma da população IBGE 2022 dos municípios cuja sede "
+            "(centroide) perde caminho ao hub — ordem de grandeza, não censo de desalojados. "
+            "Relevo/MDE ainda não entra no cálculo.",
         ),
         (
             "CRI e DPA",

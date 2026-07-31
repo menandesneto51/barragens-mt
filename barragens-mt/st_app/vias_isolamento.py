@@ -260,11 +260,12 @@ def analisar_isolamento(
     raio_busca_km: float | None = None,
     bbox: tuple[float, float, float, float] | None = None,
     geom_label: str = "circular",
+    sedes: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Retorna vias/pontes na mancha e US potencialmente isoladas (proxy).
+    """Vias/pontes na mancha, US atingidas/isoladas e pessoas isoladas (proxy).
 
     `na_mancha(la, lo) -> bool` substitui o círculo quando a geometria é um
-    corredor hidráulico (ou união). Sem ela, usa o raio circular clássico.
+    corredor hidráulico. `sedes` = centroides municipais com população IBGE.
     """
     raio_km = float(raio_km)
     if raio_km <= 0 or math.isnan(raio_km):
@@ -399,22 +400,12 @@ def analisar_isolamento(
     # Anexa hub ao nó OSM mais próximo
     if not nodes:
         return {
+            **_vazio("Nenhuma via estruturante retornada pelo Overpass."),
             "ok": True,
-            "fonte": "OpenStreetMap/Overpass",
             "raio_km": raio_km,
             "raio_busca_km": raio_busca,
-            "n_vias_interrompidas": 0,
-            "n_pontes_comprometidas": 0,
-            "n_arteriais_cortadas": 0,
-            "km_vias_no_buffer": 0.0,
-            "n_us_isoladas": 0,
-            "nivel_c7_proxy": 0,
-            "rotulo_c7": "Sem malha OSM na área",
-            "vias": [],
-            "pontes": [],
-            "us_isoladas": [],
             "hub": hub,
-            "aviso": "Nenhuma via estruturante retornada pelo Overpass.",
+            "rotulo_c7": "Sem malha OSM na área",
         }
 
     # Grade ~0.01° (~1 km) para snap O(1) aproximado.
@@ -456,36 +447,71 @@ def analisar_isolamento(
     reach_cheio = _alcancaveis(viz_cheio, hub_node)
     reach_corte = _alcancaveis(viz_corte, hub_node)
 
+    us_atingidas: list[dict[str, Any]] = []
     us_isoladas: list[dict[str, Any]] = []
     cnes = cnes or []
-    # Fora da mancha, mas ainda na zona de busca (grafo OSM baixado)
     for p in cnes:
         try:
             pla, plo = float(p["la"]), float(p["lo"])
         except (KeyError, TypeError, ValueError):
             continue
         d = haversine_km(lat, lon, pla, plo)
+        prio = bool(p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio"))
+        base = {
+            "la": pla,
+            "lo": plo,
+            "no": p.get("no") or p.get("nome") or "US",
+            "mu": p.get("mu") or p.get("municipio") or "",
+            "tp": p.get("tp") or p.get("tipo") or "US",
+            "dist": round(d, 2),
+            "h": 1 if p.get("h") else 0,
+            "upa": 1 if p.get("upa") else 0,
+            "ubs": 1 if p.get("ubs") else 0,
+            "prio": 1 if prio else 0,
+        }
         if dentro(pla, plo):
-            continue  # na mancha — inundada / atingida, não "isolada"
-        if d > raio_busca * 1.15:
+            us_atingidas.append(base)
             continue
-        if not (p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio")):
+        if d > raio_busca * 1.15 or not prio:
             continue
         nodo = _snap(pla, plo)
         if nodo in reach_cheio and nodo not in reach_corte:
-            us_isoladas.append(
+            us_isoladas.append(base)
+
+    # Municípios cuja sede (centroide) perde rota ao hub → pessoas isoladas (proxy)
+    municipios_isolados: list[dict[str, Any]] = []
+    pessoas_isoladas = 0
+    hub_nome = (hub.get("nome") or "Cuiabá").casefold()
+    for s in sedes or []:
+        try:
+            sla, slo = float(s["la"]), float(s["lo"])
+            pop = int(float(s.get("populacao") or 0))
+        except (KeyError, TypeError, ValueError):
+            continue
+        mun = str(s.get("municipio") or "")
+        if mun.casefold() in hub_nome or "cuiabá" in mun.casefold() or "cuiaba" in mun.casefold():
+            continue  # hub não conta como isolado de si mesmo
+        if dentro(sla, slo):
+            continue  # sede na mancha = atingida/exposta, não "isolada"
+        d = haversine_km(lat, lon, sla, slo)
+        if d > raio_busca * 1.25:
+            continue
+        nodo = _snap(sla, slo)
+        if nodo in reach_cheio and nodo not in reach_corte:
+            municipios_isolados.append(
                 {
-                    "la": pla,
-                    "lo": plo,
-                    "no": p.get("no") or p.get("nome") or "US",
-                    "mu": p.get("mu") or p.get("municipio") or "",
-                    "tp": p.get("tp") or p.get("tipo") or "US",
+                    "codigo_ibge": str(s.get("codigo_ibge") or ""),
+                    "municipio": mun,
+                    "la": sla,
+                    "lo": slo,
+                    "populacao": pop,
                     "dist": round(d, 2),
                 }
             )
+            pessoas_isoladas += max(0, pop)
 
     # Nível proxy alinhado à escala C7 (0–2)
-    if n_pontes >= 1 or (n_arteriais >= 2 and len(us_isoladas) >= 1):
+    if n_pontes >= 1 or (n_arteriais >= 2 and (us_isoladas or municipios_isolados)):
         nivel = 2
         rotulo = "Acesso único / isolamento potencial (proxy)"
     elif n_vias_cortadas >= 1 or n_arteriais >= 1:
@@ -499,11 +525,15 @@ def analisar_isolamento(
     vias_mapa.sort(key=lambda v: (-v["cut"], -v["art"], -v["ponte"]))
     vias_mapa = vias_mapa[:180]
     pontes_mapa = pontes_mapa[:80]
+    us_atingidas = sorted(us_atingidas, key=lambda u: (0 if u.get("prio") else 1, u["dist"]))[:120]
     us_isoladas = sorted(us_isoladas, key=lambda u: u["dist"])[:60]
+    municipios_isolados = sorted(
+        municipios_isolados, key=lambda m: -m["populacao"]
+    )[:40]
 
     return {
         "ok": True,
-        "fonte": "OpenStreetMap/Overpass",
+        "fonte": "OpenStreetMap/Overpass + IBGE Censo 2022",
         "raio_km": raio_km,
         "raio_busca_km": raio_busca,
         "geom": geom_label,
@@ -511,12 +541,17 @@ def analisar_isolamento(
         "n_pontes_comprometidas": n_pontes,
         "n_arteriais_cortadas": n_arteriais,
         "km_vias_no_buffer": round(km_interrompidos, 1),
+        "n_us_atingidas": len(us_atingidas),
         "n_us_isoladas": len(us_isoladas),
+        "n_municipios_isolados": len(municipios_isolados),
+        "pessoas_isoladas_proxy": pessoas_isoladas,
         "nivel_c7_proxy": nivel,
         "rotulo_c7": rotulo,
         "vias": vias_mapa,
         "pontes": pontes_mapa,
+        "us_atingidas": us_atingidas,
         "us_isoladas": us_isoladas,
+        "municipios_isolados": municipios_isolados,
         "hub": {"la": hub_la, "lo": hub_lo, "nome": hub.get("nome") or "Hub"},
         "aviso": None,
         "n_ways_osm": len(ways),
@@ -527,19 +562,24 @@ def analisar_isolamento(
 def _vazio(motivo: str) -> dict[str, Any]:
     return {
         "ok": False,
-        "fonte": "OpenStreetMap/Overpass",
+        "fonte": "OpenStreetMap/Overpass + IBGE Censo 2022",
         "raio_km": 0.0,
         "raio_busca_km": 0.0,
         "n_vias_interrompidas": 0,
         "n_pontes_comprometidas": 0,
         "n_arteriais_cortadas": 0,
         "km_vias_no_buffer": 0.0,
+        "n_us_atingidas": 0,
         "n_us_isoladas": 0,
+        "n_municipios_isolados": 0,
+        "pessoas_isoladas_proxy": 0,
         "nivel_c7_proxy": 0,
         "rotulo_c7": "Indisponível",
         "vias": [],
         "pontes": [],
+        "us_atingidas": [],
         "us_isoladas": [],
+        "municipios_isolados": [],
         "hub": HUB_REF,
         "aviso": motivo,
     }
@@ -551,16 +591,22 @@ def analisar_isolamento_json(
     raio_km: float,
     cnes_json: str,
     corredor_json: str = "",
+    sedes_json: str = "",
+    uniao_circular: bool = False,
 ) -> dict[str, Any]:
     """Variante serializada — adequada a st.cache_data.
 
-    `corredor_json` opcional: {{"polyline":[[lat,lon],...],"largura_km":float}}.
-    Quando presente, a mancha de corte é o corredor (não o círculo).
+    Se `uniao_circular` e houver corredor, a mancha = corredor ∪ círculo
+    (modo Ambos da UI).
     """
     try:
         cnes = json.loads(cnes_json) if cnes_json else []
     except json.JSONDecodeError:
         cnes = []
+    try:
+        sedes = json.loads(sedes_json) if sedes_json else []
+    except json.JSONDecodeError:
+        sedes = []
 
     na_mancha = None
     bbox = None
@@ -575,17 +621,40 @@ def analisar_isolamento_json(
 
             poly = cor["polyline"]
             w = float(cor.get("largura_km") or 2.0)
-            na_mancha = lambda la, lo, _p=poly, _w=w: ponto_no_corredor(la, lo, _p, _w)
+            r = float(raio_km)
+
+            def _no_corredor(la: float, lo: float, _p=poly, _w=w) -> bool:
+                return ponto_no_corredor(la, lo, _p, _w)
+
+            if uniao_circular:
+                def _uniao(la: float, lo: float, _lat=lat, _lon=lon, _r=r) -> bool:
+                    return _no_corredor(la, lo) or haversine_km(_lat, _lon, la, lo) <= _r
+
+                na_mancha = _uniao
+                geom_label = "uniao"
+            else:
+                na_mancha = _no_corredor
+                geom_label = "corredor"
+
             lats = [float(p[0]) for p in poly]
             lons = [float(p[1]) for p in poly]
             pad = (w / 111.0) + 0.03
-            bbox = (
-                min(lats) - pad,
-                min(lons) - pad,
-                max(lats) + pad,
-                max(lons) + pad,
-            )
-            geom_label = "corredor"
+            # Inclui o círculo na bbox quando em união
+            if uniao_circular:
+                pad_c = (r / 111.0) + 0.03
+                bbox = (
+                    min(min(lats), lat) - max(pad, pad_c),
+                    min(min(lons), lon) - max(pad, pad_c),
+                    max(max(lats), lat) + max(pad, pad_c),
+                    max(max(lons), lon) + max(pad, pad_c),
+                )
+            else:
+                bbox = (
+                    min(lats) - pad,
+                    min(lons) - pad,
+                    max(lats) + pad,
+                    max(lons) + pad,
+                )
 
     return analisar_isolamento(
         lat=lat,
@@ -595,4 +664,5 @@ def analisar_isolamento_json(
         na_mancha=na_mancha,
         bbox=bbox,
         geom_label=geom_label,
+        sedes=sedes,
     )

@@ -19,7 +19,9 @@ def html_mapa_simulacao(
     cnes: list[dict[str, Any]],
     vias: list[dict[str, Any]] | None = None,
     pontes: list[dict[str, Any]] | None = None,
+    us_atingidas: list[dict[str, Any]] | None = None,
     us_isoladas: list[dict[str, Any]] | None = None,
+    municipios_isolados: list[dict[str, Any]] | None = None,
     isolamento: dict[str, Any] | None = None,
     trajeto: dict[str, Any] | None = None,
     mostrar_circular: bool = True,
@@ -27,7 +29,7 @@ def html_mapa_simulacao(
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
-    """Mapa: círculo e/ou corredor hidráulico + US + vias/pontes."""
+    """Mapa: mancha + US atingidas + vias/pontes + pessoas isoladas."""
     iso = isolamento or {}
     tr = trajeto or {}
     payload = {
@@ -42,12 +44,17 @@ def html_mapa_simulacao(
         "cnes": cnes,
         "vias": vias or [],
         "pontes": pontes or [],
+        "usAt": us_atingidas or iso.get("us_atingidas") or [],
         "usIso": us_isoladas or [],
+        "munIso": municipios_isolados or iso.get("municipios_isolados") or [],
         "isoN": iso.get("nivel_c7_proxy"),
         "isoR": iso.get("rotulo_c7") or "",
         "isoP": iso.get("n_pontes_comprometidas"),
         "isoV": iso.get("n_vias_interrompidas"),
         "isoU": iso.get("n_us_isoladas"),
+        "isoUA": iso.get("n_us_atingidas"),
+        "isoPop": iso.get("pessoas_isoladas_proxy"),
+        "isoMun": iso.get("n_municipios_isolados"),
         "isoG": iso.get("geom") or "",
         "trPoly": tr.get("polyline") or [],
         "trW": float(tr.get("largura_km") or 0),
@@ -86,11 +93,11 @@ def html_mapa_simulacao(
   </div>
   <div class="hud" id="hud">—</div>
   <div class="leg">
-    <div><i style="background:#fb923c"></i>Círculo volume→área</div>
-    <div><i style="background:#0891b2"></i>Trajeto hidráulico (calha)</div>
-    <div><i style="background:#dc2626"></i>Via interrompida</div>
-    <div><i style="background:#f59e0b"></i>Ponte na mancha</div>
-    <div>● US isolada (sem rota ao hub)</div>
+    <div><i style="background:#dc2626"></i>Rodovia interrompida</div>
+    <div><i style="background:#f59e0b"></i>Ponte atingida</div>
+    <div>● US atingida (na mancha)</div>
+    <div>● US isolada (sem rota)</div>
+    <div>■ Sede mun. isolada (pop.)</div>
   </div>
   <div id="mapa"></div>
 </div>
@@ -135,6 +142,24 @@ function iconeIso(p){{
     className:'',
     html:`<div style="width:14px;height:14px;border-radius:50%;background:#7c2d12;border:2px solid #fde68a;box-shadow:0 0 0 3px rgba(124,45,18,.35)"></div>`,
     iconSize:[14,14], iconAnchor:[7,7]
+  }});
+}}
+function iconeAtingida(p){{
+  const c = p.h ? '#b91c1c' : (p.upa ? '#c2410c' : '#1d4ed8');
+  return L.divIcon({{
+    className:'',
+    html:`<div style="width:13px;height:13px;border-radius:50%;background:${{c}};border:2px solid #fff;box-shadow:0 0 0 2px ${{c}}"></div>`,
+    iconSize:[13,13], iconAnchor:[6,6]
+  }});
+}}
+function iconeMun(p){{
+  const pop = (p.populacao||0).toLocaleString('pt-BR');
+  return L.divIcon({{
+    className:'',
+    html:`<div style="display:flex;flex-direction:column;align-items:center">` +
+      `<div style="width:12px;height:12px;background:#4c1d95;border:2px solid #e9d5ff;transform:rotate(45deg)"></div>` +
+      `<span style="margin-top:3px;padding:1px 4px;background:rgba(255,255,255,.92);border:1px solid #c4b5fd;font:600 10px system-ui;color:#4c1d95;white-space:nowrap">${{pop}}</span></div>`,
+    iconSize:[60,28], iconAnchor:[30,8]
   }});
 }}
 const style = document.createElement('style');
@@ -223,22 +248,24 @@ function desenhar(fPct){{
   const polyAnim = (!timer) ? (S.trPoly||[]) : truncarPolyline(S.trPoly||[], f);
 
   const vv = desenharVias(raio);
+  const nUsAt = (S.usAt||[]).length || S.isoUA || 0;
   let isoLinha = '';
   if (S.isoN!=null) {{
-    isoLinha = `C7 (${{S.isoG||'geom'}}) <b>${{S.isoN}}</b>` +
-      `<br>Vias <b>${{vv.nCut}}</b> · pontes <b>${{vv.nPonte}}</b>` +
-      `<br>US isol. <b>${{S.isoU??'—'}}</b>`;
+    isoLinha =
+      `US atingidas <b>${{nUsAt}}</b> · isoladas <b>${{S.isoU??0}}</b>` +
+      `<br>Vias <b>${{S.isoV??vv.nCut}}</b> · pontes <b>${{S.isoP??vv.nPonte}}</b>` +
+      `<br>Pessoas isol. <b>${{(S.isoPop||0).toLocaleString('pt-BR')}}</b>` +
+      ` <small>(${{S.isoMun??0}} mun.)</small>` +
+      `<br><small>C7 ${{S.isoN}} · ${{S.isoG||''}}</small>`;
   }}
   let trLinha = '';
   if (S.showT && S.trOk) {{
-    trLinha = `<br>Corredor ±<b>${{S.trW}}</b> km · ~<b>${{S.trL}}</b> km calha`;
+    trLinha = `<br>Corredor ±<b>${{S.trW}}</b> km · ~<b>${{S.trL}}</b> km`;
   }}
   document.getElementById('hud').innerHTML =
-    `<b>${{fPct}}%</b> liberado<br>Área <b>${{area.toFixed(1)}}</b> km²<br>` +
-    (S.showC ? `Raio circ. <b>${{raio.toFixed(2)}}</b> km<br>` : '') +
-    `US no círculo <b id="hudUs">0</b>` + trLinha + '<br>' +
-    (S.pop!=null ? `Pop. ref. <b>${{S.pop.toLocaleString('pt-BR')}}</b><br><small>${{S.metodo||''}}</small><br>` : '') +
-    isoLinha;
+    `<b>${{fPct}}%</b> liberado · área <b>${{area.toFixed(1)}}</b> km²` +
+    (S.showC ? `<br>Raio circ. <b>${{raio.toFixed(2)}}</b> km` : '') +
+    trLinha + '<br>' + isoLinha;
 
   camadaM.clearLayers(); camadaT.clearLayers();
   camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
@@ -260,7 +287,6 @@ function desenhar(fPct){{
   }}
 
   if (S.showT && S.trOk && polyAnim.length >= 2) {{
-    // Faixa visual (peso em px — aproximação da largura).
     const wPx = Math.max(10, Math.min(28, 8 + (S.trW||2)*4));
     L.polyline(polyAnim, {{
       pane:'trajeto', color:'#67e8f9', weight:wPx, opacity:0.28, lineCap:'round', lineJoin:'round'
@@ -280,28 +306,30 @@ function desenhar(fPct){{
     fillColor:'#ea580c', fillOpacity:1
   }}).bindPopup(`<b>${{S.no}}</b>`).addTo(camadaB);
 
-  const noBuf = [];
-  for (const p of (S.cnes||[])) {{
-    const d = haversine(S.la,S.lo,p.la,p.lo);
-    if (d <= raio) noBuf.push({{...p, dist:d}});
+  // US reais atingidas (CNES na mancha do cenário — servidor).
+  const usAt = S.usAt || [];
+  for (const p of usAt) {{
+    if (p.h || p.upa || p.ubs || p.prio) {{
+      L.marker([p.la,p.lo], {{pane:'us', icon:iconeAtingida(p), zIndexOffset: p.h?350:200}})
+        .bindPopup(`<b>US ATINGIDA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km`)
+        .addTo(camadaU);
+    }} else {{
+      L.circleMarker([p.la,p.lo], {{
+        pane:'us', radius:5, color:'#fff', weight:1,
+        fillColor:'#2563eb', fillOpacity:0.9
+      }}).bindPopup(`<b>US ATINGIDA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}`)
+        .addTo(camadaU);
+    }}
   }}
-  noBuf.sort((a,b)=> (a.pr-b.pr) || (a.dist-b.dist));
-  const hudUs = document.getElementById('hudUs');
-  if (hudUs) hudUs.textContent = String(noBuf.length);
-  // No modo só trajeto, ainda mostra US do círculo como referência fraca se ambos;
-  // se só trajeto, omite pontos do círculo (US do corredor viriam do servidor — lista abaixo).
-  if (S.showC) {{
-    for (const p of noBuf) {{
+
+  // Fallback: se servidor não mandou usAt e há círculo, usa CNES no raio.
+  if (!usAt.length && S.showC) {{
+    for (const p of (S.cnes||[])) {{
+      const d = haversine(S.la,S.lo,p.la,p.lo);
+      if (d > raio) continue;
       if (p.h || p.upa || p.ubs || p.prio) {{
-        L.marker([p.la,p.lo], {{pane:'us', icon:icone(p), zIndexOffset: p.h?300:100}})
-          .bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
-          .addTo(camadaU);
-      }} else {{
-        L.circleMarker([p.la,p.lo], {{
-          pane:'us', radius:4, color:'#fff', weight:1,
-          fillColor:'#64748b', fillOpacity:0.85
-        }}).bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
-          .addTo(camadaU);
+        L.marker([p.la,p.lo], {{pane:'us', icon:icone(p)}})
+          .bindPopup(`<b>US</b><br>${{p.no||''}}<br>${{d.toFixed(1)}} km`).addTo(camadaU);
       }}
     }}
   }}
@@ -309,8 +337,17 @@ function desenhar(fPct){{
   if (Math.abs(fPct - Math.round((S.frac0||0.5)*100)) < 1 || !timer) {{
     for (const p of (S.usIso||[])) {{
       L.marker([p.la,p.lo], {{pane:'us', icon:iconeIso(p), zIndexOffset:400}})
-        .bindPopup(`<b>US isolada (proxy)</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km da barragem<br>Sem rota terrestre ao hub após corte na mancha.`)
+        .bindPopup(`<b>US ISOLADA</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>Sem rota terrestre ao hub após corte de vias/pontes.`)
         .addTo(camadaI);
+    }}
+    for (const m of (S.munIso||[])) {{
+      L.marker([m.la,m.lo], {{pane:'us', icon:iconeMun(m), zIndexOffset:500}})
+        .bindPopup(
+          `<b>Município isolado (proxy)</b><br>${{m.municipio||''}}` +
+          `<br>População IBGE: <b>${{(m.populacao||0).toLocaleString('pt-BR')}}</b>` +
+          `<br>Sede sem rota ao hub após vias/pontes na mancha.`
+        ).addTo(camadaI);
+      if (bounds) bounds.extend([m.la,m.lo]);
     }}
   }}
   if (!timer && bounds) mapa.fitBounds(bounds.pad(0.25), {{maxZoom:12, animate:false}});
