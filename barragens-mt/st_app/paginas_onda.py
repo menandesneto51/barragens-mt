@@ -106,7 +106,8 @@ def bloco_sitrep_downloads(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
     _, msg_t = tendencia_climatica_texto(proj, df)
     sitrep = montar_sitrep_md(df, municipio=mun_ativo, proj=proj, tend_clima=msg_t)
     stem = f"sitrep_vigibarragens_{(mun_ativo or 'MT').replace(' ', '_')}"
-    c1, c2, c3 = st.columns(3)
+    # Espaçador à esquerda: os botões ficam alinhados à direita da faixa.
+    _, c1, c2, c3 = st.columns([3.4, 1, 1, 1])
     with c1:
         st.download_button(
             "SITREP (Markdown)",
