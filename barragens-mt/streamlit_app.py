@@ -299,7 +299,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
     bloco_sanitario_compacto(base_kpi)
 
     # —— Faixa 3: Onde olhar ——
-    faixa_titulo("3", "Onde olhar", "Mapa, Top 15 e lista de vigília (quase atenção)")
+    faixa_titulo("3", "Onde olhar", "Mapa, Top 15, vigília (quase atenção) e tipologia")
     if mun_ativo:
         pagina_municipio_360(base_kpi, mun_ativo, incluir_sanitario=False)
     view = view.sort_values("idap_n", ascending=False)

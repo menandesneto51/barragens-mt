@@ -179,7 +179,7 @@ def bloco_sanitario_compacto(df: pd.DataFrame) -> None:
         ),
         card_kpi(
             "US nos municípios sob pressão",
-            str(san["us_sob_risco"]),
+            f"{san['us_sob_risco']:,}".replace(",", "."),
             sev=severidade_pct(min(100, san["us_sob_risco"] / 50) if san["us_sob_risco"] else 0),
             nota=f"Prioritárias: {san['us_prioritarias']} · {san.get('metodo_us', '')}",
         ),
