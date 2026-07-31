@@ -109,24 +109,43 @@ def carregar_sedes_com_populacao() -> tuple[dict[str, Any], ...]:
 def sedes_candidatas(
     *,
     municipios_afetados: list[str] | None = None,
-    so_eixo: bool = True,
+    so_eixo: bool = False,
+    lat: float | None = None,
+    lon: float | None = None,
+    raio_km: float | None = None,
 ) -> list[dict[str, Any]]:
-    """Filtra sedes para o cálculo de isolamento (eixo e/ou afetados da barragem)."""
+    """Sedes para isolamento: próximas da barragem e/ou listadas como afetadas.
+
+    Por padrão (so_eixo=False) serve a qualquer barragem do estado: inclui
+    municípios no raio de busca OSM e os nominados em municipios_afetados.
+    """
+    from st_app.trajeto_hidraulico import haversine_km
+
     todas = [dict(s) for s in carregar_sedes_com_populacao()]
     if not todas:
         return []
-    nomes = { (m or "").strip().casefold() for m in (municipios_afetados or []) if m }
-    out = []
+    nomes = {(m or "").strip().casefold() for m in (municipios_afetados or []) if m}
+    raio = float(raio_km) if raio_km and raio_km > 0 else None
+    out: list[dict[str, Any]] = []
     for s in todas:
-        if so_eixo and not s.get("no_eixo"):
-            # ainda inclui se nome está na lista de afetados
-            if nomes and s["municipio"].casefold() in nomes:
+        nome_ok = bool(nomes and s["municipio"].casefold() in nomes)
+        eixo_ok = bool(s.get("no_eixo"))
+        perto = False
+        if lat is not None and lon is not None and raio is not None:
+            perto = haversine_km(lat, lon, float(s["la"]), float(s["lo"])) <= raio
+        if so_eixo:
+            if eixo_ok or nome_ok:
                 out.append(s)
             continue
-        if nomes and s["municipio"].casefold() not in nomes and not s.get("no_eixo"):
-            continue
-        out.append(s)
-    # Se filtro ficou vazio, cai no eixo inteiro
-    if not out:
+        if perto or nome_ok or (eixo_ok and raio is None):
+            out.append(s)
+    if not out and so_eixo:
         out = [s for s in todas if s.get("no_eixo")]
+    if not out and lat is not None and lon is not None:
+        # fallback: 8 sedes mais próximas
+        ranked = sorted(
+            todas,
+            key=lambda s: haversine_km(lat, lon, float(s["la"]), float(s["lo"])),
+        )
+        out = ranked[:8]
     return out

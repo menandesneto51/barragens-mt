@@ -18,9 +18,11 @@ from typing import Any, Callable
 
 RAIZ = Path(__file__).resolve().parents[1]
 EIXO_PATH = RAIZ / "dados" / "tratados" / "eixo_hidrografico_manso_cuiaba.geojson"
+BHO_PATH = RAIZ / "dados" / "tratados" / "ana_bho_trechos_bacia_cuiaba.geojson"
 
-# Distância máxima da barragem ao eixo para aceitar o trajeto (km).
+# Distância máxima da barragem à calha para aceitar o trajeto (km).
 MAX_DIST_EIXO_KM = 25.0
+MAX_DIST_BHO_KM = 15.0
 
 
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -129,6 +131,170 @@ def _projecao_no_eixo(
     return melhor
 
 
+@lru_cache(maxsize=1)
+def _bho_trechos() -> tuple[dict[str, Any], ...]:
+    """Trechos BHO com coords lat/lon e ligação jusante."""
+    if not BHO_PATH.exists():
+        return tuple()
+    try:
+        geo = json.loads(BHO_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return tuple()
+    out: list[dict[str, Any]] = []
+    for feat in geo.get("features") or []:
+        props = feat.get("properties") or {}
+        try:
+            cot = int(props.get("COTRECHO") or 0)
+            nut = int(props.get("NUTRJUS") or 0)
+        except (TypeError, ValueError):
+            continue
+        if cot <= 0:
+            continue
+        coords = _coords_latlon(feat)
+        if len(coords) < 2:
+            continue
+        try:
+            comp = float(props.get("NUCOMPTREC") or 0)
+        except (TypeError, ValueError):
+            comp = 0.0
+        out.append(
+            {
+                "cotrecho": cot,
+                "nutrjus": nut,
+                "coords": coords,
+                "comp_km": comp,
+                "rio": (props.get("NORIOCOMP") or props.get("NOORIGINAL") or "").strip(),
+            }
+        )
+    return tuple(out)
+
+
+def _construir_trajeto_bho(
+    *,
+    lat: float,
+    lon: float,
+    area_km2: float,
+    semi_largura_km: float,
+) -> dict[str, Any]:
+    """Corredor jusante pela rede BHO (bacia Cuiabá) — qualquer barragem na bacia."""
+    trechos = _bho_trechos()
+    if not trechos:
+        return {
+            "ok": False,
+            "aviso": "BHO da bacia Cuiabá ausente.",
+            "polyline": [],
+            "largura_km": float(semi_largura_km),
+            "comprimento_km": 0.0,
+            "dist_eixo_km": None,
+            "area_km2": float(area_km2),
+            "fonte": "ana_bho_trechos_bacia_cuiaba",
+        }
+
+    melhor: tuple[float, dict[str, Any], int, float] | None = None
+    # (dist, trecho, idx_seg, t)
+    for tr in trechos:
+        coords = tr["coords"]
+        for i in range(1, len(coords)):
+            a_la, a_lo = coords[i - 1]
+            b_la, b_lo = coords[i]
+            # projeção
+            lat_ref = (a_la + b_la) / 2.0
+            px, py = _plano(lon, lat, lat_ref)
+            ax, ay = _plano(a_lo, a_la, lat_ref)
+            bx, by = _plano(b_lo, b_la, lat_ref)
+            dx, dy = bx - ax, by - ay
+            if dx == 0 and dy == 0:
+                t = 0.0
+                d = math.hypot(px - ax, py - ay)
+            else:
+                t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
+                d = math.hypot(px - (ax + t * dx), py - (ay + t * dy))
+            if melhor is None or d < melhor[0]:
+                melhor = (d, tr, i - 1, t)
+
+    if melhor is None or melhor[0] > MAX_DIST_BHO_KM:
+        dist = None if melhor is None else round(melhor[0], 2)
+        return {
+            "ok": False,
+            "aviso": (
+                f"Barragem fora da malha BHO da bacia Cuiabá"
+                + (f" (mais próximo a {dist} km)" if dist is not None else "")
+                + ". Use o modo circular — válido para qualquer barragem do estado."
+            ),
+            "polyline": [],
+            "largura_km": float(semi_largura_km),
+            "comprimento_km": 0.0,
+            "dist_eixo_km": dist,
+            "area_km2": float(area_km2),
+            "fonte": "ana_bho_trechos_bacia_cuiaba",
+        }
+
+    dist, tr0, idx, t = melhor
+    w = max(0.3, float(semi_largura_km))
+    area = max(0.1, float(area_km2))
+    L_alvo = max(5.0, min(area / (2.0 * w), 250.0))
+
+    coords0 = tr0["coords"]
+    a_la, a_lo = coords0[idx]
+    b_la, b_lo = coords0[idx + 1]
+    start = (a_la + t * (b_la - a_la), a_lo + t * (b_lo - a_lo))
+
+    por_cot = {t["cotrecho"]: t for t in trechos}
+    poly: list[tuple[float, float]] = [start]
+    # completa o trecho atual jusante
+    for p in coords0[idx + 1 :]:
+        poly.append(p)
+    restante = L_alvo
+    # desconta o que já andou no trecho atual
+    for i in range(1, len(poly)):
+        restante -= haversine_km(poly[i - 1][0], poly[i - 1][1], poly[i][0], poly[i][1])
+    atual = por_cot.get(tr0["nutrjus"])
+    visitados = {tr0["cotrecho"]}
+    while atual and restante > 0 and atual["cotrecho"] not in visitados:
+        visitados.add(atual["cotrecho"])
+        seq = atual["coords"]
+        cur = poly[-1]
+        for nxt in seq:
+            d = haversine_km(cur[0], cur[1], nxt[0], nxt[1])
+            if d <= 1e-6:
+                continue
+            if d <= restante:
+                poly.append(nxt)
+                restante -= d
+                cur = nxt
+            else:
+                frac = restante / d
+                poly.append(
+                    (cur[0] + frac * (nxt[0] - cur[0]), cur[1] + frac * (nxt[1] - cur[1]))
+                )
+                restante = 0.0
+                break
+        atual = por_cot.get(atual["nutrjus"]) if restante > 0 else None
+
+    limpo: list[tuple[float, float]] = []
+    for p in poly:
+        if limpo and abs(limpo[-1][0] - p[0]) < 1e-8 and abs(limpo[-1][1] - p[1]) < 1e-8:
+            continue
+        limpo.append(p)
+    comp = 0.0
+    for i in range(1, len(limpo)):
+        comp += haversine_km(limpo[i - 1][0], limpo[i - 1][1], limpo[i][0], limpo[i][1])
+
+    return {
+        "ok": True,
+        "aviso": None,
+        "polyline": [[la, lo] for la, lo in limpo],
+        "largura_km": w,
+        "comprimento_km": round(comp, 2),
+        "comprimento_alvo_km": round(L_alvo, 2),
+        "dist_eixo_km": round(dist, 2),
+        "area_km2": round(area, 2),
+        "area_corredor_km2": round(comp * 2 * w, 1),
+        "fonte": "ana_bho_trechos_bacia_cuiaba (jusante Otto)",
+        "rotulo": "Corredor jusante BHO (proxy — não é mancha PAE)",
+    }
+
+
 def construir_trajeto(
     *,
     lat: float,
@@ -137,39 +303,62 @@ def construir_trajeto(
     semi_largura_km: float = 2.0,
     incluir_jusante_capital: bool = True,
 ) -> dict[str, Any]:
-    """Monta corredor jusante a partir da barragem ao longo do eixo.
+    """Monta corredor jusante: eixo Manso–Cuiabá, senão BHO da bacia.
 
-    Retorna polyline [[lat,lon],...], comprimento, largura e metadados.
+    Fora da bacia Cuiabá, retorna ok=False — use o círculo (válido em todo o MT).
     """
     poly = _polyline_completa()
-    if len(poly) < 2:
-        return {
-            "ok": False,
-            "aviso": "Eixo hidrografico ausente — rode a etapa 12 (analise_cuiaba).",
-            "polyline": [],
-            "largura_km": float(semi_largura_km),
-            "comprimento_km": 0.0,
-            "dist_eixo_km": None,
-            "area_km2": float(area_km2),
-            "fonte": "eixo_hidrografico_manso_cuiaba",
-        }
+    if len(poly) >= 2:
+        idx, t, dist, s0 = _projecao_no_eixo(lat, lon, poly)
+        if dist <= MAX_DIST_EIXO_KM:
+            return _construir_trajeto_eixo(
+                lat=lat,
+                lon=lon,
+                area_km2=area_km2,
+                semi_largura_km=semi_largura_km,
+                incluir_jusante_capital=incluir_jusante_capital,
+                poly=poly,
+                idx=idx,
+                t=t,
+                dist=dist,
+            )
 
-    idx, t, dist, s0 = _projecao_no_eixo(lat, lon, poly)
-    if dist > MAX_DIST_EIXO_KM:
-        return {
-            "ok": False,
-            "aviso": (
-                f"Barragem a {dist:.1f} km do eixo Manso–Cuiabá "
-                f"(limite {MAX_DIST_EIXO_KM:.0f} km). Use o modo circular ou carregue "
-                "mancha PAE / Otto da bacia local."
-            ),
-            "polyline": [],
-            "largura_km": float(semi_largura_km),
-            "comprimento_km": 0.0,
-            "dist_eixo_km": round(dist, 2),
-            "area_km2": float(area_km2),
-            "fonte": "eixo_hidrografico_manso_cuiaba",
-        }
+    # Fallback: qualquer barragem na bacia Cuiabá via BHO
+    bho = _construir_trajeto_bho(
+        lat=lat, lon=lon, area_km2=area_km2, semi_largura_km=semi_largura_km
+    )
+    if bho.get("ok"):
+        return bho
+
+    return {
+        "ok": False,
+        "aviso": bho.get("aviso")
+        or (
+            "Trajeto hidráulico indisponível nesta localização. "
+            "O modo circular cobre qualquer barragem do inventário."
+        ),
+        "polyline": [],
+        "largura_km": float(semi_largura_km),
+        "comprimento_km": 0.0,
+        "dist_eixo_km": bho.get("dist_eixo_km"),
+        "area_km2": float(area_km2),
+        "fonte": "circular_recomendado",
+    }
+
+
+def _construir_trajeto_eixo(
+    *,
+    lat: float,
+    lon: float,
+    area_km2: float,
+    semi_largura_km: float,
+    incluir_jusante_capital: bool,
+    poly: list[tuple[float, float]],
+    idx: int,
+    t: float,
+    dist: float,
+) -> dict[str, Any]:
+    """Corredor ao longo do eixo Manso–Cuiabá (já projetado)."""
 
     w = max(0.3, float(semi_largura_km))
     area = max(0.1, float(area_km2))

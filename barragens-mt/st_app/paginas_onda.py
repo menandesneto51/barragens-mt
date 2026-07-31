@@ -454,14 +454,17 @@ def aplicar_navegacao_pendente() -> None:
 def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:
     st.markdown("##### Continuar a investigação")
     m = metricas_alertabilidade()
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     with c1:
+        if st.button("Simulação de cenário", width="stretch", type="primary"):
+            ir_para("Situação", "Simulação de cenário")
+    with c2:
         if st.button("Impacto extraterritorial", width="stretch"):
             ir_para("Território", "Impacto extraterritorial")
-    with c2:
+    with c3:
         if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", width="stretch"):
             ir_para("Ação", "Alertabilidade / despacho")
-    with c3:
+    with c4:
         rotulo = "Eixo Manso–Cuiabá" + (" (filtro ativo)" if so_piloto else "")
         if st.button(rotulo, width="stretch"):
             ir_para("Situação", "Eixo Manso–Cuiabá")

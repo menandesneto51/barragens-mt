@@ -62,6 +62,7 @@ from st_app.style import CSS
 JORNADAS: dict[str, list[str]] = {
     "Situação": [
         "Comando estadual",
+        "Simulação de cenário",
         "Hidro municipal",
         "Eixo Manso–Cuiabá",
     ],
@@ -72,11 +73,11 @@ JORNADAS: dict[str, list[str]] = {
         "Barragem 360°",
     ],
     "Ação": [
+        "Simulação de cenário",
         "Alertabilidade / despacho",
         "Fila de alertas",
         "Confirmação persistente",
         "Ficha rápida",
-        "Simulação volume/área",
     ],
     "Dados e apoio": [
         "Interpretação / KPIs",
@@ -87,6 +88,9 @@ JORNADAS: dict[str, list[str]] = {
         "Comando (HTML)",
     ],
 }
+
+# Nome canônico da tela (aparece em Situação e Ação).
+TELA_SIMULACAO = "Simulação de cenário"
 
 st.set_page_config(
     page_title="VIGIBARRAGENS–MT",
@@ -602,11 +606,13 @@ def _fmt_br(valor: float, casas: int = 1, sufixo: str = "") -> str:
 
 
 def pagina_simulacao(df: pd.DataFrame) -> None:
-    st.markdown("# Simulação volume → área")
+    st.markdown("# Simulação de cenário")
     st.markdown(
-        '<p class="nota">Proxies para treino — <b>não</b> são mancha oficial nem ordem de evacuação. '
-        "Dois geometrias: <b>círculo</b> (volume→área) e <b>trajeto hidráulico</b> "
-        "(corredor jusante no eixo Manso–Cuiabá). Ambos podem coexistir no mapa.</p>",
+        '<p class="nota">Proxy para <b>qualquer barragem</b> do inventário — '
+        "<b>não</b> é mancha oficial nem ordem de evacuação. "
+        "O <b>círculo</b> (volume→área) funciona em todo o MT; o "
+        "<b>trajeto hidráulico</b> (corredor jusante) quando há calha BHO/eixo. "
+        "No mapa: US CNES, rodovias e pontes OSM dentro da área.</p>",
         unsafe_allow_html=True,
     )
     base = df.dropna(subset=["capacidade_hm3"]).copy()
@@ -614,17 +620,44 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     if base.empty:
         st.warning("Sem volumes no inventário.")
         return
-    recorte = st.radio("Recorte", ["Eixo Manso–Cuiabá", "Top 40 volumes", "Todas com volume"], horizontal=True)
+    recorte = st.radio(
+        "Recorte",
+        ["Todas com volume", "Top 40 volumes", "Eixo Manso–Cuiabá"],
+        horizontal=True,
+        help="Padrão: todas as barragens com volume no inventário estadual.",
+    )
     if recorte == "Eixo Manso–Cuiabá":
         base = base[base.get("piloto", False) == True]  # noqa: E712
     elif recorte == "Top 40 volumes":
         base = base.sort_values("capacidade_hm3", ascending=False).head(40)
+    filtro_mun = st.text_input(
+        "Filtrar por município (opcional)",
+        "",
+        placeholder="ex.: Cuiabá, Rondonópolis, Sinop…",
+    ).strip()
+    if filtro_mun:
+        col_sede = (
+            base["municipio_sede"]
+            if "municipio_sede" in base.columns
+            else pd.Series("", index=base.index)
+        )
+        col_mun = (
+            base["municipio"]
+            if "municipio" in base.columns
+            else pd.Series("", index=base.index)
+        )
+        mask = col_sede.fillna("").str.contains(filtro_mun, case=False, na=False) | col_mun.fillna(
+            ""
+        ).str.contains(filtro_mun, case=False, na=False)
+        base = base[mask]
     opcoes = {
-        f"{r['nome']} ({r['id_snisb']}) — {r['capacidade_hm3']:.1f} hm³": r["id_snisb"]
+        f"{r['nome']} ({r['id_snisb']}) — {r.get('municipio_sede') or r.get('municipio') or '—'} — {r['capacidade_hm3']:.1f} hm³": r[
+            "id_snisb"
+        ]
         for _, r in base.sort_values("capacidade_hm3", ascending=False).iterrows()
     }
     if not opcoes:
-        st.info("Nenhuma barragem no recorte.")
+        st.info("Nenhuma barragem no recorte/filtro.")
         return
     escolha = st.selectbox("Barragem", list(opcoes.keys()))
     bid = opcoes[escolha]
@@ -634,16 +667,39 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     liberado = float(r["capacidade_hm3"]) * frac
     area = liberado / prof
     raio = math.sqrt(area / math.pi)
+    # Raio operacional para CNES (piso evita buffer inútil; teto evita Overpass absurdo)
+    raio_us = max(3.0, min(float(raio), 80.0))
+    raio_osm = max(8.0, min(float(raio) * 1.35 + 6.0, 45.0))
 
+    from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
+
+    # Pré-avalia trajeto para escolher geometria padrão
+    trajeto_probe: dict = {"ok": False}
+    if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
+        trajeto_probe = construir_trajeto(
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            area_km2=float(area),
+            semi_largura_km=2.0,
+            incluir_jusante_capital=True,
+        )
+
+    opcoes_geom = ["Só circular (todas as barragens)"]
+    if trajeto_probe.get("ok"):
+        opcoes_geom = [
+            "Ambos (comparar)",
+            "Só circular (todas as barragens)",
+            "Só trajeto hidráulico",
+        ]
     geom_modo = st.radio(
         "Geometria da mancha proxy",
-        ["Ambos (comparar)", "Só circular", "Só trajeto hidráulico"],
+        opcoes_geom,
         horizontal=True,
-        help="Circular = disco isótropo. Trajeto = corredor ao longo da calha BHO "
-        "(eixo Manso–Cuiabá). Mancha PAE oficial entra depois, sem apagar estes proxies.",
+        help="Circular vale para qualquer barragem do MT. "
+        "Trajeto = corredor jusante (eixo Manso–Cuiabá ou BHO da bacia) quando disponível.",
     )
-    mostrar_circular = geom_modo in ("Ambos (comparar)", "Só circular")
-    mostrar_trajeto = geom_modo in ("Ambos (comparar)", "Só trajeto hidráulico")
+    mostrar_circular = "circular" in geom_modo.lower() or geom_modo.startswith("Ambos")
+    mostrar_trajeto = geom_modo.startswith("Ambos") or geom_modo.startswith("Só trajeto")
     semi_largura = 2.0
     if mostrar_trajeto:
         semi_largura = st.slider(
@@ -656,8 +712,6 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "Comprimento jusante ≈ área / (2 × semi-largura).",
         )
 
-    from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
-
     trajeto: dict = {"ok": False, "polyline": [], "largura_km": semi_largura}
     if mostrar_trajeto and pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         trajeto = construir_trajeto(
@@ -668,10 +722,12 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             incluir_jusante_capital=True,
         )
         if not trajeto.get("ok"):
-            st.warning(trajeto.get("aviso") or "Trajeto hidráulico indisponível.")
-            if geom_modo == "Só trajeto hidráulico":
-                mostrar_circular = True
-                st.info("Caindo para o círculo como referência.")
+            st.info(
+                trajeto.get("aviso")
+                or "Trajeto hidráulico indisponível — usando apenas o círculo."
+            )
+            mostrar_circular = True
+            mostrar_trajeto = False
 
     afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
     afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
@@ -691,7 +747,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     us_buf = pd.DataFrame()
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         us_buf = cnes_no_buffer(
-            cnes, float(r["latitude"]), float(r["longitude"]), raio
+            cnes, float(r["latitude"]), float(r["longitude"]), raio_us
         )
     n_us = len(us_buf)
     n_hosp = int(us_buf["hospitalar"].sum()) if n_us and "hospitalar" in us_buf.columns else 0
@@ -789,74 +845,92 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             for row in cnes.itertuples()
         ] if not cnes.empty else []
 
-        incluir_vias = st.checkbox(
-            "Incluir vias/pontes, US atingidas e pessoas isoladas (OSM+IBGE)",
-            value=True,
-            help="Cruza arteriais/pontes OSM e CNES com a geometria ativa; "
-            "estima pessoas isoladas pela sede municipal sem rota ao hub. Proxy C7.",
+        st.markdown("#### Área de simulação — US, rodovias e pontes")
+        import json as _json
+
+        from st_app.sedes_municipais import sedes_candidatas
+
+        # CNES no recorte da mancha — evita serializar 12k pontos no cache.
+        from st_app.data import haversine_km as _hav
+
+        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+        raio_filtro = max(raio_us, raio_osm) + 5.0
+        if mostrar_trajeto and trajeto.get("ok") and trajeto.get("polyline"):
+            # Amplia para cobrir o corredor jusante inteiro
+            plas = [float(p[0]) for p in trajeto["polyline"]]
+            plos = [float(p[1]) for p in trajeto["polyline"]]
+            dmax = max(_hav(lat0, lon0, a, b) for a, b in zip(plas, plos))
+            raio_filtro = max(raio_filtro, dmax + float(trajeto.get("largura_km") or 2) + 5)
+        cnes_perto = [
+            p for p in cnes_todos if _hav(lat0, lon0, p["la"], p["lo"]) <= raio_filtro
+        ]
+        cnes_key = _json.dumps(cnes_perto, ensure_ascii=False)
+        corredor_key = ""
+        if mostrar_trajeto and trajeto.get("ok"):
+            corredor_key = _json.dumps(
+                {
+                    "polyline": trajeto["polyline"],
+                    "largura_km": trajeto["largura_km"],
+                },
+                ensure_ascii=False,
+            )
+        sedes = sedes_candidatas(
+            municipios_afetados=afetados or None,
+            so_eixo=False,
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            raio_km=raio_osm,
         )
-        iso = {}
-        if incluir_vias:
-            import json as _json
+        sedes_key = _json.dumps(sedes, ensure_ascii=False)
+        uniao = bool(mostrar_circular and mostrar_trajeto and trajeto.get("ok"))
+        with st.spinner(
+            "Cruzando CNES, vias/pontes OSM e sedes municipais na área de simulação…"
+        ):
+            iso = _isolamento_cached(
+                float(r["latitude"]),
+                float(r["longitude"]),
+                round(float(raio_us), 2),
+                cnes_key,
+                corredor_key,
+                sedes_key,
+                uniao,
+            )
 
-            from st_app.sedes_municipais import sedes_candidatas
-
-            # Todas as US georreferenciadas (atingidas); prioridade marca visual.
-            cnes_key = _json.dumps(cnes_todos, ensure_ascii=False)
-            corredor_key = ""
-            if mostrar_trajeto and trajeto.get("ok"):
-                corredor_key = _json.dumps(
-                    {
-                        "polyline": trajeto["polyline"],
-                        "largura_km": trajeto["largura_km"],
-                    },
-                    ensure_ascii=False,
-                )
-            sedes = sedes_candidatas(
-                municipios_afetados=afetados or None,
-                so_eixo=True,
+        i1, i2, i3, i4, i5 = st.columns(5)
+        i1.metric("US na área (CNES)", iso.get("n_us_atingidas", 0))
+        i2.metric(
+            "Rodovias / pontes",
+            f"{iso.get('n_vias_interrompidas', 0)} / {iso.get('n_pontes_comprometidas', 0)}",
+        )
+        i3.metric("US isoladas", iso.get("n_us_isoladas", 0))
+        i4.metric(
+            "Pessoas isoladas (proxy)",
+            f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", "."),
+        )
+        i5.metric(
+            "C7 proxy",
+            f"{iso.get('nivel_c7_proxy', 0)} · {iso.get('n_municipios_isolados', 0)} mun.",
+        )
+        geom_iso = iso.get("geom") or "circular"
+        if iso.get("aviso"):
+            st.warning(f"Malha viária / isolamento: {iso['aviso']}")
+        else:
+            st.caption(
+                f"Área = geometria **{geom_iso}** · raio US {raio_us:.1f} km "
+                f"(equiv. {raio:.1f} km) · busca OSM ~{raio_osm:.0f} km · "
+                f"{iso.get('fonte')} · ~{iso.get('km_vias_no_buffer', 0)} km de vias. "
+                "Contagens = elementos **dentro da área de simulação** (CNES + OSM)."
             )
-            sedes_key = _json.dumps(sedes, ensure_ascii=False)
-            uniao = bool(
-                mostrar_circular and mostrar_trajeto and trajeto.get("ok")
+        if (
+            iso.get("n_us_atingidas", 0) == 0
+            and iso.get("n_vias_interrompidas", 0) == 0
+            and iso.get("n_pontes_comprometidas", 0) == 0
+        ):
+            st.info(
+                "Nenhuma US, rodovia estruturante ou ponte OSM encontrada nesta área. "
+                "Tente aumentar a fração liberada, reduzir a profundidade (raio maior) "
+                "ou escolher uma barragem mais próxima de malha urbana/CNES."
             )
-            with st.spinner(
-                "Cruzando CNES, vias/pontes OSM e sedes municipais com a mancha…"
-            ):
-                iso = _isolamento_cached(
-                    float(r["latitude"]),
-                    float(r["longitude"]),
-                    round(float(raio), 2),
-                    cnes_key,
-                    corredor_key,
-                    sedes_key,
-                    uniao,
-                )
-
-            i1, i2, i3, i4, i5 = st.columns(5)
-            i1.metric("US atingidas (CNES)", iso.get("n_us_atingidas", 0))
-            i2.metric("Vias / pontes", f"{iso.get('n_vias_interrompidas', 0)} / {iso.get('n_pontes_comprometidas', 0)}")
-            i3.metric("US isoladas", iso.get("n_us_isoladas", 0))
-            i4.metric(
-                "Pessoas isoladas (proxy)",
-                f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", "."),
-            )
-            i5.metric(
-                "C7 proxy",
-                f"{iso.get('nivel_c7_proxy', 0)} · {iso.get('n_municipios_isolados', 0)} mun.",
-            )
-            geom_iso = iso.get("geom") or "circular"
-            if iso.get("aviso"):
-                st.caption(f"Malha viária: {iso['aviso']}")
-            else:
-                st.caption(
-                    f"Geometria **{geom_iso}** · {iso.get('fonte')} · "
-                    f"~{iso.get('km_vias_no_buffer', 0)} km de vias. "
-                    "US atingidas = CNES na mancha. "
-                    "Pessoas isoladas = soma da pop. IBGE dos municípios cuja sede "
-                    "perde rota terrestre ao hub (Cuiabá) após o corte — proxy, "
-                    "não censo de desalojados."
-                )
 
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
@@ -867,13 +941,13 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             profundidade_m=float(prof),
             pop_est=pop_n,
             metodo_pop=metodo,
-            cnes=cnes_todos,
+            cnes=cnes_perto,
             vias=iso.get("vias") or [],
             pontes=iso.get("pontes") or [],
             us_atingidas=iso.get("us_atingidas") or [],
             us_isoladas=iso.get("us_isoladas") or [],
             municipios_isolados=iso.get("municipios_isolados") or [],
-            isolamento=iso if incluir_vias else None,
+            isolamento=iso,
             trajeto=trajeto if trajeto.get("ok") else None,
             mostrar_circular=mostrar_circular,
             mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
@@ -1278,9 +1352,16 @@ def main() -> None:
             st.session_state["jornada"] = "Situação"
         jornada = st.selectbox("Jornada", jornadas_ordem, key="jornada")
         telas = JORNADAS[jornada]
+        # Migra nome antigo da tela
+        if st.session_state.get("pagina") == "Simulação volume/área":
+            st.session_state["pagina"] = TELA_SIMULACAO
         if st.session_state.get("pagina") not in telas:
             st.session_state["pagina"] = telas[0]
         pagina = st.radio("Tela", telas, key="pagina")
+        if st.button("Abrir simulação de cenário", width="stretch", type="primary"):
+            from st_app.paginas_onda import ir_para
+
+            ir_para("Situação", TELA_SIMULACAO)
         st.divider()
         st.caption(f"Dados: `{(Path(__file__).parent / 'dados' / 'tratados').as_posix()}`")
 
@@ -1291,7 +1372,7 @@ def main() -> None:
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
     elif pagina == "Eixo Manso–Cuiabá":
         pagina_piloto(carregar_piloto())
-    elif pagina == "Simulação volume/área":
+    elif pagina in (TELA_SIMULACAO, "Simulação volume/área"):
         pagina_simulacao(df)
     elif pagina == "Mapa por tipologia":
         pagina_tipologia(df)
