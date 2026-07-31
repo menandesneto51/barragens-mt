@@ -99,9 +99,13 @@ st.markdown(CSS, unsafe_allow_html=True)
 
 @st.cache_data(show_spinner=False, ttl=6 * 3600)
 def _isolamento_cached(
-    lat0: float, lon0: float, raio0: float, cnes_key: str
+    lat0: float,
+    lon0: float,
+    raio0: float,
+    cnes_key: str,
+    corredor_key: str = "",
 ) -> dict:
-    return analisar_isolamento_json(lat0, lon0, raio0, cnes_key)
+    return analisar_isolamento_json(lat0, lon0, raio0, cnes_key, corredor_key)
 
 
 def _badge(nivel: str) -> str:
@@ -596,9 +600,9 @@ def _fmt_br(valor: float, casas: int = 1, sufixo: str = "") -> str:
 def pagina_simulacao(df: pd.DataFrame) -> None:
     st.markdown("# Simulação volume → área")
     st.markdown(
-        '<p class="nota">Proxy geométrico — <b>não</b> é mancha oficial nem ordem de evacuação. '
-        "O rompimento afeta população, a <b>capacidade de resposta local</b> (US no buffer) "
-        "e o <b>acesso rodoviário</b> (vias/pontes OSM no trajeto da água → isolamento).</p>",
+        '<p class="nota">Proxies para treino — <b>não</b> são mancha oficial nem ordem de evacuação. '
+        "Dois geometrias: <b>círculo</b> (volume→área) e <b>trajeto hidráulico</b> "
+        "(corredor jusante no eixo Manso–Cuiabá). Ambos podem coexistir no mapa.</p>",
         unsafe_allow_html=True,
     )
     base = df.dropna(subset=["capacidade_hm3"]).copy()
@@ -627,6 +631,44 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     area = liberado / prof
     raio = math.sqrt(area / math.pi)
 
+    geom_modo = st.radio(
+        "Geometria da mancha proxy",
+        ["Ambos (comparar)", "Só circular", "Só trajeto hidráulico"],
+        horizontal=True,
+        help="Circular = disco isótropo. Trajeto = corredor ao longo da calha BHO "
+        "(eixo Manso–Cuiabá). Mancha PAE oficial entra depois, sem apagar estes proxies.",
+    )
+    mostrar_circular = geom_modo in ("Ambos (comparar)", "Só circular")
+    mostrar_trajeto = geom_modo in ("Ambos (comparar)", "Só trajeto hidráulico")
+    semi_largura = 2.0
+    if mostrar_trajeto:
+        semi_largura = st.slider(
+            "Semi-largura do corredor hidráulico (km)",
+            0.5,
+            6.0,
+            2.0,
+            0.5,
+            help="Metade da faixa em cada margem do talvegue. "
+            "Comprimento jusante ≈ área / (2 × semi-largura).",
+        )
+
+    from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
+
+    trajeto: dict = {"ok": False, "polyline": [], "largura_km": semi_largura}
+    if mostrar_trajeto and pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
+        trajeto = construir_trajeto(
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            area_km2=float(area),
+            semi_largura_km=float(semi_largura),
+            incluir_jusante_capital=True,
+        )
+        if not trajeto.get("ok"):
+            st.warning(trajeto.get("aviso") or "Trajeto hidráulico indisponível.")
+            if geom_modo == "Só trajeto hidráulico":
+                mostrar_circular = True
+                st.info("Caindo para o círculo como referência.")
+
     afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
     afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
     sede = str(r.get("municipio_sede") or r.get("municipio") or "") or None
@@ -652,31 +694,81 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     n_upa = int(us_buf["upa_ps"].sum()) if n_us and "upa_ps" in us_buf.columns else 0
     n_ubs = int(us_buf["ubs_esf"].sum()) if n_us and "ubs_esf" in us_buf.columns else 0
 
+    # US no corredor (quando houver trajeto)
+    n_us_tr = 0
+    us_tr_ids: list[dict] = []
+    if trajeto.get("ok") and not cnes.empty:
+        for row in cnes.itertuples():
+            if ponto_no_corredor(
+                float(row.latitude),
+                float(row.longitude),
+                trajeto["polyline"],
+                float(trajeto["largura_km"]),
+            ):
+                n_us_tr += 1
+                if getattr(row, "prioritario", False) or row.hospitalar or row.upa_ps or row.ubs_esf:
+                    us_tr_ids.append(
+                        {
+                            "nome": row.nome,
+                            "tipo": row.tipo,
+                            "municipio": row.municipio,
+                        }
+                    )
+
     k1, k2, k3, k4 = st.columns(4)
     k1.metric("Volume liberado", _fmt_br(liberado, 1, " hm³"))
     k2.metric("Área equivalente", _fmt_br(area, 1, " km²"))
-    k3.metric("Raio equivalente", _fmt_br(raio, 2, " km"))
+    k3.metric("Raio circular", _fmt_br(raio, 2, " km"))
     k4.metric("IDAP", f"{r.get('idap', '—')} ({r.get('nivel', '—')})")
-    p1, p2, p3, p4 = st.columns(4)
-    n_prio = (
-        int(us_buf["prioritario"].sum())
-        if n_us and "prioritario" in us_buf.columns
-        else (n_hosp + n_upa + n_ubs)
-    )
-    p1.metric("População estimada", f"{pop_n:,}".replace(",", "."))
-    p2.metric("US no buffer (todas)", n_us)
-    p3.metric("Hospital / UPA", f"{n_hosp} / {n_upa}")
-    p4.metric("Prioritárias (APS/urg.)", n_prio)
-    st.caption(
-        f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
-        "CNES: **todas** as unidades com coordenada no raio "
-        "(base estadual quando `cnes_estabelecimentos_mt` existir)."
-    )
+
+    if mostrar_circular and mostrar_trajeto and trajeto.get("ok"):
+        c_a, c_b = st.columns(2)
+        with c_a:
+            st.markdown("##### Circular")
+            p1, p2 = st.columns(2)
+            p1.metric("Pop. estimada (ref.)", f"{pop_n:,}".replace(",", "."))
+            p2.metric("US no círculo", n_us)
+        with c_b:
+            st.markdown("##### Trajeto hidráulico")
+            t1, t2 = st.columns(2)
+            t1.metric(
+                "Comprimento na calha",
+                _fmt_br(float(trajeto.get("comprimento_km") or 0), 1, " km"),
+            )
+            t2.metric("US no corredor", n_us_tr)
+        st.caption(
+            f"Corredor ±{trajeto.get('largura_km')} km · área faixa ~"
+            f"{trajeto.get('area_corredor_km2')} km² · "
+            f"dist. barragem→eixo {trajeto.get('dist_eixo_km')} km · "
+            f"`{trajeto.get('fonte')}`. População continua estimada pela área equivalente "
+            f"(`{metodo}`), não pelo polígono do corredor."
+        )
+    else:
+        p1, p2, p3, p4 = st.columns(4)
+        n_prio = (
+            int(us_buf["prioritario"].sum())
+            if n_us and "prioritario" in us_buf.columns
+            else (n_hosp + n_upa + n_ubs)
+        )
+        p1.metric("População estimada", f"{pop_n:,}".replace(",", "."))
+        p2.metric("US no círculo", n_us)
+        if trajeto.get("ok") and mostrar_trajeto:
+            p3.metric("US no corredor", n_us_tr)
+            p4.metric(
+                "Calha / faixa",
+                f"{trajeto.get('comprimento_km')} km · ±{trajeto.get('largura_km')} km",
+            )
+        else:
+            p3.metric("Hospital / UPA", f"{n_hosp} / {n_upa}")
+            p4.metric("Prioritárias (APS/urg.)", n_prio)
+        st.caption(
+            f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
+            "CNES no círculo: unidades com coordenada no raio equivalente."
+        )
 
     cnes_todos: list[dict] = []
     iso: dict = {}
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
-        # Todos os CNES da região: a animação recalcula o buffer ao expandir o raio.
         cnes_todos = [
             {
                 "la": float(row.latitude),
@@ -696,10 +788,10 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         incluir_vias = st.checkbox(
             "Incluir vias/pontes e isolamento (OSM)",
             value=True,
-            help="Cruza arteriais e pontes do OpenStreetMap com o círculo proxy. "
-            "Primeira carga baixa a malha (depois usa cache). Proxy C7 — não é rota oficial.",
+            help="Cruza arteriais/pontes OSM com a geometria ativa "
+            "(corredor, se trajeto; senão círculo). Proxy C7.",
         )
-        iso: dict = {}
+        iso = {}
         if incluir_vias:
             import json as _json
 
@@ -708,30 +800,41 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 for p in cnes_todos
                 if p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio")
             ]
-            with st.spinner("Cruzando malha viária OSM (vias/pontes) com o buffer…"):
+            # Preferir corredor para corte de vias quando o trajeto está ativo.
+            corredor_key = ""
+            if mostrar_trajeto and trajeto.get("ok"):
+                corredor_key = _json.dumps(
+                    {
+                        "polyline": trajeto["polyline"],
+                        "largura_km": trajeto["largura_km"],
+                    },
+                    ensure_ascii=False,
+                )
+            with st.spinner("Cruzando malha viária OSM com a mancha proxy…"):
                 iso = _isolamento_cached(
                     float(r["latitude"]),
                     float(r["longitude"]),
                     round(float(raio), 2),
                     _json.dumps(cnes_prio, ensure_ascii=False),
+                    corredor_key,
                 )
 
             i1, i2, i3, i4 = st.columns(4)
-            i1.metric("Vias no buffer (OSM)", iso.get("n_vias_interrompidas", 0))
+            i1.metric("Vias na mancha (OSM)", iso.get("n_vias_interrompidas", 0))
             i2.metric("Pontes comprometidas", iso.get("n_pontes_comprometidas", 0))
             i3.metric("US potencialmente isoladas", iso.get("n_us_isoladas", 0))
             i4.metric(
                 "C7 proxy (0–2)",
                 f"{iso.get('nivel_c7_proxy', 0)} — {iso.get('rotulo_c7', '—')}",
             )
+            geom_iso = iso.get("geom") or "circular"
             if iso.get("aviso"):
                 st.caption(f"Malha viária: {iso['aviso']}")
             else:
                 st.caption(
-                    f"Malha: {iso.get('fonte')} · ~{iso.get('km_vias_no_buffer', 0)} km de vias "
-                    f"estruturantes no círculo · arteriais cortadas: {iso.get('n_arteriais_cortadas', 0)}. "
-                    "Isolamento = US fora da mancha sem caminho terrestre até Cuiabá (hub) "
-                    "após remover trechos no buffer — proxy, não rota oficial."
+                    f"Corte pela geometria **{geom_iso}** · {iso.get('fonte')} · "
+                    f"~{iso.get('km_vias_no_buffer', 0)} km de vias no polígono proxy. "
+                    "Isolamento = US fora da mancha sem caminho ao hub Cuiabá."
                 )
 
         html = html_mapa_simulacao(
@@ -748,10 +851,13 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             pontes=iso.get("pontes") or [],
             us_isoladas=iso.get("us_isoladas") or [],
             isolamento=iso if incluir_vias else None,
-            altura=520,
+            trajeto=trajeto if trajeto.get("ok") else None,
+            mostrar_circular=mostrar_circular,
+            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            altura=540,
             autoplay=False,
         )
-        components.html(html, height=540, scrolling=False)
+        components.html(html, height=560, scrolling=False)
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
 
@@ -770,19 +876,43 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             lambda row: haversine_km(lat0, lon0, float(row["latitude"]), float(row["longitude"])),
             axis=1,
         )
-        no_buf = vul[vul["dist_km"] <= raio].sort_values("dist_km")
-        st.subheader("Populações vulneráveis no buffer (proxy)")
-        if no_buf.empty:
-            st.caption("Nenhuma aldeia/assentamento/quilombo do eixo dentro do raio equivalente.")
-        else:
-            st.dataframe(
-                no_buf[
-                    [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_buf.columns]
-                ].head(40),
-                width="stretch",
-                hide_index=True,
-                height=220,
+        if mostrar_circular:
+            no_circ = vul[vul["dist_km"] <= raio].sort_values("dist_km")
+            st.subheader("Populações vulneráveis — círculo")
+            if no_circ.empty:
+                st.caption("Nenhuma aldeia/assentamento/quilombo do eixo no raio.")
+            else:
+                st.dataframe(
+                    no_circ[
+                        [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_circ.columns]
+                    ].head(40),
+                    width="stretch",
+                    hide_index=True,
+                    height=200,
+                )
+        if trajeto.get("ok") and mostrar_trajeto:
+            mask = vul.apply(
+                lambda row: ponto_no_corredor(
+                    float(row["latitude"]),
+                    float(row["longitude"]),
+                    trajeto["polyline"],
+                    float(trajeto["largura_km"]),
+                ),
+                axis=1,
             )
+            no_tr = vul[mask].sort_values("dist_km")
+            st.subheader("Populações vulneráveis — corredor hidráulico")
+            if no_tr.empty:
+                st.caption("Nenhuma população vulnerável do eixo no corredor.")
+            else:
+                st.dataframe(
+                    no_tr[
+                        [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_tr.columns]
+                    ].head(40),
+                    width="stretch",
+                    hide_index=True,
+                    height=200,
+                )
 
     us_iso = list(iso.get("us_isoladas") or []) if iso else []
     if us_iso:
@@ -801,9 +931,16 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             height=220,
         )
 
-    if n_us:
+    if us_tr_ids and mostrar_trajeto and trajeto.get("ok"):
         st.markdown(
-            f'<p class="lista-us-titulo">US prioritárias no buffer ({n_us})</p>',
+            f'<p class="lista-us-titulo">US prioritárias no corredor ({len(us_tr_ids)})</p>',
+            unsafe_allow_html=True,
+        )
+        st.dataframe(pd.DataFrame(us_tr_ids).head(60), width="stretch", hide_index=True, height=220)
+
+    if n_us and mostrar_circular:
+        st.markdown(
+            f'<p class="lista-us-titulo">US prioritárias no círculo ({n_us})</p>',
             unsafe_allow_html=True,
         )
         mostrar = us_buf[
@@ -811,18 +948,18 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         ].copy()
         mostrar["dist_km"] = mostrar["dist_km"].round(2)
         st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
-    else:
+    elif not n_us and mostrar_circular:
         st.info(
             "Nenhuma US CNES prioritária com coordenada neste raio "
             "(cobertura atual: eixo Cuiabá)."
         )
 
     st.caption(
-        "Fórmula: área_km² = (hm³ × fração) / profundidade_m. "
-        "Use ▶ Animar no mapa para ver a expansão da mancha proxy, o ingresso de US "
-        "e vias/pontes que entram no círculo. "
-        "Isolamento e C7 referem-se ao cenário do slider (não ao frame da animação). "
-        "Não substitui PAE / dam break nem análise oficial de rotas."
+        "Circular: área_km² = (hm³ × fração) / profundidade_m → raio = √(área/π). "
+        "Trajeto: L ≈ área / (2×semi-largura) ao longo do eixo BHO Manso–Cuiabá. "
+        "Vias/C7 usam o corredor quando o trajeto está ativo. "
+        "Mancha PAE oficial (quando houver) será uma terceira camada — não substitui estes proxies. "
+        "Não é dam break nem tempo de chegada da onda."
     )
 
 
@@ -880,10 +1017,17 @@ def pagina_interpretacao() -> None:
         ),
         (
             "Vias, pontes e isolamento (C7 proxy)",
-            "Malha OpenStreetMap (arteriais e pontes) cruzada com o círculo volume→área. "
-            "Trecho no buffer = interrompido. US fora da mancha sem caminho terrestre até o "
-            "hub de Cuiabá após o corte = potencialmente isolada. Escala 0–2 espelha o C7 do "
-            "IDAP, mas continua sendo proxy geométrico — não rota oficial nem PAE.",
+            "Malha OpenStreetMap (arteriais e pontes) cruzada com a geometria ativa "
+            "(corredor hidráulico quando o trajeto está ligado; senão o círculo). "
+            "Trecho na mancha = interrompido. US fora da mancha sem caminho terrestre até o "
+            "hub de Cuiabá = potencialmente isolada. Escala 0–2 espelha o C7 do IDAP.",
+        ),
+        (
+            "Trajeto hidráulico vs círculo",
+            "Círculo: espalha a área equivalente em disco isótropo. "
+            "Trajeto: percorre a calha BHO (eixo Manso–Cuiabá) jusante e forma um corredor "
+            "com semi-largura ajustável — L ≈ área/(2×w). Ambos são proxies; a mancha PAE "
+            "oficial (dam break) entra depois como camada própria, sem apagar estes modos.",
         ),
         (
             "CRI e DPA",

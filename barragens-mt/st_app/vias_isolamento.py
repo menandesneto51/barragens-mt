@@ -56,7 +56,7 @@ def _cache_path(lat: float, lon: float, raio_busca_km: float) -> Path:
     return CACHE_DIR / f"osm_{chave}_{digest}.json"
 
 
-def _overpass_query(lat: float, lon: float, raio_m: int) -> str:
+def _overpass_query_around(lat: float, lon: float, raio_m: int) -> str:
     return f"""
 [out:json][timeout:45];
 (
@@ -66,6 +66,39 @@ def _overpass_query(lat: float, lon: float, raio_m: int) -> str:
 (._;>;);
 out body;
 """.strip()
+
+
+def _overpass_query_bbox(south: float, west: float, north: float, east: float) -> str:
+    return f"""
+[out:json][timeout:55];
+(
+  way["highway"~"^({HIGHWAY_REGEX})$"]({south},{west},{north},{east});
+  way["bridge"~"yes|viaduct|aqueduct"]["highway"]({south},{west},{north},{east});
+);
+(._;>;);
+out body;
+""".strip()
+
+
+def _post_overpass(q: str) -> tuple[bytes | None, str]:
+    body = urllib.parse.urlencode({"data": q}).encode("utf-8")
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "User-Agent": "VIGIBARRAGENS-MT/1.0 (simulacao-isolamento; SES-MT)",
+    }
+    ultimo_erro = ""
+    for url in OVERPASS_URLS:
+        try:
+            req = urllib.request.Request(
+                url, data=body, headers=headers, method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return resp.read(), ""
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            ultimo_erro = str(exc)
+            time.sleep(0.8)
+    return None, ultimo_erro or "overpass indisponível"
 
 
 def buscar_malha_osm(
@@ -85,31 +118,11 @@ def buscar_malha_osm(
         except (OSError, json.JSONDecodeError):
             pass
 
-    q = _overpass_query(lat, lon, int(raio_busca_km * 1000))
-    body = urllib.parse.urlencode({"data": q}).encode("utf-8")
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json",
-        "User-Agent": "VIGIBARRAGENS-MT/1.0 (simulacao-isolamento; SES-MT)",
-    }
-    data: bytes | None = None
-    ultimo_erro = ""
-    for url in OVERPASS_URLS:
-        try:
-            req = urllib.request.Request(
-                url,
-                data=body,
-                headers=headers,
-                method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=55) as resp:
-                data = resp.read()
-            break
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            ultimo_erro = str(exc)
-            time.sleep(0.8)
+    data, ultimo_erro = _post_overpass(
+        _overpass_query_around(lat, lon, int(raio_busca_km * 1000))
+    )
     if data is None:
-        return {"elements": [], "erro": ultimo_erro or "overpass indisponível"}
+        return {"elements": [], "erro": ultimo_erro}
 
     try:
         payload = json.loads(data.decode("utf-8"))
@@ -120,6 +133,55 @@ def buscar_malha_osm(
         "lat": lat,
         "lon": lon,
         "raio_busca_km": raio_busca_km,
+        "baixado_em": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    try:
+        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        pass
+    return payload
+
+
+def buscar_malha_osm_bbox(
+    south: float,
+    west: float,
+    north: float,
+    east: float,
+    *,
+    forcar: bool = False,
+) -> dict[str, Any]:
+    """Malha OSM por bounding box (corredor alongado)."""
+    # Limita bbox absurdo
+    pad = 0.02
+    south, north = min(south, north) - pad, max(south, north) + pad
+    west, east = min(west, east) - pad, max(west, east) + pad
+    # Cap de ~2° (~220 km) no maior lado
+    if (north - south) > 2.0:
+        mid = (north + south) / 2
+        south, north = mid - 1.0, mid + 1.0
+    if (east - west) > 2.0:
+        mid = (east + west) / 2
+        west, east = mid - 1.0, mid + 1.0
+
+    chave = f"bbox_{south:.3f}_{west:.3f}_{north:.3f}_{east:.3f}"
+    digest = hashlib.sha1(chave.encode()).hexdigest()[:12]
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path = CACHE_DIR / f"osm_{chave}_{digest}.json"
+    if path.exists() and not forcar:
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    data, ultimo_erro = _post_overpass(_overpass_query_bbox(south, west, north, east))
+    if data is None:
+        return {"elements": [], "erro": ultimo_erro}
+    try:
+        payload = json.loads(data.decode("utf-8"))
+    except json.JSONDecodeError as exc:
+        return {"elements": [], "erro": f"JSON inválido: {exc}"}
+    payload["_meta"] = {
+        "bbox": [south, west, north, east],
         "baixado_em": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     try:
@@ -194,15 +256,41 @@ def analisar_isolamento(
     raio_km: float,
     cnes: list[dict[str, Any]] | None = None,
     hub: dict[str, float] | None = None,
+    na_mancha: Any | None = None,
+    raio_busca_km: float | None = None,
+    bbox: tuple[float, float, float, float] | None = None,
+    geom_label: str = "circular",
 ) -> dict[str, Any]:
-    """Retorna vias/pontes no buffer e US potencialmente isoladas (proxy)."""
+    """Retorna vias/pontes na mancha e US potencialmente isoladas (proxy).
+
+    `na_mancha(la, lo) -> bool` substitui o círculo quando a geometria é um
+    corredor hidráulico (ou união). Sem ela, usa o raio circular clássico.
+    """
     raio_km = float(raio_km)
     if raio_km <= 0 or math.isnan(raio_km):
         return _vazio("raio inválido")
 
-    # Malha um pouco além do buffer para testar conectividade.
-    raio_busca = min(45.0, max(10.0, raio_km * 1.35 + 6.0))
-    bruto = buscar_malha_osm(lat, lon, raio_busca)
+    def dentro(la: float, lo: float) -> bool:
+        if na_mancha is not None:
+            return bool(na_mancha(la, lo))
+        return haversine_km(lat, lon, la, lo) <= raio_km
+
+    # Malha: bbox do corredor ou around do círculo.
+    if bbox is not None:
+        south, west, north, east = bbox
+        bruto = buscar_malha_osm_bbox(south, west, north, east)
+        raio_busca = max(
+            haversine_km(lat, lon, south, west),
+            haversine_km(lat, lon, north, east),
+            10.0,
+        )
+    else:
+        raio_busca = float(
+            raio_busca_km
+            if raio_busca_km is not None
+            else min(45.0, max(10.0, raio_km * 1.35 + 6.0))
+        )
+        bruto = buscar_malha_osm(lat, lon, raio_busca)
     if bruto.get("erro") and not bruto.get("elements"):
         return _vazio(str(bruto.get("erro")))
 
@@ -238,7 +326,15 @@ def analisar_isolamento(
         if len(nds) < 2:
             continue
         coords = [nodes[n] for n in nds]
-        no_buf = _segmento_no_buffer(coords, lat, lon, raio_km)
+        no_buf = any(dentro(la, lo) for la, lo in coords)
+        if not no_buf:
+            # amostra meios dos segmentos
+            for i in range(1, len(coords)):
+                mla = (coords[i - 1][0] + coords[i][0]) / 2
+                mlo = (coords[i - 1][1] + coords[i][1]) / 2
+                if dentro(mla, mlo):
+                    no_buf = True
+                    break
         comp = _comprimento_km(coords)
         nome = (tags.get("name") or tags.get("ref") or highway or "via").strip()
         arterial = highway in {"motorway", "trunk", "primary", "secondary"}
@@ -249,7 +345,8 @@ def analisar_isolamento(
             a, b = nds[i - 1], nds[i]
             a_la, a_lo = nodes[a]
             b_la, b_lo = nodes[b]
-            corta = _dist_ponto_segmento_km(lat, lon, a_la, a_lo, b_la, b_lo) <= raio_km
+            mla, mlo = (a_la + b_la) / 2, (a_lo + b_lo) / 2
+            corta = dentro(a_la, a_lo) or dentro(b_la, b_lo) or dentro(mla, mlo)
             viz_cheio[a].add(b)
             viz_cheio[b].add(a)
             if corta:
@@ -361,18 +458,17 @@ def analisar_isolamento(
 
     us_isoladas: list[dict[str, Any]] = []
     cnes = cnes or []
-    # Anel: fora da mancha, mas ainda na zona de busca
+    # Fora da mancha, mas ainda na zona de busca (grafo OSM baixado)
     for p in cnes:
         try:
             pla, plo = float(p["la"]), float(p["lo"])
         except (KeyError, TypeError, ValueError):
             continue
         d = haversine_km(lat, lon, pla, plo)
-        if d <= raio_km:
-            continue  # inundada / no buffer — não conta como isolada
-        if d > raio_busca:
+        if dentro(pla, plo):
+            continue  # na mancha — inundada / atingida, não "isolada"
+        if d > raio_busca * 1.15:
             continue
-        # Só prioriza US assistenciais para o KPI de isolamento
         if not (p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio")):
             continue
         nodo = _snap(pla, plo)
@@ -410,6 +506,7 @@ def analisar_isolamento(
         "fonte": "OpenStreetMap/Overpass",
         "raio_km": raio_km,
         "raio_busca_km": raio_busca,
+        "geom": geom_label,
         "n_vias_interrompidas": n_vias_cortadas,
         "n_pontes_comprometidas": n_pontes,
         "n_arteriais_cortadas": n_arteriais,
@@ -453,10 +550,49 @@ def analisar_isolamento_json(
     lon: float,
     raio_km: float,
     cnes_json: str,
+    corredor_json: str = "",
 ) -> dict[str, Any]:
-    """Variante com CNES serializado — adequada a st.cache_data."""
+    """Variante serializada — adequada a st.cache_data.
+
+    `corredor_json` opcional: {{"polyline":[[lat,lon],...],"largura_km":float}}.
+    Quando presente, a mancha de corte é o corredor (não o círculo).
+    """
     try:
         cnes = json.loads(cnes_json) if cnes_json else []
     except json.JSONDecodeError:
         cnes = []
-    return analisar_isolamento(lat=lat, lon=lon, raio_km=raio_km, cnes=cnes)
+
+    na_mancha = None
+    bbox = None
+    geom_label = "circular"
+    if corredor_json:
+        try:
+            cor = json.loads(corredor_json)
+        except json.JSONDecodeError:
+            cor = None
+        if cor and cor.get("polyline"):
+            from st_app.trajeto_hidraulico import ponto_no_corredor
+
+            poly = cor["polyline"]
+            w = float(cor.get("largura_km") or 2.0)
+            na_mancha = lambda la, lo, _p=poly, _w=w: ponto_no_corredor(la, lo, _p, _w)
+            lats = [float(p[0]) for p in poly]
+            lons = [float(p[1]) for p in poly]
+            pad = (w / 111.0) + 0.03
+            bbox = (
+                min(lats) - pad,
+                min(lons) - pad,
+                max(lats) + pad,
+                max(lons) + pad,
+            )
+            geom_label = "corredor"
+
+    return analisar_isolamento(
+        lat=lat,
+        lon=lon,
+        raio_km=raio_km,
+        cnes=cnes,
+        na_mancha=na_mancha,
+        bbox=bbox,
+        geom_label=geom_label,
+    )

@@ -21,11 +21,15 @@ def html_mapa_simulacao(
     pontes: list[dict[str, Any]] | None = None,
     us_isoladas: list[dict[str, Any]] | None = None,
     isolamento: dict[str, Any] | None = None,
+    trajeto: dict[str, Any] | None = None,
+    mostrar_circular: bool = True,
+    mostrar_trajeto: bool = False,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
-    """Mapa satélite + mancha proxy + US + vias/pontes (isolamento C7 proxy)."""
+    """Mapa: círculo e/ou corredor hidráulico + US + vias/pontes."""
     iso = isolamento or {}
+    tr = trajeto or {}
     payload = {
         "la": lat,
         "lo": lon,
@@ -44,6 +48,13 @@ def html_mapa_simulacao(
         "isoP": iso.get("n_pontes_comprometidas"),
         "isoV": iso.get("n_vias_interrompidas"),
         "isoU": iso.get("n_us_isoladas"),
+        "isoG": iso.get("geom") or "",
+        "trPoly": tr.get("polyline") or [],
+        "trW": float(tr.get("largura_km") or 0),
+        "trL": float(tr.get("comprimento_km") or 0),
+        "trOk": bool(tr.get("ok")),
+        "showC": bool(mostrar_circular),
+        "showT": bool(mostrar_trajeto),
         "autoplay": autoplay,
     }
     dados = json.dumps(payload, ensure_ascii=False)
@@ -61,7 +72,7 @@ def html_mapa_simulacao(
   .play{{background:#9a3412;color:#fff}}
   .stop{{background:#fff;color:#15202b;border:1px solid #d0d8e0 !important}}
   .hud{{position:absolute;z-index:1000;right:10px;top:10px;background:rgba(255,255,255,.92);
-    border:1px solid #d0d8e0;padding:8px 10px;font-size:12px;line-height:1.35;max-width:220px}}
+    border:1px solid #d0d8e0;padding:8px 10px;font-size:12px;line-height:1.35;max-width:230px}}
   .hud b{{font-variant-numeric:tabular-nums}}
   .leg{{position:absolute;z-index:1000;left:10px;bottom:10px;background:rgba(255,255,255,.9);
     border:1px solid #d0d8e0;padding:6px 8px;font-size:11px;line-height:1.4}}
@@ -75,9 +86,10 @@ def html_mapa_simulacao(
   </div>
   <div class="hud" id="hud">—</div>
   <div class="leg">
-    <div><i style="background:#dc2626"></i>Via interrompida (proxy)</div>
-    <div><i style="background:#f59e0b"></i>Ponte no buffer</div>
-    <div><i style="background:#94a3b8"></i>Arterial intacta</div>
+    <div><i style="background:#fb923c"></i>Círculo volume→área</div>
+    <div><i style="background:#0891b2"></i>Trajeto hidráulico (calha)</div>
+    <div><i style="background:#dc2626"></i>Via interrompida</div>
+    <div><i style="background:#f59e0b"></i>Ponte na mancha</div>
     <div>● US isolada (sem rota ao hub)</div>
   </div>
   <div id="mapa"></div>
@@ -92,10 +104,12 @@ L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_only_labels/{{z}}/{{x}}/{
 mapa.createPane('vias'); mapa.getPane('vias').style.zIndex=340;
 mapa.createPane('mancha'); mapa.getPane('mancha').style.zIndex=350;
 mapa.getPane('mancha').style.pointerEvents='none';
+mapa.createPane('trajeto'); mapa.getPane('trajeto').style.zIndex=360;
 mapa.createPane('us'); mapa.getPane('us').style.zIndex=450;
 mapa.createPane('barragem'); mapa.getPane('barragem').style.zIndex=460;
 const camadaV = L.layerGroup().addTo(mapa);
 const camadaM = L.layerGroup().addTo(mapa);
+const camadaT = L.layerGroup().addTo(mapa);
 const camadaU = L.layerGroup().addTo(mapa);
 const camadaB = L.layerGroup().addTo(mapa);
 const camadaI = L.layerGroup().addTo(mapa);
@@ -127,12 +141,39 @@ const style = document.createElement('style');
 style.textContent = '@keyframes fadeIn{{to{{opacity:1}}}} @keyframes pulseRing{{0%{{opacity:.55}}50%{{opacity:.28}}100%{{opacity:.55}}}}';
 document.head.appendChild(style);
 
+function truncarPolyline(poly, fracLen){{
+  if (!poly || poly.length < 2) return poly||[];
+  if (fracLen >= 0.999) return poly;
+  let total = 0;
+  const segs = [];
+  for (let i=1;i<poly.length;i++){{
+    const d = haversine(poly[i-1][0],poly[i-1][1],poly[i][0],poly[i][1]);
+    segs.push(d); total += d;
+  }}
+  const alvo = total * Math.max(0.05, fracLen);
+  const out = [poly[0]];
+  let acc = 0;
+  for (let i=1;i<poly.length;i++){{
+    const d = segs[i-1];
+    if (acc + d <= alvo) {{ out.push(poly[i]); acc += d; }}
+    else {{
+      const t = (alvo - acc) / d;
+      out.push([
+        poly[i-1][0] + t*(poly[i][0]-poly[i-1][0]),
+        poly[i-1][1] + t*(poly[i][1]-poly[i-1][1])
+      ]);
+      break;
+    }}
+  }}
+  return out;
+}}
+
 function viaNoBuffer(v, raio){{
   if (!v.coords) return false;
   for (const c of v.coords) {{
     if (haversine(S.la,S.lo,c[0],c[1]) <= raio) return true;
   }}
-  return !!v.cut; // fallback: classificação do cenário selecionado
+  return !!v.cut;
 }}
 
 function desenharVias(raio){{
@@ -140,7 +181,8 @@ function desenharVias(raio){{
   let nCut = 0, nPonte = 0;
   for (const v of (S.vias||[])) {{
     if (!v.coords || v.coords.length < 2) continue;
-    const cut = viaNoBuffer(v, raio);
+    // Com trajeto, confia na classificação do servidor (cut); no circular, reavalia.
+    const cut = S.showT && S.isoG === 'corredor' ? !!v.cut : viaNoBuffer(v, raio);
     const ponte = !!v.ponte;
     if (cut) nCut++;
     if (cut && ponte) nPonte++;
@@ -152,13 +194,15 @@ function desenharVias(raio){{
       dashArray: cut ? null : '6 6'
     }}).bindPopup(
       `<b>${{v.nome||'Via'}}</b><br>${{v.hw||''}}` +
-      (cut ? '<br><b>Interrompida no buffer (proxy)</b>' : '<br>Intacta') +
+      (cut ? '<br><b>Interrompida na mancha (proxy)</b>' : '<br>Intacta') +
       (ponte ? '<br>Ponte/viaduto' : '')
     ).addTo(camadaV);
   }}
   for (const p of (S.pontes||[])) {{
-    const d = haversine(S.la,S.lo,p.la,p.lo);
-    if (d > raio) continue;
+    if (S.showC && !S.showT) {{
+      const d = haversine(S.la,S.lo,p.la,p.lo);
+      if (d > raio) continue;
+    }}
     L.circleMarker([p.la,p.lo], {{
       pane:'vias', radius:7, color:'#78350f', weight:2,
       fillColor:'#f59e0b', fillOpacity:0.95
@@ -173,34 +217,69 @@ function desenhar(fPct){{
   const area = liberado / S.prof;
   const raio = Math.sqrt(area / Math.PI);
   const progress = Math.min(1, Math.max(0.15, f));
+  const fracLen = Math.max(0.08, f / Math.max(0.05, S.frac0||0.5));
+  const fracLenClamped = Math.min(1, fracLen * (S.frac0||0.5));
+  // Durante animação cresce com f; no cenário parado usa polyline completa do servidor.
+  const polyAnim = (!timer) ? (S.trPoly||[]) : truncarPolyline(S.trPoly||[], f);
+
   const vv = desenharVias(raio);
   let isoLinha = '';
   if (S.isoN!=null) {{
-    isoLinha = `C7 proxy (cenário) <b>${{S.isoN}}</b>` +
-      `<br>Vias no raio <b>${{vv.nCut}}</b> · pontes <b>${{vv.nPonte}}</b>` +
-      `<br>US isol. (cenário) <b>${{S.isoU??'—'}}</b>`;
+    isoLinha = `C7 (${{S.isoG||'geom'}}) <b>${{S.isoN}}</b>` +
+      `<br>Vias <b>${{vv.nCut}}</b> · pontes <b>${{vv.nPonte}}</b>` +
+      `<br>US isol. <b>${{S.isoU??'—'}}</b>`;
+  }}
+  let trLinha = '';
+  if (S.showT && S.trOk) {{
+    trLinha = `<br>Corredor ±<b>${{S.trW}}</b> km · ~<b>${{S.trL}}</b> km calha`;
   }}
   document.getElementById('hud').innerHTML =
     `<b>${{fPct}}%</b> liberado<br>Área <b>${{area.toFixed(1)}}</b> km²<br>` +
-    `Raio <b>${{raio.toFixed(2)}}</b> km<br>` +
-    `US no buffer <b id="hudUs">0</b><br>` +
+    (S.showC ? `Raio circ. <b>${{raio.toFixed(2)}}</b> km<br>` : '') +
+    `US no círculo <b id="hudUs">0</b>` + trLinha + '<br>' +
     (S.pop!=null ? `Pop. ref. <b>${{S.pop.toLocaleString('pt-BR')}}</b><br><small>${{S.metodo||''}}</small><br>` : '') +
     isoLinha;
-  camadaM.clearLayers(); camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
-  const mancha = L.circle([S.la,S.lo], {{
-    pane:'mancha', radius: raio*1000, color:'#c2410c', weight:2,
-    fillColor:'#fb923c', fillOpacity: 0.22 + 0.28*progress,
-    opacity: 0.7 + 0.25*progress,
-    className: 'mancha-anim'
-  }}).addTo(camadaM);
-  try {{
-    const el = mancha.getElement && mancha.getElement();
-    if (el) el.style.animation = 'pulseRing 1.2s ease-in-out infinite';
-  }} catch(e) {{}}
+
+  camadaM.clearLayers(); camadaT.clearLayers();
+  camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
+
+  let bounds = null;
+  if (S.showC) {{
+    const mancha = L.circle([S.la,S.lo], {{
+      pane:'mancha', radius: raio*1000, color:'#c2410c', weight:2,
+      fillColor:'#fb923c', fillOpacity: S.showT ? 0.10 : (0.22 + 0.28*progress),
+      opacity: S.showT ? 0.55 : (0.7 + 0.25*progress),
+      dashArray: S.showT ? '6 8' : null,
+      className: 'mancha-anim'
+    }}).addTo(camadaM);
+    try {{
+      const el = mancha.getElement && mancha.getElement();
+      if (el && !S.showT) el.style.animation = 'pulseRing 1.2s ease-in-out infinite';
+    }} catch(e) {{}}
+    bounds = mancha.getBounds();
+  }}
+
+  if (S.showT && S.trOk && polyAnim.length >= 2) {{
+    // Faixa visual (peso em px — aproximação da largura).
+    const wPx = Math.max(10, Math.min(28, 8 + (S.trW||2)*4));
+    L.polyline(polyAnim, {{
+      pane:'trajeto', color:'#67e8f9', weight:wPx, opacity:0.28, lineCap:'round', lineJoin:'round'
+    }}).addTo(camadaT);
+    const talvegue = L.polyline(polyAnim, {{
+      pane:'trajeto', color:'#0891b2', weight:3.5, opacity:0.95
+    }}).bindPopup(
+      `<b>Trajeto hidráulico (proxy)</b><br>Calha Manso–Cuiabá<br>` +
+      `Semi-largura ±${{S.trW}} km<br>Não é mancha PAE / dam break.`
+    ).addTo(camadaT);
+    const tb = talvegue.getBounds();
+    bounds = bounds ? bounds.extend(tb) : tb;
+  }}
+
   L.circleMarker([S.la,S.lo], {{
     pane:'barragem', radius:9, color:'#fff', weight:2,
     fillColor:'#ea580c', fillOpacity:1
   }}).bindPopup(`<b>${{S.no}}</b>`).addTo(camadaB);
+
   const noBuf = [];
   for (const p of (S.cnes||[])) {{
     const d = haversine(S.la,S.lo,p.la,p.lo);
@@ -209,28 +288,32 @@ function desenhar(fPct){{
   noBuf.sort((a,b)=> (a.pr-b.pr) || (a.dist-b.dist));
   const hudUs = document.getElementById('hudUs');
   if (hudUs) hudUs.textContent = String(noBuf.length);
-  for (const p of noBuf) {{
-    if (p.h || p.upa || p.ubs || p.prio) {{
-      L.marker([p.la,p.lo], {{pane:'us', icon:icone(p), zIndexOffset: p.h?300:100}})
-        .bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
-        .addTo(camadaU);
-    }} else {{
-      L.circleMarker([p.la,p.lo], {{
-        pane:'us', radius:4, color:'#fff', weight:1,
-        fillColor:'#64748b', fillOpacity:0.85
-      }}).bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
-        .addTo(camadaU);
+  // No modo só trajeto, ainda mostra US do círculo como referência fraca se ambos;
+  // se só trajeto, omite pontos do círculo (US do corredor viriam do servidor — lista abaixo).
+  if (S.showC) {{
+    for (const p of noBuf) {{
+      if (p.h || p.upa || p.ubs || p.prio) {{
+        L.marker([p.la,p.lo], {{pane:'us', icon:icone(p), zIndexOffset: p.h?300:100}})
+          .bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
+          .addTo(camadaU);
+      }} else {{
+        L.circleMarker([p.la,p.lo], {{
+          pane:'us', radius:4, color:'#fff', weight:1,
+          fillColor:'#64748b', fillOpacity:0.85
+        }}).bindPopup(`<b>${{(p.tp||'US').toUpperCase()}}</b><br>${{p.no||''}}<br>${{p.dist.toFixed(1)}} km`)
+          .addTo(camadaU);
+      }}
     }}
   }}
-  // US isoladas: calculadas no cenário do slider (não reanimam o grafo).
+
   if (Math.abs(fPct - Math.round((S.frac0||0.5)*100)) < 1 || !timer) {{
     for (const p of (S.usIso||[])) {{
       L.marker([p.la,p.lo], {{pane:'us', icon:iconeIso(p), zIndexOffset:400}})
-        .bindPopup(`<b>US isolada (proxy)</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km da barragem<br>Sem rota terrestre ao hub após corte das vias no buffer.`)
+        .bindPopup(`<b>US isolada (proxy)</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km da barragem<br>Sem rota terrestre ao hub após corte na mancha.`)
         .addTo(camadaI);
     }}
   }}
-  if (!timer) mapa.fitBounds(mancha.getBounds().pad(0.25), {{maxZoom:13, animate:false}});
+  if (!timer && bounds) mapa.fitBounds(bounds.pad(0.25), {{maxZoom:12, animate:false}});
 }}
 
 document.getElementById('btnPlay').onclick = () => {{
