@@ -17,10 +17,15 @@ def html_mapa_simulacao(
     pop_est: int | None,
     metodo_pop: str,
     cnes: list[dict[str, Any]],
+    vias: list[dict[str, Any]] | None = None,
+    pontes: list[dict[str, Any]] | None = None,
+    us_isoladas: list[dict[str, Any]] | None = None,
+    isolamento: dict[str, Any] | None = None,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
-    """Mapa satélite + mancha proxy + US + botões Animar/Parar (leve, sem GIF)."""
+    """Mapa satélite + mancha proxy + US + vias/pontes (isolamento C7 proxy)."""
+    iso = isolamento or {}
     payload = {
         "la": lat,
         "lo": lon,
@@ -31,6 +36,14 @@ def html_mapa_simulacao(
         "pop": pop_est,
         "metodo": metodo_pop,
         "cnes": cnes,
+        "vias": vias or [],
+        "pontes": pontes or [],
+        "usIso": us_isoladas or [],
+        "isoN": iso.get("nivel_c7_proxy"),
+        "isoR": iso.get("rotulo_c7") or "",
+        "isoP": iso.get("n_pontes_comprometidas"),
+        "isoV": iso.get("n_vias_interrompidas"),
+        "isoU": iso.get("n_us_isoladas"),
         "autoplay": autoplay,
     }
     dados = json.dumps(payload, ensure_ascii=False)
@@ -48,8 +61,11 @@ def html_mapa_simulacao(
   .play{{background:#9a3412;color:#fff}}
   .stop{{background:#fff;color:#15202b;border:1px solid #d0d8e0 !important}}
   .hud{{position:absolute;z-index:1000;right:10px;top:10px;background:rgba(255,255,255,.92);
-    border:1px solid #d0d8e0;padding:8px 10px;font-size:12px;line-height:1.35;max-width:200px}}
+    border:1px solid #d0d8e0;padding:8px 10px;font-size:12px;line-height:1.35;max-width:220px}}
   .hud b{{font-variant-numeric:tabular-nums}}
+  .leg{{position:absolute;z-index:1000;left:10px;bottom:10px;background:rgba(255,255,255,.9);
+    border:1px solid #d0d8e0;padding:6px 8px;font-size:11px;line-height:1.4}}
+  .leg i{{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle}}
 </style>
 </head><body>
 <div id="wrap">
@@ -58,6 +74,12 @@ def html_mapa_simulacao(
     <button class="stop" id="btnStop" type="button">Parar</button>
   </div>
   <div class="hud" id="hud">—</div>
+  <div class="leg">
+    <div><i style="background:#dc2626"></i>Via interrompida (proxy)</div>
+    <div><i style="background:#f59e0b"></i>Ponte no buffer</div>
+    <div><i style="background:#94a3b8"></i>Arterial intacta</div>
+    <div>● US isolada (sem rota ao hub)</div>
+  </div>
   <div id="mapa"></div>
 </div>
 <script>
@@ -67,13 +89,16 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
   {{attribution:'Esri', maxZoom:18}}).addTo(mapa);
 L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_only_labels/{{z}}/{{x}}/{{y}}{{r}}.png',
   {{opacity:0.85, maxZoom:18}}).addTo(mapa);
+mapa.createPane('vias'); mapa.getPane('vias').style.zIndex=340;
 mapa.createPane('mancha'); mapa.getPane('mancha').style.zIndex=350;
 mapa.getPane('mancha').style.pointerEvents='none';
 mapa.createPane('us'); mapa.getPane('us').style.zIndex=450;
 mapa.createPane('barragem'); mapa.getPane('barragem').style.zIndex=460;
+const camadaV = L.layerGroup().addTo(mapa);
 const camadaM = L.layerGroup().addTo(mapa);
 const camadaU = L.layerGroup().addTo(mapa);
 const camadaB = L.layerGroup().addTo(mapa);
+const camadaI = L.layerGroup().addTo(mapa);
 let timer = null;
 let frac = Math.round((S.frac0||0.5)*100);
 
@@ -91,9 +116,56 @@ function icone(p){{
     iconSize:[12,12], iconAnchor:[6,6]
   }});
 }}
+function iconeIso(p){{
+  return L.divIcon({{
+    className:'',
+    html:`<div style="width:14px;height:14px;border-radius:50%;background:#7c2d12;border:2px solid #fde68a;box-shadow:0 0 0 3px rgba(124,45,18,.35)"></div>`,
+    iconSize:[14,14], iconAnchor:[7,7]
+  }});
+}}
 const style = document.createElement('style');
 style.textContent = '@keyframes fadeIn{{to{{opacity:1}}}} @keyframes pulseRing{{0%{{opacity:.55}}50%{{opacity:.28}}100%{{opacity:.55}}}}';
 document.head.appendChild(style);
+
+function viaNoBuffer(v, raio){{
+  if (!v.coords) return false;
+  for (const c of v.coords) {{
+    if (haversine(S.la,S.lo,c[0],c[1]) <= raio) return true;
+  }}
+  return !!v.cut; // fallback: classificação do cenário selecionado
+}}
+
+function desenharVias(raio){{
+  camadaV.clearLayers();
+  let nCut = 0, nPonte = 0;
+  for (const v of (S.vias||[])) {{
+    if (!v.coords || v.coords.length < 2) continue;
+    const cut = viaNoBuffer(v, raio);
+    const ponte = !!v.ponte;
+    if (cut) nCut++;
+    if (cut && ponte) nPonte++;
+    L.polyline(v.coords, {{
+      pane:'vias',
+      color: cut ? (ponte ? '#f59e0b' : '#dc2626') : '#94a3b8',
+      weight: cut ? (ponte ? 5 : 3.5) : 2,
+      opacity: cut ? 0.9 : 0.45,
+      dashArray: cut ? null : '6 6'
+    }}).bindPopup(
+      `<b>${{v.nome||'Via'}}</b><br>${{v.hw||''}}` +
+      (cut ? '<br><b>Interrompida no buffer (proxy)</b>' : '<br>Intacta') +
+      (ponte ? '<br>Ponte/viaduto' : '')
+    ).addTo(camadaV);
+  }}
+  for (const p of (S.pontes||[])) {{
+    const d = haversine(S.la,S.lo,p.la,p.lo);
+    if (d > raio) continue;
+    L.circleMarker([p.la,p.lo], {{
+      pane:'vias', radius:7, color:'#78350f', weight:2,
+      fillColor:'#f59e0b', fillOpacity:0.95
+    }}).bindPopup(`<b>Ponte</b><br>${{p.nome||''}}<br>${{p.hw||''}}`).addTo(camadaV);
+  }}
+  return {{nCut, nPonte}};
+}}
 
 function desenhar(fPct){{
   const f = fPct/100;
@@ -101,12 +173,20 @@ function desenhar(fPct){{
   const area = liberado / S.prof;
   const raio = Math.sqrt(area / Math.PI);
   const progress = Math.min(1, Math.max(0.15, f));
+  const vv = desenharVias(raio);
+  let isoLinha = '';
+  if (S.isoN!=null) {{
+    isoLinha = `C7 proxy (cenário) <b>${{S.isoN}}</b>` +
+      `<br>Vias no raio <b>${{vv.nCut}}</b> · pontes <b>${{vv.nPonte}}</b>` +
+      `<br>US isol. (cenário) <b>${{S.isoU??'—'}}</b>`;
+  }}
   document.getElementById('hud').innerHTML =
     `<b>${{fPct}}%</b> liberado<br>Área <b>${{area.toFixed(1)}}</b> km²<br>` +
     `Raio <b>${{raio.toFixed(2)}}</b> km<br>` +
     `US no buffer <b id="hudUs">0</b><br>` +
-    (S.pop!=null ? `Pop. ref. <b>${{S.pop.toLocaleString('pt-BR')}}</b><br><small>${{S.metodo||''}}</small>` : '');
-  camadaM.clearLayers(); camadaU.clearLayers(); camadaB.clearLayers();
+    (S.pop!=null ? `Pop. ref. <b>${{S.pop.toLocaleString('pt-BR')}}</b><br><small>${{S.metodo||''}}</small><br>` : '') +
+    isoLinha;
+  camadaM.clearLayers(); camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
   const mancha = L.circle([S.la,S.lo], {{
     pane:'mancha', radius: raio*1000, color:'#c2410c', weight:2,
     fillColor:'#fb923c', fillOpacity: 0.22 + 0.28*progress,
@@ -142,7 +222,15 @@ function desenhar(fPct){{
         .addTo(camadaU);
     }}
   }}
-  if (!timer) mapa.fitBounds(mancha.getBounds().pad(0.2), {{maxZoom:13, animate:false}});
+  // US isoladas: calculadas no cenário do slider (não reanimam o grafo).
+  if (Math.abs(fPct - Math.round((S.frac0||0.5)*100)) < 1 || !timer) {{
+    for (const p of (S.usIso||[])) {{
+      L.marker([p.la,p.lo], {{pane:'us', icon:iconeIso(p), zIndexOffset:400}})
+        .bindPopup(`<b>US isolada (proxy)</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km da barragem<br>Sem rota terrestre ao hub após corte das vias no buffer.`)
+        .addTo(camadaI);
+    }}
+  }}
+  if (!timer) mapa.fitBounds(mancha.getBounds().pad(0.25), {{maxZoom:13, animate:false}});
 }}
 
 document.getElementById('btnPlay').onclick = () => {{
@@ -157,6 +245,7 @@ document.getElementById('btnPlay').onclick = () => {{
 }};
 document.getElementById('btnStop').onclick = () => {{
   if (timer) {{ clearInterval(timer); timer=null; }}
+  desenhar(frac);
 }};
 desenhar(frac);
 if (S.autoplay) document.getElementById('btnPlay').click();

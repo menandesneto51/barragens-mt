@@ -38,6 +38,7 @@ from st_app.data import (
     tendencias_estado,
 )
 from st_app.mapa_sim import html_mapa_simulacao
+from st_app.vias_isolamento import analisar_isolamento_json
 from st_app.paginas_onda import (
     aplicar_navegacao_pendente,
     bloco_atalhos_comando,
@@ -94,6 +95,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 st.markdown(CSS, unsafe_allow_html=True)
+
+
+@st.cache_data(show_spinner=False, ttl=6 * 3600)
+def _isolamento_cached(
+    lat0: float, lon0: float, raio0: float, cnes_key: str
+) -> dict:
+    return analisar_isolamento_json(lat0, lon0, raio0, cnes_key)
 
 
 def _badge(nivel: str) -> str:
@@ -589,8 +597,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     st.markdown("# Simulação volume → área")
     st.markdown(
         '<p class="nota">Proxy geométrico — <b>não</b> é mancha oficial nem ordem de evacuação. '
-        "O rompimento afeta população e a <b>capacidade de resposta local</b> "
-        "(unidades de saúde no buffer).</p>",
+        "O rompimento afeta população, a <b>capacidade de resposta local</b> (US no buffer) "
+        "e o <b>acesso rodoviário</b> (vias/pontes OSM no trajeto da água → isolamento).</p>",
         unsafe_allow_html=True,
     )
     base = df.dropna(subset=["capacidade_hm3"]).copy()
@@ -665,6 +673,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         "(base estadual quando `cnes_estabelecimentos_mt` existir)."
     )
 
+    cnes_todos: list[dict] = []
+    iso: dict = {}
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         # Todos os CNES da região: a animação recalcula o buffer ao expandir o raio.
         cnes_todos = [
@@ -682,6 +692,48 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             }
             for row in cnes.itertuples()
         ] if not cnes.empty else []
+
+        incluir_vias = st.checkbox(
+            "Incluir vias/pontes e isolamento (OSM)",
+            value=True,
+            help="Cruza arteriais e pontes do OpenStreetMap com o círculo proxy. "
+            "Primeira carga baixa a malha (depois usa cache). Proxy C7 — não é rota oficial.",
+        )
+        iso: dict = {}
+        if incluir_vias:
+            import json as _json
+
+            cnes_prio = [
+                p
+                for p in cnes_todos
+                if p.get("h") or p.get("upa") or p.get("ubs") or p.get("prio")
+            ]
+            with st.spinner("Cruzando malha viária OSM (vias/pontes) com o buffer…"):
+                iso = _isolamento_cached(
+                    float(r["latitude"]),
+                    float(r["longitude"]),
+                    round(float(raio), 2),
+                    _json.dumps(cnes_prio, ensure_ascii=False),
+                )
+
+            i1, i2, i3, i4 = st.columns(4)
+            i1.metric("Vias no buffer (OSM)", iso.get("n_vias_interrompidas", 0))
+            i2.metric("Pontes comprometidas", iso.get("n_pontes_comprometidas", 0))
+            i3.metric("US potencialmente isoladas", iso.get("n_us_isoladas", 0))
+            i4.metric(
+                "C7 proxy (0–2)",
+                f"{iso.get('nivel_c7_proxy', 0)} — {iso.get('rotulo_c7', '—')}",
+            )
+            if iso.get("aviso"):
+                st.caption(f"Malha viária: {iso['aviso']}")
+            else:
+                st.caption(
+                    f"Malha: {iso.get('fonte')} · ~{iso.get('km_vias_no_buffer', 0)} km de vias "
+                    f"estruturantes no círculo · arteriais cortadas: {iso.get('n_arteriais_cortadas', 0)}. "
+                    "Isolamento = US fora da mancha sem caminho terrestre até Cuiabá (hub) "
+                    "após remover trechos no buffer — proxy, não rota oficial."
+                )
+
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
@@ -692,10 +744,14 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             pop_est=pop_n,
             metodo_pop=metodo,
             cnes=cnes_todos,
-            altura=480,
+            vias=iso.get("vias") or [],
+            pontes=iso.get("pontes") or [],
+            us_isoladas=iso.get("us_isoladas") or [],
+            isolamento=iso if incluir_vias else None,
+            altura=520,
             autoplay=False,
         )
-        components.html(html, height=500, scrolling=False)
+        components.html(html, height=540, scrolling=False)
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
 
@@ -728,6 +784,23 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 height=220,
             )
 
+    us_iso = list(iso.get("us_isoladas") or []) if iso else []
+    if us_iso:
+        st.subheader("US potencialmente isoladas (proxy C7)")
+        st.dataframe(
+            pd.DataFrame(us_iso).rename(
+                columns={
+                    "no": "nome",
+                    "mu": "municipio",
+                    "tp": "tipo",
+                    "dist": "dist_km",
+                }
+            )[["nome", "tipo", "municipio", "dist_km"]],
+            width="stretch",
+            hide_index=True,
+            height=220,
+        )
+
     if n_us:
         st.markdown(
             f'<p class="lista-us-titulo">US prioritárias no buffer ({n_us})</p>',
@@ -746,8 +819,10 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
 
     st.caption(
         "Fórmula: área_km² = (hm³ × fração) / profundidade_m. "
-        "Use ▶ Animar no mapa para ver a expansão da mancha proxy e o ingresso de US. "
-        "Não substitui PAE / dam break."
+        "Use ▶ Animar no mapa para ver a expansão da mancha proxy, o ingresso de US "
+        "e vias/pontes que entram no círculo. "
+        "Isolamento e C7 referem-se ao cenário do slider (não ao frame da animação). "
+        "Não substitui PAE / dam break nem análise oficial de rotas."
     )
 
 
@@ -802,6 +877,13 @@ def pagina_interpretacao() -> None:
             "Estabelecimentos prioritários (hospital, UPA, UBS/ESF) com coordenada dentro do "
             "raio equivalente da simulação. Indicam capacidade de resposta local sob risco de "
             "interdição ou sobrecarga — não o município inteiro.",
+        ),
+        (
+            "Vias, pontes e isolamento (C7 proxy)",
+            "Malha OpenStreetMap (arteriais e pontes) cruzada com o círculo volume→área. "
+            "Trecho no buffer = interrompido. US fora da mancha sem caminho terrestre até o "
+            "hub de Cuiabá após o corte = potencialmente isolada. Escala 0–2 espelha o C7 do "
+            "IDAP, mas continua sendo proxy geométrico — não rota oficial nem PAE.",
         ),
         (
             "CRI e DPA",
