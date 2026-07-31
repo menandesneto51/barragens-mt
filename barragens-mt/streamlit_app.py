@@ -37,6 +37,7 @@ from st_app.data import (
 )
 from st_app.mapa_sim import html_mapa_simulacao
 from st_app.paginas_onda import (
+    aplicar_navegacao_pendente,
     bloco_atalhos_comando,
     bloco_quase_atencao,
     bloco_sanitario_compacto,
@@ -965,6 +966,7 @@ def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
 
 
 def main() -> None:
+    aplicar_navegacao_pendente()
     jornadas_ordem = list(JORNADAS.keys())
     if "jornada" not in st.session_state:
         st.session_state["jornada"] = "Situação"

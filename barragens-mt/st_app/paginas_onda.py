@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 from pathlib import Path
 
 import folium
@@ -77,14 +78,20 @@ def frescor_chips_html() -> str:
     return '<div class="frescor-chips">' + "".join(chips) + "</div>"
 
 
+def _negrito_html(texto: str) -> str:
+    """`**x**` → `<b>x</b>`: a caixa de tendência é renderizada como HTML."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", texto)
+
+
 def tendencia_unificada(df: pd.DataFrame) -> tuple[str, str]:
     """Escolhe a tendência mais grave entre clima e histórico IDAP."""
     proj = projecao_semana(df)
     sev_c, msg_c = tendencia_climatica_texto(proj, df)
+    msg_c = _negrito_html(msg_c)
     hist = tendencia_idap_48h()
     if hist.get("ok"):
         sev_h = hist["classe"]
-        msg_h = hist["msg"]
+        msg_h = _negrito_html(hist["msg"])
         if _SEV_RANK.get(sev_h, 0) >= _SEV_RANK.get(sev_c, 0):
             return sev_h, f"<b>Tendência do índice (últimas rodadas)</b><br>{msg_h}<br><br><b>Clima:</b> {msg_c}"
         return sev_c, f"<b>Tendência climática</b><br>{msg_c}<br><br><b>Índice:</b> {msg_h}"
@@ -311,10 +318,19 @@ def pagina_municipio_360(df: pd.DataFrame, municipio: str, *, incluir_sanitario:
     )
 
 
+NAV_DESTINO = "_nav_destino"
+
+
 def ir_para(jornada: str, pagina: str) -> None:
-    st.session_state["jornada"] = jornada
-    st.session_state["pagina"] = pagina
+    """Agenda a navegação: as chaves dos widgets só podem mudar antes da sidebar."""
+    st.session_state[NAV_DESTINO] = (jornada, pagina)
     st.rerun()
+
+
+def aplicar_navegacao_pendente() -> None:
+    destino = st.session_state.pop(NAV_DESTINO, None)
+    if destino:
+        st.session_state["jornada"], st.session_state["pagina"] = destino
 
 
 def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:

@@ -396,6 +396,9 @@ def tendencia_climatica_texto(proj: dict, df: pd.DataFrame) -> tuple[str, str]:
     atual = int(proj.get("amarelo_mais_atual") or 0)
     futuro = int(proj.get("amarelo_mais_projetado") or atual)
 
+    def _mm(valor: float | None) -> str:
+        return f"{(valor or 0):.1f}".replace(".", ",")
+
     if (prev or 0) >= 140 or (proj.get("n_r12") or 0) > 0:
         sev = "sev-critico"
         msg = (
@@ -405,23 +408,22 @@ def tendencia_climatica_texto(proj: dict, df: pd.DataFrame) -> tuple[str, str]:
     elif (prev or 0) >= 40 or delta > 0:
         sev = "sev-elevado" if delta > 5 or (prev or 0) >= 80 else "sev-atencao"
         msg = (
-            f"Tendência de **atenção climática**: chuva prevista máx. "
-            f"{(prev or 0):.1f} mm".replace(".", ",")
-            + f" · em atenção+ projetado {futuro} ({delta:+d} vs hoje)."
+            f"Tendência de **atenção climática**: chuva prevista máx. {_mm(prev)} mm"
+            f" · em atenção+ projetado {futuro} ({delta:+d} vs hoje)."
         )
     elif (chuva72 or 0) >= 50:
         sev = "sev-atencao"
         msg = (
             f"Tendência **estável com solo carregado**: chuva 72h recente até "
-            f"{chuva72:.1f} mm".replace(".", ",")
-            + f", mas previsão próxima ainda baixa. Em atenção+ permanece ~{atual}."
+            f"{_mm(chuva72)} mm, mas previsão próxima ainda baixa. "
+            f"Em atenção+ permanece ~{atual}."
         )
     else:
         sev = "sev-ok"
         msg = (
-            f"Tendência **estável / favorável** para os próximos dias: previsão máx. "
-            f"{(prev if prev is not None else 0):.1f} mm".replace(".", ",")
-            + f" · em atenção+ projetado {futuro} (sem alta climática relevante)."
+            f"Tendência **estável / favorável** para os próximos dias: "
+            f"previsão máx. {_mm(prev)} mm"
+            f" · em atenção+ projetado {futuro} (sem alta climática relevante)."
         )
     return sev, msg
 

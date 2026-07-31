@@ -147,9 +147,12 @@ div[data-testid="stMetricLabel"] {
   font-weight: 600 !important;
   letter-spacing: -0.02em;
   color: #1b3281;
-  margin: 18px 0 6px;
-  padding-bottom: 4px;
-  border-bottom: 2px solid rgba(27,50,129,.25);
+  margin: 18px 0 8px;
+  /* Fundo próprio: a faixa 1 fica sobre o azul do topo do app. */
+  background: rgba(255,255,255,.94);
+  border: 1px solid #c5d0e0;
+  border-left: 5px solid #1b3281;
+  padding: 8px 12px;
 }
 .faixa-titulo span {
   display: block;
