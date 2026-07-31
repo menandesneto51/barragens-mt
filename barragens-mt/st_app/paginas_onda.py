@@ -49,36 +49,63 @@ _SEV_RANK = {
 
 def faixa_titulo(numero: str, titulo: str, subtitulo: str) -> None:
     st.markdown(
-        f'<div class="faixa-titulo"><span>Faixa {numero}</span>{titulo}'
-        f'<div style="font-family:Source Sans 3,sans-serif;font-size:0.85rem;'
-        f'font-weight:400;color:#4a5d73;margin-top:2px">{subtitulo}</div></div>',
+        f'<div class="faixa-titulo"><span class="kicker">Faixa {numero}</span>'
+        f'<span class="titulo">{titulo}</span>'
+        f'<span class="sub">{subtitulo}</span></div>',
         unsafe_allow_html=True,
     )
 
 
-def frescor_chips_html() -> str:
-    arquivos = [
-        "idap_estadual_mt.csv",
-        "hidro_barragens_mt.csv",
-        "piloto_manso_cuiaba.csv",
-        "alertabilidade_piloto.csv",
-        "cnes_estabelecimentos_mt.csv",
-    ]
-    chips = []
+_FONTES_FRESCOR = (
+    "idap_estadual_mt.csv",
+    "hidro_barragens_mt.csv",
+    "piloto_manso_cuiaba.csv",
+    "alertabilidade_piloto.csv",
+    "cnes_estabelecimentos_mt.csv",
+)
+
+
+def _idades_fontes() -> list[tuple[str, float | None, str, str]]:
+    """(rótulo, idade_h, classe, quando) por fonte — None quando ausente."""
     agora = dt.datetime.now()
-    for nome in arquivos:
+    saida = []
+    for nome in _FONTES_FRESCOR:
+        rotulo = nome.replace(".csv", "")
         caminho = TRATADOS / nome
         if not caminho.exists():
-            chips.append(f'<div class="chip morto">{nome.replace(".csv","")}: ausente</div>')
+            saida.append((rotulo, None, "morto", "ausente"))
             continue
         mtime = dt.datetime.fromtimestamp(caminho.stat().st_mtime)
         idade_h = (agora - mtime).total_seconds() / 3600
         cls = "ok" if idade_h <= 24 else ("velho" if idade_h <= 72 else "morto")
-        chips.append(
-            f'<div class="chip {cls}">{nome.replace(".csv","")}: '
-            f"{idade_h:.0f} h ({mtime.strftime('%d/%m %H:%M')})</div>"
-        )
+        saida.append((rotulo, idade_h, cls, mtime.strftime("%d/%m %H:%M")))
+    return saida
+
+
+def frescor_chips_html() -> str:
+    chips = []
+    for rotulo, idade_h, cls, quando in _idades_fontes():
+        texto = "ausente" if idade_h is None else f"{idade_h:.0f} h ({quando})"
+        chips.append(f'<div class="chip {cls}">{rotulo}: {texto}</div>')
     return '<div class="frescor-chips">' + "".join(chips) + "</div>"
+
+
+def bloco_frescor() -> None:
+    """Uma linha de status das fontes; o detalhe por fonte fica no expander."""
+    fontes = _idades_fontes()
+    ausentes = [f[0] for f in fontes if f[1] is None]
+    velhas = [f[0] for f in fontes if f[1] is not None and f[1] > 24]
+    idades = [f[1] for f in fontes if f[1] is not None]
+    pior = max(idades) if idades else None
+    if ausentes:
+        resumo = f"Fontes: {len(ausentes)} ausente(s) — {', '.join(ausentes)}."
+    elif velhas:
+        resumo = f"Fontes: mais antiga com {pior:.0f} h ({len(velhas)} acima de 24 h)."
+    else:
+        resumo = f"Fontes atualizadas — mais antiga com {pior:.0f} h." if pior else "Fontes: —"
+    with st.expander(resumo, expanded=False):
+        st.markdown(frescor_chips_html(), unsafe_allow_html=True)
+        st.caption("Verde ≤24 h · laranja ≤72 h · vermelho acima disso ou ausente.")
 
 
 def _negrito_html(texto: str) -> str:
@@ -408,7 +435,8 @@ def bloco_tipologia(recorte: pd.DataFrame, estado: pd.DataFrame, *, rotulo_recor
             .encode(x="No recorte:Q", y=alt.Y("Tipologia:N", sort="-x"))
         )
         st.altair_chart(grafico + marca, use_container_width=True)
-        st.dataframe(tabela, use_container_width=True, hide_index=True, height=180)
+        with st.expander("Contagem por tipologia (estado × recorte)", expanded=False):
+            st.dataframe(tabela, use_container_width=True, hide_index=True, height=300)
 
 
 def ir_para(jornada: str, pagina: str) -> None:

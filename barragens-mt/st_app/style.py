@@ -1,52 +1,190 @@
-"""Tema visual do painel Streamlit — azul institucional GOV/SES-MT (#1b3281)."""
+"""Tema visual do painel Streamlit.
+
+Paleta institucional GOV/SES-MT (Manual da Marca GOV-MT): azul #1b3281
+(CMYK 100/90/0/20 · Pantone 2758C) e preto #231F20, com neutros derivados do
+azul. As cores de **gravidade** (roxo/vermelho/laranja/amarelo/verde) e os
+números dos KPIs não entram na paleta de cromo: continuam sendo semânticas.
+"""
+
+# Cromo institucional — só moldura, fundo, texto e bordas.
+AZUL_SES = "#1b3281"
+PRETO_SES = "#231f20"
+
+# Gravidade (não alterar: é leitura semântica do IDAP).
+SEV_CORES = {
+    "sev-ok": "#1e8449",
+    "sev-atencao": "#b7950b",
+    "sev-elevado": "#d35400",
+    "sev-alto": "#c0392b",
+    "sev-critico": "#5b2c6f",
+    "sev-neutro": AZUL_SES,
+}
 
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+:root {
+  /* Cromo institucional */
+  --ses-azul: #1b3281;
+  --ses-azul-medio: #3b52a0;
+  --ses-azul-claro: #e9edf8;
+  --ink: #231f20;
+  --muted: #5b6b80;
+  --line: #dde3f0;
+  --canvas: #f4f6fb;
+  --surface: #ffffff;
+  /* Gravidade (semântica — não é cromo) */
+  --sev-ok: #1e8449;
+  --sev-atencao: #b7950b;
+  --sev-atencao-txt: #92740a;
+  --sev-elevado: #d35400;
+  --sev-elevado-txt: #c2410c;
+  --sev-alto: #c0392b;
+  --sev-alto-txt: #b91c1c;
+  --sev-critico: #5b2c6f;
+}
 
 html, body, [class*="css"] {
   font-family: "Source Sans 3", system-ui, sans-serif;
+  color: var(--ink);
 }
-h1, h2, h3, .marca {
-  font-family: "Fraunces", Georgia, serif !important;
-  font-weight: 600 !important;
+.stApp { background: var(--canvas); }
+
+/* Respiro menor entre blocos: menos rolagem, mesma informação. */
+div[data-testid="stVerticalBlock"] { gap: 0.55rem; }
+div[data-testid="stMainBlockContainer"] { padding-top: 2.2rem; padding-bottom: 3rem; }
+
+h1 {
+  font-size: 1.65rem !important;
+  font-weight: 700 !important;
   letter-spacing: -0.02em;
+  color: var(--ses-azul) !important;
+  margin: 0 0 2px !important;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--ses-azul);
 }
-.stApp {
-  background:
-    radial-gradient(ellipse at 10% -5%, rgba(42,74,173,.38), transparent 42%),
-    linear-gradient(180deg, #1b3281 0%, #243f9a 22%, #e6ecf7 22%);
+h2, h3 { font-weight: 600 !important; letter-spacing: -0.01em; color: var(--ink) !important; }
+h5 {
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted) !important;
+  margin: 10px 0 2px !important;
 }
+
+/* ---- Sidebar: bloco de marca azul + corpo claro ---- */
 section[data-testid="stSidebar"] {
-  background: linear-gradient(180deg, #1b3281 0%, #243f9a 18%, #f3f6fb 18%);
-  border-right: 1px solid #c5d0e0;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
 }
 section[data-testid="stSidebar"] .marca {
-  font-size: 1.35rem;
-  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ses-azul);
   margin: 0 0 2px;
 }
 section[data-testid="stSidebar"] .submarca {
-  color: rgba(255,255,255,.82);
-  font-size: 0.82rem;
-  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--ses-azul);
 }
+
+/* ---- Faixas: hierarquia tipográfica, sem caixa ---- */
+.faixa-titulo {
+  margin: 16px 0 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--line);
+}
+.faixa-titulo .kicker {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ses-azul);
+  margin-bottom: 1px;
+}
+.faixa-titulo .titulo {
+  display: block;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.faixa-titulo .sub {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* ---- KPI: moldura neutra, cor só no número e no topo ---- */
+.grade-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--ses-azul);
+  padding: 10px 12px;
+  min-height: 76px;
+}
+.kpi-card .kpi-val {
+  font-size: 1.45rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--ses-azul);
+}
+.kpi-card .kpi-tit {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.25;
+}
+.kpi-card .kpi-delta { font-size: 0.78rem; font-weight: 600; margin-top: 3px; }
+.kpi-card .kpi-nota { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+.kpi-card.sev-ok { border-top-color: var(--sev-ok); }
+.kpi-card.sev-ok .kpi-val { color: var(--sev-ok); }
+.kpi-card.sev-atencao { border-top-color: var(--sev-atencao); }
+.kpi-card.sev-atencao .kpi-val { color: var(--sev-atencao-txt); }
+.kpi-card.sev-elevado { border-top-color: var(--sev-elevado); }
+.kpi-card.sev-elevado .kpi-val { color: var(--sev-elevado-txt); }
+.kpi-card.sev-alto { border-top-color: var(--sev-alto); }
+.kpi-card.sev-alto .kpi-val { color: var(--sev-alto-txt); }
+.kpi-card.sev-critico { border-top-color: var(--sev-critico); }
+.kpi-card.sev-critico .kpi-val { color: var(--sev-critico); }
+.kpi-card.sev-neutro { border-top-color: var(--ses-azul); }
+.kpi-card.sev-neutro .kpi-val { color: var(--ses-azul); }
+
 div[data-testid="stMetric"] {
-  background: #fff;
-  border: 1px solid #c5d0e0;
-  border-top: 3px solid #1b3281;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--ses-azul);
   padding: 10px 12px 8px;
 }
-div[data-testid="stMetricValue"] {
-  font-variant-numeric: tabular-nums;
-  font-weight: 700 !important;
-}
+div[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; font-weight: 700 !important; }
 div[data-testid="stMetricLabel"] {
   text-transform: uppercase;
   letter-spacing: .04em;
-  font-size: 0.72rem !important;
-  color: #4a5d73 !important;
+  font-size: 0.7rem !important;
+  color: var(--muted) !important;
 }
+
+/* ---- Blocos de texto ---- */
 .badge {
   display: inline-block;
   padding: 2px 8px;
@@ -54,137 +192,96 @@ div[data-testid="stMetricLabel"] {
   font-size: 12px;
   font-weight: 600;
 }
+/* Faixas claras (amarelo) pedem texto escuro: branco fica em 2,9:1. */
+.badge.claro { color: var(--ink); }
 .nota {
-  color: #4a5d73;
-  font-size: 0.92rem;
+  color: var(--muted);
+  font-size: 0.88rem;
   line-height: 1.45;
-  max-width: 48rem;
-  background: rgba(255,255,255,.88);
-  border: 1px solid #c5d0e0;
+  max-width: 52rem;
+  background: transparent;
+  border: 0;
+  border-left: 3px solid var(--ses-azul-claro);
+  padding: 2px 0 2px 10px;
+  margin: 0 0 8px;
+}
+.tend-box {
   padding: 10px 12px;
-}
-.bloco-interp {
-  background: #fff;
-  border: 1px solid #c5d0e0;
-  border-left: 4px solid #1b3281;
-  padding: 14px 16px;
-  margin: 0 0 12px;
-}
-.bloco-interp h3 {
-  margin: 0 0 6px !important;
-  font-size: 1.05rem !important;
-}
-.bloco-interp p {
-  margin: 0;
-  color: #334155;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ses-azul);
+  background: var(--surface);
+  margin: 6px 0 10px;
   line-height: 1.45;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
+.tend-box.sev-ok { border-left-color: var(--sev-ok); }
+.tend-box.sev-atencao { border-left-color: var(--sev-atencao); }
+.tend-box.sev-elevado { border-left-color: var(--sev-elevado); }
+.tend-box.sev-alto, .tend-box.sev-critico { border-left-color: var(--sev-alto); }
+.bloco-interp {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ses-azul);
+  padding: 12px 14px;
+  margin: 0 0 10px;
+}
+.bloco-interp h3 { margin: 0 0 6px !important; font-size: 1rem !important; }
+.bloco-interp p { margin: 0; color: #334155; line-height: 1.45; font-size: 0.92rem; }
 .lista-us-titulo {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: #4a5d73;
+  color: var(--muted);
   margin: 8px 0 4px;
 }
-.kpi-card {
-  background: #fff;
-  border: 1px solid #c5d0e0;
-  border-left: 5px solid #94a3b8;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  min-height: 78px;
-}
-.kpi-card .kpi-val {
-  font-size: 1.45rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.1;
-}
-.kpi-card .kpi-tit {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: .03em;
-  color: #4a5d73;
-  margin-top: 4px;
-  line-height: 1.25;
-}
-.kpi-card .kpi-delta { font-size: 0.8rem; font-weight: 600; margin-top: 3px; }
-.kpi-card .kpi-nota { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
-.kpi-card.sev-ok { border-left-color: #1e8449; }
-.kpi-card.sev-ok .kpi-val { color: #1e8449; }
-.kpi-card.sev-atencao { border-left-color: #b7950b; }
-.kpi-card.sev-atencao .kpi-val { color: #92740a; }
-.kpi-card.sev-elevado { border-left-color: #d35400; }
-.kpi-card.sev-elevado .kpi-val { color: #c2410c; }
-.kpi-card.sev-alto { border-left-color: #c0392b; }
-.kpi-card.sev-alto .kpi-val { color: #b91c1c; }
-.kpi-card.sev-critico { border-left-color: #5b2c6f; }
-.kpi-card.sev-critico .kpi-val { color: #5b2c6f; }
-.kpi-card.sev-neutro { border-left-color: #1b3281; }
-.kpi-card.sev-neutro .kpi-val { color: #1b3281; }
-.tend-box {
-  padding: 12px 14px;
-  border: 1px solid #c5d0e0;
-  border-left: 5px solid #1b3281;
-  background: #fff;
-  margin: 8px 0 14px;
-  line-height: 1.45;
-}
-.tend-box.sev-ok { border-left-color: #1e8449; }
-.tend-box.sev-atencao { border-left-color: #b7950b; }
-.tend-box.sev-elevado { border-left-color: #d35400; }
-.tend-box.sev-alto, .tend-box.sev-critico { border-left-color: #c0392b; }
-.grade-kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.faixa-titulo {
-  font-family: "Fraunces", Georgia, serif !important;
-  font-size: 1.05rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.02em;
-  color: #1b3281;
-  margin: 18px 0 8px;
-  /* Fundo próprio: a faixa 1 fica sobre o azul do topo do app. */
-  background: rgba(255,255,255,.94);
-  border: 1px solid #c5d0e0;
-  border-left: 5px solid #1b3281;
-  padding: 8px 12px;
-}
-.faixa-titulo span {
-  display: block;
-  font-family: "Source Sans 3", system-ui, sans-serif !important;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: #4a5d73;
-  margin-bottom: 2px;
-}
-.frescor-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0 10px;
-}
+
+/* ---- Chips (frescor, legendas): pílula leve com ponto colorido ---- */
+.frescor-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
 .frescor-chips .chip {
-  background: #fff;
-  border: 1px solid #c5d0e0;
-  padding: 4px 8px;
-  font-size: 11px;
-  color: #334155;
+  background: var(--ses-azul-claro);
+  border: 0;
+  border-radius: 2px;
+  padding: 3px 9px 3px 8px;
+  font-size: 11.5px;
+  color: #35405a;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-.frescor-chips .chip.ok { border-left: 3px solid #1e8449; }
-.frescor-chips .chip.velho { border-left: 3px solid #d35400; }
-.frescor-chips .chip.morto { border-left: 3px solid #c0392b; }
-.atalhos-cmd {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 8px 0 14px;
+.frescor-chips .chip::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
 }
+.frescor-chips .chip.ok::before { background: var(--sev-ok); }
+.frescor-chips .chip.velho::before { background: var(--sev-elevado); }
+.frescor-chips .chip.morto::before { background: var(--sev-alto); }
+.atalhos-cmd { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+
+/* Distribuição por faixa: uma linha em vez de um card por nível. */
+.dist { display: flex; flex-wrap: wrap; gap: 14px; margin: 0 0 8px; font-size: 0.8rem; color: var(--muted); }
+.dist-item { display: inline-flex; align-items: center; gap: 5px; }
+.dist-item i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.dist-item b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ---- Expanders: cabeçalho discreto, sem competir com as faixas ---- */
+details[data-testid="stExpander"] {
+  border: 1px solid var(--line) !important;
+  background: var(--surface);
+}
+details[data-testid="stExpander"] summary {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ---- Tabelas e abas ---- */
+div[data-testid="stDataFrame"] { border: 1px solid var(--line); }
+button[data-baseweb="tab"] { font-weight: 600; }
 </style>
 """

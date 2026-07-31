@@ -435,35 +435,32 @@ MODELO = r"""<!DOCTYPE html>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+/* Cromo institucional GOV/SES-MT: azul #1b3281 e preto #231f20.
+   Cores de gravidade (roxo/vermelho/laranja/amarelo/verde) são semânticas. */
 :root{
-  --ink:#15202b; --muted:#4a5d73; --paper:#e6ecf7; --card:#fff; --line:#c5d0e0;
-  --accent:#1b3281; --accent-soft:#2a4aad;
+  --ink:#231f20; --muted:#5b6b80; --paper:#f4f6fb; --card:#fff; --line:#dde3f0;
+  --accent:#1b3281; --accent-soft:#3b52a0; --accent-claro:#e9edf8;
   --roxo:#5b2c6f; --verm:#c0392b; --lar:#d35400; --ama:#b7950b; --verd:#1e8449;
   --ses:#1b3281;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);
-background:
-  radial-gradient(ellipse at 12% -10%, rgba(42,74,173,.35), transparent 45%),
-  radial-gradient(ellipse at 100% 0%, rgba(27,50,129,.22), transparent 42%),
-  linear-gradient(180deg, #1b3281 0%, #243f9a 28%, var(--paper) 28%);
-font-size:14px}
-header{padding:22px 24px 14px;border-bottom:1px solid rgba(255,255,255,.18);
-background:transparent;
+background:var(--paper);font-size:14px}
+header{padding:16px 24px 14px;border-bottom:3px solid var(--ses);background:var(--card);
 display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
-.marca{font-family:"Fraunces",Georgia,serif;font-size:clamp(1.5rem,2.5vw,1.9rem);
-font-weight:600;margin:0 0 4px;letter-spacing:-.02em;color:#fff}
-header p{margin:0;color:rgba(255,255,255,.82);max-width:36rem;line-height:1.4}
-nav{display:flex;flex-wrap:wrap;gap:8px}
-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;
-padding:6px 10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12)}
-nav a:hover{background:rgba(255,255,255,.22)}
-main{padding:16px 24px 40px;max-width:1600px;margin:0 auto}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:14px}
-.kpi{background:var(--card);border:1px solid var(--line);padding:11px 12px;
-box-shadow:0 1px 0 rgba(21,32,43,.04);border-top:3px solid var(--line);position:relative}
+.marca{font-size:clamp(1.3rem,2.2vw,1.6rem);font-weight:700;margin:0 0 2px;
+letter-spacing:-.02em;color:var(--ses)}
+header p{margin:0;color:var(--muted);max-width:38rem;line-height:1.4;font-size:13px}
+nav{display:flex;flex-wrap:wrap;gap:6px}
+nav a{color:var(--accent);text-decoration:none;font-size:12.5px;font-weight:600;
+padding:5px 9px;background:var(--accent-claro)}
+nav a:hover{background:#dbe2f6}
+main{padding:14px 24px 40px;max-width:1600px;margin:0 auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:8px;margin-bottom:10px}
+.kpi{background:var(--card);border:1px solid var(--line);padding:10px 12px;
+border-top:3px solid var(--ses);position:relative}
 .kpi .n{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
 .kpi .r{font-size:10.5px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
 .kpi .delta{font-size:11px;font-weight:600;margin-top:4px}
@@ -475,73 +472,78 @@ box-shadow:0 1px 0 rgba(21,32,43,.04);border-top:3px solid var(--line);position:
 .kpi.sev-critico .n{color:var(--roxo)}.kpi.sev-critico{border-top-color:var(--roxo)}
 .kpi.sev-neutro .n{color:var(--ses)}.kpi.sev-neutro{border-top-color:var(--ses)}
 .kpi .sub{font-size:10px;color:var(--muted);margin-top:2px}
-.kpi-help{font-size:12px;color:var(--muted);line-height:1.45;margin:0 0 14px;max-width:52rem;
-background:rgba(255,255,255,.9);border:1px solid var(--line);padding:10px 12px}
-.proj-box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
-padding:12px 14px;margin-bottom:14px}
-.proj-box h2{font-family:"Fraunces",Georgia,serif;font-size:1.05rem;margin:0 0 6px}
-.proj-box p{margin:0;color:#334155;line-height:1.45;font-size:13.5px}
-section h2{font-family:"Fraunces",Georgia,serif;font-size:1.15rem;font-weight:600;margin:18px 0 8px;
-letter-spacing:-.02em}
-.semaforo{display:flex;align-items:center;gap:10px;padding:10px 14px;margin-bottom:10px;
+.kpi-help{font-size:12px;color:var(--muted);line-height:1.45;margin:0 0 10px;max-width:52rem;
+border-left:3px solid var(--accent-claro);padding:2px 0 2px 10px}
+.proj-box{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+padding:10px 12px;margin-bottom:10px}
+.proj-box h2{font-size:1rem;font-weight:600;margin:0 0 4px}
+.proj-box p{margin:0;color:#334155;line-height:1.45;font-size:13px}
+section h2{font-size:1.1rem;font-weight:600;margin:16px 0 8px;letter-spacing:-.01em}
+.semaforo{display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:8px;
 background:var(--card);border:1px solid var(--line)}
-.semaforo .luz{width:18px;height:18px;border-radius:50%}
-.frescor{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.frescor .chip{background:var(--card);border:1px solid var(--line);padding:6px 10px;font-size:12px}
-.frescor .ok{border-left:3px solid var(--verd)}
-.frescor .velho{border-left:3px solid var(--lar)}
-.frescor .morto{border-left:3px solid var(--verm)}
+.semaforo .luz{width:16px;height:16px;border-radius:50%}
+.frescor{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0}
+.frescor .chip{background:var(--accent-claro);border:0;padding:3px 9px 3px 8px;font-size:11.5px;
+color:#35405a;display:inline-flex;align-items:center;gap:6px}
+.frescor .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.frescor .ok::before{background:var(--verd)}
+.frescor .velho::before{background:var(--lar)}
+.frescor .morto::before{background:var(--verm)}
 .filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;
-background:var(--card);border:1px solid var(--line);padding:12px 14px;margin-bottom:14px;align-items:end}
+background:var(--card);border:1px solid var(--line);padding:12px 14px;margin-bottom:10px;align-items:end}
 .filtros label{display:block;font-size:11px;font-weight:600;color:var(--muted);
 text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 select,input[type=text],input[type=number]{width:100%;padding:7px 8px;border:1px solid var(--line);
 font:inherit;background:#fff}
 button{padding:8px 12px;border:0;background:var(--accent);color:#fff;font:inherit;font-weight:600;cursor:pointer}
-button.sec{background:#e4e9ef;color:var(--ink)}
-.grade{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px}
+button.sec{background:var(--accent-claro);color:var(--accent)}
+.grade{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-bottom:10px}
 @media(max-width:1100px){.grade{grid-template-columns:1fr}}
 .cartao{background:var(--card);border:1px solid var(--line);overflow:hidden}
-.cartao h2{margin:0;padding:10px 14px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
-color:var(--muted);border-bottom:1px solid var(--line);background:#f7f9fb}
-#mapa{height:560px}
-.rolagem{max-height:560px;overflow:auto}
+.cartao h2{margin:0;padding:9px 14px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+color:var(--muted);border-bottom:1px solid var(--line);background:#fbfcfe}
+#mapa{height:520px}
+.rolagem{max-height:520px;overflow:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{padding:7px 9px;border-bottom:1px solid #eef1f5;text-align:left;white-space:nowrap}
-th{position:sticky;top:0;background:#f7f9fb;font-size:11px;color:var(--muted);
+th,td{padding:7px 9px;border-bottom:1px solid #f0f3f9;text-align:left;white-space:nowrap}
+th{position:sticky;top:0;background:#fbfcfe;font-size:11px;color:var(--muted);
 text-transform:uppercase;letter-spacing:.03em;cursor:pointer}
-tbody tr{cursor:pointer} tbody tr:hover{background:#f3f8f5}
+tbody tr{cursor:pointer} tbody tr:hover{background:var(--accent-claro)}
 .etq{display:inline-block;padding:2px 7px;color:#fff;font-size:11px;font-weight:600}
 .Roxo{background:var(--roxo)}.Vermelho{background:var(--verm)}.Laranja{background:var(--lar)}
-.Amarelo{background:var(--ama)}.Verde{background:var(--verd)}
+/* Amarelo é faixa clara: texto escuro (branco ficaria em 2,9:1). */
+.Amarelo{background:var(--ama);color:var(--ink)}.Verde{background:var(--verd)}
 .legenda{display:flex;flex-wrap:wrap;gap:12px;padding:8px 14px;font-size:12px;color:var(--muted)}
 .legenda i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
-.nota{margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:52rem}
+.nota{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:52rem}
 .leaflet-popup-content{font-size:12.5px;line-height:1.55}
-.faixa-titulo{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;font-weight:600;
-margin:22px 0 8px;letter-spacing:-.02em;color:var(--ses);border-bottom:2px solid var(--ses);
-padding-bottom:6px}
-.faixa-titulo span{display:inline-block;font-family:"Source Sans 3",sans-serif;font-size:11px;
-font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--ses);
-padding:2px 8px;margin-right:8px;vertical-align:middle}
-.faixa-titulo .sub{display:block;font-family:"Source Sans 3",sans-serif;font-size:0.85rem;
-font-weight:400;color:var(--muted);margin-top:2px}
-details.bloco{background:var(--card);border:1px solid var(--line);margin-bottom:14px;padding:0}
-details.bloco>summary{cursor:pointer;padding:10px 14px;font-size:12px;text-transform:uppercase;
-letter-spacing:.05em;color:var(--muted);font-weight:600;background:#f7f9fb;list-style:none}
+.faixa-titulo{margin:18px 0 6px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.faixa-titulo .kicker{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;
+letter-spacing:.1em;color:var(--ses);margin-bottom:1px}
+.faixa-titulo .titulo{display:block;font-size:1.18rem;font-weight:700;letter-spacing:-.02em;
+color:var(--ink);line-height:1.2}
+.faixa-titulo .sub{display:block;font-size:0.82rem;font-weight:400;color:var(--muted);margin-top:1px}
+details.bloco{background:var(--card);border:1px solid var(--line);margin-bottom:10px;padding:0}
+details.bloco>summary{cursor:pointer;padding:9px 14px;font-size:11.5px;text-transform:uppercase;
+letter-spacing:.05em;color:var(--muted);font-weight:600;background:#fbfcfe;list-style:none}
 details.bloco>summary::-webkit-details-marker{display:none}
+details.bloco>summary:hover{background:var(--accent-claro)}
 details.bloco[open]>summary{border-bottom:1px solid var(--line)}
-.atalhos{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
-.atalhos a{color:var(--accent);font-weight:600;font-size:13px;text-decoration:none;
-padding:8px 12px;border:1px solid var(--line);background:var(--card)}
-.atalhos a:hover{background:#f3f8f5}
+.atalhos{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px}
+.atalhos a{color:var(--accent);font-weight:600;font-size:12.5px;text-decoration:none;
+padding:7px 11px;background:var(--accent-claro)}
+.atalhos a:hover{background:#dbe2f6}
 .tip-linha{display:grid;grid-template-columns:170px 1fr 92px;gap:10px;align-items:center;
-margin-bottom:6px;font-size:12.5px}
+margin-bottom:5px;font-size:12.5px}
 .tip-linha .rot{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tip-barra{position:relative;height:16px;background:#eef1f5;border:1px solid var(--line)}
+.tip-barra{position:relative;height:14px;background:#eff2f8}
 .tip-barra i{display:block;height:100%}
-.tip-barra b{position:absolute;top:-3px;bottom:-3px;width:3px;background:#15202b}
+.tip-barra b{position:absolute;top:-3px;bottom:-3px;width:3px;background:var(--ink)}
 .tip-linha .num{color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.dist{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 10px;font-size:12.5px;color:var(--muted)}
+.dist-item{display:inline-flex;align-items:center;gap:5px}
+.dist-item i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dist-item b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -566,16 +568,24 @@ margin-bottom:6px;font-size:12.5px}
 </header>
 <main>
   <!-- Faixa 1 — Agora -->
-  <div class="faixa-titulo"><span>Faixa 1</span>Agora
+  <div class="faixa-titulo"><span class="kicker">Faixa 1</span>
+    <span class="titulo">Agora</span>
     <span class="sub">Prontidão do recorte e tendência que manda na decisão</span></div>
   <div class="semaforo" id="semaforo"></div>
   <div class="kpis" id="kpis"></div>
+  <div class="dist" id="kpiFaixas"></div>
   <p class="kpi-help" id="kpiHelp"></p>
   <div class="proj-box" id="projSemana"></div>
-  <div class="frescor" id="frescor"></div>
+  <details class="bloco">
+    <summary id="frescorResumo">Frescor das fontes</summary>
+    <div style="padding:10px 14px"><div class="frescor" id="frescor"></div>
+      <p style="margin:8px 0 0;font-size:11.5px;color:var(--muted)">
+        Verde ≤24 h · laranja ≤72 h · vermelho acima disso ou ausente.</p></div>
+  </details>
 
   <!-- Faixa 2 — Pessoas e resposta -->
-  <div class="faixa-titulo"><span>Faixa 2</span>Pessoas e resposta
+  <div class="faixa-titulo"><span class="kicker">Faixa 2</span>
+    <span class="titulo">Pessoas e resposta</span>
     <span class="sub">Exposição sanitária e capacidade assistencial sob pressão</span></div>
   <div class="kpis" id="sanKpis"></div>
   <p id="sanNota" style="margin:0 0 8px;font-size:12px;color:var(--muted)"></p>
@@ -585,8 +595,9 @@ margin-bottom:6px;font-size:12.5px}
   </details>
 
   <!-- Faixa 3 — Onde olhar -->
-  <div class="faixa-titulo"><span>Faixa 3</span>Onde olhar
-    <span class="sub">Mapa, Top 15 e lista de vigília (quase atenção)</span></div>
+  <div class="faixa-titulo"><span class="kicker">Faixa 3</span>
+    <span class="titulo">Onde olhar</span>
+    <span class="sub">Mapa, Top 15, vigília (quase atenção) e tipologia</span></div>
   <div class="filtros">
     <div><label>Nível IDAP</label>
       <select id="fNivel"><option value="">Todos</option>
@@ -653,7 +664,8 @@ margin-bottom:6px;font-size:12.5px}
   </div>
 
   <!-- Faixa 4 — Fila e clima -->
-  <div class="faixa-titulo"><span>Faixa 4</span>Fila e clima
+  <div class="faixa-titulo"><span class="kicker">Faixa 4</span>
+    <span class="titulo">Fila e clima</span>
     <span class="sub">Detalhe operacional — abrir só quando precisar aprofundar</span></div>
   <details class="bloco">
     <summary>Pressão climática e regras (dimensões A–D + hidro)</summary>
@@ -765,6 +777,19 @@ const frescorEl = document.getElementById('frescor');
   frescorEl.appendChild(d);
 });
 
+(function resumoFrescor(){
+  const el = document.getElementById('frescorResumo');
+  if (!el) return;
+  const fontes = META.frescor || [];
+  const ausentes = fontes.filter(f => !f.existe).map(f => f.arquivo.replace('.csv',''));
+  const idades = fontes.filter(f => f.existe && f.idade_h != null).map(f => f.idade_h);
+  const pior = idades.length ? Math.max(...idades) : null;
+  const velhas = idades.filter(h => h > 24).length;
+  if (ausentes.length) el.textContent = `Fontes: ${ausentes.length} ausente(s) — ${ausentes.join(', ')}`;
+  else if (velhas) el.textContent = `Fontes: mais antiga com ${Math.round(pior)} h (${velhas} acima de 24 h)`;
+  else el.textContent = pior==null ? 'Frescor das fontes' : `Fontes atualizadas — mais antiga com ${Math.round(pior)} h`;
+})();
+
 function fmtDelta(d){
   if (d==null || d==='') return '';
   if (d===0) return '<div class="delta flat">→ 0 vs rodada anterior</div>';
@@ -780,23 +805,32 @@ const amareloMais = (META.risco && META.risco.amarelo_mais!=null)
   : ((META.niveis.Amarelo||0)+(META.niveis.Laranja||0)+(META.niveis.Vermelho||0)+(META.niveis.Roxo||0));
 
 const kpis = document.getElementById('kpis');
+// Faixa 1 só com o que decide; a distribuição por faixa vai numa linha compacta.
 [
   ['Barragens monitoradas', META.total, 'sev-neutro', null],
   ['Em atenção+', amareloMais, 'sev-atencao', TEND.amarelo_mais],
-  ['Só faixa amarela', META.niveis.Amarelo||0, 'sev-atencao', TEND.amarelo],
-  ['Laranja', META.niveis.Laranja||0, 'sev-elevado', null],
-  ['Vermelho', META.niveis.Vermelho||0, 'sev-alto', null],
-  ['Roxo', META.niveis.Roxo||0, 'sev-critico', null],
   ['Situação estável (verde)', META.niveis.Verde||0, 'sev-ok', TEND.verde],
   ['Eixo Manso–Cuiabá', META.piloto||0, 'sev-neutro', null],
   ['Com canal de alerta', META.alertaveis, 'sev-neutro', null],
-  ['Impacto fora da sede', META.extraterritoriais, 'sev-neutro', null],
 ].forEach(([rotulo, n, tom, delta]) => {
   const d = document.createElement('div');
   d.className = 'kpi ' + tom;
   d.innerHTML = `<div class="n">${n}</div><div class="r">${rotulo}</div>${fmtDelta(delta)}`;
   kpis.appendChild(d);
 });
+
+(function distribuicaoFaixas(){
+  const el = document.getElementById('kpiFaixas');
+  if (!el) return;
+  const itens = [
+    ['Amarelo', META.niveis.Amarelo||0],
+    ['Laranja', META.niveis.Laranja||0],
+    ['Vermelho', META.niveis.Vermelho||0],
+    ['Roxo', META.niveis.Roxo||0],
+  ].map(([nv, n]) => `<span class="dist-item"><i style="background:${CORES[nv]}"></i>${nv} <b>${n}</b></span>`);
+  itens.push(`<span class="dist-item"><i style="background:var(--ses)"></i>Impacto fora da sede <b>${META.extraterritoriais||0}</b></span>`);
+  el.innerHTML = itens.join('');
+})();
 
 document.getElementById('kpiHelp').innerHTML =
   `<b>Como ler:</b> <b>Em atenção+</b> = barragens fora do Verde (Amarelo+Laranja+Vermelho+Roxo).

@@ -41,12 +41,12 @@ from st_app.mapa_sim import html_mapa_simulacao
 from st_app.paginas_onda import (
     aplicar_navegacao_pendente,
     bloco_atalhos_comando,
+    bloco_frescor,
     bloco_quase_atencao,
     bloco_sanitario_compacto,
     bloco_sitrep_downloads,
     bloco_tipologia,
     faixa_titulo,
-    frescor_chips_html,
     pagina_alertabilidade_despacho,
     pagina_confirmacao_persistente,
     pagina_extraterritorial,
@@ -97,7 +97,8 @@ st.markdown(CSS, unsafe_allow_html=True)
 
 def _badge(nivel: str) -> str:
     cor = CORES_NIVEL.get(nivel, "#888")
-    return f'<span class="badge" style="background:{cor}">{nivel}</span>'
+    claro = " claro" if nivel == "Amarelo" else ""
+    return f'<span class="badge{claro}" style="background:{cor}">{nivel}</span>'
 
 
 def _semaforo(df: pd.DataFrame) -> str:
@@ -243,8 +244,8 @@ def pagina_comando(df: pd.DataFrame) -> None:
         f"**Prontidão:** {_badge(sem)} — {len(base_kpi)} barragens no recorte",
         unsafe_allow_html=True,
     )
+    # O total do recorte já está na linha de prontidão — aqui só o que decide.
     cards = [
-        card_kpi("Barragens no recorte", str(len(base_kpi)), sev="sev-neutro"),
         card_kpi(
             "Em atenção ou pior",
             str(amarelo_mais),
@@ -271,9 +272,26 @@ def pagina_comando(df: pd.DataFrame) -> None:
         ),
     ]
     st.markdown('<div class="grade-kpis">' + "".join(cards) + "</div>", unsafe_allow_html=True)
+
+    # Distribuição por faixa em uma linha (evita 4 cards para o mesmo recorte).
+    dist = [
+        f'<span class="dist-item"><i style="background:{CORES_NIVEL[n]}"></i>{n} '
+        f"<b>{int(cont.get(n, 0))}</b></span>"
+        for n in ("Amarelo", "Laranja", "Vermelho", "Roxo")
+    ]
+    if "n_municipios_extraterritoriais" in base_kpi.columns:
+        n_ext = int(
+            (pd.to_numeric(base_kpi["n_municipios_extraterritoriais"], errors="coerce").fillna(0) > 0).sum()
+        )
+        dist.append(
+            '<span class="dist-item"><i style="background:#1b3281"></i>'
+            f"Impacto fora da sede <b>{n_ext}</b></span>"
+        )
+    st.markdown('<div class="dist">' + "".join(dist) + "</div>", unsafe_allow_html=True)
+
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
-    st.markdown(frescor_chips_html(), unsafe_allow_html=True)
+    bloco_frescor()
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
 
     # —— Faixa 2: Pessoas e resposta ——
