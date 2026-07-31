@@ -83,6 +83,7 @@ JORNADAS: dict[str, list[str]] = {
         "Documentos (RAG leve)",
         "Inventário",
         "Confirmação (HTML)",
+        "Comando (HTML)",
     ],
 }
 
@@ -1040,6 +1041,13 @@ def main() -> None:
             "inventario.html",
             "Inventário de barragens",
             "Cadastro consolidado SNISB/SIGBM/SEMA — visão de fiscalização.",
+        )
+    elif pagina == "Comando (HTML)":
+        pagina_html_painel(
+            "comando.html",
+            "Comando estadual (HTML)",
+            "Gêmeo autocontido da 1ª tela (etapa 20) — serve para distribuir offline "
+            "sem depender de um segundo servidor.",
         )
     else:
         pagina_ficha(df)
