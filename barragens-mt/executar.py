@@ -101,6 +101,12 @@ ETAPAS = [
         "Escolas INEP/OSM no eixo (KPI C5)",
         False,
     ),
+    (
+        "41",
+        "41_mapbiomas_eixo.py",
+        "MapBiomas pressão urbana no eixo Manso–Cuiabá",
+        False,
+    ),
 ]
 
 

@@ -284,10 +284,10 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Aspecto | Conteúdo |
 | --- | --- |
 | O que fornece | Séries anuais de uso/cobertura (vegetação, agropecuária, área urbana, água) |
-| Acesso | `https://brasil.mapbiomas.org/` — coleções públicas, download por bioma/UF |
+| Acesso | Estatísticas públicas: `https://brasil.mapbiomas.org/estatisticas/`; módulo urbano Col. 10 (municípios) |
 | Uso pretendido | Pressão de ocupação na faixa de atenção a jusante; contexto de exposição (não entra no IDAP numérico nesta fase) |
 | Periodicidade | Anual |
-| Status no repositório | Catalogado; ETL ainda não implementado |
+| Status no repositório | Implementado no eixo: `scripts/41_mapbiomas_eixo.py` → `mapbiomas_pressao_eixo_cuiaba.csv` (área urbana 2024, crescimento 10 anos, urbana em drenagem ≤3 m) |
 
 ### 2.5.6 IBGE — setores censitários (Censo 2022)
 
@@ -315,7 +315,16 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
 | Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
 
-### 2.5.9 INEP — Censo Escolar (escolas na mancha, C5)
+### 2.5.9 Malha viária e desvio de rota (C7 / D7 proxy)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Arteriais e pontes OSM; km de rota sede→hub antes/depois do corte da mancha |
+| Acesso | OpenStreetMap / Overpass (já na Simulação); DNIT/Sinfra-MT ainda sem ETL oficial |
+| Uso pretendido | Isolamento e desvio de rota (roadmap 4.4); nível C7 proxy |
+| Implementado em | `st_app/vias_isolamento.py` — campos `desvios_rota`, `delta_km_medio_desvio`, `n_sedes_sem_rota` |
+
+### 2.5.10 INEP — Censo Escolar (escolas na mancha, C5)
 
 | Aspecto | Conteúdo |
 | --- | --- |

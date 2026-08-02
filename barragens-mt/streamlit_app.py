@@ -1041,6 +1041,25 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "C7 proxy",
             f"{iso.get('nivel_c7_proxy', 0)} · {iso.get('n_municipios_isolados', 0)} mun.",
         )
+        d1, d2, d3 = st.columns(3)
+        d1.metric("Sedes sem rota", iso.get("n_sedes_sem_rota", 0))
+        d2.metric("Sedes com desvio", iso.get("n_sedes_com_desvio", 0))
+        d3.metric(
+            "Desvio médio (km)",
+            f"{float(iso.get('delta_km_medio_desvio') or 0):.1f}".replace(".", ","),
+        )
+        st.caption(
+            "Desvio = menor caminho OSM sede→hub depois do corte − antes "
+            "(proxy C7/D7; não é tempo de viagem oficial)."
+        )
+        if iso.get("desvios_rota"):
+            with st.expander("Desvios de rota por município", expanded=False):
+                st.dataframe(
+                    pd.DataFrame(iso["desvios_rota"]),
+                    width="stretch",
+                    hide_index=True,
+                    height=240,
+                )
         geom_iso = iso.get("geom") or "circular"
         if iso.get("aviso"):
             st.warning(f"Malha viária / isolamento: {iso['aviso']}")
@@ -1180,6 +1199,34 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "C5 = escolas + captações Sisagua + pontes estruturantes OSM na geometria ativa. "
             "Não inclui ETA/ETE/energia/abrigos oficiais (ainda sem base espacial contínua)."
         )
+
+        from st_app.data import TRATADOS as _TR_MB
+
+        mb_path = _TR_MB / "mapbiomas_pressao_eixo_cuiaba.csv"
+        if mb_path.is_file():
+            mb = pd.read_csv(mb_path, sep=";")
+            st.markdown("##### Pressão de ocupação (MapBiomas — eixo)")
+            m1, m2, m3 = st.columns(3)
+            m1.metric(
+                "Área urbana 2024 (eixo)",
+                f"{mb['area_urbana_2024_ha'].sum():,.0f} ha".replace(",", "."),
+            )
+            m2.metric(
+                "Crescimento 10 anos",
+                f"{mb['delta_urbana_10a_ha'].sum():,.0f} ha".replace(",", "."),
+            )
+            m3.metric(
+                "Urbana em drenagem ≤3 m",
+                f"{mb['area_urbana_drenagem_ate_3m_2024_ha'].sum():,.0f} ha".replace(
+                    ",", "."
+                ),
+            )
+            st.caption(
+                "MapBiomas Col.10 módulo urbano — contexto de exposição municipal "
+                "(não é mancha HAND). Rode `python executar.py 41` para atualizar."
+            )
+            with st.expander("MapBiomas por município", expanded=False):
+                st.dataframe(mb, width="stretch", hide_index=True, height=280)
         if (
             iso.get("n_us_atingidas", 0) == 0
             and iso.get("n_vias_interrompidas", 0) == 0

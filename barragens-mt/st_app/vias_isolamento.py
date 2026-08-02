@@ -15,6 +15,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import heapq
 from collections import defaultdict, deque
 from pathlib import Path
 from typing import Any
@@ -433,6 +434,28 @@ def analisar_isolamento(
 
     hub_node = _snap(hub_la, hub_lo)
 
+    # Pesos em km para Dijkstra (desvio de rota)
+    peso_cheio: dict[tuple[int, int], float] = {}
+    peso_corte: dict[tuple[int, int], float] = {}
+    for a, vizinhos in viz_cheio.items():
+        for b in vizinhos:
+            if a >= b:
+                continue
+            la1, lo1 = nodes[a]
+            la2, lo2 = nodes[b]
+            w = haversine_km(la1, lo1, la2, lo2)
+            peso_cheio[(a, b)] = w
+            peso_cheio[(b, a)] = w
+    for a, vizinhos in viz_corte.items():
+        for b in vizinhos:
+            if a >= b:
+                continue
+            la1, lo1 = nodes[a]
+            la2, lo2 = nodes[b]
+            w = haversine_km(la1, lo1, la2, lo2)
+            peso_corte[(a, b)] = w
+            peso_corte[(b, a)] = w
+
     def _alcancaveis(grafo: dict[int, set[int]], origem: int) -> set[int]:
         vistos = {origem}
         fila: deque[int] = deque([origem])
@@ -443,6 +466,33 @@ def analisar_isolamento(
                     vistos.add(v)
                     fila.append(v)
         return vistos
+
+    def _dijkstra_km(
+        grafo: dict[int, set[int]],
+        pesos: dict[tuple[int, int], float],
+        origem: int,
+        destino: int,
+    ) -> float | None:
+        """Menor caminho em km; None se inalcançável."""
+        if origem == destino:
+            return 0.0
+        dist: dict[int, float] = {origem: 0.0}
+        heap: list[tuple[float, int]] = [(0.0, origem)]
+        while heap:
+            d_u, u = heapq.heappop(heap)
+            if u == destino:
+                return d_u
+            if d_u > dist.get(u, 1e18):
+                continue
+            for v in grafo.get(u, ()):
+                w = pesos.get((u, v))
+                if w is None:
+                    continue
+                nd = d_u + w
+                if nd < dist.get(v, 1e18):
+                    dist[v] = nd
+                    heapq.heappush(heap, (nd, v))
+        return None
 
     reach_cheio = _alcancaveis(viz_cheio, hub_node)
     reach_corte = _alcancaveis(viz_corte, hub_node)
@@ -510,6 +560,54 @@ def analisar_isolamento(
             )
             pessoas_isoladas += max(0, pop)
 
+    # Desvio de rota (km) sede→hub: antes vs depois do corte (roadmap 4.4 / C7–D7)
+    desvios_rota: list[dict[str, Any]] = []
+    for s in sedes or []:
+        try:
+            sla, slo = float(s["la"]), float(s["lo"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        mun = str(s.get("municipio") or "")
+        if not mun or mun.casefold() in hub_nome:
+            continue
+        if dentro(sla, slo):
+            continue
+        d = haversine_km(lat, lon, sla, slo)
+        if d > raio_busca * 1.25:
+            continue
+        nodo = _snap(sla, slo)
+        km_antes = _dijkstra_km(viz_cheio, peso_cheio, nodo, hub_node)
+        km_depois = _dijkstra_km(viz_corte, peso_corte, nodo, hub_node)
+        if km_antes is None:
+            continue
+        if km_depois is None:
+            status = "sem_rota"
+            delta = None
+        else:
+            delta = round(km_depois - km_antes, 2)
+            status = "desvio" if delta > 0.5 else "ok"
+        desvios_rota.append(
+            {
+                "municipio": mun,
+                "codigo_ibge": str(s.get("codigo_ibge") or ""),
+                "km_antes": round(km_antes, 2),
+                "km_depois": round(km_depois, 2) if km_depois is not None else None,
+                "delta_km": delta,
+                "status": status,
+                "populacao": int(float(s.get("populacao") or 0)),
+            }
+        )
+    desvios_rota.sort(
+        key=lambda r: (
+            0 if r["status"] == "sem_rota" else 1,
+            -(r["delta_km"] if r["delta_km"] is not None else 1e9),
+        )
+    )
+    n_sem_rota = sum(1 for r in desvios_rota if r["status"] == "sem_rota")
+    n_com_desvio = sum(1 for r in desvios_rota if r["status"] == "desvio")
+    deltas = [float(r["delta_km"]) for r in desvios_rota if r["delta_km"] is not None and r["delta_km"] > 0]
+    delta_km_medio = round(sum(deltas) / len(deltas), 2) if deltas else 0.0
+
     # Nível proxy alinhado à escala C7 (0–2)
     if n_pontes >= 1 or (n_arteriais >= 2 and (us_isoladas or municipios_isolados)):
         nivel = 2
@@ -552,6 +650,10 @@ def analisar_isolamento(
         "us_atingidas": us_atingidas,
         "us_isoladas": us_isoladas,
         "municipios_isolados": municipios_isolados,
+        "desvios_rota": desvios_rota[:40],
+        "n_sedes_sem_rota": n_sem_rota,
+        "n_sedes_com_desvio": n_com_desvio,
+        "delta_km_medio_desvio": delta_km_medio,
         "hub": {"la": hub_la, "lo": hub_lo, "nome": hub.get("nome") or "Hub"},
         "aviso": None,
         "n_ways_osm": len(ways),
@@ -580,6 +682,10 @@ def _vazio(motivo: str) -> dict[str, Any]:
         "us_atingidas": [],
         "us_isoladas": [],
         "municipios_isolados": [],
+        "desvios_rota": [],
+        "n_sedes_sem_rota": 0,
+        "n_sedes_com_desvio": 0,
+        "delta_km_medio_desvio": 0.0,
         "hub": HUB_REF,
         "aviso": motivo,
     }
