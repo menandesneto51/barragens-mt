@@ -69,6 +69,36 @@ BLOCOS = [
         "Baixa completude exige cautela na leitura do número — o IDAP projetado mostra o "
         "pior caso compatível com as lacunas.",
     ),
+    (
+        "PAE declarado (SNISB)",
+        "Contagem de barragens com possui_pae = Sim no inventário. Em MT a maior parte "
+        "está em lacuna cadastral (campo vazio ≠ “não possui”). Mancha ZAS oficial ainda "
+        "não ingerida — o proxy da simulação não substitui o PAE.",
+    ),
+    (
+        "Checklist PAE / PAEBM",
+        "Oito itens por barragem (PAE-01…08): PAE SNISB, plano de segurança, revisão "
+        "periódica, mancha ZAS, canal de alerta e campos SIGBM de PAEBM/cópias. "
+        "Status: ok / atenção / não / lacuna. CSV na Simulação e ficha 360°; ranking etapa 48.",
+    ),
+    (
+        "IPAPD proxy",
+        "Índice de Pressão Assistencial Pós-Desastre (proposta a validar). Combina O "
+        "(ocupação), A (atendimentos), P (profissionais), E (acesso), C (autonomia) e S "
+        "(serviços). Termos sem dado ficam lacuna — não entram como zero. "
+        "A/P/C vêm da ficha rápida JSON.",
+    ),
+    (
+        "SITREP de cenário",
+        "Markdown gerado na Simulação com exposição na mancha proxy, isolamento C7, "
+        "demanda, IPAPD e status PAE. Há também CSV dos mesmos KPIs para planilha/COE.",
+    ),
+    (
+        "HAND / relevo (simulação)",
+        "Height Above Nearest Drainage — lâmina proxy a partir de MDE. Prioriza áreas "
+        "baixas na mancha geométrica; não é estudo de dam break nem tempo de chegada "
+        "da onda do PAE.",
+    ),
 ]
 
 

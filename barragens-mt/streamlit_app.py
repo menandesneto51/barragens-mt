@@ -1537,6 +1537,14 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     ),
                     "",
                 ),
+                "pae_zas": next(
+                    (
+                        it["status"]
+                        for it in (chk_pae.get("itens") or [])
+                        if it.get("codigo") == "PAE-04"
+                    ),
+                    "",
+                ),
                 "pae_lacunas": chk_pae.get("n_lacunas", 0),
             }
             sitrep_cen = montar_sitrep_cenario_md(payload_cen)

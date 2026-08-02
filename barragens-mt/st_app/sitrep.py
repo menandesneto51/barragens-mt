@@ -116,7 +116,12 @@ def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
         f"- IPAPD proxy: **{cenario.get('ipapd', '—')}** ({cenario.get('ipapd_rotulo', '—')}; "
         f"completude {cenario.get('ipapd_completude', '—')})",
         "",
-        "## 4. Ressalvas",
+        "## 4. PAE / articulação",
+        f"- PAE SNISB (PAE-01): **{cenario.get('pae_status', '—')}**",
+        f"- Itens checklist lacuna/não: **{cenario.get('pae_lacunas', '—')}**",
+        f"- Mancha ZAS oficial: **{cenario.get('pae_zas', '—')}**",
+        "",
+        "## 5. Ressalvas",
         "- Proxy geométrico (círculo / trajeto / HAND) — **não** é mancha PAE nem dam break.",
         "- IPAPD e demanda usam parâmetros a validar; lacunas não são preenchidas com zero.",
         "",
