@@ -1,0 +1,5 @@
+﻿agravo;municipio;janela;observado;esperado;limite_superior;razao_oe;excesso;metodo;classificacao;parametros_json
+leptospirose;exemplo;7 dias;12.0;1.8;4.0;6.667;8.0;linha_base_historica_documentada;sinal epidemiológico crítico;"{""fonte"": ""docs/05-vigipos-barragens.md §5.6.4"", ""excesso_sobre_limite"": 8}"
+animais_peconhentos;Cuiabá;2026-30;12.0;12.0;12.0;1.0;0.0;sem_historico;dentro do esperado;"{""n"": 1}"
+leptospirose;Cuiabá;2026-30;4.0;4.0;4.0;1.0;0.0;sem_historico;dentro do esperado;"{""n"": 1}"
+leptospirose;Várzea Grande;2026-30;1.0;1.0;1.0;1.0;0.0;sem_historico;dentro do esperado;"{""n"": 1}"

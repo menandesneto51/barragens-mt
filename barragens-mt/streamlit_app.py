@@ -58,6 +58,7 @@ from st_app.paginas_onda import (
     pagina_notificacoes_impactos,
     pagina_rag_docs,
     pagina_regiao_saude,
+    pagina_vigipos_oe,
     pagina_visao_territorial,
     pagina_vulneraveis,
     tendencia_unificada,
@@ -75,11 +76,13 @@ JORNADAS: dict[str, list[str]] = {
     "Situação": [
         "Comando estadual",
         "Simulação de cenário",
+        "VIGIPÓS O/E",
         "Hidro municipal",
         "Eixo Manso–Cuiabá",
     ],
     "Ação": [
         "Simulação de cenário",
+        "VIGIPÓS O/E",
         "Notificações e impactos",
         "Alertabilidade / despacho",
         "Fila de alertas",
@@ -2323,6 +2326,8 @@ def main() -> None:
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
     elif pagina == "Eixo Manso–Cuiabá":
         pagina_piloto(carregar_piloto())
+    elif pagina == "VIGIPÓS O/E":
+        pagina_vigipos_oe()
     elif pagina in (TELA_SIMULACAO, "Simulação volume/área"):
         pagina_simulacao(df)
     elif pagina == "Mapa por tipologia":

@@ -372,6 +372,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | PAE | `possui_pae` do inventário SNISB → `pae_manchas_cobertura.csv` (etapa `47`); mancha ZAS oficial continua pendente |
 | Checklist PAE | `st_app/pae_checklist.py` — SNISB + cobertura 47 + SIGBM (PAEBM/cópias) por barragem; CSV na Simulação e na ficha 360°; ranking estadual etapa `48` → `pae_checklist_lacunas.csv` |
 | IDAP C4/C5/C7 | Proxies do eixo Manso–Cuiabá (etapa `49` → `idap_proxies_eixo.csv`) consumidos por `16_idap_estadual.py`; buffer geométrico — não é mancha PAE |
+| VIGIPÓS O/E | Canal endêmico + razão O/E (`st_app/vigipos.py`, etapa `50`); reproduz §5.6.4; tela Streamlit «VIGIPÓS O/E»; série sintética até haver SINAN/DW |
 | IPAPD | Proxy na Simulação (`st_app/ipapd.py`): O (ocupação IndicaSUS), E (isolamento), S (essenciais na mancha); A/P/C lacuna até ficha rápida |
 | IRS | Proxy de recuperação (`st_app/irs.py`, §5.5.7): média das dimensões disponíveis (1 = recuperado); ficha + sinais da mancha |
 | Limite | IPAPD/IRS renormalizam pelos termos disponíveis — não preenchem lacuna com zero |

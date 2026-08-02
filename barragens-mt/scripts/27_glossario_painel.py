@@ -96,6 +96,12 @@ BLOCOS = [
         "Critério proposto de encerramento: IRS ≥ 0,90 por 4 semanas.",
     ),
     (
+        "VIGIPÓS O/E",
+        "Razão observado/esperado e canal endêmico (§5.6). Exemplo normativo: leptospirose "
+        "12 vs 1,8 (limite 4) → O/E 6,7, sinal crítico. A IA explica o sinal; não o produz. "
+        "Tela Streamlit «VIGIPÓS O/E»; etapa 50.",
+    ),
+    (
         "SITREP de cenário",
         "Markdown gerado na Simulação com exposição na mancha proxy, isolamento C7, "
         "demanda, IPAPD e status PAE. Há também CSV dos mesmos KPIs para planilha/COE.",

@@ -155,6 +155,12 @@ ETAPAS = [
         "Proxies IDAP C4/C5/C7 no eixo Manso–Cuiabá",
         False,
     ),
+    (
+        "50",
+        "50_vigipos_linha_base.py",
+        "VIGIPÓS — linha de base e O/E (canal endêmico)",
+        False,
+    ),
 ]
 
 

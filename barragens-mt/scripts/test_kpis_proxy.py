@@ -24,6 +24,7 @@ from st_app.ipapd import calcular_ipapd_proxy  # noqa: E402
 from st_app.irs import calcular_irs_proxy  # noqa: E402
 from st_app.pae_checklist import montar_checklist_pae  # noqa: E402
 from st_app.sitrep import montar_sitrep_cenario_md  # noqa: E402
+from st_app.vigipos import exemplo_leptospirose_564  # noqa: E402
 
 
 class TestDemanda(unittest.TestCase):
@@ -165,6 +166,17 @@ class TestIrs(unittest.TestCase):
         self.assertIsNotNone(r["termos"]["aps"])
         self.assertIsNotNone(r["termos"]["equipes"])
         self.assertIsNotNone(r["termos"]["abrigos"])
+
+
+class TestVigipos(unittest.TestCase):
+    def test_exemplo_564(self) -> None:
+        s = exemplo_leptospirose_564()
+        self.assertEqual(s.observado, 12)
+        self.assertAlmostEqual(s.esperado, 1.8)
+        self.assertEqual(s.limite_superior, 4)
+        self.assertAlmostEqual(s.razao_oe, 6.7, places=1)
+        self.assertEqual(s.excesso, 8)
+        self.assertIn("crítico", s.classificacao)
 
 
 if __name__ == "__main__":

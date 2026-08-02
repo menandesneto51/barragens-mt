@@ -57,6 +57,69 @@ def faixa_titulo(numero: str, titulo: str, subtitulo: str) -> None:
     )
 
 
+def pagina_vigipos_oe() -> None:
+    """Tela VIGIPÓS — O/E e canal endêmico (§5.6)."""
+    import json as _json
+
+    from st_app.vigipos import exemplo_leptospirose_564
+
+    st.markdown("# VIGIPÓS — observado / esperado")
+    st.markdown(
+        '<p class="nota">Detecção de excesso por canal endêmico (média + k·dp). '
+        "A IA pode explicar o sinal; <strong>não</strong> o produz. "
+        "Método e parâmetros ficam registrados (§5.6).</p>",
+        unsafe_allow_html=True,
+    )
+    tratados = Path(__file__).resolve().parents[1] / "dados" / "tratados"
+    status_p = tratados / "vigipos_status.json"
+    sinais_p = tratados / "vigipos_sinais.csv"
+    base_p = tratados / "vigipos_linha_base.csv"
+
+    if status_p.is_file():
+        st_json = _json.loads(status_p.read_text(encoding="utf-8"))
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Sinais", str(st_json.get("n_sinais") or "—"))
+        c2.metric(
+            "Exemplo §5.6.4",
+            "OK" if st_json.get("exemplo_564_ok") else "falhou",
+        )
+        c3.metric("Fonte", str(st_json.get("fonte") or "—")[:40])
+        st.caption(st_json.get("nota") or "")
+    else:
+        st.warning(
+            "Rode `python scripts/50_vigipos_linha_base.py` para gerar a linha de base."
+        )
+
+    ex = exemplo_leptospirose_564()
+    with st.expander("Exemplo normativo leptospirose (§5.6.4)", expanded=True):
+        e1, e2, e3, e4 = st.columns(4)
+        e1.metric("Observado", f"{ex.observado:g}")
+        e2.metric("Esperado", f"{ex.esperado:g}".replace(".", ","))
+        e3.metric("Limite superior", f"{ex.limite_superior:g}")
+        e4.metric("O/E", f"{ex.razao_oe:.1f}".replace(".", ","))
+        st.info(f"Classificação: **{ex.classificacao}** · excesso {ex.excesso:g}")
+
+    if sinais_p.is_file():
+        st.markdown("##### Sinais avaliados")
+        df_s = pd.read_csv(sinais_p, sep=";")
+        st.dataframe(df_s, width="stretch", hide_index=True, height=280)
+        st.download_button(
+            "Baixar sinais (CSV)",
+            data=sinais_p.read_text(encoding="utf-8-sig"),
+            file_name="vigipos_sinais.csv",
+            mime="text/csv",
+            key="vigipos_sinais_dl",
+        )
+    if base_p.is_file():
+        with st.expander("Linha de base", expanded=False):
+            st.dataframe(
+                pd.read_csv(base_p, sep=";"),
+                width="stretch",
+                hide_index=True,
+                height=260,
+            )
+
+
 _FONTES_FRESCOR = (
     "idap_estadual_mt.csv",
     "hidro_barragens_mt.csv",
