@@ -40,11 +40,34 @@ ordem de evacuação. Qualquer payload para a Defesa Civil deve carregar essa re
 
 - Script: `scripts/29_despacho_alertas.py` (Telegram primeiro, SMTP depois).
 - Dry-run por padrão; envio real só com variáveis `VIGI_TELEGRAM_*` / `VIGI_SMTP_*`.
+- Credenciais locais: `dados/tratados/despacho_secrets.env` (modelo `.example`, não versionado)
+  ou Streamlit secrets `[vigi]`.
 
-## 13.5 Parceria (checklist)
+## 13.5 Destinatários de e-mail
+
+| Papel no CSV | Quem deveria receber | Status atual no repositório |
+| --- | --- | --- |
+| `cievs` | CIEVS / SES-MT (plantão) | Sem e-mail — preencher |
+| `gestor_municipal_saude` | SMS do município sede/afetado | Sem e-mail — telefone exercício |
+| `vigilancia_saude` | Vigilância municipal | Sem e-mail — telefone exercício |
+| `defesa_civil_municipal` | Coordenação DC municipal | Sem e-mail — telefone exercício |
+| `samu` / `hospital_referencia` / `vigiagua` / `concessionaria_agua` | Rede de resposta | Esqueleto — validar |
+
+Fluxo operacional:
+
+1. Baixar `dados/tratados/contatos_emails_modelo.csv` na tela **Alertabilidade / despacho**.
+2. SES-MT / SMS preenche coluna `email` com endereços institucionais validados.
+3. Importar o CSV (UI ou `python executar.py 36`) — grava em `contatos_institucionais_piloto.csv`.
+4. Rodar `python executar.py 19 16 18` para propagar flag alertável / D8.
+5. Configurar SMTP/Telegram e fazer dry-run → envio em exercício.
+
+Registros de impacto (aba **Notificações e impactos**) geram texto em `alertas/piloto/notif_*.txt`
+e entram na mesma fila de despacho.
+
+## 13.6 Parceria (checklist)
 
 1. Definir ponto focal DC estadual e municipal do eixo.
-2. Validar contatos em `contatos_institucionais_piloto.csv`.
+2. Validar contatos em `contatos_institucionais_piloto.csv` (telefone **e** e-mail).
 3. Acordar se o receptor é e-mail institucional, grupo Telegram ou sistema próprio.
 4. Testar payload em ambiente de exercício (sem público).
 5. Documentar que evacuação permanece exclusividade da Defesa Civil.

@@ -417,6 +417,21 @@ def agregar_municipios(
 
         if not nome:
             nome = snap.get("municipio") or hidro_m.get("municipio") or al.get("municipio") or ""
+        if not nome:
+            # Open-Meteo frequentemente só traz código IBGE — completa via malha IBGE.
+            nomes_ibge = getattr(agregar_municipios, "_nomes_ibge", None)
+            if nomes_ibge is None:
+                nomes_ibge = {}
+                ibge_path = comum.DADOS_TRATADOS / "ibge_municipios_mt.csv"
+                if ibge_path.exists():
+                    with ibge_path.open(encoding="utf-8-sig", newline="") as f_ib:
+                        for row_ib in csv.DictReader(f_ib, delimiter=";"):
+                            c_ib = ibge7(row_ib.get("codigo_ibge"))
+                            m_ib = (row_ib.get("municipio") or "").strip()
+                            if c_ib and m_ib:
+                                nomes_ibge[c_ib] = m_ib
+                agregar_municipios._nomes_ibge = nomes_ibge  # type: ignore[attr-defined]
+            nome = nomes_ibge.get(cod, "")
 
         gf = glofas.get(cod, {})
 

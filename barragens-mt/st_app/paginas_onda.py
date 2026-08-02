@@ -829,7 +829,8 @@ def pagina_alertabilidade_despacho() -> None:
     st.markdown("# Alertabilidade e despacho")
     st.markdown(
         '<p class="nota">Onda 2 — cobertura de contatos do eixo e despacho (Telegram/e-mail). '
-        "Envio real só com credenciais de ambiente.</p>",
+        "Destinatários = e-mails validados em `contatos_institucionais_piloto.csv`. "
+        "Envio real só com credenciais SMTP/Telegram.</p>",
         unsafe_allow_html=True,
     )
     m = metricas_alertabilidade()
@@ -840,6 +841,90 @@ def pagina_alertabilidade_despacho() -> None:
     c4.metric("Contatos com telefone", m["contatos_com_fone"])
     if m.get("regioes"):
         st.caption("Regiões de saúde no cadastro de contatos: " + ", ".join(m["regioes"]))
+
+    ct = carregar_contatos()
+    if not ct.empty:
+        st.subheader("Matriz de destinatários (e-mail)")
+        st.caption(
+            "Papéis previstos: gestor municipal, vigilância, Defesa Civil, CIEVS, SAMU, "
+            "hospital, Vigiagua, concessionária. Preencha e-mails institucionais da SES/SMS — "
+            "hoje o cadastro ainda está em exercício técnico (telefones CNES, sem e-mail)."
+        )
+        cols_m = [
+            c
+            for c in (
+                "municipio",
+                "papel_rotulo",
+                "papel",
+                "nome",
+                "email",
+                "telefone",
+                "data_validacao",
+                "fonte",
+            )
+            if c in ct.columns
+        ]
+        st.dataframe(
+            ct[cols_m].sort_values(["municipio", "papel"] if "papel" in cols_m else cols_m[:1]),
+            width="stretch",
+            hide_index=True,
+            height=280,
+        )
+        emails_ok = sorted(
+            {
+                str(e).strip()
+                for e in ct.get("email", pd.Series(dtype=str)).fillna("").tolist()
+                if "@" in str(e)
+            }
+        )
+        if emails_ok:
+            st.success(f"{len(emails_ok)} e-mail(s) pronto(s) para despacho: {', '.join(emails_ok[:12])}")
+        else:
+            st.warning(
+                "Nenhum e-mail cadastrado. Preencha o modelo "
+                "`dados/tratados/contatos_emails_modelo.csv` e importe abaixo, "
+                "ou valide contato a contato."
+            )
+
+    st.subheader("Importar e-mails (modelo SES)")
+    modelo_path = TRATADOS / "contatos_emails_modelo.csv"
+    if modelo_path.exists():
+        st.download_button(
+            "Baixar modelo CSV",
+            data=modelo_path.read_text(encoding="utf-8-sig"),
+            file_name="contatos_emails_modelo.csv",
+            mime="text/csv",
+        )
+    up = st.file_uploader("Enviar CSV preenchido (municipio;papel;email;…)", type=["csv"])
+    if up is not None and st.button("Aplicar importação de e-mails"):
+        import importlib.util
+        import sys
+        import tempfile
+
+        raiz = Path(__file__).resolve().parent.parent
+        if str(raiz) not in sys.path:
+            sys.path.insert(0, str(raiz))
+        spec = importlib.util.spec_from_file_location(
+            "imp36", raiz / "scripts" / "36_contatos_importar_emails.py"
+        )
+        if spec and spec.loader:
+            mod36 = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod36)
+            with tempfile.NamedTemporaryFile(
+                mode="wb", suffix=".csv", delete=False
+            ) as tmp:
+                tmp.write(up.getvalue())
+                tmp_path = Path(tmp.name)
+            try:
+                stats = mod36.aplicar(tmp_path, dry_run=False)
+                st.success(
+                    f"E-mails aplicados: {stats['emails_aplicados']} · "
+                    f"ignorados: {stats['linhas_ignoradas']}. "
+                    "Rode `python executar.py 19 16 18` para propagar alertável/D8."
+                )
+                st.cache_data.clear()
+            finally:
+                tmp_path.unlink(missing_ok=True)
 
     al = carregar_alertabilidade()
     if not al.empty:
@@ -855,7 +940,7 @@ def pagina_alertabilidade_despacho() -> None:
             mun_v = st.selectbox("Município", mun_opt)
             papel_v = st.selectbox("Papel", papel_opt)
             tel_v = st.text_input("Telefone / celular")
-            email_v = st.text_input("E-mail")
+            email_v = st.text_input("E-mail institucional")
             nome_v = st.text_input("Nome do responsável")
             ok_v = st.form_submit_button("Gravar validação (hoje)")
         if ok_v:
@@ -876,6 +961,7 @@ def pagina_alertabilidade_despacho() -> None:
                     f"Contato {papel_v} em {mun_v} validado. "
                     "Rode `python executar.py 19 16 18` para propagar alertável/D8."
                 )
+                st.cache_data.clear()
             else:
                 st.warning("Linha não encontrada no CSV de contatos.")
 
@@ -897,10 +983,13 @@ def pagina_alertabilidade_despacho() -> None:
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         st_cred = mod.credenciais_status()
+        n_em = len(mod.emails_piloto()) if hasattr(mod, "emails_piloto") else 0
         st.caption(
             f"Credenciais: Telegram={'ok' if st_cred['telegram'] else 'ausente'} · "
-            f"SMTP={'ok' if st_cred['smtp'] else 'ausente'} "
-            "(secrets `[vigi]` no Cloud ou `despacho_secrets.env`)."
+            f"SMTP={'ok' if st_cred['smtp'] else 'ausente'} · "
+            f"destinatários e-mail={n_em}. "
+            "Configure `dados/tratados/despacho_secrets.env` "
+            "(veja `.example`) ou secrets `[vigi]` no Cloud."
         )
     if fila_dir.exists():
         textos = sorted(fila_dir.glob("*.txt"))
@@ -910,8 +999,11 @@ def pagina_alertabilidade_despacho() -> None:
             n = mod.despachar(dry_run=True)
             st.success(f"Dry-run: {n} registros em {log_path.name}")
         if b2.button("Enviar agora (requer credenciais)") and mod:
-            n = mod.despachar(dry_run=False)
-            st.warning(f"Tentativa de envio: {n} registros no log — confira status.")
+            if not mod.emails_piloto() and not mod.credenciais_status().get("telegram"):
+                st.error("Sem e-mails cadastrados e sem Telegram — nada a enviar.")
+            else:
+                n = mod.despachar(dry_run=False)
+                st.warning(f"Tentativa de envio: {n} registros no log — confira status.")
     else:
         st.info("Pasta alertas/piloto ausente — rode a etapa 18.")
 
@@ -1238,10 +1330,39 @@ def pagina_notificacoes_impactos(df_barragens: pd.DataFrame) -> None:
             encoding="utf-8-sig",
         )
         st.success(f"Registrado em `dados/tratados/notificacoes/{arq.name}`.")
-        st.info(
-            "Para despachar por e-mail/Telegram use **Alertabilidade / despacho** "
-            "(requer e-mails validados no cadastro e credenciais SMTP)."
+        # Gera texto territorializado na fila para despacho
+        fila = Path(__file__).resolve().parent.parent / "alertas" / "piloto"
+        fila.mkdir(parents=True, exist_ok=True)
+        stamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+        nome_arq = f"notif_{tipo}_{bid}_{stamp}.txt"
+        texto = (
+            f"ALERTA-NOTIF-{stamp}-{bid}\n"
+            f"Sistema: VIGIBARRAGENS-MT\n"
+            f"Tipo: {tipo} · Magnitude: {magnitude}\n"
+            f"Barragem: {r.get('nome')} (SNISB {bid})\n"
+            f"Sede: {sede or '—'} · Nível IDAP: {r.get('nivel')} ({r.get('idap')})\n"
+            f"CRI/DPA: {r.get('categoria_risco') or '—'} / {r.get('dano_potencial_associado') or '—'}\n"
+            f"Municípios afetados (Otto): {afetados_txt or '—'}\n"
+            f"Pop. estimada (sistema): {int(est.get('populacao_estimada') or 0)}\n"
+            f"Pop. informada: {pop_informada}\n"
+            f"US no raio (sistema): {n_us} · informadas: {us_afetadas_inf}\n"
+            f"Comunidades vulneráveis no raio: {n_vuln}\n"
+            f"Desalojados/desabrigados: {desalojados}/{desabrigados}\n"
+            f"Informante: {informante} · canal: {canal}\n"
+            f"Data ref.: {data_ref}\n"
+            f"Descrição: {obs or '—'}\n"
+            "\n"
+            "RESSALVA: prontidão sanitária / registro operacional. "
+            "NÃO é ordem de evacuação. Evacuação é exclusividade da Defesa Civil.\n"
         )
+        (fila / nome_arq).write_text(texto, encoding="utf-8")
+        st.info(
+            f"Texto gerado na fila: `alertas/piloto/{nome_arq}`. "
+            "Abra **Alertabilidade / despacho** para dry-run ou envio "
+            "(requer e-mails validados + SMTP/Telegram)."
+        )
+        if st.button("Ir para Alertabilidade / despacho"):
+            ir_para("Ação", "Alertabilidade / despacho")
     elif gravar:
         st.warning("Informe o nome do informante para gravar.")
 

@@ -71,6 +71,12 @@ ETAPAS = [
         "MDE/HAND piloto Manso–Cuiabá (OpenTopoData/SRTM)",
         False,
     ),
+    (
+        "36",
+        "36_contatos_importar_emails.py",
+        "Importar e-mails validados para contatos do eixo",
+        False,
+    ),
 ]
 
 

@@ -1,0 +1,11 @@
+municipio;codigo_ibge;papel;email;nome;telefone;observacao
+Cuiabá;5103403;cievs;;;CIEVS estadual — preencher e-mail institucional SES-MT;
+Cuiabá;5103403;gestor_municipal_saude;;;Gestor SMS Cuiabá;
+Cuiabá;5103403;vigilancia_saude;;;Vigilância em Saúde Cuiabá;
+Cuiabá;5103403;defesa_civil_municipal;;;Defesa Civil Cuiabá;
+Várzea Grande;5108402;gestor_municipal_saude;;;Gestor SMS Várzea Grande;
+Várzea Grande;5108402;vigilancia_saude;;;Vigilância VG;
+Nobres;5105903;defesa_civil_municipal;;;Defesa Civil Nobres (sede Manso);
+Chapada dos Guimarães;5103007;vigilancia_saude;;;Vigilância Chapada;
+Rosário Oeste;5107701;gestor_municipal_saude;;;Gestor SMS Rosário Oeste;
+Nossa Senhora do Livramento;5106109;gestor_municipal_saude;;;Gestor SMS Livramento;
