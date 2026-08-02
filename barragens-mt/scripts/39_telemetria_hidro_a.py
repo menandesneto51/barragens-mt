@@ -192,9 +192,14 @@ def carregar_estacoes_inmet() -> list[dict[str, Any]]:
     if not isinstance(raw, list):
         return []
     out: list[dict[str, Any]] = []
+    n_pane = 0
     for e in raw:
         uf = (e.get("SG_ESTADO") or e.get("UF") or "").upper()
         if uf and uf != "MT":
+            continue
+        sit = (e.get("CD_SITUACAO") or "").strip().casefold()
+        if sit == "pane":
+            n_pane += 1
             continue
         la = _num(e.get("VL_LATITUDE") or e.get("latitude"))
         lo = _num(e.get("VL_LONGITUDE") or e.get("longitude"))
@@ -207,9 +212,10 @@ def carregar_estacoes_inmet() -> list[dict[str, Any]]:
                 "nome": e.get("DC_NOME") or e.get("nome") or cod,
                 "lat": la,
                 "lon": lo,
+                "situacao": e.get("CD_SITUACAO") or "",
             }
         )
-    print(f"  INMET estações MT: {len(out)}")
+    print(f"  INMET estações MT operantes: {len(out)} (ignoradas em pane: {n_pane})")
     return out
 
 

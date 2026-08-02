@@ -1,8 +1,8 @@
 """Captações de água no eixo Manso–Cuiabá (Sisagua aberto + fallback OSM).
 
-Tenta obter pontos do portal aberto Sisagua/dados.gov; se indisponível,
-consulta OpenStreetMap (waterway=intake, man_made=water_works, landuse=reservoir
-com nome de ETA/captação) no bbox do eixo.
+1. Baixa o cadastro oficial de pontos de captação (Dados Abertos SUS / S3).
+2. Filtra municípios do eixo Manso–Cuiabá com lat/lon.
+3. Se o zip oficial falhar, usa OpenStreetMap (intake / water_works) no bbox.
 
 Saídas:
   dados/tratados/sisagua_captacoes_eixo.csv
@@ -16,11 +16,13 @@ Uso:
 from __future__ import annotations
 
 import csv
+import io
 import json
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -32,15 +34,15 @@ BRUTOS = comum.DADOS_BRUTOS / "sisagua"
 INTERESSE = comum.DADOS_TRATADOS / "cuiaba_municipios_de_interesse.json"
 EIXO_GEO = comum.DADOS_TRATADOS / "eixo_hidrografico_manso_cuiaba.geojson"
 
+ZIP_OFICIAL = BRUTOS / "cadastro_pontos_captacao_csv.zip"
+URL_CSV_ZIP = (
+    "https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SISAGUA/"
+    "cadastro_pontos_captacao_csv.zip"
+)
+
 OVERPASS_URLS = (
     "https://overpass-api.de/api/interpreter",
     "https://lz4.overpass-api.de/api/interpreter",
-)
-
-# Tentativas de datasets abertos (podem 403/timeout neste ambiente).
-URLS_SISAGUA = (
-    "https://dados.gov.br/api/3/action/package_search?q=sisagua+captacao",
-    "https://sisagua.saude.gov.br/sisagua/dados_abertos/",
 )
 
 UA = "VIGIBARRAGENS-MT/1.0 (SES-MT; captacoes eixo Manso-Cuiaba)"
@@ -68,6 +70,13 @@ def municipios_eixo() -> dict[str, str]:
         if cod and nome:
             out[cod] = nome
     return out
+
+
+def _ibge6(cod: str) -> str:
+    d = "".join(ch for ch in str(cod) if ch.isdigit())
+    if len(d) >= 6:
+        return d[:6]
+    return d
 
 
 def bbox_eixo() -> tuple[float, float, float, float]:
@@ -99,86 +108,110 @@ def bbox_eixo() -> tuple[float, float, float, float]:
                 )
         except (OSError, json.JSONDecodeError, TypeError, ValueError):
             pass
-    # Fallback aproximado Manso → Leverger
     return (-16.15, -56.55, -15.20, -55.55)
 
 
-def tentar_sisagua_aberto() -> list[dict[str, Any]]:
-    """Placeholder de ingestão oficial — grava bruto se algum endpoint responder."""
+def garantir_zip_oficial() -> Path | None:
     BRUTOS.mkdir(parents=True, exist_ok=True)
+    if ZIP_OFICIAL.exists() and ZIP_OFICIAL.stat().st_size > 1_000_000:
+        print(f"  reusando {ZIP_OFICIAL.name} ({ZIP_OFICIAL.stat().st_size // 1_000_000} MB)")
+        return ZIP_OFICIAL
+    print(f"  baixando cadastro oficial Sisagua…", flush=True)
+    try:
+        req = urllib.request.Request(URL_CSV_ZIP, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=180) as resp, ZIP_OFICIAL.open("wb") as out:
+            while True:
+                chunk = resp.read(1024 * 256)
+                if not chunk:
+                    break
+                out.write(chunk)
+        print(f"  gravado {ZIP_OFICIAL.relative_to(comum.RAIZ)}")
+        return ZIP_OFICIAL
+    except Exception as exc:  # noqa: BLE001
+        print(f"  falha download Sisagua oficial: {exc}")
+        if ZIP_OFICIAL.exists():
+            ZIP_OFICIAL.unlink(missing_ok=True)
+        return None
+
+
+def captacoes_sisagua_oficial() -> list[dict[str, Any]]:
+    """Lê o CSV nacional em streaming e filtra o eixo."""
+    zpath = garantir_zip_oficial()
+    if zpath is None:
+        return []
+
     munis = municipios_eixo()
-    nomes = {n.casefold() for n in munis.values()}
-    coletados: list[dict[str, Any]] = []
+    if not munis:
+        print("  aviso: municípios do eixo ausentes")
+        return []
+    ibge6_para_7 = {_ibge6(c): c for c in munis}
+    nomes = {n.casefold(): c for c, n in munis.items()}
 
-    for url in URLS_SISAGUA:
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=25) as resp:
-                raw = resp.read()
-            destino = BRUTOS / ("probe_" + urllib.parse.quote(url, safe="")[-40:] + ".bin")
-            destino.write_bytes(raw[:500_000])
-            # CKAN package_search
-            if b"result" in raw[:200] or raw[:1] == b"{":
+    out: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+    n_lidos = 0
+
+    with zipfile.ZipFile(zpath) as zf:
+        nomes_zip = zf.namelist()
+        csv_nome = next((n for n in nomes_zip if n.lower().endswith(".csv")), None)
+        if not csv_nome:
+            print("  zip sem CSV")
+            return []
+        with zf.open(csv_nome) as raw:
+            # Arquivo nacional vem em Latin-1/CP1252 (não UTF-8).
+            text = io.TextIOWrapper(raw, encoding="latin-1", newline="")
+            reader = csv.DictReader(text, delimiter=";")
+            for row in reader:
+                n_lidos += 1
+                uf = (row.get("SG_UF") or "").strip().upper()
+                if uf and uf != "MT":
+                    continue
+                cod6 = _ibge6(row.get("CO_MUNICIPIO_IBGE") or "")
+                mun_nome = (row.get("NO_MUNICIPIO") or "").strip()
+                cod7 = ibge6_para_7.get(cod6) or nomes.get(mun_nome.casefold())
+                if not cod7:
+                    continue
+                lat_s = (row.get("NU_LATITUDE") or "").strip().replace(",", ".")
+                lon_s = (row.get("NU_LONGITUDE") or "").strip().replace(",", ".")
                 try:
-                    data = json.loads(raw.decode("utf-8", errors="replace"))
-                    packs = ((data.get("result") or {}).get("results")) or []
-                    for p in packs[:5]:
-                        for res in p.get("resources") or []:
-                            rurl = res.get("url") or ""
-                            if not rurl or not any(
-                                rurl.lower().endswith(ext) for ext in (".csv", ".xlsx", ".json")
-                            ):
-                                continue
-                            print(f"  Sisagua recurso encontrado (não baixado em lote): {rurl}")
-                except json.JSONDecodeError:
-                    pass
-            print(f"  aviso: portal Sisagua respondeu em {url[:60]}… sem parser de pontos")
-        except Exception as exc:  # noqa: BLE001
-            print(f"  Sisagua aberto indisponível ({url[:50]}…): {exc}")
-        time.sleep(0.5)
+                    la, lo = float(lat_s), float(lon_s)
+                except ValueError:
+                    continue
+                if not (-18.5 <= la <= -7.0 and -62.0 <= lo <= -50.0):
+                    continue
+                tipo = (row.get("TP_CAPTACAO") or "").strip().lower() or "nao_informado"
+                nome = (
+                    (row.get("NO_PONTO_CAPTACAO") or "").strip()
+                    or (row.get("NO_ETA") or "").strip()
+                    or (row.get("NO_SOLUCAO_ABASTECIMENTO") or "").strip()
+                    or (row.get("NO_MANANCIAL") or "").strip()
+                    or "Captação Sisagua"
+                )
+                ano = (row.get("NU_ANO") or "").strip()
+                key = (cod7, f"{la:.5f}", f"{lo:.5f}")
+                if key in seen:
+                    continue
+                seen.add(key)
+                out.append(
+                    {
+                        "municipio": munis[cod7],
+                        "codigo_ibge": cod7,
+                        "tipo_captacao": tipo,
+                        "nome_sistema": nome,
+                        "latitude": f"{la:.6f}",
+                        "longitude": f"{lo:.6f}",
+                        "fonte": "SISAGUA",
+                        "observacao": (
+                            f"cadastro pontos de captação Dados Abertos SUS"
+                            + (f" · ano {ano}" if ano else "")
+                        ),
+                    }
+                )
+                if n_lidos % 200_000 == 0:
+                    print(f"  … lidos {n_lidos:,} · eixo {len(out)}", flush=True)
 
-    # CSV local em brutos com lat/lon (export manual Sisagua/SES).
-    for path in sorted(BRUTOS.glob("*.csv")):
-        try:
-            sample = path.read_text(encoding="utf-8-sig", errors="replace")[:4096]
-            delim = ";" if sample.count(";") >= sample.count(",") else ","
-            with path.open(encoding="utf-8-sig", newline="") as f:
-                for row in csv.DictReader(f, delimiter=delim):
-                    mun = (row.get("municipio") or row.get("Municipio") or "").strip()
-                    if nomes and mun.casefold() not in nomes:
-                        continue
-                    try:
-                        la = float(
-                            str(row.get("latitude") or row.get("Latitude") or "").replace(
-                                ",", "."
-                            )
-                        )
-                        lo = float(
-                            str(row.get("longitude") or row.get("Longitude") or "").replace(
-                                ",", "."
-                            )
-                        )
-                    except ValueError:
-                        continue
-                    coletados.append(
-                        {
-                            "municipio": mun,
-                            "codigo_ibge": row.get("codigo_ibge") or row.get("ibge") or "",
-                            "tipo_captacao": row.get("tipo_captacao")
-                            or row.get("tipo")
-                            or "superficial",
-                            "nome_sistema": row.get("nome_sistema")
-                            or row.get("nome")
-                            or path.stem,
-                            "latitude": f"{la:.6f}",
-                            "longitude": f"{lo:.6f}",
-                            "fonte": "SISAGUA",
-                            "observacao": f"importado de {path.name}",
-                        }
-                    )
-        except OSError:
-            continue
-    return coletados
+    print(f"  Sisagua oficial: {len(out)} pontos no eixo (de {n_lidos:,} linhas)")
+    return out
 
 
 def _post_overpass(q: str) -> dict[str, Any] | None:
@@ -188,7 +221,10 @@ def _post_overpass(q: str) -> dict[str, Any] | None:
             req = urllib.request.Request(
                 url,
                 data=data,
-                headers={"User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded"},
+                headers={
+                    "User-Agent": UA,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
                 method="POST",
             )
             with urllib.request.urlopen(req, timeout=90) as resp:
@@ -206,8 +242,6 @@ def captacoes_osm() -> list[dict[str, Any]]:
 (
   node["waterway"="intake"]({south},{west},{north},{east});
   node["man_made"="water_works"]({south},{west},{north},{east});
-  node["man_made"="water_tower"]({south},{west},{north},{east});
-  node["pipeline"="intake"]({south},{west},{north},{east});
   way["man_made"="water_works"]({south},{west},{north},{east});
   way["waterway"="intake"]({south},{west},{north},{east});
 );
@@ -219,9 +253,7 @@ out center tags;
         return []
 
     munis = municipios_eixo()
-    # mapa reverso nome→ibge aproximado não geocodificado; deixa código vazio
     nome_por_ibge = {v: k for k, v in munis.items()}
-
     out: list[dict[str, Any]] = []
     seen: set[tuple[float, float]] = set()
     for el in raw.get("elements") or []:
@@ -242,7 +274,7 @@ out center tags;
             or tags.get("ref")
             or f"OSM {el.get('type')}/{el.get('id')}"
         )
-        tipo = tags.get("waterway") or tags.get("man_made") or tags.get("pipeline") or "captacao"
+        tipo = tags.get("waterway") or tags.get("man_made") or "captacao"
         mun = tags.get("addr:city") or tags.get("is_in:city") or ""
         cod = nome_por_ibge.get(mun, "")
         out.append(
@@ -254,7 +286,7 @@ out center tags;
                 "latitude": f"{la:.6f}",
                 "longitude": f"{lo:.6f}",
                 "fonte": "OSM",
-                "observacao": "Fallback espacial — substituir por export Sisagua oficial quando disponível",
+                "observacao": "Fallback espacial — preferir cadastro Sisagua oficial",
             }
         )
     return out
@@ -262,14 +294,13 @@ out center tags;
 
 def main() -> None:
     comum.preparar_diretorios()
-    print("Coletando captações (Sisagua aberto → OSM)…", flush=True)
-    regs = tentar_sisagua_aberto()
+    print("Coletando captações (Sisagua oficial → OSM)…", flush=True)
+    regs = captacoes_sisagua_oficial()
     fonte_principal = "SISAGUA"
     if not regs:
         regs = captacoes_osm()
         fonte_principal = "OSM"
     if not regs:
-        # Mantém esqueleto utilizável
         regs = [
             {
                 "municipio": "Cuiabá",
@@ -294,9 +325,10 @@ def main() -> None:
                 f"- Registros: **{len(regs)}** ({n_coord} com coordenada)",
                 f"- Fonte principal desta execução: **{fonte_principal}**",
                 f"- Arquivo: `{SAIDA.relative_to(comum.RAIZ)}`",
+                f"- Origem oficial: `{URL_CSV_ZIP}`",
                 "",
                 "KPI C4 na Simulação: contagem de pontos com lat/lon dentro da mancha proxy.",
-                "Preferência: planilha oficial Sisagua/Vigiagua SES; OSM é proxy espacial.",
+                "OSM só entra se o cadastro Sisagua falhar.",
                 "",
             ]
         ),
