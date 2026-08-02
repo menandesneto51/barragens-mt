@@ -372,6 +372,8 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | PAE | `possui_pae` do inventário SNISB → `pae_manchas_cobertura.csv` (etapa `47`); mancha ZAS oficial continua pendente |
 | IPAPD | Proxy na Simulação (`st_app/ipapd.py`): O (ocupação IndicaSUS), E (isolamento), S (essenciais na mancha); A/P/C lacuna até ficha rápida |
 | Limite | IPAPD renormaliza pelos termos disponíveis — não preenche lacuna com zero |
+| Ficha rápida | JSON em `dados/tratados/fichas_rapidas/` ou upload na Simulação → termos A/P/C |
+| SITREP cenário | Download Markdown na Simulação (`st_app/sitrep.py` · `montar_sitrep_cenario_md`) |
 
 ---
 

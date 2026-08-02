@@ -8,8 +8,6 @@ from typing import Any
 
 import pandas as pd
 
-from st_app.indicadores import indicadores_sanitarios, tendencia_idap_48h
-
 
 def montar_sitrep_md(
     df: pd.DataFrame,
@@ -18,6 +16,9 @@ def montar_sitrep_md(
     proj: dict[str, Any] | None = None,
     tend_clima: str | None = None,
 ) -> str:
+    # Import lazy: evita exigir streamlit ao importar apenas montar_sitrep_cenario_md.
+    from st_app.indicadores import indicadores_sanitarios, tendencia_idap_48h
+
     san = indicadores_sanitarios(df)
     hist = tendencia_idap_48h()
     agora = dt.datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -75,6 +76,49 @@ def montar_sitrep_md(
         "",
         "---",
         "_Proxy geométrico e estimativas rotuladas — não substitui mancha PAE nem ordem de evacuação._",
+        "",
+    ]
+    return "\n".join(linhas)
+
+
+def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
+    """SITREP de um cenário de simulação (mancha ativa + KPIs)."""
+    agora = dt.datetime.now().strftime("%d/%m/%Y %H:%M")
+    nome = cenario.get("barragem") or "—"
+    mun = cenario.get("municipio") or "—"
+    geom = cenario.get("geometria") or "—"
+    linhas = [
+        "# SITREP de cenário — VIGIBARRAGENS–MT",
+        f"**Gerado em:** {agora}",
+        f"**Barragem:** {nome}",
+        f"**Município-sede:** {mun}",
+        f"**Geometria ativa:** {geom}",
+        "",
+        "## 1. Exposição",
+        f"- População exposta (setores/proxy): **{cenario.get('pop_exposta', '—')}**",
+        f"- Setores na mancha: **{cenario.get('n_setores', '—')}**",
+        f"- Captações na mancha: **{cenario.get('n_captacoes', '—')}**",
+        f"- Escolas na mancha: **{cenario.get('n_escolas', '—')}**",
+        f"- Ativos essenciais (ETA/ETE/energia/abrigos): **{cenario.get('n_ativos', '—')}**",
+        "",
+        "## 2. Isolamento (C7 proxy)",
+        f"- US na mancha / isoladas: **{cenario.get('n_us_atingidas', 0)}** / "
+        f"**{cenario.get('n_us_isoladas', 0)}**",
+        f"- Vias / pontes: **{cenario.get('n_vias', 0)}** / **{cenario.get('n_pontes', 0)}**",
+        f"- Pessoas isoladas (proxy): **{cenario.get('pessoas_isoladas', 0)}**",
+        f"- Nível C7: **{cenario.get('nivel_c7', '—')}**",
+        "",
+        "## 3. Capacidade e demanda",
+        f"- Pressão estrutural CNES: **{cenario.get('pressao_estrutural', '—')}**",
+        f"- Leitos disponíveis (IndicaSUS): **{cenario.get('leitos_disponiveis', '—')}**",
+        f"- Demanda internação (2%): **{cenario.get('demanda_internacao', '—')}**",
+        f"- Água L/dia (15 L/p): **{cenario.get('demanda_agua', '—')}**",
+        f"- IPAPD proxy: **{cenario.get('ipapd', '—')}** ({cenario.get('ipapd_rotulo', '—')}; "
+        f"completude {cenario.get('ipapd_completude', '—')})",
+        "",
+        "## 4. Ressalvas",
+        "- Proxy geométrico (círculo / trajeto / HAND) — **não** é mancha PAE nem dam break.",
+        "- IPAPD e demanda usam parâmetros a validar; lacunas não são preenchidas com zero.",
         "",
     ]
     return "\n".join(linhas)

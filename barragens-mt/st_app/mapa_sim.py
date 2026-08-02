@@ -30,6 +30,8 @@ def html_mapa_simulacao(
     hand_limiar_m: float | None = None,
     mostrar_hand: bool = False,
     vulneraveis: list[dict[str, Any]] | None = None,
+    escolas: list[dict[str, Any]] | None = None,
+    ativos: list[dict[str, Any]] | None = None,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
@@ -41,6 +43,8 @@ def html_mapa_simulacao(
     if len(hand_poly) > 900:
         hand_poly = hand_poly[:900]
     vulns = list(vulneraveis or [])[:400]
+    esc = list(escolas or [])[:200]
+    atv = list(ativos or [])[:200]
     payload = {
         "la": lat,
         "lo": lon,
@@ -57,6 +61,8 @@ def html_mapa_simulacao(
         "usIso": us_isoladas or [],
         "munIso": municipios_isolados or iso.get("municipios_isolados") or [],
         "vuln": vulns,
+        "escolas": esc,
+        "ativos": atv,
         "isoN": iso.get("nivel_c7_proxy"),
         "isoR": iso.get("rotulo_c7") or "",
         "isoP": iso.get("n_pontes_comprometidas"),
@@ -113,6 +119,8 @@ def html_mapa_simulacao(
     <div>● US isolada (sem rota)</div>
     <div>● Aldeia / TI / quilombo / assentamento</div>
     <div>■ Sede mun. isolada (pop.)</div>
+    <div>● Escola (C5)</div>
+    <div>● Ativo essencial (ETA/ETE/energia/abrigo)</div>
   </div>
   <div id="mapa"></div>
 </div>
@@ -131,12 +139,14 @@ mapa.createPane('hand'); mapa.getPane('hand').style.zIndex=355;
 mapa.getPane('hand').style.pointerEvents='none';
 mapa.createPane('us'); mapa.getPane('us').style.zIndex=450;
 mapa.createPane('vuln'); mapa.getPane('vuln').style.zIndex=440;
+mapa.createPane('c5'); mapa.getPane('c5').style.zIndex=435;
 mapa.createPane('barragem'); mapa.getPane('barragem').style.zIndex=460;
 const camadaV = L.layerGroup().addTo(mapa);
 const camadaM = L.layerGroup().addTo(mapa);
 const camadaT = L.layerGroup().addTo(mapa);
 const camadaH = L.layerGroup().addTo(mapa);
 const camadaVuln = L.layerGroup().addTo(mapa);
+const camadaC5 = L.layerGroup().addTo(mapa);
 const camadaU = L.layerGroup().addTo(mapa);
 const camadaB = L.layerGroup().addTo(mapa);
 const camadaI = L.layerGroup().addTo(mapa);
@@ -293,7 +303,7 @@ function desenhar(fPct){{
     trLinha + handLinha + '<br>' + isoLinha;
 
   camadaM.clearLayers(); camadaT.clearLayers(); camadaH.clearLayers();
-  camadaVuln.clearLayers();
+  camadaVuln.clearLayers(); camadaC5.clearLayers();
   camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
 
   let bounds = null;
@@ -373,6 +383,27 @@ function desenhar(fPct){{
       (p.fam!=null ? `<br>Famílias: ${{p.fam}}` : '') +
       (p.dist!=null ? `<br>${{Number(p.dist).toFixed(1)}} km` : '')
     ).addTo(camadaVuln);
+  }}
+
+  for (const p of (S.escolas||[])) {{
+    if (p.la==null || p.lo==null) continue;
+    L.circleMarker([p.la,p.lo], {{
+      pane:'c5', radius:5, color:'#fff', weight:1,
+      fillColor:'#ca8a04', fillOpacity:0.9
+    }}).bindPopup(`<b>Escola</b><br>${{p.no||''}}<br>${{p.mu||''}}`).addTo(camadaC5);
+  }}
+  const corAt = {{
+    eta_agua:'#0284c7', ete_esgoto:'#0f766e', subestacao_energia:'#b45309',
+    abrigo:'#7c3aed', base_ambulancia:'#dc2626'
+  }};
+  for (const p of (S.ativos||[])) {{
+    if (p.la==null || p.lo==null) continue;
+    L.circleMarker([p.la,p.lo], {{
+      pane:'c5', radius:5, color:'#fff', weight:1,
+      fillColor: corAt[p.cat] || '#64748b', fillOpacity:0.92
+    }}).bindPopup(
+      `<b>${{p.rotulo||p.cat||'Ativo'}}</b><br>${{p.no||''}}<br>${{p.mu||''}}`
+    ).addTo(camadaC5);
   }}
 
   // US reais atingidas (CNES na mancha do cenário — servidor).

@@ -1366,7 +1366,13 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     e6.metric("Razão leitos/demanda", "—")
                 st.caption(dem.get("nota") or "")
 
+            from st_app.ficha_rapida import (
+                carregar_ficha,
+                listar_fichas,
+                termos_ipapd_da_ficha,
+            )
             from st_app.ipapd import calcular_ipapd_proxy
+            from st_app.sitrep import montar_sitrep_cenario_md
 
             # S usa o mesmo universo no numerador/denominador (escolas+captações+ativos)
             n_ess_mancha = n_esc_c5 + n_cap_c5 + n_ativos_c5
@@ -1379,6 +1385,33 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 n_ess_eixo += int(ativos_kpi.get("n_total") or 0)
             if n_ess_eixo < n_ess_mancha:
                 n_ess_eixo = n_ess_mancha
+
+            ficha_termos: dict = {}
+            with st.expander("Ficha rápida → IPAPD (A/P/C)", expanded=False):
+                st.caption(
+                    "Exporte o JSON em `painel/ficha_rapida.html` para "
+                    "`dados/tratados/fichas_rapidas/` ou envie abaixo."
+                )
+                up = st.file_uploader(
+                    "JSON da ficha rápida",
+                    type=["json"],
+                    key="ficha_ipapd_up",
+                )
+                ficha_data = None
+                if up is not None:
+                    import json as _json_f
+
+                    try:
+                        ficha_data = _json_f.loads(up.getvalue().decode("utf-8"))
+                        ficha_data["_arquivo"] = up.name
+                    except Exception as exc:  # noqa: BLE001
+                        st.warning(f"JSON inválido: {exc}")
+                elif listar_fichas():
+                    ficha_data = carregar_ficha()
+                    if ficha_data:
+                        st.caption(f"Usando `{ficha_data.get('_arquivo')}`")
+                ficha_termos = termos_ipapd_da_ficha(ficha_data)
+
             ipapd = calcular_ipapd_proxy(
                 taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
                 if cap_assist.get("leitos_ok")
@@ -1389,6 +1422,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 pop_exposta=pop_demanda,
                 n_servicos_essenciais_mancha=n_ess_mancha,
                 n_servicos_essenciais_eixo=n_ess_eixo,
+                ficha_termos=ficha_termos or None,
             )
             if ipapd.get("ok"):
                 st.markdown("##### IPAPD proxy (pressão assistencial)")
@@ -1432,6 +1466,49 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                         height=240,
                     )
                 st.caption(ipapd.get("fonte") or "")
+
+            sitrep_cen = montar_sitrep_cenario_md(
+                {
+                    "barragem": str(r.get("nome") or ""),
+                    "municipio": str(r.get("municipio") or ""),
+                    "geometria": geom_iso,
+                    "pop_exposta": int(pop_demanda or 0),
+                    "n_setores": set_kpi.get("n_setores_expostos")
+                    if set_kpi.get("disponivel")
+                    else "—",
+                    "n_captacoes": n_cap_c5,
+                    "n_escolas": n_esc_c5,
+                    "n_ativos": n_ativos_c5,
+                    "n_us_atingidas": iso.get("n_us_atingidas", 0),
+                    "n_us_isoladas": iso.get("n_us_isoladas", 0),
+                    "n_vias": iso.get("n_vias_interrompidas", 0),
+                    "n_pontes": iso.get("n_pontes_comprometidas", 0),
+                    "pessoas_isoladas": iso.get("pessoas_isoladas_proxy", 0),
+                    "nivel_c7": iso.get("rotulo_c7") or iso.get("nivel_c7_proxy") or "—",
+                    "pressao_estrutural": cap_assist.get("pressao_estrutural"),
+                    "leitos_disponiveis": cap_assist.get("leitos_disponiveis_mancha")
+                    if cap_assist.get("leitos_ok")
+                    else "—",
+                    "demanda_internacao": dem.get("demanda_internacao")
+                    if dem.get("ok")
+                    else "—",
+                    "demanda_agua": dem.get("demanda_agua_L_dia") if dem.get("ok") else "—",
+                    "ipapd": ipapd.get("ipapd") if ipapd.get("ok") else "—",
+                    "ipapd_rotulo": ipapd.get("rotulo") if ipapd.get("ok") else "—",
+                    "ipapd_completude": (
+                        f"{100*float(ipapd.get('completude') or 0):.0f}%"
+                        if ipapd.get("ok")
+                        else "—"
+                    ),
+                }
+            )
+            st.download_button(
+                "Baixar SITREP do cenário (Markdown)",
+                data=sitrep_cen.encode("utf-8"),
+                file_name=f"sitrep_cenario_{(r.get('id_snisb') or 'barragem')}.md",
+                mime="text/markdown",
+                key="sitrep_cenario_md",
+            )
             if cap_assist.get("itens_mancha"):
                 with st.expander("US na mancha (tipologia + leitos)", expanded=False):
                     st.dataframe(
@@ -1567,6 +1644,28 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 )
             st.metric("Comunidades vulneráveis na mancha", len(vul_mapa))
 
+        escolas_mapa = [
+            {
+                "la": it["lat"],
+                "lo": it["lon"],
+                "no": it.get("nome") or "Escola",
+                "mu": it.get("municipio") or "",
+            }
+            for it in (esc_kpi.get("itens") or [])
+            if esc_kpi.get("disponivel") and it.get("lat") is not None
+        ]
+        ativos_mapa = [
+            {
+                "la": it["lat"],
+                "lo": it["lon"],
+                "no": it.get("nome") or "",
+                "mu": it.get("municipio") or "",
+                "cat": it.get("categoria") or "",
+                "rotulo": it.get("rotulo") or "",
+            }
+            for it in (ativos_kpi.get("itens") or [])
+            if ativos_kpi.get("disponivel") and it.get("lat") is not None
+        ]
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
@@ -1590,6 +1689,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             hand_limiar_m=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
             mostrar_hand=bool(usar_hand and hand_info.get("ok")),
             vulneraveis=vul_mapa,
+            escolas=escolas_mapa,
+            ativos=ativos_mapa,
             altura=560,
             autoplay=False,
         )

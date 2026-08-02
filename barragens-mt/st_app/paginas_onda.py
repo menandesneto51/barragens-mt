@@ -237,6 +237,27 @@ def bloco_sanitario_compacto(df: pd.DataFrame) -> None:
             sev="sev-atencao" if san["extraterritorial_ativo"] else "sev-ok",
         ),
     ]
+    # PAE (SNISB) — cobertura estadual da etapa 47
+    try:
+        from pathlib import Path
+        import json as _json
+
+        st_pae = Path(__file__).resolve().parents[1] / "dados" / "tratados" / "pae_cobertura_status.json"
+        if st_pae.is_file():
+            pj = _json.loads(st_pae.read_text(encoding="utf-8"))
+            n_sim = int(pj.get("tem_pae_sim") or 0)
+            n_tot = int(pj.get("n_barragens") or 0)
+            pct = (100.0 * n_sim / n_tot) if n_tot else 0.0
+            extras.append(
+                card_kpi(
+                    "PAE declarado (SNISB)",
+                    f"{n_sim}/{n_tot} ({pct:.0f}%)",
+                    sev="sev-atencao" if pct < 30 else ("sev-ok" if pct >= 50 else "sev-atencao"),
+                    nota="Mancha ZAS oficial ainda não ingerida — etapa 47",
+                )
+            )
+    except (OSError, ValueError, TypeError):
+        pass
     with st.expander("Cadastro e tipológico (detalhe)", expanded=False):
         st.markdown('<div class="grade-kpis">' + "".join(extras) + "</div>", unsafe_allow_html=True)
 

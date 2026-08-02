@@ -1,7 +1,7 @@
 """IPAPD proxy — Índice de Pressão Assistencial Pós-Desastre (§5.5.5).
 
-Usa sinais já disponíveis na Simulação. Termos sem dado ficam como lacuna
-(não entram como zero falso). Escala e pesos: proposta a validar.
+Usa sinais da Simulação e, quando houver, ficha rápida exportada.
+Termos sem dado ficam lacuna (não entram como zero falso).
 """
 
 from __future__ import annotations
@@ -42,14 +42,8 @@ def calcular_ipapd_proxy(
     pop_exposta: float | int | None = None,
     n_servicos_essenciais_mancha: int = 0,
     n_servicos_essenciais_eixo: int = 0,
+    ficha_termos: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """
-    Termos preenchíveis sem ficha rápida / DW completo:
-      O — taxa ocupação IndicaSUS (se houver)
-      E — US isoladas / (atingidas+isoladas) ou pessoas isoladas / pop exposta
-      S — ativos essenciais na mancha / total no eixo (proxy de interrupção territorial)
-    A, P, C — lacuna até ficha rápida / escala / autonomia.
-    """
     termos: dict[str, float | None] = {
         "O": None,
         "A": None,
@@ -59,6 +53,7 @@ def calcular_ipapd_proxy(
         "S": None,
     }
     detalhe: dict[str, str] = {}
+    ft = ficha_termos or {}
 
     if taxa_ocupacao_pct is not None:
         try:
@@ -70,9 +65,33 @@ def calcular_ipapd_proxy(
     else:
         detalhe["O"] = "lacuna — sem IndicaSUS"
 
-    detalhe["A"] = "lacuna — requer linha de base de atendimentos"
-    detalhe["P"] = "lacuna — requer escala/ficha rápida"
-    detalhe["C"] = "lacuna — requer autonomia energia/água/oxigênio"
+    # A — aumento de atendimentos (ficha)
+    obs = ft.get("atendimentos_observados")
+    esp = ft.get("atendimentos_esperados")
+    if obs is not None and esp and float(esp) > 0:
+        termos["A"] = round(_limitar((float(obs) / float(esp) - 1.0) / 1.0), 3)
+        detalhe["A"] = (
+            f"ficha: {obs:.0f} obs / {esp:.0f} esp "
+            f"({ft.get('fonte_ficha')})"
+        )
+    else:
+        detalhe["A"] = "lacuna — importe ficha rápida (atendimentos) ou linha de base"
+
+    # P — profissionais (ficha)
+    frac_p = ft.get("fracao_profissionais_presentes")
+    if frac_p is not None:
+        termos["P"] = round(_limitar(1.0 - float(frac_p)), 3)
+        detalhe["P"] = f"ficha: {100*float(frac_p):.0f}% da escala presente"
+    else:
+        detalhe["P"] = "lacuna — ficha rápida (prof_disp / prof_escala)"
+
+    # C — autonomia crítica (ficha)
+    aut_h = ft.get("autonomia_min_horas")
+    if aut_h is not None:
+        termos["C"] = round(_limitar(1.0 - (float(aut_h) / 72.0)), 3)
+        detalhe["C"] = f"ficha: menor autonomia {float(aut_h):.1f} h"
+    else:
+        detalhe["C"] = "lacuna — ficha rápida (aut_energia/água/O₂)"
 
     # E — perda de acesso
     den_us = n_us_atingidas + n_us_isoladas
@@ -84,17 +103,22 @@ def calcular_ipapd_proxy(
             pop = float(pop_exposta)
             if pop > 0:
                 termos["E"] = round(_limitar(pessoas_isoladas / pop), 3)
-                detalhe["E"] = f"{pessoas_isoladas} pessoas isoladas / {int(pop)} expostas"
+                detalhe["E"] = f"{pessoas_isoladas} isoladas / {int(pop)} expostas"
         except (TypeError, ValueError):
             detalhe["E"] = "lacuna"
     else:
-        detalhe["E"] = "lacuna — sem isolamento detectado ou sem pop. de referência"
-        if den_us > 0 or (pop_exposta and float(pop_exposta) > 0):
+        if den_us > 0 or (pop_exposta and float(pop_exposta or 0) > 0):
             termos["E"] = 0.0
             detalhe["E"] = "sem US/pessoas isoladas na geometria ativa"
+        else:
+            detalhe["E"] = "lacuna — sem isolamento detectado"
 
-    # S — interrupção territorial de serviços essenciais (proxy)
-    if n_servicos_essenciais_eixo > 0:
+    # S — serviços
+    frac_us = ft.get("fracao_us_interrompidas")
+    if frac_us is not None:
+        termos["S"] = round(_limitar(float(frac_us)), 3)
+        detalhe["S"] = f"ficha: {100*float(frac_us):.0f}% US fechadas/danificadas"
+    elif n_servicos_essenciais_eixo > 0:
         termos["S"] = round(
             _limitar(n_servicos_essenciais_mancha / n_servicos_essenciais_eixo), 3
         )
@@ -103,7 +127,7 @@ def calcular_ipapd_proxy(
             f"{n_servicos_essenciais_eixo} no eixo"
         )
     else:
-        detalhe["S"] = "lacuna — sem base de ativos essenciais"
+        detalhe["S"] = "lacuna — sem ativos essenciais / ficha"
 
     presentes = {k: v for k, v in termos.items() if v is not None}
     if not presentes:
@@ -120,7 +144,6 @@ def calcular_ipapd_proxy(
 
     peso_ok = sum(PESOS[k] for k in presentes)
     soma = sum(PESOS[k] * float(presentes[k]) for k in presentes)
-    # renormaliza pelos pesos disponíveis (não pune com zero falso)
     ipapd = round(soma / peso_ok, 3) if peso_ok > 0 else None
     completude = round(peso_ok / sum(PESOS.values()), 3)
 

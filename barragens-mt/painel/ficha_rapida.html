@@ -320,7 +320,7 @@ document.getElementById('btnExport').addEventListener('click', () => {
   a.download = `ficha_rapida_${id}_${Date.now()}.json`;
   a.click();
   URL.revokeObjectURL(a.href);
-  status.textContent = 'JSON exportado. Guarde o arquivo na pasta do simulado.';
+  status.textContent = 'JSON exportado. Salve em dados/tratados/fichas_rapidas/ para o IPAPD na Simulação.';
 });
 
 document.getElementById('btnLimpar').addEventListener('click', () => {
