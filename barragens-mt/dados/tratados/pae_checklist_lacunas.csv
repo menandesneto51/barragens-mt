@@ -1165,8 +1165,6 @@
 31383;SÃO RAFAEL;Poconé;3;0;2;3;5;lacuna;lacuna
 27628;TARUMÃ II;Poconé;3;0;2;3;5;lacuna;lacuna
 27898;VCS;Poconé;3;0;2;3;5;lacuna;lacuna
-574;Barragem de Rejeito 01;Nossa Senhora do Livramento;3;1;1;3;4;ok;lacuna
-35082;Barragem de Rejeito 01;Nossa Senhora do Livramento;3;1;1;3;4;ok;lacuna
 21951;Barragem de Mineração-CPM;Poconé;4;0;2;2;4;nao;lacuna
 8002;BACIA DE REJEITOS BOM JARDIM;Poconé;4;1;1;2;3;ok;lacuna
 8003;BACIA DE REJEITOS SÃO BENTO;Poconé;4;1;1;2;3;ok;lacuna
@@ -1196,6 +1194,8 @@
 26140;TUPA 3;Poconé;4;1;1;2;3;ok;lacuna
 34787;Tupa 1;Poconé;4;1;1;2;3;ok;lacuna
 26138;Barragem Serrinha;Cuiabá;5;0;1;2;3;ok;lacuna
+574;Barragem de Rejeito 01;Nossa Senhora do Livramento;5;0;1;2;3;ok;lacuna
+35082;Barragem de Rejeito 01;Nossa Senhora do Livramento;5;0;1;2;3;ok;lacuna
 21943;Elvo Captação;Pontes e Lacerda;5;0;1;2;3;ok;lacuna
 27619;MD-01;Nova Lacerda;5;0;1;2;3;ok;lacuna
 20335;Alain II;Poconé;5;1;0;2;2;ok;lacuna

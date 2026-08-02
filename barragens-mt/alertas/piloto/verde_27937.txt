@@ -1,23 +1,22 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-27937
+Identificador do alerta : ALERTA-20260802-1810-27937
 Barragem                : BRAVO 1 (código 27937)
 Município da estrutura  : Várzea Grande — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : NAGELLA CHRISSIE BRAVO SERRA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 02/08/2026 18:10 (horário de Cuiabá, UTC-4)
+IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 28,30)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 24,50)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C1] População residente na Zona de Autossalvamento: 37 habitantes — até 49 residentes (1 de 5 pontos)
@@ -25,7 +24,7 @@ Versão dos pesos        : 0.1.0-metodologica
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 5/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)

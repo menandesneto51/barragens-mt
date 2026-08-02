@@ -1,7 +1,7 @@
 # Piloto operacional — eixo Manso–Cuiabá
 
 Ciclo: **dado (SisClima/TITAN) → IDAP → alerta → ficha (esqueleto)**.
-Emissão: 30/07/2026 15:04 (horário de Cuiabá).
+Emissão: 02/08/2026 18:10 (horário de Cuiabá).
 Seção de controle: `896573`.
 Região de saúde do piloto: **Baixada Cuiabana**.
 
@@ -15,48 +15,48 @@ Região de saúde do piloto: **Baixada Cuiabana**.
 | Roxo | 0 |
 | Vermelho | 0 |
 | Laranja | 0 |
-| Amarelo | 52 |
-| Verde | 53 |
+| Amarelo | 49 |
+| Verde | 56 |
 
 ## Complexo UHE Manso
 
 | IDAP | Nível | A | Nome | Municípios afetados |
 | ---: | --- | ---: | --- | --- |
-| 16 | Amarelo | 4 | UHE Manso - Barragem de Terra do Leito do Rio | Chapada dos Guimarães | Cuiabá | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 2 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 3 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 4 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 5 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 6 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 16 | Amarelo | 4 | UHE Manso - Dique 7 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
-| 15 | Amarelo | 4 | UHE Manso - Barragem da Margem Direita | Chapada dos Guimarães | Cuiabá | Várzea Grande |
-| 15 | Amarelo | 4 | UHE Manso - Barragem da Margem Esquerda | Chapada dos Guimarães | Cuiabá | Várzea Grande |
-| 14 | Verde | 1 | UHE Manso - Dique 1 | Juara | Nobres | Novo Horizonte do Norte | Porto dos Gaúchos | São José do Rio Claro |
+| 15 | Amarelo | 3 | UHE Manso - Barragem de Terra do Leito do Rio | Chapada dos Guimarães | Cuiabá | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 2 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 3 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 4 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 5 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 6 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 15 | Amarelo | 3 | UHE Manso - Dique 7 | Cuiabá | Jangada | Nossa Senhora do Livramento | Rosário Oeste | Santo Antônio de Leverger | Várzea Grande |
+| 14 | Amarelo | 3 | UHE Manso - Barragem da Margem Direita | Chapada dos Guimarães | Cuiabá | Várzea Grande |
+| 14 | Amarelo | 3 | UHE Manso - Barragem da Margem Esquerda | Chapada dos Guimarães | Cuiabá | Várzea Grande |
+| 13 | Verde | 0 | UHE Manso - Dique 1 | Juara | Nobres | Novo Horizonte do Norte | Porto dos Gaúchos | São José do Rio Claro |
 
 ## Maiores IDAP do piloto (top 20)
 
 | IDAP | Nível | Completude | Sede | Nome | Arquivo alerta |
 | ---: | --- | ---: | --- | --- | --- |
-| 30 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | `alertas/piloto/amarelo_5603.txt` |
-| 29 | Amarelo | 0,680 | Nossa Senhora do Livramento | Santa Maria | `alertas/piloto/amarelo_5563.txt` |
-| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA 01 | `alertas/piloto/amarelo_5573.txt` |
-| 26 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | `alertas/piloto/amarelo_5560.txt` |
-| 26 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | `alertas/piloto/amarelo_5562.txt` |
-| 26 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | `alertas/piloto/amarelo_5559.txt` |
-| 21 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR BOSCO | `alertas/piloto/amarelo_586.txt` |
-| 20 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR PIRÂMIDE | `alertas/piloto/amarelo_21940.txt` |
-| 20 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | `alertas/piloto/amarelo_588.txt` |
-| 20 | Amarelo | 0,680 | Cuiabá | Barragem Serrinha | `alertas/piloto/amarelo_26138.txt` |
-| 18 | Verde | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | `alertas/piloto/verde_22009.txt` |
-| 18 | Amarelo | 0,650 | Cuiabá | Barragem TB | `alertas/piloto/amarelo_26146.txt` |
-| 18 | Verde | 0,650 | Rosário Oeste | VALE DOURADO | `alertas/piloto/verde_8006.txt` |
-| 17 | Amarelo | 0,630 | Cuiabá | BARRAGEM JVR | `alertas/piloto/amarelo_26131.txt` |
-| 17 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem GMX | `alertas/piloto/verde_34856.txt` |
-| 17 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem_Valdenir2 | `alertas/piloto/verde_27624.txt` |
-| 17 | Verde | 0,650 | Nossa Senhora do Livramento | MULTI 1 | `alertas/piloto/verde_26171.txt` |
-| 16 | Verde | 0,650 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | `alertas/piloto/verde_29384.txt` |
-| 16 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem - Valdenir | `alertas/piloto/verde_27626.txt` |
-| 16 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem JL | `alertas/piloto/verde_26156.txt` |
+| 28 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | `alertas/piloto/amarelo_5603.txt` |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | Santa Maria | `alertas/piloto/amarelo_5563.txt` |
+| 24 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA 01 | `alertas/piloto/amarelo_5573.txt` |
+| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | `alertas/piloto/amarelo_5560.txt` |
+| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | `alertas/piloto/amarelo_5562.txt` |
+| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | `alertas/piloto/amarelo_5559.txt` |
+| 19 | Verde | 0,680 | Nossa Senhora do Livramento | BR BOSCO | `alertas/piloto/verde_586.txt` |
+| 18 | Verde | 0,680 | Nossa Senhora do Livramento | BR PIRÂMIDE | `alertas/piloto/verde_21940.txt` |
+| 18 | Verde | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | `alertas/piloto/verde_588.txt` |
+| 18 | Amarelo | 0,680 | Cuiabá | Barragem Serrinha | `alertas/piloto/amarelo_26138.txt` |
+| 17 | Verde | 0,650 | Rosário Oeste | VALE DOURADO | `alertas/piloto/verde_8006.txt` |
+| 16 | Verde | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | `alertas/piloto/verde_22009.txt` |
+| 16 | Amarelo | 0,650 | Cuiabá | Barragem TB | `alertas/piloto/amarelo_26146.txt` |
+| 15 | Amarelo | 0,630 | Cuiabá | BARRAGEM JVR | `alertas/piloto/amarelo_26131.txt` |
+| 15 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem GMX | `alertas/piloto/verde_34856.txt` |
+| 15 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem_Valdenir2 | `alertas/piloto/verde_27624.txt` |
+| 15 | Verde | 0,650 | Nossa Senhora do Livramento | MULTI 1 | `alertas/piloto/verde_26171.txt` |
+| 15 | Amarelo | 0,530 | Chapada dos Guimarães | UHE Manso - Barragem de Terra do Leito do Rio | `alertas/piloto/amarelo_4436.txt` |
+| 15 | Amarelo | 0,530 | Chapada dos Guimarães | UHE Manso - Dique 2 | `alertas/piloto/amarelo_20601.txt` |
+| 15 | Amarelo | 0,530 | Chapada dos Guimarães | UHE Manso - Dique 3 | `alertas/piloto/amarelo_20602.txt` |
 
 ## Ficha rápida (esqueleto operacional)
 

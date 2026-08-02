@@ -1,6 +1,6 @@
 # Onda 3 — scaffolds de dados
 
-Gerado em 2026-07-30T11:44:20.
+Gerado em 2026-08-02T22:05:47.
 
 ## Manchas PAE / ZAS
 - Arquivo: `dados/tratados/pae_manchas_cobertura.csv`

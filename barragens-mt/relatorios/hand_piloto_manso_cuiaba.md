@@ -2,7 +2,7 @@
 
 - Dataset: **srtm30m** (`https://api.opentopodata.org/v1/srtm30m`)
 - Células na grade: **697** (HAND válido: **697**)
-- Eixo amostrado: até **80.0 km** a jusante (passo 2.0 km)
+- Eixo amostrado: até **80 km** a jusante (passo 2.0 km)
 - Arquivos: `hand_piloto_manso_cuiaba_grade.csv`, `hand_piloto_manso_cuiaba.geojson`, `hand_piloto_manso_cuiaba_meta.json`
 
 | Limiar HAND | Células |

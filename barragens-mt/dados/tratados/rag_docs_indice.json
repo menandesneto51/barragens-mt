@@ -1,91 +1,103 @@
 {
-  "gerado": "2026-07-30T11:44:20",
+  "gerado": "2026-08-02T22:05:47",
   "modo": "lexical",
-  "n_docs": 14,
+  "n_docs": 16,
   "docs": [
     {
       "arquivo": "00-indice.md",
-      "bytes": 12239,
-      "n_palavras_unicas": 648,
+      "bytes": 12473,
+      "n_palavras_unicas": 667,
       "titulo": "0. Índice da documentação"
     },
     {
       "arquivo": "01-visao-geral.md",
-      "bytes": 14137,
+      "bytes": 13942,
       "n_palavras_unicas": 580,
       "titulo": "1. VIGIBARRAGENS–MT / Saúde 360 — visão geral"
     },
     {
       "arquivo": "02-fontes-de-dados.md",
-      "bytes": 33654,
-      "n_palavras_unicas": 1233,
+      "bytes": 42301,
+      "n_palavras_unicas": 1445,
       "titulo": "2. Catálogo de fontes de dados"
     },
     {
       "arquivo": "03-idap.md",
-      "bytes": 48165,
-      "n_palavras_unicas": 1261,
+      "bytes": 47485,
+      "n_palavras_unicas": 1268,
       "titulo": "3. IDAP-Barragens — Índice Dinâmico de Alerta e Prontidão"
     },
     {
       "arquivo": "04-alertas.md",
-      "bytes": 19835,
-      "n_palavras_unicas": 723,
+      "bytes": 20460,
+      "n_palavras_unicas": 755,
       "titulo": "4. Modelo de emissão de alertas territorializados"
     },
     {
       "arquivo": "05-vigipos-barragens.md",
-      "bytes": 32387,
+      "bytes": 31909,
       "n_palavras_unicas": 1110,
       "titulo": "5. VIGIPÓS-BARRAGENS — vigilância pós-desastre"
     },
     {
       "arquivo": "06-arquitetura.md",
-      "bytes": 22729,
+      "bytes": 22476,
       "n_palavras_unicas": 888,
       "titulo": "6. Arquitetura de referência"
     },
     {
       "arquivo": "07-telas.md",
-      "bytes": 26147,
+      "bytes": 25752,
       "n_palavras_unicas": 941,
       "titulo": "7. Telas da plataforma"
     },
     {
       "arquivo": "08-roadmap.md",
-      "bytes": 20798,
+      "bytes": 20514,
       "n_palavras_unicas": 844,
       "titulo": "8. Roadmap de implantação"
     },
     {
       "arquivo": "09-dicionario-de-dados.md",
-      "bytes": 36501,
+      "bytes": 36048,
       "n_palavras_unicas": 1045,
       "titulo": "9. Dicionário de dados"
     },
     {
       "arquivo": "10-glossario.md",
-      "bytes": 25605,
+      "bytes": 25478,
       "n_palavras_unicas": 1135,
       "titulo": "10. Glossário"
     },
     {
       "arquivo": "11-principio-estadual-e-sequencia.md",
-      "bytes": 4358,
+      "bytes": 4291,
       "n_palavras_unicas": 233,
       "titulo": "11. Princípio estadual, impacto extraterritorial e sequência de implantação"
     },
     {
       "arquivo": "12-integracao-sisclima-titan.md",
-      "bytes": 3008,
+      "bytes": 2952,
       "n_palavras_unicas": 162,
       "titulo": "12. Integração hidrometeorológica — SIS Clima Saúde e TITAN"
     },
     {
       "arquivo": "13-defesa-civil-gancho.md",
-      "bytes": 1925,
-      "n_palavras_unicas": 120,
+      "bytes": 3401,
+      "n_palavras_unicas": 190,
       "titulo": "13. Gancho Defesa Civil — payload padronizado"
+    },
+    {
+      "arquivo": "14-streamlit-secrets-despacho.md",
+      "bytes": 581,
+      "n_palavras_unicas": 32,
+      "titulo": "Streamlit Cloud — secrets de despacho (VIGI_*)"
+    },
+    {
+      "arquivo": "15-integracao-indicasus-dw.md",
+      "bytes": 4179,
+      "n_palavras_unicas": 180,
+      "titulo": "15. Integração IndicaSUS e DW de saúde (SES-MT)"
     }
   ],
   "nota": "Embeddings / Gold RAG só após SITREP supervisionado e CNES/PAE mínimos."

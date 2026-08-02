@@ -50,20 +50,20 @@ A seção de controle por município é provisória (código Otto mais específi
 | 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
 | 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
 | 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR03 | 1 |
+| 27 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem de Rejeito 01 | 0 |
 | 26 | Amarelo | 0,720 | Cuiabá | Barragem Serrinha | 2 |
 | 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR BOSCO | 3 |
 | 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
 | 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
 | 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR02 | 1 |
 | 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
-| 26 | Amarelo | 0,580 | Poconé | BACIA DE REJEITOS SÃO BENTO | 0 |
-| 26 | Amarelo | 0,670 | Poconé | BR ISMAEL | 1 |
-| 26 | Amarelo | 0,580 | Poconé | Barragem de Rejeitos SB 02 | 0 |
-| 26 | Amarelo | 0,670 | Poconé | Davi | 1 |
 | 26 | Amarelo | 0,510 | Pontes e Lacerda | Fortuna | 3 |
 | 25 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
 | 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
 | 25 | Amarelo | 0,640 | Poconé | Barragem Barba 02 | 1 |
+| 25 | Amarelo | 0,640 | Poconé | TARUMÃ II | 1 |
+| 24 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
+| 24 | Amarelo | 0,670 | Poconé | GONÇA | 1 |
 
 ## Pressão hidroclimática (dimensão A)
 

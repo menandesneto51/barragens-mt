@@ -1,30 +1,29 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-4436
+Identificador do alerta : ALERTA-20260802-1810-4436
 Barragem                : UHE Manso - Barragem de Terra do Leito do Rio (código 4436)
 Município da estrutura  : Chapada dos Guimarães — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
 Empreendedor            : PRODUTORES ENERGETICOS DE MANSO S/A - PROMAN
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 16 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 02/08/2026 18:10 (horário de Cuiabá, UTC-4)
+IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 30,20)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 28,30)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C1] População residente na Zona de Autossalvamento: 286.143 habitantes — 5.000 residentes ou mais (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 59,60 de percentil — acima da mediana (1 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 4/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 10/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
