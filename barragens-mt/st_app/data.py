@@ -344,8 +344,14 @@ def carregar_cnes_pontos(so_prioritarios: bool = False) -> pd.DataFrame:
         if chave in vistos:
             continue
         vistos.add(chave)
+        cod_cnes = str(props.get("codigo_cnes") or "").strip()
+        cod_cnes = "".join(c for c in cod_cnes if c.isdigit())[:7]
+        cod_mun = str(props.get("codigo_municipio") or "").strip()
+        cod_mun = "".join(c for c in cod_mun if c.isdigit())[:7]
         linhas.append(
             {
+                "codigo_cnes": cod_cnes,
+                "codigo_municipio": cod_mun,
                 "latitude": round(lat, 5),
                 "longitude": round(lon, 5),
                 "nome": nome[:80],

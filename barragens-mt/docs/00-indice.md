@@ -145,6 +145,11 @@ API nem ordem de evacuação). Despacho técnico: `scripts/29_despacho_alertas.p
 
 Como colar `[vigi]` no Streamlit Cloud para Telegram/SMTP. Dry-run funciona sem credenciais.
 
+### [15. Integração IndicaSUS / DW de saúde](15-integracao-indicasus-dw.md)
+
+Leitos e ocupação via IndicaSUS/DW (etapa `43`), conector extensível para SIH/SIA/SISREG/SINAN,
+preenchimento do D6 (`razao_leitos_demanda`) e métricas na Simulação.
+
 ### [10. Glossário](10-glossario.md)
 
 Siglas e termos, organizados em marco regulatório e cadastro de barragens, vigilância em saúde e

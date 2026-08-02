@@ -1,7 +1,8 @@
-"""Capacidade assistencial CNES sob pressão na mancha (proxy D6).
+"""Capacidade assistencial sob pressão na mancha (D6).
 
-A API pública de estabelecimentos **não expõe leitos**. Usamos a tipificação
-já classificada (hospitalar / UPA / UBS) como capacidade estrutural de referência.
+Camadas:
+  1. Tipologia CNES (hospital / UPA / UBS) — sempre disponível na API aberta.
+  2. Leitos + ocupação IndicaSUS/DW — quando `indicasus_leitos_mt.csv` existir.
 """
 
 from __future__ import annotations
@@ -24,6 +25,10 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return 2 * r * math.asin(math.sqrt(min(1.0, a)))
 
 
+def _digitos_cnes(valor: Any) -> str:
+    return "".join(c for c in str(valor or "") if c.isdigit())[:7]
+
+
 def cruzar_capacidade_mancha(
     cnes: pd.DataFrame,
     *,
@@ -36,8 +41,9 @@ def cruzar_capacidade_mancha(
     hand_limiar: float | None = None,
     usar_hand: bool = False,
     us_isoladas: list[dict[str, Any]] | None = None,
+    pop_exposta: float | None = None,
 ) -> dict[str, Any]:
-    """Conta capacidade estrutural na mancha e isolada (fora da mancha sem rota)."""
+    """Conta capacidade estrutural e, se houver IndicaSUS, leitos/ocupação na mancha."""
     vazio = {
         "disponivel": False,
         "n_us_mancha": 0,
@@ -50,10 +56,30 @@ def cruzar_capacidade_mancha(
         "n_ubs_isolada": 0,
         "pressao_estrutural": 0,
         "rotulo_pressao": "indisponível",
+        "leitos_ok": False,
+        "leitos_operacionais_mancha": 0,
+        "leitos_ocupados_mancha": 0,
+        "leitos_disponiveis_mancha": 0,
+        "taxa_ocupacao_mancha": None,
+        "razao_leitos_demanda": None,
         "fonte": "CNES (tipologia; sem leitos na API aberta)",
     }
     if cnes is None or cnes.empty:
         return vazio
+
+    from st_app.leitos_indicasus import agregar_por_cnes, status_indicasus
+
+    leitos_cnes = agregar_por_cnes()
+    leitos_map: dict[str, dict[str, Any]] = {}
+    if not leitos_cnes.empty:
+        for row in leitos_cnes.itertuples():
+            key = _digitos_cnes(getattr(row, "codigo_cnes", ""))
+            if key:
+                leitos_map[key] = {
+                    "op": float(getattr(row, "leitos_operacionais", 0) or 0),
+                    "oc": float(getattr(row, "leitos_ocupados", 0) or 0),
+                    "disp": float(getattr(row, "leitos_disponiveis", 0) or 0),
+                }
 
     na_mancha_rows: list[dict[str, Any]] = []
     for row in cnes.itertuples():
@@ -75,8 +101,11 @@ def cruzar_capacidade_mancha(
             ok = ok or ponto_na_mancha_hand(la, lo, float(hand_limiar))
         if not ok:
             continue
+        cnes_cod = _digitos_cnes(getattr(row, "codigo_cnes", ""))
+        lit = leitos_map.get(cnes_cod) or {}
         na_mancha_rows.append(
             {
+                "codigo_cnes": cnes_cod,
                 "nome": getattr(row, "nome", ""),
                 "municipio": getattr(row, "municipio", ""),
                 "tipo": getattr(row, "tipo", ""),
@@ -84,6 +113,9 @@ def cruzar_capacidade_mancha(
                 "upa_ps": bool(getattr(row, "upa_ps", False)),
                 "ubs_esf": bool(getattr(row, "ubs_esf", False)),
                 "prioritario": bool(getattr(row, "prioritario", False)),
+                "leitos_operacionais": lit.get("op"),
+                "leitos_ocupados": lit.get("oc"),
+                "leitos_disponiveis": lit.get("disp"),
             }
         )
 
@@ -97,7 +129,6 @@ def cruzar_capacidade_mancha(
     n_upa_iso = sum(1 for u in iso if u.get("upa"))
     n_ubs_iso = sum(1 for u in iso if u.get("ubs"))
 
-    # Score estrutural sob pressão: 3×hospital + 2×upa + 1×ubs (mancha + isoladas)
     pressao = (
         3 * (n_h + n_h_iso)
         + 2 * (n_upa + n_upa_iso)
@@ -112,6 +143,30 @@ def cruzar_capacidade_mancha(
     else:
         rotulo = "mínima — sem hospital/UPA/UBS na mancha ou isolados"
 
+    op_m = sum(float(r["leitos_operacionais"] or 0) for r in na_mancha_rows)
+    oc_m = sum(float(r["leitos_ocupados"] or 0) for r in na_mancha_rows)
+    disp_m = sum(float(r["leitos_disponiveis"] or 0) for r in na_mancha_rows)
+    leitos_ok = bool(leitos_map) and (op_m > 0 or disp_m > 0 or oc_m > 0)
+    taxa = round(100.0 * oc_m / op_m, 1) if op_m > 0 else None
+
+    razao = None
+    if leitos_ok and pop_exposta and pop_exposta > 0:
+        demanda = 0.02 * float(pop_exposta)  # docs/03-idap.md §3.6.7
+        if demanda > 0:
+            razao = round(disp_m / demanda, 3)
+
+    st = status_indicasus()
+    if leitos_ok:
+        fonte = (
+            f"CNES tipologia + IndicaSUS/DW leitos "
+            f"({st.get('fonte') or 'indicasus_leitos_mt.csv'})"
+        )
+    else:
+        fonte = (
+            "CNES tipologia (hospital/UPA/UBS) — leitos IndicaSUS ausentes "
+            "(rode `python executar.py 43` com dump/DW)"
+        )
+
     return {
         "disponivel": True,
         "n_us_mancha": len(na_mancha_rows),
@@ -124,6 +179,12 @@ def cruzar_capacidade_mancha(
         "n_ubs_isolada": n_ubs_iso,
         "pressao_estrutural": pressao,
         "rotulo_pressao": rotulo,
+        "leitos_ok": leitos_ok,
+        "leitos_operacionais_mancha": int(op_m),
+        "leitos_ocupados_mancha": int(oc_m),
+        "leitos_disponiveis_mancha": int(disp_m),
+        "taxa_ocupacao_mancha": taxa,
+        "razao_leitos_demanda": razao,
         "itens_mancha": na_mancha_rows[:40],
-        "fonte": "CNES tipologia (hospital/UPA/UBS) — leitos operantes não disponíveis na API aberta",
+        "fonte": fonte,
     }

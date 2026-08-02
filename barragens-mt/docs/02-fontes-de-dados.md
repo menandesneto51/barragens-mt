@@ -344,14 +344,16 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | Contagem de refs federais/estaduais e pontes na mancha (complemento C7); substituir por SNV oficial quando disponível |
 | Implementado em | `scripts/42_malha_dnit_osm_eixo.py` → `malha_dnit_osm_eixo.csv` / `.geojson`; UI em `st_app/malha_dnit.py` |
 
-### 2.5.12 Capacidade assistencial CNES sob pressão (D6 proxy)
+### 2.5.12 Capacidade assistencial CNES + IndicaSUS/DW (D6)
 
 | Aspecto | Conteúdo |
 | --- | --- |
-| O que fornece | Contagem de hospital / UPA-PS / UBS-ESF na mancha e isolados; score estrutural 3×H+2×UPA+1×UBS |
-| Limitação | API/cadastro aberto de estabelecimentos **não expõe leitos**; leitos operantes exigem FTP DATASUS ou painel institucional |
-| Uso pretendido | Proxy de pressão sobre capacidade instalada (roadmap D6) até haver leitos |
-| Implementado em | `st_app/capacidade_cnes.py` + painel Simulação; base espacial = `cnes_estabelecimentos_*.geojson` |
+| O que fornece | Tipologia hospital/UPA/UBS na mancha; **leitos operacionais, ocupados, disponíveis e taxa de ocupação** via IndicaSUS/DW; razão leitos/demanda (2% pop. exposta) |
+| CNES aberto | Estabelecimentos e tipificação espacial (API não expõe leitos) |
+| IndicaSUS / DW | Extrato institucional de leitos e ocupação — conector `scripts/dw_saude.py` + etapa `43` |
+| Outros bancos DW | Catálogo extensível (`sih`, `sia`, `sisreg`, `sinan`) em `dados/config/dw_catalogo.json` |
+| Uso pretendido | D6 real quando o extrato estiver disponível; tipológico como fallback |
+| Implementado em | `scripts/43_indicasus_leitos_dw.py`, `st_app/leitos_indicasus.py`, `st_app/capacidade_cnes.py`, IDAP `razao_leitos_demanda`; docs `15-integracao-indicasus-dw.md` |
 
 ---
 

@@ -1,0 +1,74 @@
+{
+  "descricao": "Catálogo de extratos do DW / sistemas institucionais da SES-MT. Cada entrada pode ser lida via CSV dump, SQLite ou SQL (VIGIBARRAGENS_DW_URL).",
+  "versao": 1,
+  "conexao": {
+    "env_url": "VIGIBARRAGENS_DW_URL",
+    "env_sqlite": "VIGIBARRAGENS_DW_SQLITE",
+    "env_csv_dir": "VIGIBARRAGENS_DW_CSV_DIR",
+    "nota": "Credenciais ficam só em env/secrets — nunca no repositório."
+  },
+  "extratos": {
+    "indicasus_leitos": {
+      "titulo": "IndicaSUS — leitos e ocupação",
+      "prioridade": "P1",
+      "uso": ["D6", "SAU-01", "SAU-07", "IPAPD-O"],
+      "chave_join": "codigo_cnes",
+      "csv_dump": "indicasus_leitos.csv",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_INDICASUS_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_INDICASUS_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "indicasus_leitos",
+      "aliases": {
+        "codigo_cnes": ["codigo_cnes", "cnes", "co_cnes", "cod_cnes", "CNES"],
+        "nome_estabelecimento": ["nome_estabelecimento", "nome_fantasia", "estabelecimento", "no_fantasia"],
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge", "co_municipio", "codigo_municipio"],
+        "municipio": ["municipio", "no_municipio", "nome_municipio"],
+        "tipo_leito": ["tipo_leito", "tipo", "ds_leito", "especialidade"],
+        "leitos_cadastrados": ["leitos_cadastrados", "cadastrados", "qt_cadastrado", "leitos_cnes"],
+        "leitos_operacionais": ["leitos_operacionais", "operacionais", "qt_operacional", "leitos"],
+        "leitos_ocupados": ["leitos_ocupados", "ocupados", "qt_ocupado", "ocupacao"],
+        "leitos_disponiveis": ["leitos_disponiveis", "disponiveis", "qt_disponivel", "vagos"],
+        "taxa_ocupacao": ["taxa_ocupacao", "tx_ocupacao", "ocupacao_pct", "percentual_ocupacao"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao", "dt_atualizacao", "referencia", "competencia"]
+      },
+      "saida": "indicasus_leitos_mt.csv"
+    },
+    "sih_internacoes": {
+      "titulo": "SIH/SUS — internações (DW)",
+      "prioridade": "P2",
+      "uso": ["SAU-06", "POS-06"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sih_internacoes.csv",
+      "status": "reservado — plugar quando o extrato DW estiver liberado",
+      "saida": "sih_internacoes_mt.csv"
+    },
+    "sia_ambulatorial": {
+      "titulo": "SIA/SUS — produção ambulatorial (DW)",
+      "prioridade": "P2",
+      "uso": ["SAU-05"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sia_ambulatorial.csv",
+      "status": "reservado — plugar quando o extrato DW estiver liberado",
+      "saida": "sia_ambulatorial_mt.csv"
+    },
+    "sisreg_leitos": {
+      "titulo": "SISREG / regulação — filas e autorizações",
+      "prioridade": "P2",
+      "uso": ["SAU-07", "D6"],
+      "chave_join": "codigo_cnes",
+      "csv_dump": "sisreg_leitos.csv",
+      "status": "reservado — preferir IndicaSUS para ocupação operacional",
+      "saida": "sisreg_leitos_mt.csv"
+    },
+    "sinan_notificacoes": {
+      "titulo": "SINAN — notificações (DW)",
+      "prioridade": "P2",
+      "uso": ["sinais epidemiológicos"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sinan_notificacoes.csv",
+      "status": "reservado",
+      "saida": "sinan_notificacoes_mt.csv"
+    }
+  }
+}

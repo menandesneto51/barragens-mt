@@ -113,6 +113,12 @@ ETAPAS = [
         "Malha BR/MT no eixo (proxy DNIT via OSM)",
         False,
     ),
+    (
+        "43",
+        "43_indicasus_leitos_dw.py",
+        "IndicaSUS/DW — leitos e ocupação (D6)",
+        False,
+    ),
 ]
 
 

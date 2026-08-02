@@ -304,6 +304,54 @@ def nivel_emergencia(registro: dict[str, Any]) -> str | None:
     return texto(registro.get("nivel_de_perigo"))
 
 
+def ler_leitos_indicasus_por_municipio() -> dict[str, dict[str, float]]:
+    """Leitos disponíveis/operacionais por nome de município (etapa 43 / IndicaSUS)."""
+    caminho = comum.DADOS_TRATADOS / "indicasus_leitos_municipio.csv"
+    if not caminho.exists():
+        return {}
+    out: dict[str, dict[str, float]] = {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            nome = texto(r.get("municipio"))
+            if not nome:
+                continue
+            try:
+                disp = float(str(r.get("leitos_disponiveis") or "0").replace(",", "."))
+                op = float(str(r.get("leitos_operacionais") or "0").replace(",", "."))
+            except ValueError:
+                continue
+            chave = nome.casefold()
+            slot = out.setdefault(chave, {"disponiveis": 0.0, "operacionais": 0.0})
+            slot["disponiveis"] += disp
+            slot["operacionais"] += op
+    return out
+
+
+def razao_leitos_demanda_zas(
+    municipios_zas: tuple[str, ...] | list[str],
+    pop_por_mun: dict[str, int],
+    leitos_por_mun: dict[str, dict[str, float]],
+) -> float | None:
+    """D6: leitos disponíveis na ZAS / (2% da pop. dos municípios afetados)."""
+    if not leitos_por_mun or not municipios_zas:
+        return None
+    disp = 0.0
+    pop = 0
+    algum = False
+    for mun in municipios_zas:
+        lit = leitos_por_mun.get(mun.casefold())
+        if lit:
+            algum = True
+            disp += float(lit.get("disponiveis") or 0)
+        pop += int(pop_por_mun.get(mun, 0) or 0)
+    if not algum or pop <= 0:
+        return None
+    demanda = 0.02 * pop
+    if demanda <= 0:
+        return None
+    return round(disp / demanda, 4)
+
+
 def estado_de_registro(
     registro: dict[str, Any],
     instante: datetime,
@@ -312,6 +360,7 @@ def estado_de_registro(
     exposicao: ExposicaoSanitaria | None = None,
     contatos_validados_90d: bool | None = None,
     municipios_zas: tuple[str, ...] = (),
+    razao_leitos_demanda: float | None = None,
 ) -> EstadoBarragem:
     return EstadoBarragem(
         id_barragem=texto(registro.get("id_snisb")) or "sem-id",
@@ -334,6 +383,7 @@ def estado_de_registro(
         capacidade=CapacidadeResposta(
             situacao_plano_emergencia=situacao_pae(registro),
             contatos_validados_90d=contatos_validados_90d,
+            razao_leitos_demanda=razao_leitos_demanda,
         ),
         sinais=sinais_de_hidro(hidro),
     )
@@ -414,6 +464,7 @@ def main() -> None:
     hidro_por_id = ler_hidro_por_barragem()
     cnes_por_mun = ler_cnes_por_municipio()
     pop_por_mun = ler_populacao_por_municipio()
+    leitos_por_mun = ler_leitos_indicasus_por_municipio()
     alertab_por_id = ler_alertabilidade()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
     print(f"  {STATUS_VERSAO_PESOS}")
@@ -430,6 +481,7 @@ def main() -> None:
     )
     print(f"  CNES eixo (proxy C3): {len(cnes_por_mun)} municípios")
     print(f"  população IBGE: {len(pop_por_mun)} municípios")
+    print(f"  IndicaSUS leitos (D6): {len(leitos_por_mun)} municípios")
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
 
     secoes = secoes_controle_por_municipio(inventario)
@@ -472,13 +524,16 @@ def main() -> None:
         exposicao = exposicao_proxy(
             contaminante(registro), afetados, cnes_por_mun, pop_por_mun
         )
+        mun_zas = tuple(afetados) if afetados else (mun_sede,)
+        razao_leitos = razao_leitos_demanda_zas(mun_zas, pop_por_mun, leitos_por_mun)
         estado = estado_de_registro(
             registro,
             instante,
             hidro,
             exposicao=exposicao,
             contatos_validados_90d=contatos_ok,
-            municipios_zas=tuple(afetados),
+            municipios_zas=mun_zas,
+            razao_leitos_demanda=razao_leitos,
         )
         resultado = calcular_idap(estado)
         final = aplicar_regras(estado, resultado)

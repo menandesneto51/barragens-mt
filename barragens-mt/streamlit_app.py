@@ -1228,13 +1228,20 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "Malha BR/MT (proxy DNIT) ausente — rode `python executar.py 42`."
             )
 
+        pop_exp_setores = None
+        if set_kpi.get("disponivel"):
+            try:
+                pop_exp_setores = float(set_kpi.get("pop_exposta_setores") or 0) or None
+            except (TypeError, ValueError):
+                pop_exp_setores = None
         cap_assist = cruzar_capacidade_mancha(
             cnes,
             **_geom_mancha,
             us_isoladas=iso.get("us_isoladas") or [],
+            pop_exposta=pop_exp_setores or (float(pop_n) if pop_n else None),
         )
         if cap_assist.get("disponivel"):
-            st.markdown("##### Capacidade assistencial sob pressão (D6 proxy)")
+            st.markdown("##### Capacidade assistencial sob pressão (D6)")
             a1, a2, a3, a4 = st.columns(4)
             a1.metric("Hospitalar na mancha", cap_assist["n_hospitalar_mancha"])
             a2.metric("UPA/PS na mancha", cap_assist["n_upa_mancha"])
@@ -1246,10 +1253,41 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             b3.metric("UBS isolada", cap_assist["n_ubs_isolada"])
             st.caption(
                 f"{cap_assist['rotulo_pressao']}. `{cap_assist.get('fonte')}`. "
-                "Score = 3×hospital + 2×UPA + 1×UBS (mancha + isoladas)."
+                "Score estrutural = 3×hospital + 2×UPA + 1×UBS (mancha + isoladas)."
             )
+            if cap_assist.get("leitos_ok"):
+                l1, l2, l3, l4 = st.columns(4)
+                l1.metric(
+                    "Leitos operacionais (mancha)",
+                    cap_assist["leitos_operacionais_mancha"],
+                )
+                l2.metric(
+                    "Leitos ocupados",
+                    cap_assist["leitos_ocupados_mancha"],
+                )
+                l3.metric(
+                    "Leitos disponíveis",
+                    cap_assist["leitos_disponiveis_mancha"],
+                )
+                taxa = cap_assist.get("taxa_ocupacao_mancha")
+                l4.metric(
+                    "Taxa ocupação",
+                    "—" if taxa is None else f"{taxa:.1f}%".replace(".", ","),
+                )
+                if cap_assist.get("razao_leitos_demanda") is not None:
+                    st.caption(
+                        f"D6 razão leitos disponíveis / demanda (2% pop. exposta) = "
+                        f"**{cap_assist['razao_leitos_demanda']:.2f}** "
+                        "(≥1,00 = 0 pts; 0,50–1 = 1 pt; <0,50 = 2 pts)."
+                    )
+            else:
+                st.caption(
+                    "Leitos/ocupação IndicaSUS ainda não carregados — "
+                    "aponte o DW ou um dump CSV e rode `python executar.py 43`. "
+                    "Ver `docs/15-integracao-indicasus-dw.md`."
+                )
             if cap_assist.get("itens_mancha"):
-                with st.expander("US na mancha (tipologia)", expanded=False):
+                with st.expander("US na mancha (tipologia + leitos)", expanded=False):
                     st.dataframe(
                         pd.DataFrame(cap_assist["itens_mancha"]),
                         width="stretch",
