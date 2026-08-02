@@ -261,6 +261,43 @@ Em Mato Grosso, na estação chuvosa (novembro a março), há semanas em que nen
 | Monitoramento de rotina do reservatório | Ópticos em cadência mensal, com radar como reserva | Custo de processamento menor e série mais interpretável |
 | Detecção de ocupação nova na ZAS | Ópticos de alta resolução (CBERS-4A WPM) em cadência anual | Necessário distinguir edificação de vegetação |
 
+### 2.5.4 Modelo digital de elevação (MDE) — relevo para proxy de mancha
+
+Fonte **aberta e gratuita** para estimar, por relevo, quais terrenos perto da calha
+ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
+**Não substitui** estudo de dam break / mancha PAE.
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| Produtos | **SRTM 30 m** (via OpenTopoData); **Copernicus DEM GLO-30**; **NASADEM**; **INPE Topodata** (derivado SRTM para o Brasil) |
+| Acesso amostragem | OpenTopoData: `https://api.opentopodata.org/v1/srtm30m?locations=lat,lon\|…` (até 100 pontos/requisição; cadência ~1 req/s) |
+| Acesso raster | Copernicus DEM / OpenTopography / Earthdata (NASA) — arquivos GeoTIFF regionais |
+| Granularidade | ~30 m (SRTM/Copernicus GLO-30) |
+| Periodicidade | Estático (missão); não atualiza com o evento |
+| Latência | Imediata após download/amostragem |
+| Uso no projeto | Terceira geometria da simulação: células com HAND ≤ lâmina e ao longo do eixo jusante; cruzamento com CNES, vias OSM e população |
+| Limitações | Resolução vertical e vegetação/edificações; não modela velocidade nem tempo de chegada da onda; vale estreito pode ser subamostrado |
+| Implementado em | `scripts/35_mde_hand_piloto.py` → `dados/tratados/hand_piloto_manso_cuiaba.*`; consumo em `st_app/relevo_hand.py` |
+
+### 2.5.5 MapBiomas — uso e cobertura da terra
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Séries anuais de uso/cobertura (vegetação, agropecuária, área urbana, água) |
+| Acesso | `https://brasil.mapbiomas.org/` — coleções públicas, download por bioma/UF |
+| Uso pretendido | Pressão de ocupação na faixa de atenção a jusante; contexto de exposição (não entra no IDAP numérico nesta fase) |
+| Periodicidade | Anual |
+| Status no repositório | Catalogado; ETL ainda não implementado |
+
+### 2.5.6 IBGE — setores censitários (Censo 2022)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Malha e população por setor censitário — granularidade abaixo do município |
+| Acesso | IBGE downloads / FTP de malhas e resultados do Censo |
+| Uso pretendido | População exposta e isolada na mancha proxy (C1 do IDAP com rigor) |
+| Status no repositório | Hoje só população **municipal** (`ibge_populacao_municipios_mt.csv`); setores pendentes |
+
 ---
 
 ## 2.6 Grupo E — Copernicus EMS (Emergency Management Service)

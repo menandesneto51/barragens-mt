@@ -65,6 +65,12 @@ ETAPAS = [
         "Validação exercício de contatos do eixo (D8/alertável)",
         False,
     ),
+    (
+        "35",
+        "35_mde_hand_piloto.py",
+        "MDE/HAND piloto Manso–Cuiabá (OpenTopoData/SRTM)",
+        False,
+    ),
 ]
 
 

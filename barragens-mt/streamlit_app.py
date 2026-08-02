@@ -110,9 +110,17 @@ def _isolamento_cached(
     corredor_key: str = "",
     sedes_key: str = "",
     uniao_circular: bool = False,
+    hand_limiar: float | None = None,
 ) -> dict:
     return analisar_isolamento_json(
-        lat0, lon0, raio0, cnes_key, corredor_key, sedes_key, uniao_circular
+        lat0,
+        lon0,
+        raio0,
+        cnes_key,
+        corredor_key,
+        sedes_key,
+        uniao_circular,
+        hand_limiar,
     )
 
 
@@ -611,7 +619,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         '<p class="nota">Proxy para <b>qualquer barragem</b> do inventário — '
         "<b>não</b> é mancha oficial nem ordem de evacuação. "
         "O <b>círculo</b> (volume→área) funciona em todo o MT; o "
-        "<b>trajeto hidráulico</b> (corredor jusante) quando há calha BHO/eixo. "
+        "<b>trajeto hidráulico</b> (corredor jusante) quando há calha BHO/eixo; "
+        "o <b>relevo (HAND)</b> no eixo Manso–Cuiabá quando a grade SRTM estiver gerada. "
         "No mapa: US CNES, rodovias e pontes OSM dentro da área.</p>",
         unsafe_allow_html=True,
     )
@@ -671,10 +680,17 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     raio_us = max(3.0, min(float(raio), 80.0))
     raio_osm = max(8.0, min(float(raio) * 1.35 + 6.0, 45.0))
 
+    from st_app.relevo_hand import (
+        hand_arquivos_ok,
+        hand_disponivel_para,
+        limiar_para_lamina,
+        resumo_hand,
+    )
     from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
 
-    # Pré-avalia trajeto para escolher geometria padrão
+    # Pré-avalia trajeto / HAND para escolher geometria padrão
     trajeto_probe: dict = {"ok": False}
+    hand_ok = False
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         trajeto_probe = construir_trajeto(
             lat=float(r["latitude"]),
@@ -683,23 +699,49 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             semi_largura_km=2.0,
             incluir_jusante_capital=True,
         )
+        hand_ok = hand_arquivos_ok() and hand_disponivel_para(
+            float(r["latitude"]), float(r["longitude"])
+        )
 
     opcoes_geom = ["Só circular (todas as barragens)"]
-    if trajeto_probe.get("ok"):
+    if trajeto_probe.get("ok") and hand_ok:
         opcoes_geom = [
             "Ambos (comparar)",
             "Só circular (todas as barragens)",
             "Só trajeto hidráulico",
+            "Só relevo (HAND)",
+            "Circular + relevo (HAND)",
+        ]
+    elif trajeto_probe.get("ok"):
+        opcoes_geom = [
+            "Ambos (comparar)",
+            "Só circular (todas as barragens)",
+            "Só trajeto hidráulico",
+        ]
+    elif hand_ok:
+        opcoes_geom = [
+            "Só circular (todas as barragens)",
+            "Só relevo (HAND)",
+            "Circular + relevo (HAND)",
         ]
     geom_modo = st.radio(
         "Geometria da mancha proxy",
         opcoes_geom,
         horizontal=True,
         help="Circular vale para qualquer barragem do MT. "
-        "Trajeto = corredor jusante (eixo Manso–Cuiabá ou BHO da bacia) quando disponível.",
+        "Trajeto = corredor jusante (eixo Manso–Cuiabá ou BHO) quando disponível. "
+        "Relevo (HAND) = células SRTM ≤ lâmina no eixo Manso–Cuiabá (etapa 35).",
     )
-    mostrar_circular = "circular" in geom_modo.lower() or geom_modo.startswith("Ambos")
-    mostrar_trajeto = geom_modo.startswith("Ambos") or geom_modo.startswith("Só trajeto")
+    usar_hand = "relevo" in geom_modo.lower() or "HAND" in geom_modo
+    mostrar_circular = (
+        "circular" in geom_modo.lower()
+        or geom_modo.startswith("Ambos")
+        or geom_modo.startswith("Circular +")
+    )
+    mostrar_trajeto = (
+        (geom_modo.startswith("Ambos") or geom_modo.startswith("Só trajeto"))
+        and not usar_hand
+    )
     semi_largura = 2.0
     if mostrar_trajeto:
         semi_largura = st.slider(
@@ -711,6 +753,22 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             help="Metade da faixa em cada margem do talvegue. "
             "Comprimento jusante ≈ área / (2 × semi-largura).",
         )
+
+    hand_limiar = limiar_para_lamina(float(prof)) if usar_hand else None
+    hand_info: dict = {"ok": False}
+    if usar_hand and hand_limiar is not None:
+        hand_info = resumo_hand(hand_limiar)
+        st.caption(
+            f"Relevo HAND ≤ **{hand_limiar:.0f} m** (lâmina {prof:.1f} m) · "
+            f"{hand_info.get('n_celulas', 0)} células · área proxy ~"
+            f"{hand_info.get('area_proxy_km2', 0)} km² · `{hand_info.get('fonte')}`. "
+            f"{hand_info.get('aviso', '')}"
+        )
+        if not hand_info.get("ok"):
+            st.info("Grade HAND sem células neste limiar — usando círculo.")
+            usar_hand = False
+            hand_limiar = None
+            mostrar_circular = True
 
     trajeto: dict = {"ok": False, "polyline": [], "largura_km": semi_largura}
     if mostrar_trajeto and pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
@@ -861,6 +919,20 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             plos = [float(p[1]) for p in trajeto["polyline"]]
             dmax = max(_hav(lat0, lon0, a, b) for a, b in zip(plas, plos))
             raio_filtro = max(raio_filtro, dmax + float(trajeto.get("largura_km") or 2) + 5)
+        if usar_hand and hand_info.get("ok"):
+            from st_app.relevo_hand import bbox_hand as _bbox_hand
+
+            bb = _bbox_hand(float(hand_limiar or 5.0))
+            if bb:
+                # canto mais distante da bbox → raio de filtro CNES
+                cantos = [
+                    (bb[0], bb[1]),
+                    (bb[0], bb[3]),
+                    (bb[2], bb[1]),
+                    (bb[2], bb[3]),
+                ]
+                dmax_h = max(_hav(lat0, lon0, a, b) for a, b in cantos)
+                raio_filtro = max(raio_filtro, dmax_h + 5)
         cnes_perto = [
             p for p in cnes_todos if _hav(lat0, lon0, p["la"], p["lo"]) <= raio_filtro
         ]
@@ -879,10 +951,16 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             so_eixo=False,
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
-            raio_km=raio_osm,
+            raio_km=max(raio_osm, raio_filtro),
         )
         sedes_key = _json.dumps(sedes, ensure_ascii=False)
-        uniao = bool(mostrar_circular and mostrar_trajeto and trajeto.get("ok"))
+        uniao = bool(
+            mostrar_circular
+            and (
+                (mostrar_trajeto and trajeto.get("ok"))
+                or (usar_hand and hand_info.get("ok"))
+            )
+        )
         with st.spinner(
             "Cruzando CNES, vias/pontes OSM e sedes municipais na área de simulação…"
         ):
@@ -894,6 +972,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 corredor_key,
                 sedes_key,
                 uniao,
+                float(hand_limiar) if usar_hand and hand_limiar is not None else None,
             )
 
         i1, i2, i3, i4, i5 = st.columns(5)
@@ -951,6 +1030,9 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             trajeto=trajeto if trajeto.get("ok") else None,
             mostrar_circular=mostrar_circular,
             mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            hand_poligonos=hand_info.get("poligonos") if usar_hand else None,
+            hand_limiar_m=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            mostrar_hand=bool(usar_hand and hand_info.get("ok")),
             altura=560,
             autoplay=False,
         )
@@ -1081,9 +1163,9 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     st.caption(
         "Circular: área_km² = (hm³ × fração) / profundidade_m → raio = √(área/π). "
         "Trajeto: L ≈ área / (2×semi-largura) ao longo do eixo BHO Manso–Cuiabá. "
-        "Vias/C7 usam o corredor quando o trajeto está ativo. "
-        "Mancha PAE oficial (quando houver) será uma terceira camada — não substitui estes proxies. "
-        "Não é dam break nem tempo de chegada da onda."
+        "Relevo HAND: células SRTM com elevação − talvegue ≤ lâmina (piloto Manso–Cuiabá). "
+        "Vias/C7 usam a geometria ativa (círculo, corredor ou HAND). "
+        "Não é mancha PAE, dam break nem tempo de chegada da onda."
     )
 
 
@@ -1142,16 +1224,18 @@ def pagina_interpretacao() -> None:
         (
             "Vias, pontes e isolamento (C7 proxy)",
             "Malha OpenStreetMap (arteriais e pontes) cruzada com a geometria ativa "
-            "(corredor hidráulico quando o trajeto está ligado; senão o círculo). "
+            "(círculo, corredor hidráulico ou relevo HAND). "
             "Trecho na mancha = interrompido. US fora da mancha sem caminho terrestre até o "
             "hub de Cuiabá = potencialmente isolada. Escala 0–2 espelha o C7 do IDAP.",
         ),
         (
-            "Trajeto hidráulico vs círculo",
+            "Trajeto hidráulico vs círculo vs relevo (HAND)",
             "Círculo: espalha a área equivalente em disco isótropo. "
-            "Trajeto: percorre a calha BHO (eixo Manso–Cuiabá) jusante e forma um corredor "
-            "com semi-largura ajustável — L ≈ área/(2×w). Ambos são proxies; a mancha PAE "
-            "oficial (dam break) entra depois como camada própria, sem apagar estes modos.",
+            "Trajeto: percorre a calha BHO jusante e forma um corredor com semi-largura "
+            "ajustável — L ≈ área/(2×w). "
+            "Relevo HAND (piloto Manso–Cuiabá): células SRTM com elevação − talvegue ≤ "
+            "lâmina proxy (etapa 35 / OpenTopoData). Todos são proxies; a mancha PAE "
+            "oficial (dam break) entra depois como camada própria.",
         ),
         (
             "US atingidas, vias/pontes e pessoas isoladas",
@@ -1159,8 +1243,7 @@ def pagina_interpretacao() -> None:
             "Vias/pontes = arteriais OSM que cruzam a mancha. "
             "US isoladas = fora da mancha sem rota terrestre ao hub após o corte. "
             "Pessoas isoladas = soma da população IBGE 2022 dos municípios cuja sede "
-            "(centroide) perde caminho ao hub — ordem de grandeza, não censo de desalojados. "
-            "Relevo/MDE ainda não entra no cálculo.",
+            "(centroide) perde caminho ao hub — ordem de grandeza, não censo de desalojados.",
         ),
         (
             "CRI e DPA",

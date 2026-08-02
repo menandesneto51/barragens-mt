@@ -26,12 +26,19 @@ def html_mapa_simulacao(
     trajeto: dict[str, Any] | None = None,
     mostrar_circular: bool = True,
     mostrar_trajeto: bool = False,
+    hand_poligonos: list[list[list[float]]] | None = None,
+    hand_limiar_m: float | None = None,
+    mostrar_hand: bool = False,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
     """Mapa: mancha + US atingidas + vias/pontes + pessoas isoladas."""
     iso = isolamento or {}
     tr = trajeto or {}
+    # Limita polígonos HAND no browser (células proxy)
+    hand_poly = list(hand_poligonos or [])
+    if len(hand_poly) > 900:
+        hand_poly = hand_poly[:900]
     payload = {
         "la": lat,
         "lo": lon,
@@ -62,6 +69,9 @@ def html_mapa_simulacao(
         "trOk": bool(tr.get("ok")),
         "showC": bool(mostrar_circular),
         "showT": bool(mostrar_trajeto),
+        "showH": bool(mostrar_hand),
+        "handPoly": hand_poly,
+        "handLim": float(hand_limiar_m or 0),
         "autoplay": autoplay,
     }
     dados = json.dumps(payload, ensure_ascii=False)
@@ -95,6 +105,7 @@ def html_mapa_simulacao(
   <div class="leg">
     <div><i style="background:#dc2626"></i>Rodovia interrompida</div>
     <div><i style="background:#f59e0b"></i>Ponte atingida</div>
+    <div><i style="background:#0e7490;height:10px;width:10px;opacity:.45"></i>Relevo HAND</div>
     <div>● US atingida (na mancha)</div>
     <div>● US isolada (sem rota)</div>
     <div>■ Sede mun. isolada (pop.)</div>
@@ -112,11 +123,14 @@ mapa.createPane('vias'); mapa.getPane('vias').style.zIndex=340;
 mapa.createPane('mancha'); mapa.getPane('mancha').style.zIndex=350;
 mapa.getPane('mancha').style.pointerEvents='none';
 mapa.createPane('trajeto'); mapa.getPane('trajeto').style.zIndex=360;
+mapa.createPane('hand'); mapa.getPane('hand').style.zIndex=355;
+mapa.getPane('hand').style.pointerEvents='none';
 mapa.createPane('us'); mapa.getPane('us').style.zIndex=450;
 mapa.createPane('barragem'); mapa.getPane('barragem').style.zIndex=460;
 const camadaV = L.layerGroup().addTo(mapa);
 const camadaM = L.layerGroup().addTo(mapa);
 const camadaT = L.layerGroup().addTo(mapa);
+const camadaH = L.layerGroup().addTo(mapa);
 const camadaU = L.layerGroup().addTo(mapa);
 const camadaB = L.layerGroup().addTo(mapa);
 const camadaI = L.layerGroup().addTo(mapa);
@@ -206,8 +220,9 @@ function desenharVias(raio){{
   let nCut = 0, nPonte = 0;
   for (const v of (S.vias||[])) {{
     if (!v.coords || v.coords.length < 2) continue;
-    // Com trajeto, confia na classificação do servidor (cut); no circular, reavalia.
-    const cut = S.showT && S.isoG === 'corredor' ? !!v.cut : viaNoBuffer(v, raio);
+    // Com mancha não-circular (corredor/HAND/união), confia no cut do servidor.
+    const cut = (!S.showC || S.showT || S.showH || (S.isoG&&S.isoG!=='circular'))
+      ? !!v.cut : viaNoBuffer(v, raio);
     const ponte = !!v.ponte;
     if (cut) nCut++;
     if (cut && ponte) nPonte++;
@@ -262,28 +277,55 @@ function desenhar(fPct){{
   if (S.showT && S.trOk) {{
     trLinha = `<br>Corredor ±<b>${{S.trW}}</b> km · ~<b>${{S.trL}}</b> km`;
   }}
+  let handLinha = '';
+  if (S.showH) {{
+    handLinha = `<br>HAND ≤ <b>${{S.handLim}}</b> m · ${{(S.handPoly||[]).length}} células`;
+  }}
   document.getElementById('hud').innerHTML =
     `<b>${{fPct}}%</b> liberado · área <b>${{area.toFixed(1)}}</b> km²` +
     (S.showC ? `<br>Raio circ. <b>${{raio.toFixed(2)}}</b> km` : '') +
-    trLinha + '<br>' + isoLinha;
+    trLinha + handLinha + '<br>' + isoLinha;
 
-  camadaM.clearLayers(); camadaT.clearLayers();
+  camadaM.clearLayers(); camadaT.clearLayers(); camadaH.clearLayers();
   camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
 
   let bounds = null;
   if (S.showC) {{
     const mancha = L.circle([S.la,S.lo], {{
       pane:'mancha', radius: raio*1000, color:'#c2410c', weight:2,
-      fillColor:'#fb923c', fillOpacity: S.showT ? 0.10 : (0.22 + 0.28*progress),
-      opacity: S.showT ? 0.55 : (0.7 + 0.25*progress),
-      dashArray: S.showT ? '6 8' : null,
+      fillColor:'#fb923c',
+      fillOpacity: (S.showT || S.showH) ? 0.10 : (0.22 + 0.28*progress),
+      opacity: (S.showT || S.showH) ? 0.55 : (0.7 + 0.25*progress),
+      dashArray: (S.showT || S.showH) ? '6 8' : null,
       className: 'mancha-anim'
     }}).addTo(camadaM);
     try {{
       const el = mancha.getElement && mancha.getElement();
-      if (el && !S.showT) el.style.animation = 'pulseRing 1.2s ease-in-out infinite';
+      if (el && !S.showT && !S.showH) el.style.animation = 'pulseRing 1.2s ease-in-out infinite';
     }} catch(e) {{}}
     bounds = mancha.getBounds();
+  }}
+
+  if (S.showH && (S.handPoly||[]).length) {{
+    for (const ring of S.handPoly) {{
+      if (!ring || ring.length < 3) continue;
+      const poly = L.polygon(ring, {{
+        pane:'hand', color:'#0e7490', weight:0.6,
+        fillColor:'#06b6d4', fillOpacity:0.28, opacity:0.55
+      }}).addTo(camadaH);
+      const pb = poly.getBounds();
+      bounds = bounds ? bounds.extend(pb) : pb;
+    }}
+    if (!timer) {{
+      // popup único na primeira célula
+      const first = S.handPoly[0];
+      if (first && first.length) {{
+        L.circleMarker(first[0], {{radius:1, opacity:0, fillOpacity:0}}).bindPopup(
+          `<b>Relevo HAND (proxy SRTM)</b><br>Células com HAND ≤ ${{S.handLim}} m<br>` +
+          `Não é mancha PAE / dam break.`
+        ).addTo(camadaH);
+      }}
+    }}
   }}
 
   if (S.showT && S.trOk && polyAnim.length >= 2) {{

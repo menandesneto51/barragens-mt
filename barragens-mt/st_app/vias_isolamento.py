@@ -593,11 +593,12 @@ def analisar_isolamento_json(
     corredor_json: str = "",
     sedes_json: str = "",
     uniao_circular: bool = False,
+    hand_limiar_m: float | None = None,
 ) -> dict[str, Any]:
     """Variante serializada — adequada a st.cache_data.
 
     Se `uniao_circular` e houver corredor, a mancha = corredor ∪ círculo
-    (modo Ambos da UI).
+    (modo Ambos da UI). Com `hand_limiar_m`, usa grade HAND (relevo) no eixo.
     """
     try:
         cnes = json.loads(cnes_json) if cnes_json else []
@@ -611,7 +612,34 @@ def analisar_isolamento_json(
     na_mancha = None
     bbox = None
     geom_label = "circular"
-    if corredor_json:
+
+    if hand_limiar_m is not None:
+        from st_app.relevo_hand import bbox_hand, predicate_hand
+
+        pred_h = predicate_hand(float(hand_limiar_m))
+        bb = bbox_hand(float(hand_limiar_m))
+        r = float(raio_km)
+        if uniao_circular:
+            def _uniao_h(la: float, lo: float, _lat=lat, _lon=lon, _r=r, _p=pred_h) -> bool:
+                return _p(la, lo) or haversine_km(_lat, _lon, la, lo) <= _r
+
+            na_mancha = _uniao_h
+            geom_label = "hand_uniao"
+            pad_c = (r / 111.0) + 0.03
+            if bb:
+                bbox = (
+                    min(bb[0], lat) - pad_c,
+                    min(bb[1], lon) - pad_c,
+                    max(bb[2], lat) + pad_c,
+                    max(bb[3], lon) + pad_c,
+                )
+            else:
+                bbox = (lat - pad_c, lon - pad_c, lat + pad_c, lon + pad_c)
+        else:
+            na_mancha = pred_h
+            geom_label = "hand"
+            bbox = bb
+    elif corredor_json:
         try:
             cor = json.loads(corredor_json)
         except json.JSONDecodeError:
