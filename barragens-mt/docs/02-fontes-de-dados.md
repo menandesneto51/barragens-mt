@@ -334,6 +334,25 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | Contagem de escolas na mancha proxy — serviço essencial não assistencial (C5), junto com captações e pontes |
 | Implementado em | `scripts/40_escolas_inep_eixo.py` → `escolas_eixo_cuiaba.csv` (OSM) + `escolas_inep_contagem_municipio.csv` (INEP); UI em `st_app/escolas_inep.py` |
 
+### 2.5.11 Malha BR/MT no eixo — proxy DNIT/SNV
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Trechos com `ref` BR-/MT- (e pontes) no bbox do eixo Manso–Cuiabá; km aproximado por ref |
+| Acesso preferido | SNV / portal DNIT (`dnitcloud`) — neste ambiente o download institucional costuma falhar (connection reset) |
+| Proxy aberto | Overpass: ways `highway` arterial com `ref` ~ `^(BR\|MT)-` + bridges com a mesma ref |
+| Uso pretendido | Contagem de refs federais/estaduais e pontes na mancha (complemento C7); substituir por SNV oficial quando disponível |
+| Implementado em | `scripts/42_malha_dnit_osm_eixo.py` → `malha_dnit_osm_eixo.csv` / `.geojson`; UI em `st_app/malha_dnit.py` |
+
+### 2.5.12 Capacidade assistencial CNES sob pressão (D6 proxy)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Contagem de hospital / UPA-PS / UBS-ESF na mancha e isolados; score estrutural 3×H+2×UPA+1×UBS |
+| Limitação | API/cadastro aberto de estabelecimentos **não expõe leitos**; leitos operantes exigem FTP DATASUS ou painel institucional |
+| Uso pretendido | Proxy de pressão sobre capacidade instalada (roadmap D6) até haver leitos |
+| Implementado em | `st_app/capacidade_cnes.py` + painel Simulação; base espacial = `cnes_estabelecimentos_*.geojson` |
+
 ---
 
 ## 2.6 Grupo E — Copernicus EMS (Emergency Management Service)

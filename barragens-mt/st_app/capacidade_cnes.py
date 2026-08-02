@@ -1,0 +1,129 @@
+"""Capacidade assistencial CNES sob pressão na mancha (proxy D6).
+
+A API pública de estabelecimentos **não expõe leitos**. Usamos a tipificação
+já classificada (hospitalar / UPA / UBS) como capacidade estrutural de referência.
+"""
+
+from __future__ import annotations
+
+import math
+from typing import Any
+
+import pandas as pd
+
+from st_app.relevo_hand import ponto_na_mancha_hand
+from st_app.trajeto_hidraulico import ponto_no_corredor
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    r = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(min(1.0, a)))
+
+
+def cruzar_capacidade_mancha(
+    cnes: pd.DataFrame,
+    *,
+    lat0: float,
+    lon0: float,
+    raio_km: float,
+    mostrar_circular: bool = True,
+    trajeto: dict[str, Any] | None = None,
+    mostrar_trajeto: bool = False,
+    hand_limiar: float | None = None,
+    usar_hand: bool = False,
+    us_isoladas: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Conta capacidade estrutural na mancha e isolada (fora da mancha sem rota)."""
+    vazio = {
+        "disponivel": False,
+        "n_us_mancha": 0,
+        "n_hospitalar_mancha": 0,
+        "n_upa_mancha": 0,
+        "n_ubs_mancha": 0,
+        "n_prioritaria_mancha": 0,
+        "n_hospitalar_isolada": 0,
+        "n_upa_isolada": 0,
+        "n_ubs_isolada": 0,
+        "pressao_estrutural": 0,
+        "rotulo_pressao": "indisponível",
+        "fonte": "CNES (tipologia; sem leitos na API aberta)",
+    }
+    if cnes is None or cnes.empty:
+        return vazio
+
+    na_mancha_rows: list[dict[str, Any]] = []
+    for row in cnes.itertuples():
+        try:
+            la, lo = float(row.latitude), float(row.longitude)
+        except (TypeError, ValueError):
+            continue
+        ok = False
+        if mostrar_circular and _haversine_km(lat0, lon0, la, lo) <= raio_km:
+            ok = True
+        if mostrar_trajeto and trajeto and trajeto.get("ok") and trajeto.get("polyline"):
+            ok = ok or ponto_no_corredor(
+                la,
+                lo,
+                trajeto["polyline"],
+                float(trajeto.get("largura_km") or 2.0),
+            )
+        if usar_hand and hand_limiar is not None:
+            ok = ok or ponto_na_mancha_hand(la, lo, float(hand_limiar))
+        if not ok:
+            continue
+        na_mancha_rows.append(
+            {
+                "nome": getattr(row, "nome", ""),
+                "municipio": getattr(row, "municipio", ""),
+                "tipo": getattr(row, "tipo", ""),
+                "hospitalar": bool(getattr(row, "hospitalar", False)),
+                "upa_ps": bool(getattr(row, "upa_ps", False)),
+                "ubs_esf": bool(getattr(row, "ubs_esf", False)),
+                "prioritario": bool(getattr(row, "prioritario", False)),
+            }
+        )
+
+    n_h = sum(1 for r in na_mancha_rows if r["hospitalar"])
+    n_upa = sum(1 for r in na_mancha_rows if r["upa_ps"])
+    n_ubs = sum(1 for r in na_mancha_rows if r["ubs_esf"])
+    n_prio = sum(1 for r in na_mancha_rows if r["prioritario"])
+
+    iso = us_isoladas or []
+    n_h_iso = sum(1 for u in iso if u.get("h"))
+    n_upa_iso = sum(1 for u in iso if u.get("upa"))
+    n_ubs_iso = sum(1 for u in iso if u.get("ubs"))
+
+    # Score estrutural sob pressão: 3×hospital + 2×upa + 1×ubs (mancha + isoladas)
+    pressao = (
+        3 * (n_h + n_h_iso)
+        + 2 * (n_upa + n_upa_iso)
+        + 1 * (n_ubs + n_ubs_iso)
+    )
+    if pressao >= 12:
+        rotulo = "alta — vários nós assistenciais sob risco/isolamento"
+    elif pressao >= 5:
+        rotulo = "moderada — capacidade local comprometida"
+    elif pressao >= 1:
+        rotulo = "baixa — poucos pontos críticos"
+    else:
+        rotulo = "mínima — sem hospital/UPA/UBS na mancha ou isolados"
+
+    return {
+        "disponivel": True,
+        "n_us_mancha": len(na_mancha_rows),
+        "n_hospitalar_mancha": n_h,
+        "n_upa_mancha": n_upa,
+        "n_ubs_mancha": n_ubs,
+        "n_prioritaria_mancha": n_prio,
+        "n_hospitalar_isolada": n_h_iso,
+        "n_upa_isolada": n_upa_iso,
+        "n_ubs_isolada": n_ubs_iso,
+        "pressao_estrutural": pressao,
+        "rotulo_pressao": rotulo,
+        "itens_mancha": na_mancha_rows[:40],
+        "fonte": "CNES tipologia (hospital/UPA/UBS) — leitos operantes não disponíveis na API aberta",
+    }

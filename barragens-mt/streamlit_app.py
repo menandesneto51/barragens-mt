@@ -1200,6 +1200,63 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "Não inclui ETA/ETE/energia/abrigos oficiais (ainda sem base espacial contínua)."
         )
 
+        from st_app.malha_dnit import cruzar_malha_mancha
+        from st_app.capacidade_cnes import cruzar_capacidade_mancha
+
+        malha_kpi = cruzar_malha_mancha(**_geom_mancha)
+        if malha_kpi.get("disponivel"):
+            st.markdown("##### Malha federal/estadual na mancha (proxy DNIT)")
+            d1, d2, d3, d4 = st.columns(4)
+            d1.metric("Refs BR/MT na mancha", malha_kpi["n_na_mancha"])
+            d2.metric("Federais (BR-)", malha_kpi["n_federais_mancha"])
+            d3.metric("Pontes (ref)", malha_kpi["n_pontes_mancha"])
+            d4.metric("Km aprox. na mancha", f"{malha_kpi['km_na_mancha']:.0f}")
+            st.caption(
+                f"`{malha_kpi.get('fonte')}` — rode `python executar.py 42` para atualizar. "
+                "SNV/DNIT oficial permanece a fonte preferida quando o portal responder."
+            )
+            if malha_kpi.get("itens"):
+                with st.expander("Trechos BR/MT atingidos", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(malha_kpi["itens"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=240,
+                    )
+        else:
+            st.caption(
+                "Malha BR/MT (proxy DNIT) ausente — rode `python executar.py 42`."
+            )
+
+        cap_assist = cruzar_capacidade_mancha(
+            cnes,
+            **_geom_mancha,
+            us_isoladas=iso.get("us_isoladas") or [],
+        )
+        if cap_assist.get("disponivel"):
+            st.markdown("##### Capacidade assistencial sob pressão (D6 proxy)")
+            a1, a2, a3, a4 = st.columns(4)
+            a1.metric("Hospitalar na mancha", cap_assist["n_hospitalar_mancha"])
+            a2.metric("UPA/PS na mancha", cap_assist["n_upa_mancha"])
+            a3.metric("UBS/ESF na mancha", cap_assist["n_ubs_mancha"])
+            a4.metric("Pressão estrutural", cap_assist["pressao_estrutural"])
+            b1, b2, b3 = st.columns(3)
+            b1.metric("Hospitalar isolada", cap_assist["n_hospitalar_isolada"])
+            b2.metric("UPA isolada", cap_assist["n_upa_isolada"])
+            b3.metric("UBS isolada", cap_assist["n_ubs_isolada"])
+            st.caption(
+                f"{cap_assist['rotulo_pressao']}. `{cap_assist.get('fonte')}`. "
+                "Score = 3×hospital + 2×UPA + 1×UBS (mancha + isoladas)."
+            )
+            if cap_assist.get("itens_mancha"):
+                with st.expander("US na mancha (tipologia)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(cap_assist["itens_mancha"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+
         from st_app.data import TRATADOS as _TR_MB
 
         mb_path = _TR_MB / "mapbiomas_pressao_eixo_cuiaba.csv"

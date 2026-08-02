@@ -107,6 +107,12 @@ ETAPAS = [
         "MapBiomas pressão urbana no eixo Manso–Cuiabá",
         False,
     ),
+    (
+        "42",
+        "42_malha_dnit_osm_eixo.py",
+        "Malha BR/MT no eixo (proxy DNIT via OSM)",
+        False,
+    ),
 ]
 
 
