@@ -333,7 +333,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | Isolamento e desvio de rota (roadmap 4.4); nível C7 proxy |
 | Implementado em | `st_app/vias_isolamento.py` — campos `desvios_rota`, `delta_km_medio_desvio`, `n_sedes_sem_rota` |
 
-### 2.5.10 INEP — Censo Escolar (escolas na mancha, C5)
+### 2.5.11 INEP — Censo Escolar (escolas na mancha, C5)
 
 | Aspecto | Conteúdo |
 | --- | --- |
@@ -343,7 +343,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | Contagem de escolas na mancha proxy — serviço essencial não assistencial (C5), junto com captações e pontes |
 | Implementado em | `scripts/40_escolas_inep_eixo.py` → `escolas_eixo_cuiaba.csv` (OSM) + `escolas_inep_contagem_municipio.csv` (INEP); UI em `st_app/escolas_inep.py` |
 
-### 2.5.11 Malha BR/MT no eixo — proxy DNIT/SNV
+### 2.5.12 Malha BR/MT no eixo — proxy DNIT/SNV
 
 | Aspecto | Conteúdo |
 | --- | --- |
@@ -353,7 +353,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | Contagem de refs federais/estaduais e pontes na mancha (complemento C7); substituir por SNV oficial quando disponível |
 | Implementado em | `scripts/42_malha_dnit_osm_eixo.py` → `malha_dnit_osm_eixo.csv` / `.geojson`; UI em `st_app/malha_dnit.py` |
 
-### 2.5.12 Capacidade assistencial CNES + IndicaSUS/DW (D6)
+### 2.5.13 Capacidade assistencial CNES + IndicaSUS/DW (D6)
 
 | Aspecto | Conteúdo |
 | --- | --- |
