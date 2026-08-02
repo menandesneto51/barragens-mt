@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import math
 import re
 from pathlib import Path
 
@@ -459,22 +460,189 @@ def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:
         if st.button("Simulação de cenário", width="stretch", type="primary"):
             ir_para("Situação", "Simulação de cenário")
     with c2:
-        if st.button("Impacto extraterritorial", width="stretch"):
-            ir_para("Território", "Impacto extraterritorial")
+        if st.button("Visão territorial", width="stretch"):
+            ir_para("Território", "Visão territorial")
     with c3:
+        if st.button(f"Notificações / impactos", width="stretch"):
+            ir_para("Ação", "Notificações e impactos")
+    with c4:
         if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", width="stretch"):
             ir_para("Ação", "Alertabilidade / despacho")
-    with c4:
-        rotulo = "Eixo Manso–Cuiabá" + (" (filtro ativo)" if so_piloto else "")
-        if st.button(rotulo, width="stretch"):
-            ir_para("Situação", "Eixo Manso–Cuiabá")
+
+
+_CORES_VULN = {
+    "aldeia indígena": "#166534",
+    "terra indígena": "#14532d",
+    "assentamento rural": "#a16207",
+    "assentamento": "#a16207",
+    "território quilombola": "#7c3aed",
+    "quilombo": "#7c3aed",
+    "estabelecimento de saúde": "#1d4ed8",
+}
+
+
+def _cor_categoria(cat: str) -> str:
+    c = (cat or "").strip().lower()
+    if c in _CORES_VULN:
+        return _CORES_VULN[c]
+    for k, v in _CORES_VULN.items():
+        if k in c:
+            return v
+    return "#1b3281"
+
+
+def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
+    """Primeira tela do Território: mapa estadual integrado."""
+    st.markdown("# Visão territorial")
+    st.markdown(
+        '<p class="nota">Mapa de <b>todas as barragens</b> do inventário com camadas de '
+        "populações vulneráveis (eixo Manso–Cuiabá) e unidades de saúde (CNES). "
+        "Clique nos pontos para detalhes. Ribeirinhos ainda sem base espacial contínua.</p>",
+        unsafe_allow_html=True,
+    )
+    from st_app.data import carregar_cnes_pontos, ordenar_por_severidade
+
+    bars = df_barragens.dropna(subset=["latitude", "longitude"]).copy() if not df_barragens.empty else pd.DataFrame()
+    vul = carregar_exposicao_vulneraveis()
+    cnes = carregar_cnes_pontos(so_prioritarios=True)
+    if cnes.empty:
+        cnes = carregar_cnes_pontos(so_prioritarios=False)
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Barragens no mapa", len(bars))
+    n_trad = 0
+    n_us_eixo = 0
+    if not vul.empty and "categoria" in vul.columns:
+        cats = vul["categoria"].fillna("").astype(str).str.lower()
+        n_us_eixo = int(cats.str.contains("saúde|saude|estabelecimento").sum())
+        n_trad = int((~cats.str.contains("saúde|saude|estabelecimento")).sum())
+    c2.metric("Povos/comunidades (eixo)", n_trad)
+    c3.metric("US no arquivo de exposição", n_us_eixo)
+    c4.metric("US CNES prioritárias", len(cnes) if not cnes.empty else 0)
+
+    camadas = st.multiselect(
+        "Camadas",
+        ["Barragens", "Populações vulneráveis", "Unidades de saúde (CNES)"],
+        default=["Barragens", "Populações vulneráveis", "Unidades de saúde (CNES)"],
+    )
+    niveis = st.multiselect(
+        "Níveis das barragens",
+        ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
+        default=["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
+    )
+    if niveis and not bars.empty and "nivel" in bars.columns:
+        bars = bars[bars["nivel"].isin(niveis)]
+
+    cats_vul = []
+    if not vul.empty and "categoria" in vul.columns:
+        cats_vul = sorted(vul["categoria"].dropna().astype(str).unique().tolist())
+    filtro_cat = st.multiselect(
+        "Categorias vulneráveis",
+        cats_vul,
+        default=[c for c in cats_vul if "saúde" not in c.lower() and "saude" not in c.lower()]
+        or cats_vul,
+    )
+
+    m = folium.Map(location=[-13.0, -55.8], zoom_start=6, tiles="CartoDB positron")
+    if "Barragens" in camadas and not bars.empty:
+        for r in ordenar_por_severidade(bars).itertuples():
+            cor = CORES_NIVEL.get(str(getattr(r, "nivel", "") or ""), "#888")
+            pop = (
+                f"<b>{r.nome}</b><br>SNISB {r.id_snisb}<br>"
+                f"{getattr(r, 'municipio_sede', '') or '—'} · "
+                f"{getattr(r, 'nivel', '—')} · IDAP {getattr(r, 'idap', '—')}<br>"
+                f"Uso: {getattr(r, 'uso_principal', '') or '—'}<br>"
+                f"CRI/DPA: {getattr(r, 'categoria_risco', '—')} / "
+                f"{getattr(r, 'dano_potencial_associado', '—')}<br>"
+                f"Vol. {getattr(r, 'capacidade_hm3', '—')} hm³ · "
+                f"alt. {getattr(r, 'altura_m', '—')} m"
+            )
+            folium.CircleMarker(
+                [r.latitude, r.longitude],
+                radius=6,
+                color="#111",
+                weight=1,
+                fill=True,
+                fill_color=cor,
+                fill_opacity=0.9,
+                popup=folium.Popup(pop, max_width=320),
+                tooltip=str(r.nome),
+            ).add_to(m)
+
+    if "Populações vulneráveis" in camadas and not vul.empty:
+        pts = vul.dropna(subset=["latitude", "longitude"])
+        if filtro_cat:
+            pts = pts[pts["categoria"].astype(str).isin(filtro_cat)]
+        for _, r in pts.head(1200).iterrows():
+            cat = str(r.get("categoria") or "")
+            pop = (
+                f"<b>{r.get('nome') or '—'}</b><br>{cat}<br>"
+                f"{r.get('municipio') or '—'} · {r.get('faixa') or '—'}<br>"
+                f"Dist. eixo: {r.get('distancia_eixo_km') or '—'} km"
+            )
+            try:
+                fam = r.get("familias")
+                if fam is not None and str(fam).strip() not in ("", "nan", "None"):
+                    pop += f"<br>Famílias: {int(float(fam))}"
+            except (TypeError, ValueError):
+                pass
+            folium.CircleMarker(
+                [float(r["latitude"]), float(r["longitude"])],
+                radius=4,
+                color="#fff",
+                weight=1,
+                fill=True,
+                fill_color=_cor_categoria(cat),
+                fill_opacity=0.85,
+                popup=folium.Popup(pop, max_width=280),
+                tooltip=f"{r.get('nome')} ({cat})",
+            ).add_to(m)
+
+    if "Unidades de saúde (CNES)" in camadas and not cnes.empty:
+        amostra = cnes
+        if len(amostra) > 1500:
+            # prioriza hospitalar / UPA / UBS
+            pri = amostra
+            for col in ("hospitalar", "upa_ps", "ubs_esf", "prioritario"):
+                if col in pri.columns:
+                    pri = amostra.sort_values(col, ascending=False)
+                    break
+            amostra = pri.head(1500)
+        for row in amostra.itertuples():
+            tip = getattr(row, "tipo", "US") or "US"
+            pop = (
+                f"<b>{getattr(row, 'nome', '')}</b><br>{tip}<br>"
+                f"{getattr(row, 'municipio', '') or '—'}"
+            )
+            cor = (
+                "#b91c1c"
+                if getattr(row, "hospitalar", False)
+                else ("#ea580c" if getattr(row, "upa_ps", False) else "#2563eb")
+            )
+            folium.CircleMarker(
+                [float(row.latitude), float(row.longitude)],
+                radius=3,
+                color="#fff",
+                weight=0.5,
+                fill=True,
+                fill_color=cor,
+                fill_opacity=0.8,
+                popup=folium.Popup(pop, max_width=260),
+            ).add_to(m)
+
+    st_folium(m, height=560, use_container_width=True, returned_objects=[])
+    st.caption(
+        "Verde escuro = aldeia/TI · âmbar = assentamento · violeta = quilombo · "
+        "azul = US. Barragens coloridas pelo nível IDAP. "
+        "Exposição vulnerável hoje cobre o eixo Manso–Cuiabá (não o estado inteiro)."
+    )
 
 
 def pagina_vulneraveis() -> None:
     st.markdown("# Populações vulneráveis (eixo)")
     st.markdown(
-        '<p class="nota">Aldeias, assentamentos e quilombos próximos ao eixo Manso–Cuiabá '
-        "(dado já tratado — exposição ao eixo).</p>",
+        '<p class="nota">Aldeias, terras indígenas, assentamentos e quilombos próximos ao '
+        "eixo Manso–Cuiabá. Ribeirinhos: sem base espacial contínua no repositório ainda.</p>",
         unsafe_allow_html=True,
     )
     df = carregar_exposicao_vulneraveis()
@@ -490,26 +658,35 @@ def pagina_vulneraveis() -> None:
         sorted(df["faixa"].dropna().unique().tolist()) if "faixa" in df.columns else [],
         default=None,
     )
+    cats = (
+        sorted(df["categoria"].dropna().astype(str).unique().tolist())
+        if "categoria" in df.columns
+        else []
+    )
+    filtro_cat = st.multiselect("Categoria", cats, default=cats)
     view = df[df["faixa"].isin(faixa)] if faixa else df
+    if filtro_cat:
+        view = view[view["categoria"].astype(str).isin(filtro_cat)]
     pts = view.dropna(subset=["latitude", "longitude"])
     if not pts.empty:
         m = folium.Map(location=[-15.5, -56.0], zoom_start=8, tiles="CartoDB positron")
-        cores = {
-            "aldeia indígena": "#166534",
-            "assentamento": "#a16207",
-            "quilombo": "#7c3aed",
-        }
         for _, r in pts.head(800).iterrows():
             cat = str(r.get("categoria") or "")
+            popup = (
+                f"<b>{r.get('nome') or '—'}</b><br>{cat}<br>"
+                f"{r.get('municipio') or '—'} · {r.get('faixa') or '—'}<br>"
+                f"Dist. eixo {r.get('distancia_eixo_km') or '—'} km"
+            )
             folium.CircleMarker(
                 [r["latitude"], r["longitude"]],
                 radius=5,
                 color="#fff",
                 weight=1,
                 fill=True,
-                fill_color=cores.get(cat, "#1b3281"),
+                fill_color=_cor_categoria(cat),
                 fill_opacity=0.85,
-                popup=f"{r.get('nome')}<br>{cat}<br>{r.get('municipio')} · {r.get('faixa')}",
+                popup=folium.Popup(popup, max_width=280),
+                tooltip=str(r.get("nome") or cat),
             ).add_to(m)
         st_folium(m, height=480, use_container_width=True, returned_objects=[])
     st.dataframe(view.head(200), width="stretch", hide_index=True, height=360)
@@ -519,14 +696,14 @@ def pagina_extraterritorial() -> None:
     st.markdown("# Impacto extraterritorial")
     st.markdown(
         '<p class="nota">Barragem na sede A que pode afetar município B a jusante (Otto). '
-        "Mapa: origem (barragem) → centroide do município afetado.</p>",
+        "Clique na ligação ou nos pontos para ver IDAP, CRI/DPA, volume e afetados.</p>",
         unsafe_allow_html=True,
     )
     df = carregar_impacto_extraterritorial()
     if df.empty:
         st.error("impacto_extraterritorial_mt.csv ausente.")
         return
-    so_atencao = st.checkbox("Só Em atenção+", value=True)
+    so_atencao = st.checkbox("Só Em atenção+", value=False)
     view = df.copy()
     if so_atencao and "nivel" in view.columns:
         view = view[view["nivel"].isin(["Amarelo", "Laranja", "Vermelho", "Roxo"])]
@@ -542,12 +719,24 @@ def pagina_extraterritorial() -> None:
 
     idap = carregar_idap()
     coords_bar: dict[str, tuple[float, float]] = {}
+    info_bar: dict[str, dict] = {}
     centroides: dict[str, tuple[float, float]] = {}
     if not idap.empty and "latitude" in idap.columns:
         for _, r in idap.dropna(subset=["latitude", "longitude"]).iterrows():
             bid = str(r.get("id_snisb") or "")
             if bid:
                 coords_bar[bid] = (float(r["latitude"]), float(r["longitude"]))
+                info_bar[bid] = {
+                    "cri": r.get("categoria_risco") or "—",
+                    "dpa": r.get("dano_potencial_associado") or "—",
+                    "vol": r.get("capacidade_hm3"),
+                    "alt": r.get("altura_m"),
+                    "uso": r.get("uso_principal") or "—",
+                    "orgao": r.get("orgao_fiscalizador") or "—",
+                    "pop_j": r.get("sigbm_populacao_jusante"),
+                    "pop_a": r.get("sigbm_pessoas_afetadas"),
+                    "n_af": r.get("n_municipios_afetados"),
+                }
         g = (
             idap.dropna(subset=["latitude", "longitude"])
             .assign(_sede=idap["municipio_sede"].fillna("").astype(str).str.strip())
@@ -560,10 +749,18 @@ def pagina_extraterritorial() -> None:
             if i
         }
 
+    def _fmt(v: object, suf: str = "") -> str:
+        if v in (None, "", "nan", "None"):
+            return "—"
+        try:
+            return f"{float(v):.2f}{suf}".replace(".", ",")
+        except (TypeError, ValueError):
+            return str(v)
+
     linhas_mapa = 0
     if coords_bar and centroides:
         m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
-        amostra = view.head(200)
+        amostra = view.head(250)
         for _, r in amostra.iterrows():
             bid = str(r.get("id_snisb") or "")
             dest = str(r.get("municipio_potencialmente_afetado") or "").strip()
@@ -572,26 +769,57 @@ def pagina_extraterritorial() -> None:
             if not origem or not destino:
                 continue
             cor = CORES_NIVEL.get(str(r.get("nivel") or ""), "#1b3281")
+            extra = info_bar.get(bid, {})
+            html = (
+                f"<b>{r.get('nome_barragem') or 'Barragem'}</b><br>"
+                f"SNISB {bid}<br>"
+                f"<b>{r.get('municipio_sede') or '—'}</b> → <b>{dest}</b><br>"
+                f"Nível {r.get('nivel') or '—'} · IDAP {r.get('idap') or '—'}<br>"
+                f"CRI/DPA: {extra.get('cri')} / {extra.get('dpa')}<br>"
+                f"Uso: {extra.get('uso')}<br>"
+                f"Volume {_fmt(extra.get('vol'), ' hm³')} · altura {_fmt(extra.get('alt'), ' m')}<br>"
+                f"Pop. jusante (SIGBM): {_fmt(extra.get('pop_j'), '')}<br>"
+                f"Pessoas afetadas (SIGBM): {_fmt(extra.get('pop_a'), '')}<br>"
+                f"Municípios afetados (Otto): {extra.get('n_af') or '—'}<br>"
+                f"Órgão: {extra.get('orgao')}"
+            )
+            popup = folium.Popup(html, max_width=340)
             folium.PolyLine(
                 [origem, destino],
                 color=cor,
-                weight=2,
-                opacity=0.55,
-                popup=(
-                    f"{r.get('nome_barragem')}<br>{r.get('municipio_sede')} → {dest}<br>"
-                    f"{r.get('nivel')} · índice {r.get('idap')}"
+                weight=2.5,
+                opacity=0.65,
+                popup=popup,
+                tooltip=f"{r.get('nome_barragem')}: {r.get('municipio_sede')} → {dest}",
+            ).add_to(m)
+            folium.CircleMarker(
+                origem,
+                radius=5,
+                color="#111",
+                fill=True,
+                fill_color=cor,
+                fill_opacity=0.95,
+                popup=popup,
+                tooltip=str(r.get("nome_barragem") or bid),
+            ).add_to(m)
+            folium.CircleMarker(
+                destino,
+                radius=4,
+                color="#1b3281",
+                fill=True,
+                fill_color="#fff",
+                fill_opacity=0.95,
+                popup=folium.Popup(
+                    f"<b>Município potencialmente afetado</b><br>{dest}<br>"
+                    f"Origem: {r.get('nome_barragem')} ({r.get('municipio_sede')})",
+                    max_width=280,
                 ),
-            ).add_to(m)
-            folium.CircleMarker(
-                origem, radius=4, color="#111", fill=True, fill_color=cor, fill_opacity=0.9
-            ).add_to(m)
-            folium.CircleMarker(
-                destino, radius=3, color="#1b3281", fill=True, fill_color="#fff", fill_opacity=0.9
+                tooltip=dest,
             ).add_to(m)
             linhas_mapa += 1
         if linhas_mapa:
-            st_folium(m, height=480, use_container_width=True, returned_objects=[])
-            st.caption(f"{linhas_mapa} ligação(ões) desenhadas (amostra até 200).")
+            st_folium(m, height=520, use_container_width=True, returned_objects=[])
+            st.caption(f"{linhas_mapa} ligação(ões) desenhadas (amostra até 250).")
         else:
             st.info("Sem pares com coordenadas suficientes para o mapa.")
     st.dataframe(view.head(500), width="stretch", hide_index=True, height=360)
@@ -802,3 +1030,230 @@ def pagina_regiao_saude() -> None:
     view = ct[ct["regiao_saude"] == reg]
     st.metric("Municípios/contatos na região", view["municipio"].nunique())
     st.dataframe(view, width="stretch", hide_index=True, height=400)
+
+
+def pagina_notificacoes_impactos(df_barragens: pd.DataFrame) -> None:
+    """Registro de possíveis rompimentos / impactos + autofill da barragem."""
+    st.markdown("# Notificações e impactos")
+    st.markdown(
+        '<p class="nota">Registro operacional de <b>possível rompimento / impacto</b> '
+        "com dados do sistema (população, IDAP, US no buffer) + campos preenchidos pela equipe. "
+        "Não substitui SIM/SINAN nem ordem da Defesa Civil.</p>",
+        unsafe_allow_html=True,
+    )
+
+    st.subheader("Quem recebe e onde fica registrado")
+    ct = carregar_contatos()
+    emails = []
+    if not ct.empty and "email" in ct.columns:
+        emails = sorted(
+            {
+                str(e).strip()
+                for e in ct["email"].fillna("").tolist()
+                if isinstance(e, str) and "@" in e
+            }
+        )
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(
+            "**Destinatários previstos (despacho)**\n\n"
+            "- Papéis do cadastro `contatos_institucionais_piloto.csv`: "
+            "gestor municipal de saúde, vigilância, CIEVS/SES, Defesa Civil (quando houver e-mail).\n"
+            "- Envio real via etapa 29 (SMTP/`secrets [vigi]` ou Telegram).\n"
+            f"- E-mails preenchidos hoje: **{len(emails)}** "
+            + (f"({', '.join(emails[:8])}{'…' if len(emails) > 8 else ''})" if emails else "(nenhum — cadastro ainda em exercício técnico sem e-mail).")
+        )
+    with c2:
+        st.markdown(
+            "**Onde os dados ficam**\n\n"
+            "- Esta tela → `dados/tratados/notificacoes_impactos.csv`\n"
+            "- Ficha rápida HTML → só `localStorage` do navegador (+ JSON exportado)\n"
+            "- Confirmações → `dados/tratados/confirmacoes/confirmacoes.csv`\n"
+            "- Log de despacho → `despacho_alertas_log.csv`"
+        )
+
+    from st_app.data import (
+        carregar_cnes_pontos,
+        cnes_no_buffer,
+        estimar_pop_cenario,
+        ordenar_por_severidade,
+        rotulo_regulada,
+        rotulo_sim_nao,
+    )
+    from st_app.data import haversine_km
+
+    if df_barragens.empty:
+        st.error("Base de barragens ausente.")
+        return
+
+    ordenado = ordenar_por_severidade(df_barragens)
+    labels = [
+        f"{r.nome} — {r.id_snisb} ({getattr(r, 'nivel', '—')})"
+        for r in ordenado.itertuples()
+    ]
+    escolha = st.selectbox("Barragem do evento", labels)
+    bid = escolha.split(" — ")[1].split(" ")[0]
+    r = df_barragens[df_barragens["id_snisb"] == bid].iloc[0]
+
+    afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
+    afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
+    sede = str(r.get("municipio_sede") or r.get("municipio") or "") or None
+    vol = float(r["capacidade_hm3"]) if pd.notna(r.get("capacidade_hm3")) else 0.0
+    # Cenário-base 50% / 2 m para pré-preencher magnitude
+    area = (vol * 0.5 / 2.0) if vol > 0 else 0.0
+    raio = math.sqrt(area / math.pi) if area > 0 else 0.0
+    est = estimar_pop_cenario(
+        area_km2=area or 1.0,
+        fracao=0.5,
+        municipio_sede=sede,
+        municipios_afetados=afetados or None,
+        pop_afetadas=r.get("sigbm_pessoas_afetadas"),
+        pop_jusante=r.get("sigbm_populacao_jusante"),
+    )
+    n_us = 0
+    if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")) and raio > 0:
+        us = cnes_no_buffer(
+            carregar_cnes_pontos(),
+            float(r["latitude"]),
+            float(r["longitude"]),
+            max(3.0, min(raio, 40.0)),
+        )
+        n_us = len(us)
+
+    vul = carregar_exposicao_vulneraveis()
+    n_vuln = 0
+    if (
+        not vul.empty
+        and pd.notna(r.get("latitude"))
+        and pd.notna(r.get("longitude"))
+        and raio > 0
+    ):
+        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+        for row in vul.dropna(subset=["latitude", "longitude"]).itertuples():
+            cat = str(getattr(row, "categoria", "") or "").lower()
+            if "saúde" in cat or "saude" in cat or "estabelecimento" in cat:
+                continue
+            if haversine_km(lat0, lon0, float(row.latitude), float(row.longitude)) <= raio:
+                n_vuln += 1
+
+    st.markdown("##### Dados do sistema (pré-preenchidos)")
+    k1, k2, k3, k4, k5 = st.columns(5)
+    k1.metric("IDAP / nível", f"{r.get('idap', '—')} / {r.get('nivel', '—')}")
+    k2.metric("Pop. estimada (proxy 50%)", f"{int(est.get('populacao_estimada') or 0):,}".replace(",", "."))
+    k3.metric("US no raio proxy", n_us)
+    k4.metric("Comunidades no raio", n_vuln)
+    k5.metric("Mun. afetados (Otto)", int(r.get("n_municipios_afetados") or len(afetados) or 0))
+    st.caption(
+        f"Sede {sede or '—'} · CRI/DPA {r.get('categoria_risco') or '—'}/"
+        f"{r.get('dano_potencial_associado') or '—'} · "
+        f"vol. {r.get('capacidade_hm3') or '—'} hm³ · "
+        f"PAE {rotulo_sim_nao(r.get('possui_pae'))} · "
+        f"regulada {rotulo_regulada(r.get('indicador_regulada'), r.get('regulada_pelo_pnsb'))} · "
+        f"raio proxy ~{raio:.1f} km (50% volume / 2 m). "
+        f"Método pop.: `{est.get('metodo')}`."
+    )
+
+    with st.form("form_notif_impacto"):
+        st.markdown("##### Complemento da equipe")
+        t1, t2 = st.columns(2)
+        with t1:
+            tipo = st.selectbox(
+                "Tipo de registro",
+                [
+                    "possível_rompimento",
+                    "rompimento_confirmado",
+                    "galgamento",
+                    "incidente_estrutural",
+                    "exercicio_simulado",
+                    "outro",
+                ],
+            )
+            magnitude = st.selectbox(
+                "Magnitude percebida",
+                ["baixa", "moderada", "alta", "extrema"],
+                index=1,
+            )
+            data_ref = st.text_input(
+                "Data/hora referência",
+                value=dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
+            )
+        with t2:
+            informante = st.text_input("Informante (nome/cargo)")
+            canal = st.selectbox(
+                "Canal de entrada",
+                ["telefone", "whatsapp", "email", "radio", "presencial", "sistema"],
+            )
+            pop_informada = st.number_input(
+                "População atingida (informada)",
+                min_value=0,
+                value=int(est.get("populacao_estimada") or 0),
+                step=10,
+            )
+        obs = st.text_area("Descrição / impactos observados", height=100)
+        desalojados = st.number_input("Desalojados", min_value=0, value=0)
+        desabrigados = st.number_input("Desabrigados", min_value=0, value=0)
+        us_afetadas_inf = st.number_input(
+            "US afetadas (informadas)", min_value=0, value=int(n_us), step=1
+        )
+        gravar = st.form_submit_button("Registrar notificação")
+
+    pasta = TRATADOS / "notificacoes"
+    pasta.mkdir(parents=True, exist_ok=True)
+    arq = pasta / "notificacoes_impactos.csv"
+    if gravar and informante:
+        registro = {
+            "instante": dt.datetime.now().isoformat(timespec="seconds"),
+            "data_referencia": data_ref,
+            "tipo": tipo,
+            "magnitude": magnitude,
+            "id_snisb": bid,
+            "nome_barragem": r.get("nome"),
+            "municipio_sede": sede,
+            "nivel_idap": r.get("nivel"),
+            "idap": r.get("idap"),
+            "cri": r.get("categoria_risco"),
+            "dpa": r.get("dano_potencial_associado"),
+            "capacidade_hm3": r.get("capacidade_hm3"),
+            "municipios_afetados_otto": afetados_txt,
+            "pop_estimada_sistema": int(est.get("populacao_estimada") or 0),
+            "metodo_pop": est.get("metodo"),
+            "us_raio_sistema": n_us,
+            "comunidades_raio_sistema": n_vuln,
+            "pop_informada": pop_informada,
+            "us_afetadas_informadas": us_afetadas_inf,
+            "desalojados": desalojados,
+            "desabrigados": desabrigados,
+            "informante": informante,
+            "canal": canal,
+            "descricao": obs,
+            "latitude": r.get("latitude"),
+            "longitude": r.get("longitude"),
+        }
+        pd.DataFrame([registro]).to_csv(
+            arq,
+            mode="a",
+            header=not arq.exists(),
+            sep=";",
+            index=False,
+            encoding="utf-8-sig",
+        )
+        st.success(f"Registrado em `dados/tratados/notificacoes/{arq.name}`.")
+        st.info(
+            "Para despachar por e-mail/Telegram use **Alertabilidade / despacho** "
+            "(requer e-mails validados no cadastro e credenciais SMTP)."
+        )
+    elif gravar:
+        st.warning("Informe o nome do informante para gravar.")
+
+    st.subheader("Histórico de notificações / impactos")
+    if arq.exists():
+        hist = pd.read_csv(arq, sep=";", encoding="utf-8-sig")
+        st.dataframe(hist.iloc[::-1], width="stretch", hide_index=True, height=320)
+        st.download_button(
+            "Baixar CSV",
+            data=arq.read_text(encoding="utf-8-sig"),
+            file_name="notificacoes_impactos.csv",
+            mime="text/csv",
+        )
+    else:
+        st.caption("Nenhum registro ainda.")

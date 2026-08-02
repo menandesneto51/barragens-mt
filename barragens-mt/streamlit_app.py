@@ -32,7 +32,10 @@ from st_app.data import (
     estimar_pop_cenario,
     filtrar_municipio,
     municipios_catalogo,
+    ordenar_por_severidade,
     projecao_semana,
+    rotulo_regulada,
+    rotulo_sim_nao,
     severidade_pct,
     tendencia_climatica_texto,
     tendencias_estado,
@@ -52,28 +55,32 @@ from st_app.paginas_onda import (
     pagina_confirmacao_persistente,
     pagina_extraterritorial,
     pagina_municipio_360,
+    pagina_notificacoes_impactos,
     pagina_rag_docs,
     pagina_regiao_saude,
+    pagina_visao_territorial,
     pagina_vulneraveis,
     tendencia_unificada,
 )
 from st_app.style import CSS
 
 JORNADAS: dict[str, list[str]] = {
+    "Território": [
+        "Visão territorial",
+        "Populações vulneráveis",
+        "Impacto extraterritorial",
+        "Mapa por tipologia",
+        "Barragem 360°",
+    ],
     "Situação": [
         "Comando estadual",
         "Simulação de cenário",
         "Hidro municipal",
         "Eixo Manso–Cuiabá",
     ],
-    "Território": [
-        "Populações vulneráveis",
-        "Impacto extraterritorial",
-        "Mapa por tipologia",
-        "Barragem 360°",
-    ],
     "Ação": [
         "Simulação de cenário",
+        "Notificações e impactos",
         "Alertabilidade / despacho",
         "Fila de alertas",
         "Confirmação persistente",
@@ -182,7 +189,8 @@ def pagina_comando(df: pd.DataFrame) -> None:
         niveis = st.multiselect(
             "Nível de prontidão",
             ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
-            default=["Roxo", "Vermelho", "Laranja", "Amarelo"],
+            default=["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
+            help="Padrão: todos os cenários (inclui Verde). Remova níveis para filtrar.",
         )
         so_piloto = st.checkbox("Só eixo Manso–Cuiabá", value=False)
         busca = st.text_input("Busca (nome ou código)", "")
@@ -546,7 +554,8 @@ def pagina_comando(df: pd.DataFrame) -> None:
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
     st.markdown("# Hidrometeorologia municipal")
     st.markdown(
-        '<p class="nota">SisClima/TITAN + previsão ECMWF (Copernicus/C3S) + amostra GloFAS.</p>',
+        '<p class="nota">SisClima/TITAN + previsão ECMWF (Copernicus/C3S) + amostra GloFAS. '
+        "Nomes municipais completados via IBGE quando a fonte só traz o código.</p>",
         unsafe_allow_html=True,
     )
     if hidro.empty:
@@ -569,7 +578,7 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
             "indice_saturacao_solo": "Saturação do solo",
         }[x],
     )
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     c1.metric("Municípios", len(hidro))
     c2.metric("Máx. chuva 24 h", f"{hidro['chuva_24h_mm'].max():.1f} mm" if "chuva_24h_mm" in hidro else "—")
     c3.metric(
@@ -578,12 +587,45 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
         if "chuva_prevista_24_72h_mm" in hidro
         else "—",
     )
+    n_nome = int((hidro["municipio"].fillna("").astype(str).str.strip() != "").sum()) if "municipio" in hidro.columns else 0
+    c4.metric("Com nome IBGE", f"{n_nome}/{len(hidro)}")
     ordenado = hidro.sort_values(metrica, ascending=False, na_position="last")
-    st.bar_chart(ordenado.set_index("municipio")[metrica].head(25), height=360)
-    mostrar = ordenado.copy()
-    if not pop.empty:
-        mostrar = mostrar.merge(pop[["municipio", "populacao"]], on="municipio", how="left")
-    st.dataframe(mostrar, width="stretch", hide_index=True, height=400)
+    rotulos = ordenado["municipio"].fillna("").astype(str)
+    rotulos = rotulos.where(rotulos.str.strip() != "", ordenado.get("codigo_ibge", pd.Series("", index=ordenado.index)).astype(str))
+    chart = ordenado.assign(_rotulo=rotulos).set_index("_rotulo")[metrica].head(25)
+    st.bar_chart(chart, height=360)
+    cols_pref = [
+        c
+        for c in (
+            "municipio",
+            "codigo_ibge",
+            "populacao",
+            "chuva_24h_mm",
+            "chuva_72h_mm",
+            "chuva_prevista_24_72h_mm",
+            "percentil_climatologico",
+            "indice_saturacao_solo",
+            "classe_saturacao_solo",
+            "nivel_alerta_hidro",
+            "dias_consecutivos_chuva_intensa",
+            "fonte_precip",
+            "fonte_previsao",
+            "data_referencia",
+        )
+        if c in ordenado.columns
+    ]
+    mostrar = ordenado[cols_pref].copy() if cols_pref else ordenado.copy()
+    if not pop.empty and "populacao" not in mostrar.columns and "municipio" in mostrar.columns:
+        mostrar = mostrar.merge(
+            pop[["municipio", "populacao"]].drop_duplicates("municipio"),
+            on="municipio",
+            how="left",
+        )
+    st.dataframe(mostrar, width="stretch", hide_index=True, height=420)
+    st.caption(
+        "Colunas principais: chuva observada/prevista, saturação, alerta hidro, população IBGE e fontes. "
+        "Demais campos técnicos permanecem no CSV tratado."
+    )
 
 
 def pagina_piloto(piloto: pd.DataFrame) -> None:
@@ -1011,6 +1053,76 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "ou escolher uma barragem mais próxima de malha urbana/CNES."
             )
 
+        from st_app.indicadores import carregar_exposicao_vulneraveis
+        from st_app.data import haversine_km as _hav_v
+        from st_app.relevo_hand import ponto_na_mancha_hand as _pnt_hand
+
+        vul_mapa: list[dict] = []
+        vul_df = carregar_exposicao_vulneraveis()
+        no_circ = pd.DataFrame()
+        no_tr = pd.DataFrame()
+        if not vul_df.empty:
+            lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+            vul_df = vul_df.dropna(subset=["latitude", "longitude"]).copy()
+            vul_df["dist_km"] = vul_df.apply(
+                lambda row: _hav_v(
+                    lat0, lon0, float(row["latitude"]), float(row["longitude"])
+                ),
+                axis=1,
+            )
+            # Exclui estabelecimentos de saúde (já cobertos pelo CNES no mapa)
+            if "categoria" in vul_df.columns:
+                cats = vul_df["categoria"].fillna("").astype(str).str.lower()
+                vul_df = vul_df[
+                    ~cats.str.contains("saúde|saude|estabelecimento", regex=True)
+                ].copy()
+
+            def _na_mancha_vul(row) -> bool:
+                la, lo = float(row["latitude"]), float(row["longitude"])
+                ok = False
+                if mostrar_circular and row["dist_km"] <= raio:
+                    ok = True
+                if mostrar_trajeto and trajeto.get("ok"):
+                    ok = ok or ponto_no_corredor(
+                        la, lo, trajeto["polyline"], float(trajeto["largura_km"])
+                    )
+                if usar_hand and hand_limiar is not None:
+                    ok = ok or _pnt_hand(la, lo, float(hand_limiar))
+                return ok
+
+            na = vul_df[vul_df.apply(_na_mancha_vul, axis=1)].sort_values("dist_km")
+            if mostrar_circular:
+                no_circ = vul_df[vul_df["dist_km"] <= raio].sort_values("dist_km")
+            if trajeto.get("ok") and mostrar_trajeto:
+                mask = vul_df.apply(
+                    lambda row: ponto_no_corredor(
+                        float(row["latitude"]),
+                        float(row["longitude"]),
+                        trajeto["polyline"],
+                        float(trajeto["largura_km"]),
+                    ),
+                    axis=1,
+                )
+                no_tr = vul_df[mask].sort_values("dist_km")
+            for row in na.head(200).itertuples():
+                fam = getattr(row, "familias", None)
+                try:
+                    fam_n = int(float(fam)) if fam not in (None, "") and not pd.isna(fam) else None
+                except (TypeError, ValueError):
+                    fam_n = None
+                vul_mapa.append(
+                    {
+                        "la": float(row.latitude),
+                        "lo": float(row.longitude),
+                        "no": getattr(row, "nome", None),
+                        "cat": getattr(row, "categoria", None),
+                        "mu": getattr(row, "municipio", None),
+                        "fam": fam_n,
+                        "dist": float(row.dist_km),
+                    }
+                )
+            st.metric("Comunidades vulneráveis na mancha", len(vul_mapa))
+
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
@@ -1033,65 +1145,65 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             hand_poligonos=hand_info.get("poligonos") if usar_hand else None,
             hand_limiar_m=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
             mostrar_hand=bool(usar_hand and hand_info.get("ok")),
+            vulneraveis=vul_mapa,
             altura=560,
             autoplay=False,
         )
         components.html(html, height=580, scrolling=False)
-    else:
-        st.warning("Barragem sem coordenada — mapa indisponível.")
 
-    from st_app.indicadores import carregar_exposicao_vulneraveis
-    from st_app.data import haversine_km
-
-    vul = carregar_exposicao_vulneraveis()
-    if (
-        not vul.empty
-        and pd.notna(r.get("latitude"))
-        and pd.notna(r.get("longitude"))
-    ):
-        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
-        vul = vul.dropna(subset=["latitude", "longitude"]).copy()
-        vul["dist_km"] = vul.apply(
-            lambda row: haversine_km(lat0, lon0, float(row["latitude"]), float(row["longitude"])),
-            axis=1,
-        )
         if mostrar_circular:
-            no_circ = vul[vul["dist_km"] <= raio].sort_values("dist_km")
             st.subheader("Populações vulneráveis — círculo")
             if no_circ.empty:
-                st.caption("Nenhuma aldeia/assentamento/quilombo do eixo no raio.")
+                st.caption(
+                    "Nenhuma aldeia/TI/assentamento/quilombo do eixo no raio. "
+                    "Ribeirinhos ainda sem base espacial contínua."
+                )
             else:
                 st.dataframe(
                     no_circ[
-                        [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_circ.columns]
+                        [
+                            c
+                            for c in (
+                                "nome",
+                                "categoria",
+                                "municipio",
+                                "faixa",
+                                "dist_km",
+                                "familias",
+                            )
+                            if c in no_circ.columns
+                        ]
                     ].head(40),
                     width="stretch",
                     hide_index=True,
                     height=200,
                 )
         if trajeto.get("ok") and mostrar_trajeto:
-            mask = vul.apply(
-                lambda row: ponto_no_corredor(
-                    float(row["latitude"]),
-                    float(row["longitude"]),
-                    trajeto["polyline"],
-                    float(trajeto["largura_km"]),
-                ),
-                axis=1,
-            )
-            no_tr = vul[mask].sort_values("dist_km")
             st.subheader("Populações vulneráveis — corredor hidráulico")
             if no_tr.empty:
                 st.caption("Nenhuma população vulnerável do eixo no corredor.")
             else:
                 st.dataframe(
                     no_tr[
-                        [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_tr.columns]
+                        [
+                            c
+                            for c in (
+                                "nome",
+                                "categoria",
+                                "municipio",
+                                "faixa",
+                                "dist_km",
+                                "familias",
+                            )
+                            if c in no_tr.columns
+                        ]
                     ].head(40),
                     width="stretch",
                     hide_index=True,
                     height=200,
                 )
+    else:
+        st.warning("Barragem sem coordenada — mapa indisponível.")
 
     us_at = list(iso.get("us_atingidas") or []) if iso else []
     if us_at:
@@ -1270,43 +1382,79 @@ def pagina_interpretacao() -> None:
             st.markdown(glossario.read_text(encoding="utf-8"))
 
 
+def _txt(v: object, suf: str = "") -> str:
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return "—"
+    s = str(v).strip()
+    if not s or s.lower() in ("nan", "none", "-"):
+        return "—"
+    if suf and isinstance(v, (int, float)):
+        return f"{float(v):.2f}{suf}".replace(".", ",")
+    return s
+
+
 def pagina_ficha(df: pd.DataFrame) -> None:
     st.markdown("# Barragem 360°")
     if df.empty:
         st.error("Sem dados.")
         return
-    ordenado = df.sort_values(["nivel", "idap_n"], ascending=[True, False])
-    labels = [f"{r.nome} — {r.id_snisb}" for r in ordenado.itertuples()]
+    ordenado = ordenar_por_severidade(df)
+    labels = [
+        f"{r.nome} — {r.id_snisb} ({getattr(r, 'nivel', '—')})"
+        for r in ordenado.itertuples()
+    ]
     escolha = st.selectbox("Barragem", labels)
-    bid = escolha.split(" — ")[-1]
+    bid = escolha.split(" — ")[1].split(" ")[0]
     r = df[df["id_snisb"] == bid].iloc[0]
     st.markdown(f"## {r['nome']}")
     st.markdown(
-        f"{_badge(r['nivel'])} &nbsp; IDAP **{r.get('idap','—')}/100** · "
-        f"completude {r.get('completude','—')} · {r.get('confiabilidade','—')}",
+        f"{_badge(r['nivel'])} &nbsp; IDAP **{_txt(r.get('idap'))}/100** · "
+        f"completude {_txt(r.get('completude'))} · {_txt(r.get('confiabilidade'))}",
         unsafe_allow_html=True,
     )
     a, b = st.columns(2)
     with a:
-        st.markdown("### Identificação")
+        st.markdown("### Identificação e engenharia")
         st.write(
             {
-                "SNISB": r["id_snisb"],
-                "Município": r.get("municipio_sede"),
-                "Órgão": r.get("orgao_fiscalizador"),
-                "Uso": r.get("uso_principal"),
-                "CRI / DPA": f"{r.get('categoria_risco','—')} / {r.get('dano_potencial_associado','—')}",
-                "Afetados (Otto)": r.get("municipios_potencialmente_afetados"),
+                "SNISB": _txt(r.get("id_snisb")),
+                "Município sede": _txt(r.get("municipio_sede") or r.get("municipio")),
+                "Empreendedor": _txt(r.get("empreendedor")),
+                "Tipo empreendedor": _txt(r.get("tipo_empreendedor")),
+                "Órgão fiscalizador": _txt(r.get("orgao_fiscalizador")),
+                "Uso principal": _txt(r.get("uso_principal")),
+                "Fase de vida": _txt(r.get("fase_de_vida")),
+                "Classe": _txt(r.get("classe")),
+                "Material": _txt(r.get("tipo_material")),
+                "Altura (m)": _txt(r.get("altura_m")),
+                "Capacidade (hm³)": _txt(r.get("capacidade_hm3")),
+                "PAE": rotulo_sim_nao(r.get("possui_pae")),
+                "Regulada PNSB": rotulo_regulada(
+                    r.get("indicador_regulada"), r.get("regulada_pelo_pnsb")
+                ),
+                "Última inspeção": _txt(r.get("data_ultima_inspecao")),
+                "CRI / DPA": f"{_txt(r.get('categoria_risco'))} / {_txt(r.get('dano_potencial_associado'))}",
+                "Pop. jusante (SIGBM)": _txt(r.get("sigbm_populacao_jusante")),
+                "Pessoas afetadas (SIGBM)": _txt(r.get("sigbm_pessoas_afetadas")),
+                "Status DCE (SIGBM)": _txt(r.get("sigbm_status_dce")),
+                "Alteamento / minério": (
+                    f"{_txt(r.get('sigbm_tipo_alteamento'))} / {_txt(r.get('sigbm_minerio'))}"
+                ),
+                "Afetados (Otto)": _txt(r.get("municipios_potencialmente_afetados")),
+                "Nº mun. afetados / extraterr.": (
+                    f"{_txt(r.get('n_municipios_afetados'))} / "
+                    f"{_txt(r.get('n_municipios_extraterritoriais'))}"
+                ),
             }
         )
         st.markdown("### Dimensões IDAP")
         st.bar_chart(
             pd.Series(
                 {
-                    "A": float(r.get("pontos_a") or 0),
-                    "B": float(r.get("pontos_b") or 0),
-                    "C": float(r.get("pontos_c") or 0),
-                    "D": float(r.get("pontos_d") or 0),
+                    "A hidro": float(r.get("pontos_a") or 0),
+                    "B estrutural": float(r.get("pontos_b") or 0),
+                    "C impacto": float(r.get("pontos_c") or 0),
+                    "D articulação": float(r.get("pontos_d") or 0),
                 }
             )
         )
@@ -1314,15 +1462,17 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         st.markdown("### Hidro / alertas")
         st.write(
             {
-                "Chuva 24 h": r.get("chuva_24h_mm"),
-                "Chuva 72 h": r.get("chuva_72h_mm"),
-                "Prevista 24–72 h": r.get("chuva_prevista_24_72h_mm"),
-                "Percentil": r.get("percentil_climatologico"),
-                "Saturação": r.get("saturacao_antecedente"),
-                "Cemaden": r.get("alerta_cemaden") or "—",
-                "Integrado SIS": r.get("nivel_alerta_integrado") or "—",
-                "GloFAS m³/s": r.get("vazao_prevista_glofas_m3s"),
-                "Regras": r.get("regras_disparadas") or "—",
+                "Chuva 24 h (mm)": _txt(r.get("chuva_24h_mm")),
+                "Chuva 72 h (mm)": _txt(r.get("chuva_72h_mm")),
+                "Prevista 24–72 h (mm)": _txt(r.get("chuva_prevista_24_72h_mm")),
+                "Percentil": _txt(r.get("percentil_climatologico")),
+                "Saturação": _txt(r.get("saturacao_antecedente")),
+                "Alerta hidro": _txt(r.get("nivel_alerta_hidro")),
+                "Cemaden": _txt(r.get("alerta_cemaden")),
+                "Integrado SIS": _txt(r.get("nivel_alerta_integrado")),
+                "GloFAS m³/s": _txt(r.get("vazao_prevista_glofas_m3s")),
+                "Alertável": rotulo_sim_nao(r.get("alertavel")),
+                "Regras disparadas": _txt(r.get("regras_disparadas")),
             }
         )
         if pd.notna(r.get("latitude")):
@@ -1334,9 +1484,17 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                 fill=True,
                 fill_color=CORES_NIVEL.get(r["nivel"], "#888"),
                 fill_opacity=0.95,
-                popup=r["nome"],
+                popup=folium.Popup(
+                    f"<b>{r['nome']}</b><br>{r.get('municipio_sede')}<br>"
+                    f"{r.get('nivel')} · IDAP {r.get('idap')}",
+                    max_width=260,
+                ),
             ).add_to(m)
-            st_folium(m, height=280, returned_objects=[])
+            st_folium(m, height=300, returned_objects=[])
+        st.caption(
+            "Campos vazios no cadastro SNISB/SIGBM aparecem como «—». "
+            "Valores 1/2/3 de regulada foram traduzidos para texto legível."
+        )
     if r.get("lacunas"):
         st.warning(f"Lacunas: {r['lacunas']}")
 
@@ -1412,9 +1570,9 @@ def main() -> None:
     aplicar_navegacao_pendente()
     jornadas_ordem = list(JORNADAS.keys())
     if "jornada" not in st.session_state:
-        st.session_state["jornada"] = "Situação"
+        st.session_state["jornada"] = "Território"
     if "pagina" not in st.session_state:
-        st.session_state["pagina"] = "Comando estadual"
+        st.session_state["pagina"] = "Visão territorial"
 
     with st.sidebar:
         # Assinatura conforme o manual: marca do governo + nome da secretaria.
@@ -1428,11 +1586,11 @@ def main() -> None:
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
         st.markdown(
             '<p class="submarca">Saúde 360 · jornada '
-            "Situação → Território → Ação → Dados</p>",
+            "Território → Situação → Ação → Dados</p>",
             unsafe_allow_html=True,
         )
         if st.session_state.get("jornada") not in JORNADAS:
-            st.session_state["jornada"] = "Situação"
+            st.session_state["jornada"] = "Território"
         jornada = st.selectbox("Jornada", jornadas_ordem, key="jornada")
         telas = JORNADAS[jornada]
         # Migra nome antigo da tela
@@ -1449,7 +1607,9 @@ def main() -> None:
         st.caption(f"Dados: `{(Path(__file__).parent / 'dados' / 'tratados').as_posix()}`")
 
     df = carregar_idap()
-    if pagina == "Comando estadual":
+    if pagina == "Visão territorial":
+        pagina_visao_territorial(df)
+    elif pagina == "Comando estadual":
         pagina_comando(df)
     elif pagina == "Hidro municipal":
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
@@ -1467,6 +1627,8 @@ def main() -> None:
         pagina_interpretacao()
     elif pagina == "Barragem 360°":
         pagina_ficha(df)
+    elif pagina == "Notificações e impactos":
+        pagina_notificacoes_impactos(df)
     elif pagina == "Alertabilidade / despacho":
         pagina_alertabilidade_despacho()
     elif pagina == "Confirmação persistente":
