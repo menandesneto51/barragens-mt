@@ -365,6 +365,14 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Uso pretendido | D6 com ocupação IndicaSUS; SAU-01 com LT; tipológico como fallback |
 | Implementado em | `43`/`44`/`45`, `st_app/leitos_indicasus.py`, `st_app/dw_status.py`, `st_app/capacidade_cnes.py`, IDAP `razao_leitos_demanda`; docs `15-integracao-indicasus-dw.md` |
 
+### 2.5.14 Cobertura de PAE (SNISB) e IPAPD proxy
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| PAE | `possui_pae` do inventário SNISB → `pae_manchas_cobertura.csv` (etapa `47`); mancha ZAS oficial continua pendente |
+| IPAPD | Proxy na Simulação (`st_app/ipapd.py`): O (ocupação IndicaSUS), E (isolamento), S (essenciais na mancha); A/P/C lacuna até ficha rápida |
+| Limite | IPAPD renormaliza pelos termos disponíveis — não preenche lacuna com zero |
+
 ---
 
 ## 2.6 Grupo E — Copernicus EMS (Emergency Management Service)

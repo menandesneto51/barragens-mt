@@ -137,6 +137,12 @@ ETAPAS = [
         "Ativos essenciais OSM no eixo (C5 ETA/ETE/energia/abrigos)",
         False,
     ),
+    (
+        "47",
+        "47_pae_cobertura_snisb.py",
+        "Cobertura PAE a partir do SNISB (substitui scaffold)",
+        False,
+    ),
 ]
 
 

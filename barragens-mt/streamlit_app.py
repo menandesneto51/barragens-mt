@@ -1365,6 +1365,73 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 else:
                     e6.metric("Razão leitos/demanda", "—")
                 st.caption(dem.get("nota") or "")
+
+            from st_app.ipapd import calcular_ipapd_proxy
+
+            # S usa o mesmo universo no numerador/denominador (escolas+captações+ativos)
+            n_ess_mancha = n_esc_c5 + n_cap_c5 + n_ativos_c5
+            n_ess_eixo = 0
+            if esc_kpi.get("disponivel"):
+                n_ess_eixo += int(esc_kpi.get("n_total") or 0)
+            if cap_kpi.get("disponivel"):
+                n_ess_eixo += int(cap_kpi.get("n_total") or 0)
+            if ativos_kpi.get("disponivel"):
+                n_ess_eixo += int(ativos_kpi.get("n_total") or 0)
+            if n_ess_eixo < n_ess_mancha:
+                n_ess_eixo = n_ess_mancha
+            ipapd = calcular_ipapd_proxy(
+                taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                n_us_atingidas=int(iso.get("n_us_atingidas") or 0),
+                n_us_isoladas=int(iso.get("n_us_isoladas") or 0),
+                pessoas_isoladas=int(iso.get("pessoas_isoladas_proxy") or 0),
+                pop_exposta=pop_demanda,
+                n_servicos_essenciais_mancha=n_ess_mancha,
+                n_servicos_essenciais_eixo=n_ess_eixo,
+            )
+            if ipapd.get("ok"):
+                st.markdown("##### IPAPD proxy (pressão assistencial)")
+                p1, p2, p3 = st.columns(3)
+                p1.metric(
+                    "IPAPD",
+                    f"{ipapd['ipapd']:.2f}".replace(".", ",")
+                    if ipapd.get("ipapd") is not None
+                    else "—",
+                )
+                p2.metric("Situação", ipapd.get("rotulo") or "—")
+                p3.metric(
+                    "Completude dos termos",
+                    f"{100 * float(ipapd.get('completude') or 0):.0f}%",
+                )
+                termos = ipapd.get("termos") or {}
+                det = ipapd.get("detalhe") or {}
+                with st.expander("Decomposição IPAPD (O/A/P/E/C/S)", expanded=False):
+                    linhas_ip = []
+                    nomes = {
+                        "O": "Ocupação (0,25)",
+                        "A": "Aumento atendimentos (0,20)",
+                        "P": "Profissionais (0,15)",
+                        "E": "Perda de acesso (0,15)",
+                        "C": "Autonomia crítica (0,15)",
+                        "S": "Interrupção serviços (0,10)",
+                    }
+                    for k in ("O", "A", "P", "E", "C", "S"):
+                        v = termos.get(k)
+                        linhas_ip.append(
+                            {
+                                "termo": nomes[k],
+                                "valor": "lacuna" if v is None else f"{float(v):.2f}",
+                                "detalhe": det.get(k) or "",
+                            }
+                        )
+                    st.dataframe(
+                        pd.DataFrame(linhas_ip),
+                        width="stretch",
+                        hide_index=True,
+                        height=240,
+                    )
+                st.caption(ipapd.get("fonte") or "")
             if cap_assist.get("itens_mancha"):
                 with st.expander("US na mancha (tipologia + leitos)", expanded=False):
                     st.dataframe(
