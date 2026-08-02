@@ -315,7 +315,34 @@ def main() -> None:
         ),
     }
     SAIDA_META.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Gravado: {SAIDA_GRADE.name}, {SAIDA_GEO.name}, {SAIDA_META.name}", flush=True)
+    rel = comum.RELATORIOS / "hand_piloto_manso_cuiaba.md"
+    por_limiar = []
+    for lim in LIMIARES_M:
+        n = sum(1 for g in grade if g.get("hand_m") is not None and g["hand_m"] <= lim)
+        por_limiar.append(f"| ≤ {lim:.0f} m | {n} |")
+    rel.write_text(
+        "\n".join(
+            [
+                "# HAND piloto — eixo Manso–Cuiabá",
+                "",
+                f"- Dataset: **{DATASET}** (`{OPENTOPO}`)",
+                f"- Células na grade: **{len(grade)}** (HAND válido: **{n_ok}**)",
+                f"- Eixo amostrado: até **{MAX_S_KM:.0f} km** a jusante (passo {PASSO_EIXO_KM} km)",
+                f"- Arquivos: `{SAIDA_GRADE.name}`, `{SAIDA_GEO.name}`, `{SAIDA_META.name}`",
+                "",
+                "| Limiar HAND | Células |",
+                "| --- | ---: |",
+                *por_limiar,
+                "",
+                f"> {meta['aviso']}",
+                "",
+                "UI: Simulação → geometria **Relevo (HAND)** (`st_app/relevo_hand.py`).",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    print(f"Gravado: {SAIDA_GRADE.name}, {SAIDA_GEO.name}, {SAIDA_META.name}, {rel.name}", flush=True)
 
 
 if __name__ == "__main__":

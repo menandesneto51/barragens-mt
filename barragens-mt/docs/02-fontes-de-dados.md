@@ -271,7 +271,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | --- | --- |
 | Produtos | **SRTM 30 m** (via OpenTopoData); **Copernicus DEM GLO-30**; **NASADEM**; **INPE Topodata** (derivado SRTM para o Brasil) |
 | Acesso amostragem | OpenTopoData: `https://api.opentopodata.org/v1/srtm30m?locations=lat,lon\|…` (até 100 pontos/requisição; cadência ~1 req/s) |
-| Acesso raster | Copernicus DEM / OpenTopography / Earthdata (NASA) — arquivos GeoTIFF regionais |
+| Acesso raster | Copernicus DEM / OpenTopography / Earthdata (NASA) — arquivos GeoTIFF regionais; Topodata INPE: `http://www.dsr.inpe.br/topodata/` |
 | Granularidade | ~30 m (SRTM/Copernicus GLO-30) |
 | Periodicidade | Estático (missão); não atualiza com o evento |
 | Latência | Imediata após download/amostragem |
