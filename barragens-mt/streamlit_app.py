@@ -1185,20 +1185,55 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "(microdados INEP + camada OSM)."
             )
 
+        from st_app.ativos_essenciais import cruzar_ativos_mancha
+        from st_app.demanda_cenario import estimar_demanda
+
+        ativos_kpi = cruzar_ativos_mancha(**_geom_mancha)
+
         # C5 — serviços essenciais não assistenciais na mancha
         n_pontes_c5 = int(iso.get("n_pontes_comprometidas") or 0)
         n_esc_c5 = int(esc_kpi.get("n_na_mancha") or 0) if esc_kpi.get("disponivel") else 0
         n_cap_c5 = int(cap_kpi.get("n_na_mancha") or 0) if cap_kpi.get("disponivel") else 0
+        n_eta = int(ativos_kpi.get("n_eta") or 0) if ativos_kpi.get("disponivel") else 0
+        n_ete = int(ativos_kpi.get("n_ete") or 0) if ativos_kpi.get("disponivel") else 0
+        n_energia = int(ativos_kpi.get("n_energia") or 0) if ativos_kpi.get("disponivel") else 0
+        n_abrigo = int(ativos_kpi.get("n_abrigo") or 0) if ativos_kpi.get("disponivel") else 0
+        n_ativos_c5 = n_eta + n_ete + n_energia + n_abrigo
         st.markdown("##### Serviços essenciais na mancha (C5 proxy)")
         c5a, c5b, c5c, c5d = st.columns(4)
         c5a.metric("Escolas", n_esc_c5)
         c5b.metric("Captações", n_cap_c5)
         c5c.metric("Pontes OSM", n_pontes_c5)
-        c5d.metric("Total C5 proxy", n_esc_c5 + n_cap_c5 + n_pontes_c5)
-        st.caption(
-            "C5 = escolas + captações Sisagua + pontes estruturantes OSM na geometria ativa. "
-            "Não inclui ETA/ETE/energia/abrigos oficiais (ainda sem base espacial contínua)."
+        c5d.metric(
+            "Total C5 proxy",
+            n_esc_c5 + n_cap_c5 + n_pontes_c5 + n_ativos_c5,
         )
+        if ativos_kpi.get("disponivel"):
+            a1, a2, a3, a4 = st.columns(4)
+            a1.metric("ETA / água (OSM)", n_eta)
+            a2.metric("ETE / esgoto (OSM)", n_ete)
+            a3.metric("Subestações", n_energia)
+            a4.metric("Abrigos OSM", n_abrigo)
+            st.caption(
+                f"C5 = escolas + captações + pontes + ativos OSM (`{ativos_kpi.get('fonte')}`). "
+                "Proxy espacial — preferir cadastros oficiais de concessionárias/Defesa Civil. "
+                "Rode `python executar.py 46` para atualizar."
+            )
+            if ativos_kpi.get("itens"):
+                with st.expander("Ativos essenciais na mancha", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(ativos_kpi["itens"]).drop(
+                            columns=["lat", "lon"], errors="ignore"
+                        ),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+        else:
+            st.caption(
+                "C5 = escolas + captações Sisagua + pontes OSM. "
+                "Ativos ETA/ETE/energia/abrigos ausentes — rode `python executar.py 46`."
+            )
 
         from st_app.malha_dnit import cruzar_malha_mancha
         from st_app.capacidade_cnes import cruzar_capacidade_mancha
@@ -1295,6 +1330,41 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     "CNES LT cadastrado: `python executar.py 45`. "
                     "Ver `docs/15-integracao-indicasus-dw.md`."
                 )
+
+            # Demanda sanitária do cenário (roadmap 4.3) — usa pop. setores ou proxy
+            pop_demanda = pop_exp_setores
+            if not pop_demanda:
+                try:
+                    pop_demanda = float(pop_n) if pop_n else None
+                except (TypeError, ValueError):
+                    pop_demanda = None
+            leitos_disp_dem = None
+            if cap_assist.get("leitos_ok"):
+                leitos_disp_dem = cap_assist.get("leitos_disponiveis_mancha")
+            dem = estimar_demanda(pop_demanda, leitos_disponiveis=leitos_disp_dem)
+            if dem.get("ok"):
+                st.markdown("##### Demanda estimada do cenário (proxy 4.3)")
+                e1, e2, e3, e4 = st.columns(4)
+                e1.metric(
+                    "Pop. de referência",
+                    f"{dem['pop_exposta']:,}".replace(",", "."),
+                )
+                e2.metric("Internações (2%)", dem["demanda_internacao"])
+                e3.metric("Atendimentos 72 h (8%)", dem["demanda_atendimentos_72h"])
+                e4.metric(
+                    "Água L/dia (15 L/p)",
+                    f"{dem['demanda_agua_L_dia']:,}".replace(",", "."),
+                )
+                e5, e6 = st.columns(2)
+                e5.metric("Ambulâncias ref. (1/10 mil)", dem["ambulancias_ref"])
+                if dem.get("razao_leitos_demanda") is not None:
+                    e6.metric(
+                        "Razão leitos/demanda",
+                        f"{dem['razao_leitos_demanda']:.2f}".replace(".", ","),
+                    )
+                else:
+                    e6.metric("Razão leitos/demanda", "—")
+                st.caption(dem.get("nota") or "")
             if cap_assist.get("itens_mancha"):
                 with st.expander("US na mancha (tipologia + leitos)", expanded=False):
                     st.dataframe(

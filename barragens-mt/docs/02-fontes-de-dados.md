@@ -315,7 +315,16 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
 | Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
 
-### 2.5.9 Malha viária e desvio de rota (C7 / D7 proxy)
+### 2.5.9 Ativos essenciais OSM (C5 — ETA/ETE/energia/abrigos)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Pontos OSM de ETA (`water_works`), ETE (`wastewater_plant`), subestações, abrigos e bases de ambulância no eixo |
+| Acesso | OpenStreetMap / Overpass |
+| Uso pretendido | Ampliar C5 além de escolas/captações/pontes; proxy até haver cadastro oficial |
+| Implementado em | `scripts/46_ativos_essenciais_osm_eixo.py` → `ativos_essenciais_osm_eixo.csv`; UI `st_app/ativos_essenciais.py` + demanda `st_app/demanda_cenario.py` (internação 2%, água 15 L/p/dia) |
+
+### 2.5.10 Malha viária e desvio de rota (C7 / D7 proxy)
 
 | Aspecto | Conteúdo |
 | --- | --- |

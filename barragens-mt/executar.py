@@ -131,6 +131,12 @@ ETAPAS = [
         "CNES LT — leitos cadastrados (SAU-01)",
         False,
     ),
+    (
+        "46",
+        "46_ativos_essenciais_osm_eixo.py",
+        "Ativos essenciais OSM no eixo (C5 ETA/ETE/energia/abrigos)",
+        False,
+    ),
 ]
 
 
