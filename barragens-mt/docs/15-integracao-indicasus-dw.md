@@ -74,8 +74,33 @@ padrão da etapa 43 num `44_…py` (ou generalizar); (3) gravar em `dados/tratad
 | `st_app/capacidade_cnes.py` | Join por `codigo_cnes` com pontos CNES |
 | `16_idap_estadual.py` | Preenche `CapacidadeResposta.razao_leitos_demanda` quando houver agregados municipais |
 
-## 15.6 Pendências institucionais
+## 15.6 Outros bancos (etapa 44)
+
+```bash
+python executar.py 44                 # sih, sia, sisreg, sinan
+python scripts/44_dw_extrair.py sih   # só SIH
+```
+
+Cada extrato grava `dados/tratados/<saida>` + `<extrato>_status.json`.
+Exemplos de layout: `dados/config/exemplos/{sih_internacoes,sinan_notificacoes}.exemplo.csv`.
+
+## 15.7 CNES LT — leitos cadastrados (etapa 45, SAU-01)
+
+Capacidade **cadastrada** mensal (não confundir com ocupação IndicaSUS).
+
+```bash
+mkdir -p dados/brutos
+cp dados/config/exemplos/cnes_leitos_lt_mt.exemplo.csv dados/brutos/cnes_leitos_lt_mt.csv
+python executar.py 45
+```
+
+Variáveis: `VIGIBARRAGENS_CNES_LT_CSV`, `VIGIBARRAGENS_CNES_LT_DBC` (se `pysus` estiver disponível).
+O FTP `ftp.datasus.gov.br` costuma falhar neste ambiente — preferir dump/DW.
+
+Na Simulação: se IndicaSUS estiver ausente e o LT existir, mostra **leitos cadastrados na mancha**.
+
+## 15.8 Pendências institucionais
 
 - Confirmar nome real da view/tabela IndicaSUS no DW e liberar leitura ao serviço.
 - Definir cadência (horária em evento / diária em rotina) com a TI SES-MT.
-- SIH/SIA/SINAN: mesma esteira quando os extratos forem liberados no DW.
+- SIH/SIA/SINAN/SISREG: apontar dumps ou `VIGIBARRAGENS_DW_URL` e rodar etapa `44`.

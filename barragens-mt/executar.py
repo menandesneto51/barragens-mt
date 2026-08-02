@@ -119,6 +119,18 @@ ETAPAS = [
         "IndicaSUS/DW — leitos e ocupação (D6)",
         False,
     ),
+    (
+        "44",
+        "44_dw_extrair.py",
+        "DW genérico — SIH/SIA/SISREG/SINAN",
+        False,
+    ),
+    (
+        "45",
+        "45_cnes_leitos_cadastrados.py",
+        "CNES LT — leitos cadastrados (SAU-01)",
+        False,
+    ),
 ]
 
 

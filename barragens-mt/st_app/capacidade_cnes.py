@@ -3,17 +3,22 @@
 Camadas:
   1. Tipologia CNES (hospital / UPA / UBS) — sempre disponível na API aberta.
   2. Leitos + ocupação IndicaSUS/DW — quando `indicasus_leitos_mt.csv` existir.
+  3. Leitos cadastrados CNES LT (SAU-01) — `cnes_leitos_cadastrados_mt.csv` (fallback).
 """
 
 from __future__ import annotations
 
 import math
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
 from st_app.relevo_hand import ponto_na_mancha_hand
 from st_app.trajeto_hidraulico import ponto_no_corredor
+
+_TRATADOS = Path(__file__).resolve().parents[1] / "dados" / "tratados"
 
 
 def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -27,6 +32,26 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 def _digitos_cnes(valor: Any) -> str:
     return "".join(c for c in str(valor or "") if c.isdigit())[:7]
+
+
+@lru_cache(maxsize=1)
+def _carregar_leitos_cadastrados() -> dict[str, float]:
+    path = _TRATADOS / "cnes_leitos_cadastrados_mt.csv"
+    if not path.is_file():
+        return {}
+    df = pd.read_csv(path, sep=";", dtype=str, low_memory=False)
+    if df.empty or "codigo_cnes" not in df.columns:
+        return {}
+    out: dict[str, float] = {}
+    for _, r in df.iterrows():
+        key = _digitos_cnes(r.get("codigo_cnes"))
+        if not key:
+            continue
+        try:
+            out[key] = float(str(r.get("leitos_cadastrados") or "0").replace(",", "."))
+        except ValueError:
+            continue
+    return out
 
 
 def cruzar_capacidade_mancha(
@@ -60,6 +85,8 @@ def cruzar_capacidade_mancha(
         "leitos_operacionais_mancha": 0,
         "leitos_ocupados_mancha": 0,
         "leitos_disponiveis_mancha": 0,
+        "leitos_cadastrados_mancha": 0,
+        "cadastrados_ok": False,
         "taxa_ocupacao_mancha": None,
         "razao_leitos_demanda": None,
         "fonte": "CNES (tipologia; sem leitos na API aberta)",
@@ -80,6 +107,7 @@ def cruzar_capacidade_mancha(
                     "oc": float(getattr(row, "leitos_ocupados", 0) or 0),
                     "disp": float(getattr(row, "leitos_disponiveis", 0) or 0),
                 }
+    cad_map = _carregar_leitos_cadastrados()
 
     na_mancha_rows: list[dict[str, Any]] = []
     for row in cnes.itertuples():
@@ -116,6 +144,7 @@ def cruzar_capacidade_mancha(
                 "leitos_operacionais": lit.get("op"),
                 "leitos_ocupados": lit.get("oc"),
                 "leitos_disponiveis": lit.get("disp"),
+                "leitos_cadastrados": cad_map.get(cnes_cod),
             }
         )
 
@@ -146,7 +175,9 @@ def cruzar_capacidade_mancha(
     op_m = sum(float(r["leitos_operacionais"] or 0) for r in na_mancha_rows)
     oc_m = sum(float(r["leitos_ocupados"] or 0) for r in na_mancha_rows)
     disp_m = sum(float(r["leitos_disponiveis"] or 0) for r in na_mancha_rows)
+    cad_m = sum(float(r["leitos_cadastrados"] or 0) for r in na_mancha_rows)
     leitos_ok = bool(leitos_map) and (op_m > 0 or disp_m > 0 or oc_m > 0)
+    cadastrados_ok = bool(cad_map) and cad_m > 0
     taxa = round(100.0 * oc_m / op_m, 1) if op_m > 0 else None
 
     razao = None
@@ -156,16 +187,16 @@ def cruzar_capacidade_mancha(
             razao = round(disp_m / demanda, 3)
 
     st = status_indicasus()
+    partes = ["CNES tipologia"]
     if leitos_ok:
-        fonte = (
-            f"CNES tipologia + IndicaSUS/DW leitos "
-            f"({st.get('fonte') or 'indicasus_leitos_mt.csv'})"
+        partes.append(
+            f"IndicaSUS ocupação ({st.get('fonte') or 'indicasus_leitos_mt.csv'})"
         )
-    else:
-        fonte = (
-            "CNES tipologia (hospital/UPA/UBS) — leitos IndicaSUS ausentes "
-            "(rode `python executar.py 43` com dump/DW)"
-        )
+    if cadastrados_ok:
+        partes.append("CNES LT cadastrado (SAU-01)")
+    if not leitos_ok and not cadastrados_ok:
+        partes.append("sem leitos — rode etapas 43 e/ou 45")
+    fonte = " + ".join(partes)
 
     return {
         "disponivel": True,
@@ -183,6 +214,8 @@ def cruzar_capacidade_mancha(
         "leitos_operacionais_mancha": int(op_m),
         "leitos_ocupados_mancha": int(oc_m),
         "leitos_disponiveis_mancha": int(disp_m),
+        "leitos_cadastrados_mancha": int(cad_m),
+        "cadastrados_ok": cadastrados_ok,
         "taxa_ocupacao_mancha": taxa,
         "razao_leitos_demanda": razao,
         "itens_mancha": na_mancha_rows[:40],

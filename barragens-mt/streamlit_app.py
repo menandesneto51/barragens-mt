@@ -1280,10 +1280,19 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                         f"**{cap_assist['razao_leitos_demanda']:.2f}** "
                         "(≥1,00 = 0 pts; 0,50–1 = 1 pt; <0,50 = 2 pts)."
                     )
+            elif cap_assist.get("cadastrados_ok"):
+                st.metric(
+                    "Leitos cadastrados CNES na mancha (SAU-01)",
+                    cap_assist["leitos_cadastrados_mancha"],
+                )
+                st.caption(
+                    "Capacidade cadastrada (CNES LT) — **não** é ocupação operacional. "
+                    "Para vagos/ocupação, aponte IndicaSUS e rode `python executar.py 43`."
+                )
             else:
                 st.caption(
-                    "Leitos/ocupação IndicaSUS ainda não carregados — "
-                    "aponte o DW ou um dump CSV e rode `python executar.py 43`. "
+                    "Leitos ainda não carregados — IndicaSUS: `python executar.py 43`; "
+                    "CNES LT cadastrado: `python executar.py 45`. "
                     "Ver `docs/15-integracao-indicasus-dw.md`."
                 )
             if cap_assist.get("itens_mancha"):
@@ -1293,6 +1302,24 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                         width="stretch",
                         hide_index=True,
                         height=220,
+                    )
+
+            from st_app.dw_status import listar_status_dw
+
+            dw_itens = listar_status_dw()
+            if dw_itens:
+                with st.expander("Fontes DW / saúde (status)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(dw_itens)[
+                            ["extrato", "titulo", "prioridade", "pipeline", "ok", "n_linhas", "fonte"]
+                        ],
+                        width="stretch",
+                        hide_index=True,
+                        height=260,
+                    )
+                    st.caption(
+                        "Pipeline 43=IndicaSUS · 44=SIH/SIA/SISREG/SINAN · 45=CNES LT. "
+                        "Catálogo: `dados/config/dw_catalogo.json`."
                     )
 
         from st_app.data import TRATADOS as _TR_MB

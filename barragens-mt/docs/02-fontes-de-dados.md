@@ -351,9 +351,10 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | O que fornece | Tipologia hospital/UPA/UBS na mancha; **leitos operacionais, ocupados, disponíveis e taxa de ocupação** via IndicaSUS/DW; razão leitos/demanda (2% pop. exposta) |
 | CNES aberto | Estabelecimentos e tipificação espacial (API não expõe leitos) |
 | IndicaSUS / DW | Extrato institucional de leitos e ocupação — conector `scripts/dw_saude.py` + etapa `43` |
-| Outros bancos DW | Catálogo extensível (`sih`, `sia`, `sisreg`, `sinan`) em `dados/config/dw_catalogo.json` |
-| Uso pretendido | D6 real quando o extrato estiver disponível; tipológico como fallback |
-| Implementado em | `scripts/43_indicasus_leitos_dw.py`, `st_app/leitos_indicasus.py`, `st_app/capacidade_cnes.py`, IDAP `razao_leitos_demanda`; docs `15-integracao-indicasus-dw.md` |
+| CNES LT | Leitos **cadastrados** (SAU-01) — etapa `45`; dump CSV/DBC/DW (FTP DATASUS costuma falhar aqui) |
+| Outros bancos DW | Etapa `44` + catálogo (`sih`, `sia`, `sisreg`, `sinan`) em `dados/config/dw_catalogo.json` |
+| Uso pretendido | D6 com ocupação IndicaSUS; SAU-01 com LT; tipológico como fallback |
+| Implementado em | `43`/`44`/`45`, `st_app/leitos_indicasus.py`, `st_app/dw_status.py`, `st_app/capacidade_cnes.py`, IDAP `razao_leitos_demanda`; docs `15-integracao-indicasus-dw.md` |
 
 ---
 
