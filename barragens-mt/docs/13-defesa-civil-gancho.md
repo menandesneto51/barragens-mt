@@ -53,13 +53,15 @@ ordem de evacuação. Qualquer payload para a Defesa Civil deve carregar essa re
 | `defesa_civil_municipal` | Coordenação DC municipal | Sem e-mail — telefone exercício |
 | `samu` / `hospital_referencia` / `vigiagua` / `concessionaria_agua` | Rede de resposta | Esqueleto — validar |
 
-Fluxo operacional:
+Fluxo operacional (pode esperar o arquivo completo da SES):
 
-1. Baixar `dados/tratados/contatos_emails_modelo.csv` na tela **Alertabilidade / despacho**.
-2. SES-MT / SMS preenche coluna `email` com endereços institucionais validados.
-3. Importar o CSV (UI ou `python executar.py 36`) — grava em `contatos_institucionais_piloto.csv`.
-4. Rodar `python executar.py 19 16 18` para propagar flag alertável / D8.
-5. Configurar SMTP/Telegram e fazer dry-run → envio em exercício.
+1. Quando o cadastro completo chegar, importar na tela **Alertabilidade / despacho**
+   em modo **replace** (ou `python scripts/36_contatos_importar_emails.py arquivo.csv --modo replace`).
+2. Alternativa parcial: baixar o modelo de 88 linhas do eixo, preencher só `email`, importar em **patch**.
+3. Rodar `python executar.py 19 16 18` para propagar flag alertável / D8.
+4. Configurar SMTP/Telegram (`despacho_secrets.env.example`) e fazer dry-run → envio em exercício.
+
+Enquanto o arquivo não chega, telefones de exercício já destravam D8 no eixo — e-mail não é bloqueante.
 
 Registros de impacto (aba **Notificações e impactos**) geram texto em `alertas/piloto/notif_*.txt`
 e entram na mesma fila de despacho.

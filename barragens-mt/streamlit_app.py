@@ -710,8 +710,17 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     if not opcoes:
         st.info("Nenhuma barragem no recorte/filtro.")
         return
-    escolha = st.selectbox("Barragem", list(opcoes.keys()))
+    chaves = list(opcoes.keys())
+    pre_sim = str(st.session_state.pop("barragem_sim_id", "") or "")
+    idx_sim = 0
+    if pre_sim:
+        for i, k in enumerate(chaves):
+            if opcoes[k] == pre_sim:
+                idx_sim = i
+                break
+    escolha = st.selectbox("Barragem", chaves, index=idx_sim)
     bid = opcoes[escolha]
+    st.session_state["barragem_selecionada_id"] = bid
     r = base[base["id_snisb"] == bid].iloc[0]
     frac = st.slider("Fração liberada (%)", 5, 100, 50, 5) / 100
     prof = st.slider("Profundidade média da lâmina (m)", 0.5, 8.0, 2.0, 0.5)
@@ -1403,8 +1412,16 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         f"{r.nome} — {r.id_snisb} ({getattr(r, 'nivel', '—')})"
         for r in ordenado.itertuples()
     ]
-    escolha = st.selectbox("Barragem", labels)
+    pre_360 = str(st.session_state.pop("barragem_360_id", "") or "")
+    idx360 = 0
+    if pre_360:
+        for i, lab in enumerate(labels):
+            if f" — {pre_360} " in lab:
+                idx360 = i
+                break
+    escolha = st.selectbox("Barragem", labels, index=idx360)
     bid = escolha.split(" — ")[1].split(" ")[0]
+    st.session_state["barragem_selecionada_id"] = bid
     r = df[df["id_snisb"] == bid].iloc[0]
     st.markdown(f"## {r['nome']}")
     st.markdown(
@@ -1497,6 +1514,17 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         )
     if r.get("lacunas"):
         st.warning(f"Lacunas: {r['lacunas']}")
+    n1, n2 = st.columns(2)
+    if n1.button("Simular esta barragem"):
+        st.session_state["barragem_sim_id"] = bid
+        from st_app.paginas_onda import ir_para
+
+        ir_para("Situação", TELA_SIMULACAO)
+    if n2.button("Registrar notificação / impacto"):
+        st.session_state["barragem_notif_id"] = bid
+        from st_app.paginas_onda import ir_para
+
+        ir_para("Ação", "Notificações e impactos")
 
 
 def pagina_tipologia(df: pd.DataFrame) -> None:

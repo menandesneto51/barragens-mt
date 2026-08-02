@@ -1,11 +1,89 @@
-municipio;codigo_ibge;papel;email;nome;telefone;observacao
-Cuiabá;5103403;cievs;;;CIEVS estadual — preencher e-mail institucional SES-MT;
-Cuiabá;5103403;gestor_municipal_saude;;;Gestor SMS Cuiabá;
-Cuiabá;5103403;vigilancia_saude;;;Vigilância em Saúde Cuiabá;
-Cuiabá;5103403;defesa_civil_municipal;;;Defesa Civil Cuiabá;
-Várzea Grande;5108402;gestor_municipal_saude;;;Gestor SMS Várzea Grande;
-Várzea Grande;5108402;vigilancia_saude;;;Vigilância VG;
-Nobres;5105903;defesa_civil_municipal;;;Defesa Civil Nobres (sede Manso);
-Chapada dos Guimarães;5103007;vigilancia_saude;;;Vigilância Chapada;
-Rosário Oeste;5107701;gestor_municipal_saude;;;Gestor SMS Rosário Oeste;
-Nossa Senhora do Livramento;5106109;gestor_municipal_saude;;;Gestor SMS Livramento;
+﻿municipio;codigo_ibge;papel;email;nome;telefone;observacao
+Acorizal;5100102;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;(65)33531226;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;(65)33531226;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;(65)33531226;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;hospital_referencia;;CENTRO DE SAUDE DE ACORIZAL;(65)33531226;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Acorizal;5100102;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;65-993596116;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;65-993596116;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;65-993596116;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;hospital_referencia;;LABORATORIO LPC;65-993596116;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Barão de Melgaço;5101605;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;65 96885508;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;65 96885508;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;65 96885508;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;hospital_referencia;;GRANJIMMY CENTRO DE TRATAMENTO;65 96885508;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Chapada dos Guimarães;5103007;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;(65)3618-8800;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;(65)3618-8800;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;(65)3618-8800;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;hospital_referencia;;HOSPITAL ESTADUAL SANTA CASA;(65)3618-8800;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Cuiabá;5103403;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;65 984411382;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;65 984411382;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;65 984411382;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;hospital_referencia;;MEDICAL CLINIC;65 984411382;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Jangada;5104906;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;(65)33762812;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;(65)33762812;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;(65)33762812;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;hospital_referencia;;HOSPITAL E MATERNIDADE LAURA VICUNA;(65)33762812;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nobres;5105903;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;(65)3351-1133;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;(65)3351-1133;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;(65)3351-1133;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;hospital_referencia;;HOSPITAL MUNICIPAL PROFESSORA MARIA ARLINDA DA COSTA;(65)3351-1133;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Nossa Senhora do Livramento;5106109;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;(65) 33452471;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;(65) 33452471;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;(65) 33452471;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;hospital_referencia;;ANALISIS LABORATORIO CLINICO;(65) 33452471;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Poconé;5106505;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;65 98031684;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;65 98031684;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;65 98031684;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;hospital_referencia;;R S MED;65 98031684;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Rosário Oeste;5107701;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;6533141229;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;6533141229;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;6533141229;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;hospital_referencia;;CENTRO DE TRIAGEM E ATENDIMENTO PARA SIMDROME GRIPAL COVID1;6533141229;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Santo Antônio de Leverger;5107800;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;gestor_municipal_saude;;Plantão exercício — Gestor municipal de saúde;065 21370880;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;vigilancia_saude;;Plantão exercício — Vigilância em Saúde;065 21370880;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;defesa_civil_municipal;;Plantão exercício — Defesa Civil municipal;065 21370880;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;cievs;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;samu;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;hospital_referencia;;GRUPO OLHARES SAUDE E BEM ESTAR;065 21370880;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;vigiagua;;;;Preencher e-mail institucional validado pela SES-MT/SMS
+Várzea Grande;5108402;concessionaria_agua;;;;Preencher e-mail institucional validado pela SES-MT/SMS

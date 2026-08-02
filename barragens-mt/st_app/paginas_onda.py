@@ -886,17 +886,45 @@ def pagina_alertabilidade_despacho() -> None:
                 "ou valide contato a contato."
             )
 
-    st.subheader("Importar e-mails (modelo SES)")
+    st.subheader("Importar cadastro / e-mails (quando o arquivo completo chegar)")
+    st.caption(
+        "Não é necessário preencher nada agora. Quando a SES enviar o arquivo completo, "
+        "envie abaixo em modo **replace** (schema do cadastro) ou **merge**. "
+        "Enquanto isso, telefone/exercício já destravam o D8 no eixo."
+    )
     modelo_path = TRATADOS / "contatos_emails_modelo.csv"
-    if modelo_path.exists():
-        st.download_button(
-            "Baixar modelo CSV",
-            data=modelo_path.read_text(encoding="utf-8-sig"),
-            file_name="contatos_emails_modelo.csv",
-            mime="text/csv",
-        )
-    up = st.file_uploader("Enviar CSV preenchido (municipio;papel;email;…)", type=["csv"])
-    if up is not None and st.button("Aplicar importação de e-mails"):
+    c_dl1, c_dl2 = st.columns(2)
+    with c_dl1:
+        if modelo_path.exists():
+            st.download_button(
+                "Baixar modelo (88 linhas do eixo)",
+                data=modelo_path.read_text(encoding="utf-8-sig"),
+                file_name="contatos_emails_modelo.csv",
+                mime="text/csv",
+            )
+    with c_dl2:
+        cad_path = TRATADOS / "contatos_institucionais_piloto.csv"
+        if cad_path.exists():
+            st.download_button(
+                "Baixar cadastro atual completo",
+                data=cad_path.read_text(encoding="utf-8-sig"),
+                file_name="contatos_institucionais_piloto.csv",
+                mime="text/csv",
+            )
+    modo_imp = st.radio(
+        "Modo de importação",
+        ["auto", "replace", "merge", "patch"],
+        horizontal=True,
+        help="replace = arquivo completo SES substitui campos; "
+        "merge = atualiza e pode criar linhas; "
+        "patch = só linhas com e-mail; auto detecta schema.",
+    )
+    up = st.file_uploader(
+        "Enviar CSV (completo ou só e-mails)",
+        type=["csv"],
+        key="upload_contatos_completo",
+    )
+    if up is not None and st.button("Aplicar importação"):
         import importlib.util
         import sys
         import tempfile
@@ -916,12 +944,15 @@ def pagina_alertabilidade_despacho() -> None:
                 tmp.write(up.getvalue())
                 tmp_path = Path(tmp.name)
             try:
-                stats = mod36.aplicar(tmp_path, dry_run=False)
+                stats = mod36.aplicar(tmp_path, modo=modo_imp, dry_run=False)
                 st.success(
-                    f"E-mails aplicados: {stats['emails_aplicados']} · "
-                    f"ignorados: {stats['linhas_ignoradas']}. "
-                    "Rode `python executar.py 19 16 18` para propagar alertável/D8."
+                    f"Modo `{stats.get('modo')}` · e-mails: {stats.get('emails_aplicados', 0)} · "
+                    f"campos: {stats.get('campos_atualizados', 0)} · "
+                    f"novas: {stats.get('linhas_novas', 0)} · "
+                    f"ignoradas: {stats.get('linhas_ignoradas', 0)}. "
+                    "Depois: `python executar.py 19 16 18`."
                 )
+                st.json(stats)
                 st.cache_data.clear()
             finally:
                 tmp_path.unlink(missing_ok=True)
@@ -1183,9 +1214,25 @@ def pagina_notificacoes_impactos(df_barragens: pd.DataFrame) -> None:
         f"{r.nome} — {r.id_snisb} ({getattr(r, 'nivel', '—')})"
         for r in ordenado.itertuples()
     ]
-    escolha = st.selectbox("Barragem do evento", labels)
+    # Prefill se veio de outra tela (simulação / visão territorial)
+    pre_id = str(st.session_state.pop("barragem_notif_id", "") or "")
+    idx0 = 0
+    if pre_id:
+        for i, lab in enumerate(labels):
+            if f" — {pre_id} " in lab or lab.endswith(f" — {pre_id}"):
+                idx0 = i
+                break
+    escolha = st.selectbox("Barragem do evento", labels, index=idx0)
     bid = escolha.split(" — ")[1].split(" ")[0]
+    st.session_state["barragem_selecionada_id"] = bid
     r = df_barragens[df_barragens["id_snisb"] == bid].iloc[0]
+    a1, a2 = st.columns(2)
+    if a1.button("Abrir Simulação com esta barragem"):
+        st.session_state["barragem_sim_id"] = bid
+        ir_para("Situação", "Simulação de cenário")
+    if a2.button("Abrir Barragem 360°"):
+        st.session_state["barragem_360_id"] = bid
+        ir_para("Território", "Barragem 360°")
 
     afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
     afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
