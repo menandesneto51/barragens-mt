@@ -74,6 +74,7 @@ romper e a plataforma não tem autoridade para dizer que não vai.
 | Agregação espacial | Média ponderada por área dos pixels/estações da bacia contribuinte da barragem |
 | Recálculo | A cada 30 min (satélite) ou a cada hora (estações) |
 | Dado ausente | Se nenhuma das três fontes tiver dado na janela, o indicador é lacuna: 0 ponto e redução da completude. **Não** se assume "não chuveu" |
+| Implementação atual | Etapa 39 (`telemetria_hidro_a`) preenche A1–A4 no ponto da barragem (INMET próximo ou Open-Meteo); etapa 17 mantém SisClima municipal + alertas. Ver `docs/02-fontes-de-dados.md` §2.5.8 |
 
 Faixas de pontuação (**proposta a validar**):
 

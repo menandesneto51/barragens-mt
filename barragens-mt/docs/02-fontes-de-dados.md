@@ -296,7 +296,24 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | O que fornece | Malha e população por setor censitário — granularidade abaixo do município |
 | Acesso | IBGE downloads / FTP de malhas e resultados do Censo |
 | Uso pretendido | População exposta e isolada na mancha proxy (C1 do IDAP com rigor) |
-| Status no repositório | Hoje só população **municipal** (`ibge_populacao_municipios_mt.csv`); setores pendentes |
+| Status no repositório | Implementado no eixo Manso–Cuiabá: `scripts/37_ibge_setores_eixo.py` → `dados/tratados/setores_censitarios_eixo_cuiaba.csv` (+ GeoJSON). KPI na Simulação via `st_app/setores_ibge.py` (centróide do setor na mancha). População municipal permanece em `ibge_populacao_municipios_mt.csv` para o proxy C7 estadual |
+
+### 2.5.7 Sisagua — captações de água (C4)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Pontos de captação / sistemas de abastecimento na faixa do eixo |
+| Acesso | Portal Sisagua / dados abertos; fallback espacial OSM (`waterway=intake`, `man_made=water_works`) |
+| Uso pretendido | Contagem de captações na mancha proxy (KPI C4) |
+| Implementado em | `scripts/38_sisagua_captacoes.py` → `sisagua_captacoes_eixo.csv`; UI em `st_app/sisagua_captacoes.py` |
+
+### 2.5.8 Telemetria pontual — dimensão A do IDAP
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Chuva 24h/72h e previsão no **ponto da barragem** (não só centroide municipal) |
+| Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
+| Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
 
 ---
 

@@ -417,7 +417,17 @@ def main() -> None:
     alertab_por_id = ler_alertabilidade()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
     print(f"  {STATUS_VERSAO_PESOS}")
-    print(f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens")
+    n_tel = sum(
+        1
+        for h in hidro_por_id.values()
+        if (h.get("aproximacao_espacial") or "") == "ponto_barragem_telemetria"
+        or bool(h.get("fonte_telemetria_a"))
+        or str(h.get("fonte_precip") or "").startswith(("inmet_", "openmeteo_ponto"))
+    )
+    print(
+        f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens "
+        f"({n_tel} com telemetria pontual etapa 39)"
+    )
     print(f"  CNES eixo (proxy C3): {len(cnes_por_mun)} municípios")
     print(f"  população IBGE: {len(pop_por_mun)} municípios")
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
@@ -688,13 +698,14 @@ def escrever_relatorio(
         "",
         f"- Barragens com linha SisClima/TITAN: **{n_hidro}** "
         f"(`hidro_barragens_mt.csv`, etapa 17).",
-        "- Aproximação espacial atual: município-sede (não bacia contribuinte).",
-        "- A3 (previsão) e A4 (percentil) ainda vazios no contrato atual.",
+        "- Onde a etapa 39 rodou: chuva A1–A4 no **ponto da barragem** "
+        "(INMET ≤80 km ou Open-Meteo pontual); demais usam município-sede/montante.",
+        "- Alertas Cemaden/INMET/ANA do contrato municipal são preservados na mescla.",
         "",
         "## Próximos passos",
         "",
         "1. Expandir BHO além da bacia do Cuiabá e agregar chuva/solo na drenagem.",
-        "2. Montar o piloto operacional do eixo Manso–Cuiabá.",
+        "2. Preferir série INMET/ANA HidroWeb quando a API diária estiver estável.",
         "",
     ]
     destino = comum.RELATORIOS / "idap_estadual_mt.md"

@@ -1,0 +1,46 @@
+﻿municipio;codigo_ibge;tipo_captacao;nome_sistema;latitude;longitude;fonte;observacao
+;;water_tower;OSM node/4834297681;-15.652327;-55.983563;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4834297682;-15.651737;-55.984011;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4834297683;-15.653223;-55.986812;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4834297684;-15.652817;-55.985899;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4834297685;-15.652623;-55.984284;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4834297686;-15.652022;-55.984900;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/4837908431;-15.606931;-56.104998;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/5284486860;-15.738588;-56.160419;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/5303523554;-16.710360;-56.026196;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/6233225993;-15.623037;-56.098616;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/6233225994;-15.622998;-56.098562;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/6341679495;-15.576040;-56.058776;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/6341679659;-15.576313;-56.058359;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/6384117148;-14.782964;-57.291470;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/7593197387;-15.634071;-55.941755;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/9692173978;-15.597968;-56.054497;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/9958172284;-16.269354;-56.632205;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/9958355133;-16.264253;-56.632187;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/10012565796;-15.577792;-56.110289;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/10116564056;-15.545112;-56.077327;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/11455672427;-14.975708;-55.887899;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/12113294371;-16.047890;-56.724495;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_tower;OSM node/12113294372;-16.047943;-56.724348;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;ETA Tijucal;-15.612912;-56.009969;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;Águas Cuiabá;-15.577129;-56.129065;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/608128550;-15.464330;-55.738180;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/760930548;-15.608438;-56.037979;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/812927063;-15.635412;-55.955352;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/813519642;-15.668572;-56.067950;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/839756178;-15.608305;-56.154486;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;ETA Altos do Coxipó;-15.631016;-56.028736;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/840000408;-15.621535;-56.036992;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/963492018;-15.230523;-56.297828;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+Várzea Grande;5108402;water_works;ETA Ulisses Pompeu de Campos;-15.642354;-56.129016;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;ETA Nossa Senhora da Guia;-15.351027;-56.233930;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+Cuiabá;5103403;water_works;ETA Sul;-15.654715;-56.057082;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+Cuiabá;5103403;water_works;RAP - Porto;-15.615101;-56.109120;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;Estação de tratamento de água - Aguas Cuiabá;-15.628716;-55.984593;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/1101914647;-15.676614;-55.961675;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;Águas Cuiabá;-15.546851;-56.051021;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;Águas Cuiabá;-15.540425;-56.081623;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;Águas Cuiabá;-15.573546;-56.090354;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/1329507475;-14.782992;-57.291182;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/1381176627;-15.670820;-56.080701;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível
+;;water_works;OSM way/1385779830;-15.638014;-55.988146;OSM;Fallback espacial — substituir por export Sisagua oficial quando disponível

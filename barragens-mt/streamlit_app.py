@@ -1051,6 +1051,88 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 f"{iso.get('fonte')} · ~{iso.get('km_vias_no_buffer', 0)} km de vias. "
                 "Contagens = elementos **dentro da área de simulação** (CNES + OSM)."
             )
+
+        from st_app.setores_ibge import cruzar_setores_mancha
+        from st_app.sisagua_captacoes import cruzar_captacoes_mancha
+
+        munis_iso_nomes = [
+            str(m.get("municipio") or "")
+            for m in (iso.get("municipios_isolados") or [])
+            if m.get("municipio")
+        ]
+        set_kpi = cruzar_setores_mancha(
+            lat0=lat0,
+            lon0=lon0,
+            raio_km=float(raio),
+            mostrar_circular=mostrar_circular,
+            trajeto=trajeto if trajeto.get("ok") else None,
+            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            hand_limiar=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            usar_hand=bool(usar_hand and hand_info.get("ok")),
+            munis_isolamento=munis_iso_nomes,
+        )
+        cap_kpi = cruzar_captacoes_mancha(
+            lat0=lat0,
+            lon0=lon0,
+            raio_km=float(raio),
+            mostrar_circular=mostrar_circular,
+            trajeto=trajeto if trajeto.get("ok") else None,
+            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            hand_limiar=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            usar_hand=bool(usar_hand and hand_info.get("ok")),
+        )
+        if set_kpi.get("disponivel"):
+            s1, s2, s3, s4 = st.columns(4)
+            s1.metric(
+                "Pop. exposta (setores)",
+                f"{int(set_kpi['pop_exposta_setores']):,}".replace(",", "."),
+            )
+            s2.metric("Setores na mancha", set_kpi["n_setores_expostos"])
+            s3.metric(
+                "Pop. isolada (setores)",
+                f"{int(set_kpi['pop_isolada_setores']):,}".replace(",", "."),
+            )
+            s4.metric("Setores isolados (proxy)", set_kpi["n_setores_isolados_proxy"])
+            st.caption(
+                f"Censo IBGE 2022 por setor (eixo Manso–Cuiabá, n={set_kpi['n_setores_eixo']}). "
+                "Exposta = centróide na mancha; isolada = fora da mancha em município com vias cortadas. "
+                f"`{set_kpi.get('fonte')}`"
+            )
+            if set_kpi.get("por_municipio"):
+                with st.expander("População por município (setores)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(set_kpi["por_municipio"]).head(20),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+        else:
+            st.caption(
+                "Setores censitários do eixo ainda não tratados — rode `python executar.py 37`."
+            )
+
+        if cap_kpi.get("disponivel"):
+            c1, c2 = st.columns(2)
+            c1.metric("Captações na mancha", cap_kpi["n_na_mancha"])
+            c2.metric("Captações no eixo (cadastro)", cap_kpi["n_total"])
+            label = "esqueleto Sisagua" if cap_kpi.get("esqueleto") else "Sisagua/OSM"
+            st.caption(
+                f"Captações ({label}) intersectando a mancha proxy — KPI C4. "
+                f"`{cap_kpi.get('fonte')}`"
+            )
+            if cap_kpi.get("itens"):
+                with st.expander("Captações atingidas", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(cap_kpi["itens"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=200,
+                    )
+        else:
+            st.caption(
+                "Captações Sisagua ausentes — rode `python executar.py 38` "
+                "(portal oficial ou fallback OSM)."
+            )
         if (
             iso.get("n_us_atingidas", 0) == 0
             and iso.get("n_vias_interrompidas", 0) == 0

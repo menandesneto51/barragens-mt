@@ -77,6 +77,24 @@ ETAPAS = [
         "Importar e-mails validados para contatos do eixo",
         False,
     ),
+    (
+        "37",
+        "37_ibge_setores_eixo.py",
+        "Setores censitários IBGE 2022 no eixo Manso–Cuiabá",
+        False,
+    ),
+    (
+        "38",
+        "38_sisagua_captacoes.py",
+        "Captações Sisagua/OSM no eixo (KPI C4)",
+        False,
+    ),
+    (
+        "39",
+        "39_telemetria_hidro_a.py",
+        "Telemetria pontual INMET/Open-Meteo → dimensão A",
+        False,
+    ),
 ]
 
 
