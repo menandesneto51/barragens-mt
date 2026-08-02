@@ -143,6 +143,12 @@ ETAPAS = [
         "Cobertura PAE a partir do SNISB (substitui scaffold)",
         False,
     ),
+    (
+        "48",
+        "48_pae_checklist_estadual.py",
+        "Ranking estadual de lacunas do checklist PAE/PAEBM",
+        False,
+    ),
 ]
 
 

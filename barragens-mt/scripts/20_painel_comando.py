@@ -417,6 +417,38 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     except Exception as exc:  # noqa: BLE001
         print(f"  sanitário pop/US não calculado: {exc}")
 
+    # Cobertura PAE (SNISB) — etapa 47
+    meta["pae"] = {
+        "ok": False,
+        "n_barragens": meta.get("total"),
+        "tem_pae_sim": None,
+        "tem_pae_nao": None,
+        "tem_pae_desconhecido": None,
+        "pct_sim": None,
+        "nota": "Rode scripts/47_pae_cobertura_snisb.py",
+    }
+    try:
+        pae_path = Path(__file__).resolve().parent.parent / "dados" / "tratados" / "pae_cobertura_status.json"
+        if pae_path.is_file():
+            import json as _json_pae
+
+            pj = _json_pae.loads(pae_path.read_text(encoding="utf-8"))
+            n_tot = int(pj.get("n_barragens") or meta.get("total") or 0)
+            n_sim = int(pj.get("tem_pae_sim") or 0)
+            pct = round(100.0 * n_sim / n_tot, 1) if n_tot else None
+            meta["pae"] = {
+                "ok": bool(pj.get("ok")),
+                "n_barragens": n_tot,
+                "tem_pae_sim": n_sim,
+                "tem_pae_nao": int(pj.get("tem_pae_nao") or 0),
+                "tem_pae_desconhecido": int(pj.get("tem_pae_desconhecido") or 0),
+                "pct_sim": pct,
+                "nota": pj.get("nota")
+                or "Mancha ZAS oficial ainda não ingerida — checklist na Simulação Streamlit.",
+            }
+    except Exception as exc:  # noqa: BLE001
+        print(f"  PAE cobertura não embutida: {exc}")
+
     for faixa in ("Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"):
         if meta["niveis"].get(faixa, 0) > 0:
             meta["semaforo"] = faixa
@@ -877,12 +909,19 @@ document.getElementById('kpiHelp').innerHTML =
     ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
       (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],
   ];
+  const PAE = META.pae || {};
+  const paeTxt = (PAE.tem_pae_sim!=null && PAE.n_barragens)
+    ? `${PAE.tem_pae_sim}/${PAE.n_barragens}${PAE.pct_sim!=null?` (${Math.round(PAE.pct_sim)}%)`:''}`
+    : '—';
+  const paeSev = (PAE.pct_sim==null) ? 'sev-neutro'
+    : (PAE.pct_sim>=50 ? 'sev-ok' : 'sev-atencao');
   const extras = [
     ['US prioritárias (hosp/UPA/UBS)', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
     ['Rejeito em atenção+', S.rejeito_atencao, S.rejeito_atencao?'sev-alto':'sev-ok'],
     ['Dano potencial alto sem canal', S.dpa_alto_sem_alerta, S.dpa_alto_sem_alerta?'sev-critico':'sev-ok'],
     ['Impacto extraterritorial ativo', S.extraterritorial_ativo, S.extraterritorial_ativo?'sev-atencao':'sev-ok'],
     ['Quase atenção (vigília)', S.quase_atencao, S.quase_atencao?'sev-atencao':'sev-ok'],
+    ['PAE declarado (SNISB)', paeTxt, paeSev],
   ];
   const fill = (node, itens) => {
     if (!node) return;
@@ -897,7 +936,11 @@ document.getElementById('kpiHelp').innerHTML =
   fill(el, principais);
   fill(document.getElementById('sanKpisExtra'), extras);
   const nota = document.getElementById('sanNota');
-  if (nota) nota.textContent = S.nota || '';
+  if (nota) {
+    const base = S.nota || '';
+    const paeN = PAE.nota ? ` PAE: ${PAE.nota}` : '';
+    nota.textContent = base + paeN;
+  }
   const tb = document.getElementById('quaseLista');
   if (!tb) return;
   const lista = S.quase_lista || [];

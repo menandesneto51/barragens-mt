@@ -14,9 +14,11 @@ RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 sys.path.insert(0, str(RAIZ / "scripts"))
 
+from st_app.cenario_export import montar_csv_cenario  # noqa: E402
 from st_app.demanda_cenario import estimar_demanda  # noqa: E402
 from st_app.ficha_rapida import termos_ipapd_da_ficha  # noqa: E402
 from st_app.ipapd import calcular_ipapd_proxy  # noqa: E402
+from st_app.pae_checklist import montar_checklist_pae  # noqa: E402
 from st_app.sitrep import montar_sitrep_cenario_md  # noqa: E402
 
 
@@ -101,6 +103,35 @@ class TestPaeNorm(unittest.TestCase):
         self.assertEqual(mod._norm_pae("Sim"), "sim")
         self.assertEqual(mod._norm_pae("Não"), "nao")
         self.assertEqual(mod._norm_pae(""), "desconhecido")
+
+
+class TestPaeChecklist(unittest.TestCase):
+    def test_monta_itens(self) -> None:
+        chk = montar_checklist_pae(
+            {
+                "id_snisb": "31990",
+                "nome": "1A",
+                "municipio_sede": "Alta Floresta",
+                "possui_pae": "",
+                "possui_plano_de_seguranca": "Não",
+                "possui_revisao_periodica": "",
+            }
+        )
+        self.assertTrue(chk["ok"])
+        self.assertGreaterEqual(chk["n_itens"], 5)
+        codigos = {i["codigo"] for i in chk["itens"]}
+        self.assertIn("PAE-01", codigos)
+        self.assertIn("PAE-04", codigos)
+
+
+class TestCenarioCsv(unittest.TestCase):
+    def test_csv(self) -> None:
+        csv_txt = montar_csv_cenario(
+            {"barragem": "X", "municipio": "Y", "pop_exposta": 10, "pae_lacunas": 2}
+        )
+        self.assertIn("Barragem", csv_txt)
+        self.assertIn("X", csv_txt)
+        self.assertIn(";", csv_txt)
 
 
 if __name__ == "__main__":

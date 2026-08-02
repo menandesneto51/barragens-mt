@@ -1366,13 +1366,42 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     e6.metric("Razão leitos/demanda", "—")
                 st.caption(dem.get("nota") or "")
 
+            from st_app.cenario_export import montar_csv_cenario
             from st_app.ficha_rapida import (
                 carregar_ficha,
                 listar_fichas,
                 termos_ipapd_da_ficha,
             )
             from st_app.ipapd import calcular_ipapd_proxy
+            from st_app.pae_checklist import (
+                checklist_para_dataframe,
+                exportar_checklist_csv,
+                montar_checklist_pae,
+            )
             from st_app.sitrep import montar_sitrep_cenario_md
+
+            chk_pae = montar_checklist_pae(r)
+            with st.expander("Checklist PAE / PAEBM (lacunas)", expanded=False):
+                res = chk_pae.get("resumo") or {}
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("OK", str(res.get("ok", 0)))
+                c2.metric("Atenção", str(res.get("atencao", 0)))
+                c3.metric("Não", str(res.get("nao", 0)))
+                c4.metric("Lacuna", str(res.get("lacuna", 0)))
+                st.dataframe(
+                    checklist_para_dataframe(chk_pae),
+                    width="stretch",
+                    hide_index=True,
+                    height=280,
+                )
+                st.download_button(
+                    "Baixar checklist PAE (CSV)",
+                    data=exportar_checklist_csv(chk_pae),
+                    file_name=f"checklist_pae_{(r.get('id_snisb') or 'barragem')}.csv",
+                    mime="text/csv",
+                    key="checklist_pae_csv",
+                )
+                st.caption(chk_pae.get("fonte") or "")
 
             # S usa o mesmo universo no numerador/denominador (escolas+captações+ativos)
             n_ess_mancha = n_esc_c5 + n_cap_c5 + n_ativos_c5
@@ -1467,48 +1496,67 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     )
                 st.caption(ipapd.get("fonte") or "")
 
-            sitrep_cen = montar_sitrep_cenario_md(
-                {
-                    "barragem": str(r.get("nome") or ""),
-                    "municipio": str(r.get("municipio") or ""),
-                    "geometria": geom_iso,
-                    "pop_exposta": int(pop_demanda or 0),
-                    "n_setores": set_kpi.get("n_setores_expostos")
-                    if set_kpi.get("disponivel")
-                    else "—",
-                    "n_captacoes": n_cap_c5,
-                    "n_escolas": n_esc_c5,
-                    "n_ativos": n_ativos_c5,
-                    "n_us_atingidas": iso.get("n_us_atingidas", 0),
-                    "n_us_isoladas": iso.get("n_us_isoladas", 0),
-                    "n_vias": iso.get("n_vias_interrompidas", 0),
-                    "n_pontes": iso.get("n_pontes_comprometidas", 0),
-                    "pessoas_isoladas": iso.get("pessoas_isoladas_proxy", 0),
-                    "nivel_c7": iso.get("rotulo_c7") or iso.get("nivel_c7_proxy") or "—",
-                    "pressao_estrutural": cap_assist.get("pressao_estrutural"),
-                    "leitos_disponiveis": cap_assist.get("leitos_disponiveis_mancha")
-                    if cap_assist.get("leitos_ok")
-                    else "—",
-                    "demanda_internacao": dem.get("demanda_internacao")
-                    if dem.get("ok")
-                    else "—",
-                    "demanda_agua": dem.get("demanda_agua_L_dia") if dem.get("ok") else "—",
-                    "ipapd": ipapd.get("ipapd") if ipapd.get("ok") else "—",
-                    "ipapd_rotulo": ipapd.get("rotulo") if ipapd.get("ok") else "—",
-                    "ipapd_completude": (
-                        f"{100*float(ipapd.get('completude') or 0):.0f}%"
-                        if ipapd.get("ok")
-                        else "—"
+            payload_cen = {
+                "barragem": str(r.get("nome") or ""),
+                "municipio": str(r.get("municipio") or ""),
+                "id_snisb": str(r.get("id_snisb") or ""),
+                "geometria": geom_iso,
+                "pop_exposta": int(pop_demanda or 0),
+                "n_setores": set_kpi.get("n_setores_expostos")
+                if set_kpi.get("disponivel")
+                else "—",
+                "n_captacoes": n_cap_c5,
+                "n_escolas": n_esc_c5,
+                "n_ativos": n_ativos_c5,
+                "n_us_atingidas": iso.get("n_us_atingidas", 0),
+                "n_us_isoladas": iso.get("n_us_isoladas", 0),
+                "n_vias": iso.get("n_vias_interrompidas", 0),
+                "n_pontes": iso.get("n_pontes_comprometidas", 0),
+                "pessoas_isoladas": iso.get("pessoas_isoladas_proxy", 0),
+                "nivel_c7": iso.get("rotulo_c7") or iso.get("nivel_c7_proxy") or "—",
+                "pressao_estrutural": cap_assist.get("pressao_estrutural"),
+                "leitos_disponiveis": cap_assist.get("leitos_disponiveis_mancha")
+                if cap_assist.get("leitos_ok")
+                else "—",
+                "demanda_internacao": dem.get("demanda_internacao")
+                if dem.get("ok")
+                else "—",
+                "demanda_agua": dem.get("demanda_agua_L_dia") if dem.get("ok") else "—",
+                "ipapd": ipapd.get("ipapd") if ipapd.get("ok") else "—",
+                "ipapd_rotulo": ipapd.get("rotulo") if ipapd.get("ok") else "—",
+                "ipapd_completude": (
+                    f"{100*float(ipapd.get('completude') or 0):.0f}%"
+                    if ipapd.get("ok")
+                    else "—"
+                ),
+                "pae_status": next(
+                    (
+                        it["status"]
+                        for it in (chk_pae.get("itens") or [])
+                        if it.get("codigo") == "PAE-01"
                     ),
-                }
-            )
-            st.download_button(
-                "Baixar SITREP do cenário (Markdown)",
-                data=sitrep_cen.encode("utf-8"),
-                file_name=f"sitrep_cenario_{(r.get('id_snisb') or 'barragem')}.md",
-                mime="text/markdown",
-                key="sitrep_cenario_md",
-            )
+                    "",
+                ),
+                "pae_lacunas": chk_pae.get("n_lacunas", 0),
+            }
+            sitrep_cen = montar_sitrep_cenario_md(payload_cen)
+            d1, d2 = st.columns(2)
+            with d1:
+                st.download_button(
+                    "Baixar SITREP do cenário (Markdown)",
+                    data=sitrep_cen.encode("utf-8"),
+                    file_name=f"sitrep_cenario_{(r.get('id_snisb') or 'barragem')}.md",
+                    mime="text/markdown",
+                    key="sitrep_cenario_md",
+                )
+            with d2:
+                st.download_button(
+                    "Baixar KPIs do cenário (CSV)",
+                    data=montar_csv_cenario(payload_cen),
+                    file_name=f"kpis_cenario_{(r.get('id_snisb') or 'barragem')}.csv",
+                    mime="text/csv",
+                    key="kpis_cenario_csv",
+                )
             if cap_assist.get("itens_mancha"):
                 with st.expander("US na mancha (tipologia + leitos)", expanded=False):
                     st.dataframe(
@@ -2000,6 +2048,27 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                 ),
             }
         )
+        from st_app.pae_checklist import (
+            checklist_para_dataframe,
+            exportar_checklist_csv,
+            montar_checklist_pae,
+        )
+
+        chk_det = montar_checklist_pae(r)
+        with st.expander("Checklist PAE / PAEBM", expanded=False):
+            st.dataframe(
+                checklist_para_dataframe(chk_det),
+                width="stretch",
+                hide_index=True,
+                height=260,
+            )
+            st.download_button(
+                "Baixar checklist PAE (CSV)",
+                data=exportar_checklist_csv(chk_det),
+                file_name=f"checklist_pae_{(r.get('id_snisb') or 'barragem')}.csv",
+                mime="text/csv",
+                key="checklist_pae_detalhe_csv",
+            )
         st.markdown("### Dimensões IDAP")
         st.bar_chart(
             pd.Series(

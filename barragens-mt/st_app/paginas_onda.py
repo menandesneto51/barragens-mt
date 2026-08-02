@@ -261,6 +261,37 @@ def bloco_sanitario_compacto(df: pd.DataFrame) -> None:
     with st.expander("Cadastro e tipológico (detalhe)", expanded=False):
         st.markdown('<div class="grade-kpis">' + "".join(extras) + "</div>", unsafe_allow_html=True)
 
+    lac_pae = Path(__file__).resolve().parents[1] / "dados" / "tratados" / "pae_checklist_lacunas.csv"
+    if lac_pae.is_file():
+        try:
+            df_lac = pd.read_csv(lac_pae, sep=";")
+            with st.expander("Ranking lacunas PAE (etapa 48)", expanded=False):
+                st.caption(
+                    "Checklist proxy SNISB+SIGBM — não substitui auditoria do PAE oficial. "
+                    "CSV: `dados/tratados/pae_checklist_lacunas.csv`."
+                )
+                cols = [
+                    c
+                    for c in (
+                        "id_snisb",
+                        "nome",
+                        "municipio",
+                        "n_lacunas_criticas",
+                        "n_atencao",
+                        "pae_01",
+                        "pae_04_zas",
+                    )
+                    if c in df_lac.columns
+                ]
+                st.dataframe(
+                    df_lac[cols].head(40),
+                    width="stretch",
+                    hide_index=True,
+                    height=320,
+                )
+        except (OSError, ValueError, TypeError):
+            pass
+
 
 # Compat: Município 360° e chamadas antigas
 def bloco_sanitario_e_historico(df: pd.DataFrame, *, mun_ativo: str | None) -> None:
