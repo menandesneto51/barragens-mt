@@ -25,8 +25,8 @@ A dimensão **A** (pressão hidroclimática) fica vazia de propósito: será pre
 | Roxo | 0 |
 | Vermelho | 0 |
 | Laranja | 0 |
-| Amarelo | 106 |
-| Verde | 1142 |
+| Amarelo | 129 |
+| Verde | 1119 |
 
 ## Impacto extraterritorial
 
@@ -39,31 +39,31 @@ A seção de controle por município é provisória (código Otto mais específi
 
 | IDAP | Nível | Completude | Sede | Nome | Municípios afetados (n) |
 | ---: | --- | ---: | --- | --- | ---: |
-| 34 | Amarelo | 0,640 | Nossa Senhora do Livramento | T G de Souza | 1 |
-| 32 | Amarelo | 0,640 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
-| 30 | Amarelo | 0,650 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
-| 30 | Amarelo | 0,650 | Nossa Senhora do Livramento | Santa Maria | 3 |
-| 27 | Amarelo | 0,600 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | 3 |
-| 27 | Amarelo | 0,600 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
-| 27 | Amarelo | 0,600 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
-| 26 | Amarelo | 0,650 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
+| 39 | Amarelo | 0,710 | Nossa Senhora do Livramento | T G de Souza | 1 |
+| 35 | Amarelo | 0,710 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
+| 35 | Amarelo | 0,720 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
+| 33 | Amarelo | 0,720 | Nossa Senhora do Livramento | Santa Maria | 3 |
+| 31 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
+| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | 3 |
+| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
+| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR03 | 1 |
+| 26 | Amarelo | 0,720 | Cuiabá | Barragem Serrinha | 2 |
+| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR BOSCO | 3 |
+| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
+| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR02 | 1 |
+| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
+| 26 | Amarelo | 0,580 | Poconé | BACIA DE REJEITOS SÃO BENTO | 0 |
+| 26 | Amarelo | 0,670 | Poconé | BR ISMAEL | 1 |
+| 26 | Amarelo | 0,580 | Poconé | Barragem de Rejeitos SB 02 | 0 |
+| 26 | Amarelo | 0,670 | Poconé | Davi | 1 |
 | 26 | Amarelo | 0,510 | Pontes e Lacerda | Fortuna | 3 |
-| 23 | Amarelo | 0,640 | Nossa Senhora do Livramento | BR02 | 1 |
-| 23 | Amarelo | 0,550 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
-| 22 | Amarelo | 0,610 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
-| 22 | Amarelo | 0,610 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
-| 22 | Amarelo | 0,610 | Nossa Senhora do Livramento | BR03 | 1 |
-| 22 | Amarelo | 0,610 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
-| 21 | Amarelo | 0,650 | Cuiabá | Barragem Serrinha | 2 |
-| 21 | Amarelo | 0,650 | Nossa Senhora do Livramento | BR BOSCO | 3 |
-| 21 | Amarelo | 0,650 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
-| 21 | Amarelo | 0,650 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
-| 21 | Amarelo | 0,510 | Poconé | BACIA DE REJEITOS SÃO BENTO | 0 |
-| 21 | Amarelo | 0,600 | Poconé | BR ISMAEL | 1 |
-| 21 | Amarelo | 0,510 | Poconé | Barragem de Rejeitos SB 02 | 0 |
-| 21 | Amarelo | 0,600 | Poconé | Davi | 1 |
-| 20 | Amarelo | 0,610 | Nossa Senhora do Livramento | BARRAGEM COOP 01 | 1 |
-| 20 | Amarelo | 0,510 | Nossa Senhora do Livramento | BR BRASÃO | 0 |
+| 25 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
+| 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
+| 25 | Amarelo | 0,640 | Poconé | Barragem Barba 02 | 1 |
 
 ## Pressão hidroclimática (dimensão A)
 

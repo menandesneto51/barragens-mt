@@ -33,12 +33,12 @@
 26442;Fazenda Cristalina;Campo Verde;Dom Aquino;689992;689912;montante;6;Verde;Baixo
 31541;Barramento principal (1A);Carlinda;Alta Floresta;4447334;44452872;montante;8;Verde;Baixo
 31541;Barramento principal (1A);Carlinda;Nova Canaã do Norte;4447334;44473332;montante;8;Verde;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Cuiabá;89676;896573;montante;15;Amarelo;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Jangada;89676;89658;montante;15;Amarelo;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Nossa Senhora do Livramento;89676;89657184;montante;15;Amarelo;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Rosário Oeste;89676;8965932;montante;15;Amarelo;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Santo Antônio de Leverger;89676;896544;montante;15;Amarelo;Baixo
-36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Várzea Grande;89676;89657182;montante;15;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Cuiabá;89676;896573;montante;19;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Jangada;89676;89658;montante;19;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Nossa Senhora do Livramento;89676;89657184;montante;19;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Rosário Oeste;89676;8965932;montante;19;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Santo Antônio de Leverger;89676;896544;montante;19;Amarelo;Baixo
+36539;Barramento Pé de Pequi I;Chapada dos Guimarães;Várzea Grande;89676;89657182;montante;19;Amarelo;Baixo
 4931;PCH Casca II - B01 - CASCA I;Chapada dos Guimarães;Cuiabá;89694;896573;montante;13;Amarelo;Baixo
 4931;PCH Casca II - B01 - CASCA I;Chapada dos Guimarães;Jangada;89694;89658;montante;13;Amarelo;Baixo
 4931;PCH Casca II - B01 - CASCA I;Chapada dos Guimarães;Nossa Senhora do Livramento;89694;89657184;montante;13;Amarelo;Baixo
@@ -57,48 +57,48 @@
 20617;PCH Casca III - Casca III;Chapada dos Guimarães;Rosário Oeste;89694;8965932;montante;16;Amarelo;Baixo
 20617;PCH Casca III - Casca III;Chapada dos Guimarães;Santo Antônio de Leverger;89694;896544;montante;16;Amarelo;Baixo
 20617;PCH Casca III - Casca III;Chapada dos Guimarães;Várzea Grande;89694;89657182;montante;16;Amarelo;Baixo
-34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;Cuiabá;896;896573;contem;13;Amarelo;Alto
-34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;13;Amarelo;Alto
-34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;Cuiabá;896;896573;contem;13;Amarelo;Alto
-34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;13;Amarelo;Alto
-4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;Cuiabá;896;896573;contem;14;Amarelo;Alto
-4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20601;UHE Manso - Dique 2;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20602;UHE Manso - Dique 3;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20603;UHE Manso - Dique 4;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20604;UHE Manso - Dique 5;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20605;UHE Manso - Dique 6;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Cuiabá;89678;896573;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Jangada;89678;89658;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;14;Amarelo;Alto
-20606;UHE Manso - Dique 7;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;14;Amarelo;Alto
+34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;Cuiabá;896;896573;contem;18;Amarelo;Alto
+34145;UHE Manso - Barragem da Margem Direita;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;18;Amarelo;Alto
+34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;Cuiabá;896;896573;contem;18;Amarelo;Alto
+34146;UHE Manso - Barragem da Margem Esquerda;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;18;Amarelo;Alto
+4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;Cuiabá;896;896573;contem;19;Amarelo;Alto
+4436;UHE Manso - Barragem de Terra do Leito do Rio;Chapada dos Guimarães;Várzea Grande;896;89657182;contem;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20601;UHE Manso - Dique 2;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20602;UHE Manso - Dique 3;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20603;UHE Manso - Dique 4;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20604;UHE Manso - Dique 5;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20605;UHE Manso - Dique 6;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Cuiabá;89678;896573;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Jangada;89678;89658;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Nossa Senhora do Livramento;89678;89657184;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Rosário Oeste;89678;8965932;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Santo Antônio de Leverger;89678;896544;montante;19;Amarelo;Alto
+20606;UHE Manso - Dique 7;Chapada dos Guimarães;Várzea Grande;89678;89657182;montante;19;Amarelo;Alto
 30462;BARRAGEM 01;Cláudia;Marcelândia;426934;42678;montante;10;Verde;Baixo
 30462;BARRAGEM 01;Cláudia;União do Sul;426934;426918;montante;10;Verde;Baixo
 29953;Barragem 02;Cláudia;Marcelândia;426934;42678;montante;10;Verde;Baixo
@@ -114,67 +114,67 @@
 34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;Conquista D'Oeste;Nova Lacerda;46994962;46993962;montante;11;Verde;Baixo
 34226;CGH Galera Centrais Eletricas 1a - 1;Conquista D'Oeste;Comodoro;4699484;46993296;montante;10;Verde;Baixo
 34226;CGH Galera Centrais Eletricas 1a - 1;Conquista D'Oeste;Nova Lacerda;4699484;46993962;montante;10;Verde;Baixo
-34732;BARRAGEM 1;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;15;Amarelo;Baixo
-34732;BARRAGEM 1;Cuiabá;Várzea Grande;8965754;89657182;montante;15;Amarelo;Baixo
-34733;BARRAGEM 2 SUPERIOR;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-34733;BARRAGEM 2 SUPERIOR;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-34734;BARRAGEM 3;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;15;Amarelo;Baixo
-34734;BARRAGEM 3;Cuiabá;Várzea Grande;8965754;89657182;montante;15;Amarelo;Baixo
-35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Médio
-32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Médio
-34731;Barragem 2  Principal;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;15;Amarelo;Baixo
-34731;Barragem 2  Principal;Cuiabá;Várzea Grande;8965754;89657182;montante;15;Amarelo;Baixo
-36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-26146;Barragem TB;Cuiabá;Nossa Senhora do Livramento;8965752;89657184;montante;18;Amarelo;Baixo
-26146;Barragem TB;Cuiabá;Várzea Grande;8965752;89657182;montante;18;Amarelo;Baixo
-31578;Barragem Taguá;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;15;Amarelo;Baixo
-31578;Barragem Taguá;Cuiabá;Várzea Grande;8965754;89657182;montante;15;Amarelo;Baixo
-33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-36517;Barramento 2 (Montante);Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;13;Amarelo;Baixo
-36517;Barramento 2 (Montante);Cuiabá;Várzea Grande;8965754;89657182;montante;13;Amarelo;Baixo
-33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-36516;Barramento 3;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-36516;Barramento 3;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-35136;Barramento 4;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;13;Amarelo;Baixo
-35136;Barramento 4;Cuiabá;Várzea Grande;8965754;89657182;montante;13;Amarelo;Baixo
-35182;Barramento 5;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-35182;Barramento 5;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-35181;Barramento 6;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-35181;Barramento 6;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-35180;Barramento 7;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Baixo
-35180;Barramento 7;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Baixo
-35027;Barramento ? Fazenda Jardim;Cuiabá;Nossa Senhora do Livramento;896576;89657184;montante;15;Amarelo;Baixo
-35027;Barramento ? Fazenda Jardim;Cuiabá;Várzea Grande;896576;89657182;montante;15;Amarelo;Baixo
-20754;Fazenda 3 irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;13;Amarelo;Baixo
-20754;Fazenda 3 irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;13;Amarelo;Baixo
+34732;BARRAGEM 1;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;18;Amarelo;Baixo
+34732;BARRAGEM 1;Cuiabá;Várzea Grande;8965754;89657182;montante;18;Amarelo;Baixo
+34733;BARRAGEM 2 SUPERIOR;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;17;Amarelo;Baixo
+34733;BARRAGEM 2 SUPERIOR;Cuiabá;Várzea Grande;8965754;89657182;montante;17;Amarelo;Baixo
+34734;BARRAGEM 3;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;19;Amarelo;Baixo
+34734;BARRAGEM 3;Cuiabá;Várzea Grande;8965754;89657182;montante;19;Amarelo;Baixo
+35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;19;Amarelo;Baixo
+35000;Barragem 01 - Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;19;Amarelo;Baixo
+32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;19;Amarelo;Baixo
+32398;Barragem 02 – Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;19;Amarelo;Baixo
+32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;19;Amarelo;Médio
+32421;Barragem 03 – Fazenda 3 Irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;19;Amarelo;Médio
+34731;Barragem 2  Principal;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;19;Amarelo;Baixo
+34731;Barragem 2  Principal;Cuiabá;Várzea Grande;8965754;89657182;montante;19;Amarelo;Baixo
+36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;18;Amarelo;Baixo
+36689;Barragem I - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;18;Amarelo;Baixo
+36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;18;Amarelo;Baixo
+36690;Barragem II - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;18;Amarelo;Baixo
+36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;18;Amarelo;Baixo
+36691;Barragem III - Fazenda Pouso da Garça;Cuiabá;Várzea Grande;89657542;89657182;montante;18;Amarelo;Baixo
+26146;Barragem TB;Cuiabá;Nossa Senhora do Livramento;8965752;89657184;montante;23;Amarelo;Baixo
+26146;Barragem TB;Cuiabá;Várzea Grande;8965752;89657182;montante;23;Amarelo;Baixo
+31578;Barragem Taguá;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;18;Amarelo;Baixo
+31578;Barragem Taguá;Cuiabá;Várzea Grande;8965754;89657182;montante;18;Amarelo;Baixo
+33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;17;Amarelo;Baixo
+33960;Barramento 1 - Mangaba Urbanismo LTDA;Cuiabá;Várzea Grande;8965754;89657182;montante;17;Amarelo;Baixo
+36517;Barramento 2 (Montante);Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;19;Amarelo;Baixo
+36517;Barramento 2 (Montante);Cuiabá;Várzea Grande;8965754;89657182;montante;19;Amarelo;Baixo
+33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;17;Amarelo;Baixo
+33355;Barramento 2 - Mangaba Urbanismo LTDA;Cuiabá;Várzea Grande;8965754;89657182;montante;17;Amarelo;Baixo
+36516;Barramento 3;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;20;Amarelo;Baixo
+36516;Barramento 3;Cuiabá;Várzea Grande;8965754;89657182;montante;20;Amarelo;Baixo
+35136;Barramento 4;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;19;Amarelo;Baixo
+35136;Barramento 4;Cuiabá;Várzea Grande;8965754;89657182;montante;19;Amarelo;Baixo
+35182;Barramento 5;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;21;Amarelo;Baixo
+35182;Barramento 5;Cuiabá;Várzea Grande;89657542;89657182;montante;21;Amarelo;Baixo
+35181;Barramento 6;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;21;Amarelo;Baixo
+35181;Barramento 6;Cuiabá;Várzea Grande;89657542;89657182;montante;21;Amarelo;Baixo
+35180;Barramento 7;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;21;Amarelo;Baixo
+35180;Barramento 7;Cuiabá;Várzea Grande;89657542;89657182;montante;21;Amarelo;Baixo
+35027;Barramento ? Fazenda Jardim;Cuiabá;Nossa Senhora do Livramento;896576;89657184;montante;19;Amarelo;Baixo
+35027;Barramento ? Fazenda Jardim;Cuiabá;Várzea Grande;896576;89657182;montante;19;Amarelo;Baixo
+20754;Fazenda 3 irmãos;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;17;Amarelo;Baixo
+20754;Fazenda 3 irmãos;Cuiabá;Várzea Grande;89657542;89657182;montante;17;Amarelo;Baixo
 26534;Fazenda KM;Cuiabá;Nossa Senhora do Livramento;8965768;89657184;montante;17;Amarelo;Baixo
 26534;Fazenda KM;Cuiabá;Várzea Grande;8965768;89657182;montante;17;Amarelo;Baixo
-27954;Lago Recreativo Cuiabá;Cuiabá;Nossa Senhora do Livramento;89657544;89657184;montante;14;Amarelo;Alto
-27954;Lago Recreativo Cuiabá;Cuiabá;Várzea Grande;89657544;89657182;montante;14;Amarelo;Alto
-31620;Loteamento Brisas do Campo;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-31620;Loteamento Brisas do Campo;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-32445;Mangaba e Aterrado;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;14;Amarelo;Baixo
-32445;Mangaba e Aterrado;Cuiabá;Várzea Grande;8965754;89657182;montante;14;Amarelo;Baixo
-32261;Represa da Estrada;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;15;Amarelo;Médio
-32261;Represa da Estrada;Cuiabá;Várzea Grande;89657542;89657182;montante;15;Amarelo;Médio
-31954;SS RANCH;Cuiabá;Nossa Senhora do Livramento;89657544;89657184;montante;14;Amarelo;Médio
-31954;SS RANCH;Cuiabá;Várzea Grande;89657544;89657182;montante;14;Amarelo;Médio
+27954;Lago Recreativo Cuiabá;Cuiabá;Nossa Senhora do Livramento;89657544;89657184;montante;20;Amarelo;Alto
+27954;Lago Recreativo Cuiabá;Cuiabá;Várzea Grande;89657544;89657182;montante;20;Amarelo;Alto
+31620;Loteamento Brisas do Campo;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;19;Amarelo;Baixo
+31620;Loteamento Brisas do Campo;Cuiabá;Várzea Grande;8965754;89657182;montante;19;Amarelo;Baixo
+32445;Mangaba e Aterrado;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;18;Amarelo;Baixo
+32445;Mangaba e Aterrado;Cuiabá;Várzea Grande;8965754;89657182;montante;18;Amarelo;Baixo
+32261;Represa da Estrada;Cuiabá;Nossa Senhora do Livramento;89657542;89657184;montante;19;Amarelo;Médio
+32261;Represa da Estrada;Cuiabá;Várzea Grande;89657542;89657182;montante;19;Amarelo;Médio
+31954;SS RANCH;Cuiabá;Nossa Senhora do Livramento;89657544;89657184;montante;19;Amarelo;Médio
+31954;SS RANCH;Cuiabá;Várzea Grande;89657544;89657182;montante;19;Amarelo;Médio
 37413;Barragem Adelcir Grigoletto;Cláudia;Marcelândia;4268;42678;montante;8;Verde;Baixo
-26131;BARRAGEM JVR;Cuiabá;Nossa Senhora do Livramento;8965752;89657184;montante;18;Amarelo;Alto
-26131;BARRAGEM JVR;Cuiabá;Várzea Grande;8965752;89657182;montante;18;Amarelo;Alto
-26138;Barragem Serrinha;Cuiabá;Nossa Senhora do Livramento;896572;89657184;montante;21;Amarelo;Baixo
-26138;Barragem Serrinha;Cuiabá;Várzea Grande;896572;89657182;montante;21;Amarelo;Baixo
+26131;BARRAGEM JVR;Cuiabá;Nossa Senhora do Livramento;8965752;89657184;montante;23;Amarelo;Alto
+26131;BARRAGEM JVR;Cuiabá;Várzea Grande;8965752;89657182;montante;23;Amarelo;Alto
+26138;Barragem Serrinha;Cuiabá;Nossa Senhora do Livramento;896572;89657184;montante;26;Amarelo;Baixo
+26138;Barragem Serrinha;Cuiabá;Várzea Grande;896572;89657182;montante;26;Amarelo;Baixo
 36555;Barragem I ? Fazenda Machado I;Denise;Barra do Bugres;899946;8999194;montante;8;Verde;Baixo
 30902;Barramento 4 - Fazenda Guanabara – Gleba A;Denise;Barra do Bugres;899944;8999194;montante;11;Verde;Baixo
 30947;Barramento 8 - Fazenda Guanabara – Gleba A;Denise;Barra do Bugres;8999444;8999194;montante;10;Verde;Não Classificado
@@ -308,12 +308,12 @@
 34857;Barragem I Jangada Agropastoril;Jangada;Cuiabá;89658;896573;montante;15;Verde;Médio
 34857;Barragem I Jangada Agropastoril;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;15;Verde;Médio
 34857;Barragem I Jangada Agropastoril;Jangada;Várzea Grande;89658;89657182;montante;15;Verde;Médio
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Cuiabá;89658;896573;montante;13;Verde;Baixo
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;13;Verde;Baixo
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Várzea Grande;89658;89657182;montante;13;Verde;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Cuiabá;89658;896573;montante;15;Verde;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;15;Verde;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Várzea Grande;89658;89657182;montante;15;Verde;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Cuiabá;89658;896573;montante;16;Verde;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;16;Verde;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Várzea Grande;89658;89657182;montante;16;Verde;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Cuiabá;89658;896573;montante;18;Verde;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;18;Verde;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Várzea Grande;89658;89657182;montante;18;Verde;Baixo
 4715;PCH Antônio Brennand (Antiga  Alto Jauru) - Antônio Brennand;Jauru;Araputanga;8994;8994;mesmo trecho;13;Verde;Baixo
 4202;PCH Indiavaí - Indiavaí;Jauru;Araputanga;8994;8994;mesmo trecho;11;Verde;Médio
 26142;Barragem  LVR;Juína;Aripuanã;4629968;46293322;montante;15;Verde;Baixo
@@ -438,25 +438,25 @@
 5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Itaúba;4448;444762;montante;9;Amarelo;Não Classificado
 5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;9;Amarelo;Não Classificado
 5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Sinop;4448;4447944;montante;9;Amarelo;Não Classificado
-20177;Faz. Carvalho;Nobres;Cuiabá;896634;896573;montante;11;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Jangada;896634;89658;montante;11;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Nossa Senhora do Livramento;896634;89657184;montante;11;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Rosário Oeste;896634;8965932;montante;11;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Santo Antônio de Leverger;896634;896544;montante;11;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Várzea Grande;896634;89657182;montante;11;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Cuiabá;896634;896573;montante;12;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Jangada;896634;89658;montante;12;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Nossa Senhora do Livramento;896634;89657184;montante;12;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Rosário Oeste;896634;8965932;montante;12;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Santo Antônio de Leverger;896634;896544;montante;12;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Várzea Grande;896634;89657182;montante;12;Verde;Baixo
 4224;UHE Manso - Dique 1;Nobres;Juara;446984;4463178;montante;12;Verde;Alto
 4224;UHE Manso - Dique 1;Nobres;Novo Horizonte do Norte;446984;44631784;montante;12;Verde;Alto
 4224;UHE Manso - Dique 1;Nobres;Porto dos Gaúchos;446984;4463354;montante;12;Verde;Alto
 4224;UHE Manso - Dique 1;Nobres;São José do Rio Claro;446984;446916;montante;12;Verde;Alto
 5169;CGH Diamante - Diamante;Nortelândia;Barra do Bugres;8999972;8999194;montante;9;Verde;Médio
-35637;BA-01;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;15;Verde;Baixo
-35637;BA-01;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;15;Verde;Baixo
-29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;18;Verde;Baixo
-29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;18;Verde;Baixo
-34856;Barragem GMX;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;18;Verde;Baixo
-34856;Barragem GMX;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;18;Verde;Baixo
-26156;Barragem JL;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;18;Verde;Baixo
-26156;Barragem JL;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;18;Verde;Baixo
+35637;BA-01;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;20;Amarelo;Baixo
+35637;BA-01;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;20;Amarelo;Baixo
+29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;23;Amarelo;Baixo
+29384;BR SANTA FELICIDADE 04;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;23;Amarelo;Baixo
+34856;Barragem GMX;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;23;Amarelo;Baixo
+34856;Barragem GMX;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;23;Amarelo;Baixo
+26156;Barragem JL;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;23;Amarelo;Baixo
+26156;Barragem JL;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;23;Amarelo;Baixo
 35108;Barragem VI (montante);Nossa Senhora do Livramento;Cuiabá;8965882;896573;montante;15;Verde;Baixo
 35108;Barragem VI (montante);Nossa Senhora do Livramento;Várzea Grande;8965882;89657182;montante;15;Verde;Baixo
 35107;Barragem VII (montante);Nossa Senhora do Livramento;Cuiabá;8965882;896573;montante;15;Verde;Baixo
@@ -470,10 +470,10 @@
 35102;Barragem XVII;Nossa Senhora do Livramento;Várzea Grande;89658;89657182;montante;15;Verde;Baixo
 35116;Barragem XVIII;Nossa Senhora do Livramento;Cuiabá;8965898;896573;montante;15;Verde;Baixo
 35116;Barragem XVIII;Nossa Senhora do Livramento;Várzea Grande;8965898;89657182;montante;15;Verde;Baixo
-27624;Barragem_Valdenir2;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;17;Verde;Baixo
-27624;Barragem_Valdenir2;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;17;Verde;Baixo
-8008;Estância Recreio;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;13;Verde;Baixo
-8008;Estância Recreio;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;13;Verde;Baixo
+27624;Barragem_Valdenir2;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;20;Amarelo;Baixo
+27624;Barragem_Valdenir2;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;20;Amarelo;Baixo
+8008;Estância Recreio;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;16;Verde;Baixo
+8008;Estância Recreio;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;16;Verde;Baixo
 7994;Faz. Cabeça Branca - Barragem 01;Nossa Senhora do Livramento;Cuiabá;89658;896573;montante;13;Verde;Baixo
 7994;Faz. Cabeça Branca - Barragem 01;Nossa Senhora do Livramento;Jangada;89658;89658;mesmo trecho;13;Verde;Baixo
 7994;Faz. Cabeça Branca - Barragem 01;Nossa Senhora do Livramento;Várzea Grande;89658;89657182;montante;13;Verde;Baixo
@@ -487,21 +487,21 @@
 7989;Faz. Cabeça Branca - Barragem 06;Nossa Senhora do Livramento;Várzea Grande;8965896;89657182;montante;13;Verde;Baixo
 7992;Fazenda Cabeça Branca - Barragem 03;Nossa Senhora do Livramento;Cuiabá;8965896;896573;montante;13;Verde;Baixo
 7992;Fazenda Cabeça Branca - Barragem 03;Nossa Senhora do Livramento;Várzea Grande;8965896;89657182;montante;13;Verde;Baixo
-20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;14;Verde;Baixo
-20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;14;Verde;Baixo
-20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;14;Verde;Baixo
-20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;14;Verde;Baixo
-20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;14;Verde;Baixo
-20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;14;Verde;Baixo
-26171;MULTI 1;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;18;Verde;Baixo
-26171;MULTI 1;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;18;Verde;Baixo
+20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;17;Verde;Baixo
+20047;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;17;Verde;Baixo
+20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;17;Verde;Baixo
+20048;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;17;Verde;Baixo
+20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Cuiabá;89658992;896573;montante;17;Verde;Baixo
+20049;Fazenda Murici Sesmaria Molhado;Nossa Senhora do Livramento;Várzea Grande;89658992;89657182;montante;17;Verde;Baixo
+26171;MULTI 1;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;23;Amarelo;Baixo
+26171;MULTI 1;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;23;Amarelo;Baixo
 340;Piscicultura São Rafael;Nossa Senhora do Livramento;Cuiabá;89658;896573;montante;14;Verde;Baixo
 340;Piscicultura São Rafael;Nossa Senhora do Livramento;Jangada;89658;89658;mesmo trecho;14;Verde;Baixo
 340;Piscicultura São Rafael;Nossa Senhora do Livramento;Várzea Grande;89658;89657182;montante;14;Verde;Baixo
-5563;Santa Maria;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;30;Amarelo;Médio
-5563;Santa Maria;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;30;Amarelo;Médio
-26538;Sitio Pirapora;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;17;Verde;Baixo
-26538;Sitio Pirapora;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;17;Verde;Baixo
+5563;Santa Maria;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;33;Amarelo;Médio
+5563;Santa Maria;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;33;Amarelo;Médio
+26538;Sitio Pirapora;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;20;Amarelo;Baixo
+26538;Sitio Pirapora;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;20;Amarelo;Baixo
 20119;Faz. Olho d'Água;Nova Canaã do Norte;Alta Floresta;4447242;44452872;montante;9;Verde;Baixo
 20119;Faz. Olho d'Água;Nova Canaã do Norte;Carlinda;4447242;44457212;montante;9;Verde;Baixo
 20033;Fazenda Eldorado;Nova Canaã do Norte;Alta Floresta;44473332;44452872;montante;9;Verde;Não Classificado
@@ -658,28 +658,28 @@
 8065;Matrícula 7164, 2464, 2095 e 2096;Nova Ubiratã;Feliz Natal;42866;428586;montante;6;Verde;Baixo
 35636;Sítio Bom Futuro;Nova Ubiratã;Feliz Natal;4289244;428586;montante;10;Verde;Baixo
 36469;Fazenda Gleba Wilma;Novo São Joaquim;General Carneiro;6876;687382;montante;8;Verde;Baixo
-586;BR BOSCO;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;21;Amarelo;Médio
-586;BR BOSCO;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;21;Amarelo;Médio
-21940;BR PIRÂMIDE;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;21;Amarelo;Médio
-21940;BR PIRÂMIDE;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;21;Amarelo;Médio
-5573;BR SANTA 01;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;26;Amarelo;Médio
-5573;BR SANTA 01;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;26;Amarelo;Médio
-588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;21;Amarelo;Médio
-588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;21;Amarelo;Médio
-22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;19;Verde;Baixo
-22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;19;Verde;Baixo
-27626;Barragem - Valdenir;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;17;Verde;Baixo
-27626;Barragem - Valdenir;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;17;Verde;Baixo
-5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;27;Amarelo;Alto
-5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;27;Amarelo;Alto
-5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;27;Amarelo;Alto
-5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;27;Amarelo;Alto
-5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;27;Amarelo;Alto
-5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;27;Amarelo;Alto
-5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;30;Amarelo;Médio
-5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;30;Amarelo;Médio
-37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;15;Verde;Baixo
-37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;15;Verde;Baixo
+586;BR BOSCO;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;26;Amarelo;Médio
+586;BR BOSCO;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;26;Amarelo;Médio
+21940;BR PIRÂMIDE;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;26;Amarelo;Médio
+21940;BR PIRÂMIDE;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;26;Amarelo;Médio
+5573;BR SANTA 01;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;31;Amarelo;Médio
+5573;BR SANTA 01;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;31;Amarelo;Médio
+588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;26;Amarelo;Médio
+588;BR SANTA FELICIDADE;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;26;Amarelo;Médio
+22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;24;Amarelo;Baixo
+22009;BR SANTA FELICIDADE 02;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;24;Amarelo;Baixo
+27626;Barragem - Valdenir;Nossa Senhora do Livramento;Cuiabá;8965742;896573;montante;20;Amarelo;Baixo
+27626;Barragem - Valdenir;Nossa Senhora do Livramento;Várzea Grande;8965742;89657182;montante;20;Amarelo;Baixo
+5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;30;Amarelo;Alto
+5560;Barragem de Rejeito Estrela;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;30;Amarelo;Alto
+5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;30;Amarelo;Alto
+5562;Barragem de Rejeito Estrela 02;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;30;Amarelo;Alto
+5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;Cuiabá;8965744;896573;montante;30;Amarelo;Alto
+5559;Barragem de Rejeito Estrela 03;Nossa Senhora do Livramento;Várzea Grande;8965744;89657182;montante;30;Amarelo;Alto
+5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;35;Amarelo;Médio
+5603;Barragem de Rejeitos Bom Futuro;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;35;Amarelo;Médio
+37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;Cuiabá;896574;896573;montante;17;Verde;Baixo
+37396;Solimões Indústria e Comércio de Óleos e Proteínas Ltda ? Barragem I;Nossa Senhora do Livramento;Várzea Grande;896574;89657182;montante;17;Verde;Baixo
 27619;MD-01;Nova Lacerda;Comodoro;4699436;46993296;montante;16;Verde;Baixo
 37527;Fazenda Ventania;Nova Mutum;Juara;446788;4463178;montante;9;Verde;Alto
 37527;Fazenda Ventania;Nova Mutum;Novo Horizonte do Norte;446788;44631784;montante;9;Verde;Alto
@@ -811,9 +811,9 @@
 35477;Barramento III - Fazenda São José I;Rosário Oeste;Nossa Senhora do Livramento;89664;89657184;montante;12;Verde;Baixo
 35477;Barramento III - Fazenda São José I;Rosário Oeste;Santo Antônio de Leverger;89664;896544;montante;12;Verde;Baixo
 35477;Barramento III - Fazenda São José I;Rosário Oeste;Várzea Grande;89664;89657182;montante;12;Verde;Baixo
-27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Cuiabá;8965932;896573;montante;13;Verde;Baixo
-27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Nossa Senhora do Livramento;8965932;89657184;montante;13;Verde;Baixo
-27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Várzea Grande;8965932;89657182;montante;13;Verde;Baixo
+27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Cuiabá;8965932;896573;montante;14;Verde;Baixo
+27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Nossa Senhora do Livramento;8965932;89657184;montante;14;Verde;Baixo
+27940;Estância 2R - Retiro Vista Alegre;Rosário Oeste;Várzea Grande;8965932;89657182;montante;14;Verde;Baixo
 8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;Cuiabá;896592;896573;montante;13;Verde;Baixo
 8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;Nossa Senhora do Livramento;896592;89657184;montante;13;Verde;Baixo
 8009;Faz. Dona Leila - Reservatório 12;Rosário Oeste;Várzea Grande;896592;89657182;montante;13;Verde;Baixo
@@ -1605,20 +1605,20 @@
 5314;Cabeceiras;Vila Bela da Santíssima Trindade;Nova Lacerda;4699582;46993962;montante;17;Verde;Médio
 5315;Casarão;Vila Bela da Santíssima Trindade;Comodoro;46995832;46993296;montante;17;Verde;Médio
 5315;Casarão;Vila Bela da Santíssima Trindade;Nova Lacerda;46995832;46993962;montante;17;Verde;Médio
-20196;Afluente do Pitomba;Várzea Grande;Cuiabá;896574;896573;montante;14;Verde;Baixo
-20196;Afluente do Pitomba;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;14;Verde;Baixo
+20196;Afluente do Pitomba;Várzea Grande;Cuiabá;896574;896573;montante;16;Verde;Baixo
+20196;Afluente do Pitomba;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;16;Verde;Baixo
 35119;BARRAGEM ROSA CRISTINA I;Várzea Grande;Cuiabá;8965756;896573;montante;15;Verde;Médio
 35119;BARRAGEM ROSA CRISTINA I;Várzea Grande;Nossa Senhora do Livramento;8965756;89657184;montante;15;Verde;Médio
-20141;Chapéu do Sol;Várzea Grande;Cuiabá;896574;896573;montante;14;Verde;Baixo
-20141;Chapéu do Sol;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;14;Verde;Baixo
+20141;Chapéu do Sol;Várzea Grande;Cuiabá;896574;896573;montante;19;Verde;Baixo
+20141;Chapéu do Sol;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;19;Verde;Baixo
 5339;ESTÂNCIA RANCHO DOURADO;Várzea Grande;Cuiabá;8965756;896573;montante;14;Verde;Não Classificado
 5339;ESTÂNCIA RANCHO DOURADO;Várzea Grande;Nossa Senhora do Livramento;8965756;89657184;montante;14;Verde;Não Classificado
 20138;Fazenda Santa Luzia;Várzea Grande;Cuiabá;8965756;896573;montante;14;Verde;Baixo
 20138;Fazenda Santa Luzia;Várzea Grande;Nossa Senhora do Livramento;8965756;89657184;montante;14;Verde;Baixo
-21935;córrego Sapateiro;Várzea Grande;Cuiabá;896574;896573;montante;14;Verde;Baixo
-21935;córrego Sapateiro;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;14;Verde;Baixo
-27937;BRAVO 1;Várzea Grande;Cuiabá;896578;896573;montante;16;Verde;Médio
-27937;BRAVO 1;Várzea Grande;Nossa Senhora do Livramento;896578;89657184;montante;16;Verde;Médio
+21935;córrego Sapateiro;Várzea Grande;Cuiabá;896574;896573;montante;16;Verde;Baixo
+21935;córrego Sapateiro;Várzea Grande;Nossa Senhora do Livramento;896574;89657184;montante;16;Verde;Baixo
+27937;BRAVO 1;Várzea Grande;Cuiabá;896578;896573;montante;19;Verde;Médio
+27937;BRAVO 1;Várzea Grande;Nossa Senhora do Livramento;896578;89657184;montante;19;Verde;Médio
 26265;BRAVO II;Várzea Grande;Cuiabá;896578;896573;montante;15;Verde;Baixo
 26265;BRAVO II;Várzea Grande;Nossa Senhora do Livramento;896578;89657184;montante;15;Verde;Baixo
 31525;BRAVO IV;Várzea Grande;Cuiabá;896578;896573;montante;15;Verde;Baixo

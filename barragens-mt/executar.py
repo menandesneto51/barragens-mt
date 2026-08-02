@@ -149,6 +149,12 @@ ETAPAS = [
         "Ranking estadual de lacunas do checklist PAE/PAEBM",
         False,
     ),
+    (
+        "49",
+        "49_idap_proxies_eixo.py",
+        "Proxies IDAP C4/C5/C7 no eixo Manso–Cuiabá",
+        False,
+    ),
 ]
 
 

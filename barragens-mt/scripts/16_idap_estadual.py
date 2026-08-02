@@ -131,13 +131,42 @@ def ler_populacao_por_municipio() -> dict[str, int]:
     return out
 
 
+def ler_proxies_eixo_c45c7() -> dict[str, dict[str, Any]]:
+    """C4/C5/C7 pré-calculados (etapa 49) para o eixo Manso–Cuiabá."""
+    caminho = comum.DADOS_TRATADOS / "idap_proxies_eixo.csv"
+    if not caminho.exists():
+        return {}
+    out: dict[str, dict[str, Any]] = {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            sid = (r.get("id_snisb") or "").strip()
+            if not sid:
+                continue
+            try:
+                n_serv = int(float(r.get("servicos_essenciais_ameacados") or 0))
+            except ValueError:
+                n_serv = 0
+            out[sid] = {
+                "captacao_ameacada": (r.get("captacao_ameacada") or "").strip() or None,
+                "servicos_essenciais_ameacados": n_serv,
+                "isolamento_rodoviario": (r.get("isolamento_rodoviario") or "").strip()
+                or None,
+            }
+    return out
+
+
 def exposicao_proxy(
     contaminante_txt: str | None,
     municipios_afetados: list[str],
     cnes: dict[str, dict[str, int]],
     populacao: dict[str, int] | None = None,
+    *,
+    proxy_c45c7: dict[str, Any] | None = None,
 ) -> ExposicaoSanitaria:
-    """C8 do cadastro + C3 por CNES prioritário + pop IBGE nos afetados (proxy)."""
+    """C8 do cadastro + C3 por CNES prioritário + pop IBGE nos afetados (proxy).
+
+    C4/C5/C7 vêm do arquivo da etapa 49 quando a barragem está no eixo.
+    """
     com = 0
     sem = 0
     ref = False
@@ -163,7 +192,11 @@ def exposicao_proxy(
             # Proxy: fração da pop municipal potencialmente na mancha ainda não existe;
             # registramos a soma dos municípios afetados como teto de exposição.
             pop_zas = total
-    if not tem_cnes and pop_zas is None:
+    px = proxy_c45c7 or {}
+    captacao = px.get("captacao_ameacada")
+    n_serv = px.get("servicos_essenciais_ameacados")
+    isolamento = px.get("isolamento_rodoviario")
+    if not tem_cnes and pop_zas is None and not captacao and n_serv is None and not isolamento:
         return ExposicaoSanitaria(contaminante_predominante=contaminante_txt)
     return ExposicaoSanitaria(
         contaminante_predominante=contaminante_txt,
@@ -180,6 +213,9 @@ def exposicao_proxy(
             if pop_zas
             else None
         ),
+        captacao_ameacada=captacao,
+        servicos_essenciais_ameacados=n_serv if n_serv is not None else None,
+        isolamento_rodoviario=isolamento,
     )
 
 
@@ -466,6 +502,7 @@ def main() -> None:
     pop_por_mun = ler_populacao_por_municipio()
     leitos_por_mun = ler_leitos_indicasus_por_municipio()
     alertab_por_id = ler_alertabilidade()
+    proxies_c45c7 = ler_proxies_eixo_c45c7()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
     print(f"  {STATUS_VERSAO_PESOS}")
     n_tel = sum(
@@ -483,6 +520,7 @@ def main() -> None:
     print(f"  população IBGE: {len(pop_por_mun)} municípios")
     print(f"  IndicaSUS leitos (D6): {len(leitos_por_mun)} municípios")
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
+    print(f"  proxies C4/C5/C7 (eixo): {len(proxies_c45c7)} barragens")
 
     secoes = secoes_controle_por_municipio(inventario)
     print(f"  seções de controle provisórias: {len(secoes)} municípios")
@@ -522,7 +560,11 @@ def main() -> None:
 
         hidro = hidro_por_id.get(id_snisb)
         exposicao = exposicao_proxy(
-            contaminante(registro), afetados, cnes_por_mun, pop_por_mun
+            contaminante(registro),
+            afetados,
+            cnes_por_mun,
+            pop_por_mun,
+            proxy_c45c7=proxies_c45c7.get(id_snisb),
         )
         mun_zas = tuple(afetados) if afetados else (mun_sede,)
         razao_leitos = razao_leitos_demanda_zas(mun_zas, pop_por_mun, leitos_por_mun)
