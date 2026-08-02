@@ -1,0 +1,12 @@
+﻿municipio;codigo_ibge;n_escolas_atividade;n_escolas_total;n_federal;n_estadual;n_municipal;n_privada;fonte;arquivo
+Acorizal;5100102;8;14;0;4;4;0;INEP;microdados_censo_escolar_2024.zip
+Barão de Melgaço;5101605;9;20;0;4;5;0;INEP;microdados_censo_escolar_2024.zip
+Chapada dos Guimarães;5103007;22;24;0;4;15;3;INEP;microdados_censo_escolar_2024.zip
+Cuiabá;5103403;384;428;3;64;168;149;INEP;microdados_censo_escolar_2024.zip
+Jangada;5104906;10;10;0;6;4;0;INEP;microdados_censo_escolar_2024.zip
+Nobres;5105903;14;15;0;5;7;2;INEP;microdados_censo_escolar_2024.zip
+Nossa Senhora do Livramento;5106109;24;26;0;6;18;0;INEP;microdados_censo_escolar_2024.zip
+Poconé;5106505;26;68;0;7;15;4;INEP;microdados_censo_escolar_2024.zip
+Rosário Oeste;5107701;17;21;0;6;8;3;INEP;microdados_censo_escolar_2024.zip
+Santo Antônio de Leverger;5107800;33;50;0;12;21;0;INEP;microdados_censo_escolar_2024.zip
+Várzea Grande;5108402;174;191;1;38;95;40;INEP;microdados_censo_escolar_2024.zip

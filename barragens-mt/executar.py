@@ -95,6 +95,12 @@ ETAPAS = [
         "Telemetria pontual INMET/Open-Meteo → dimensão A",
         False,
     ),
+    (
+        "40",
+        "40_escolas_inep_eixo.py",
+        "Escolas INEP/OSM no eixo (KPI C5)",
+        False,
+    ),
 ]
 
 

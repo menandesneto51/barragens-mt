@@ -1052,6 +1052,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "Contagens = elementos **dentro da área de simulação** (CNES + OSM)."
             )
 
+        from st_app.escolas_inep import cruzar_escolas_mancha
         from st_app.setores_ibge import cruzar_setores_mancha
         from st_app.sisagua_captacoes import cruzar_captacoes_mancha
 
@@ -1060,7 +1061,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             for m in (iso.get("municipios_isolados") or [])
             if m.get("municipio")
         ]
-        set_kpi = cruzar_setores_mancha(
+        _geom_mancha = dict(
             lat0=lat0,
             lon0=lon0,
             raio_km=float(raio),
@@ -1069,18 +1070,13 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
             hand_limiar=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
             usar_hand=bool(usar_hand and hand_info.get("ok")),
+        )
+        set_kpi = cruzar_setores_mancha(
+            **_geom_mancha,
             munis_isolamento=munis_iso_nomes,
         )
-        cap_kpi = cruzar_captacoes_mancha(
-            lat0=lat0,
-            lon0=lon0,
-            raio_km=float(raio),
-            mostrar_circular=mostrar_circular,
-            trajeto=trajeto if trajeto.get("ok") else None,
-            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
-            hand_limiar=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
-            usar_hand=bool(usar_hand and hand_info.get("ok")),
-        )
+        cap_kpi = cruzar_captacoes_mancha(**_geom_mancha)
+        esc_kpi = cruzar_escolas_mancha(**_geom_mancha)
         if set_kpi.get("disponivel"):
             s1, s2, s3, s4 = st.columns(4)
             s1.metric(
@@ -1133,6 +1129,57 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "Captações Sisagua ausentes — rode `python executar.py 38` "
                 "(portal oficial ou fallback OSM)."
             )
+
+        if esc_kpi.get("disponivel"):
+            e1, e2 = st.columns(2)
+            e1.metric("Escolas na mancha", esc_kpi["n_na_mancha"])
+            e2.metric("Escolas no eixo (espacial)", esc_kpi["n_total"])
+            st.caption(
+                f"Escolas na mancha proxy — KPI C5 (`{esc_kpi.get('fonte')}`). "
+                "Microdados INEP 2024 sem lat/lon (LGPD); pontos = OSM. "
+                "Contagem oficial por município em `escolas_inep_contagem_municipio.csv`."
+            )
+            if esc_kpi.get("itens"):
+                with st.expander("Escolas atingidas", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(esc_kpi["itens"]).drop(
+                            columns=["lat", "lon"], errors="ignore"
+                        ),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+            from st_app.data import TRATADOS as _TR
+
+            cont_esc = _TR / "escolas_inep_contagem_municipio.csv"
+            if cont_esc.is_file():
+                with st.expander("Contagem INEP por município (eixo)", expanded=False):
+                    st.dataframe(
+                        pd.read_csv(cont_esc, sep=";"),
+                        width="stretch",
+                        hide_index=True,
+                        height=260,
+                    )
+        else:
+            st.caption(
+                "Escolas do eixo ausentes — rode `python executar.py 40` "
+                "(microdados INEP + camada OSM)."
+            )
+
+        # C5 — serviços essenciais não assistenciais na mancha
+        n_pontes_c5 = int(iso.get("n_pontes_comprometidas") or 0)
+        n_esc_c5 = int(esc_kpi.get("n_na_mancha") or 0) if esc_kpi.get("disponivel") else 0
+        n_cap_c5 = int(cap_kpi.get("n_na_mancha") or 0) if cap_kpi.get("disponivel") else 0
+        st.markdown("##### Serviços essenciais na mancha (C5 proxy)")
+        c5a, c5b, c5c, c5d = st.columns(4)
+        c5a.metric("Escolas", n_esc_c5)
+        c5b.metric("Captações", n_cap_c5)
+        c5c.metric("Pontes OSM", n_pontes_c5)
+        c5d.metric("Total C5 proxy", n_esc_c5 + n_cap_c5 + n_pontes_c5)
+        st.caption(
+            "C5 = escolas + captações Sisagua + pontes estruturantes OSM na geometria ativa. "
+            "Não inclui ETA/ETE/energia/abrigos oficiais (ainda sem base espacial contínua)."
+        )
         if (
             iso.get("n_us_atingidas", 0) == 0
             and iso.get("n_vias_interrompidas", 0) == 0

@@ -315,6 +315,16 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
 | Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
 
+### 2.5.9 INEP — Censo Escolar (escolas na mancha, C5)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Escolas de educação básica com município e dependência; coordenadas **não** vêm nos microdados 2023/2024 (LGPD) |
+| Acesso | Microdados Censo Escolar: `https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_YYYY.zip` (download por faixas; TLS do host costuma exigir `verify=False`) |
+| Camada espacial | OpenStreetMap `amenity=school\|kindergarten\|college` no bbox do eixo — usada na Simulação |
+| Uso pretendido | Contagem de escolas na mancha proxy — serviço essencial não assistencial (C5), junto com captações e pontes |
+| Implementado em | `scripts/40_escolas_inep_eixo.py` → `escolas_eixo_cuiaba.csv` (OSM) + `escolas_inep_contagem_municipio.csv` (INEP); UI em `st_app/escolas_inep.py` |
+
 ---
 
 ## 2.6 Grupo E — Copernicus EMS (Emergency Management Service)
