@@ -1371,8 +1371,11 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 carregar_ficha,
                 listar_fichas,
                 termos_ipapd_da_ficha,
+                termos_irs_da_ficha,
             )
             from st_app.ipapd import calcular_ipapd_proxy
+            from st_app.irs import ROTULOS as IRS_ROTULOS
+            from st_app.irs import calcular_irs_proxy
             from st_app.pae_checklist import (
                 checklist_para_dataframe,
                 exportar_checklist_csv,
@@ -1416,7 +1419,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 n_ess_eixo = n_ess_mancha
 
             ficha_termos: dict = {}
-            with st.expander("Ficha rápida → IPAPD (A/P/C)", expanded=False):
+            ficha_irs: dict = {}
+            with st.expander("Ficha rápida → IPAPD / IRS", expanded=False):
                 st.caption(
                     "Exporte o JSON em `painel/ficha_rapida.html` para "
                     "`dados/tratados/fichas_rapidas/` ou envie abaixo."
@@ -1440,6 +1444,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     if ficha_data:
                         st.caption(f"Usando `{ficha_data.get('_arquivo')}`")
                 ficha_termos = termos_ipapd_da_ficha(ficha_data)
+                ficha_irs = termos_irs_da_ficha(ficha_data)
 
             ipapd = calcular_ipapd_proxy(
                 taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
@@ -1496,6 +1501,61 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     )
                 st.caption(ipapd.get("fonte") or "")
 
+            irs = calcular_irs_proxy(
+                ficha_irs=ficha_irs or None,
+                n_us_atingidas=int(iso.get("n_us_atingidas") or 0),
+                n_us_isoladas=int(iso.get("n_us_isoladas") or 0),
+                n_vias=int(iso.get("n_vias_interrompidas") or 0),
+                n_pontes=int(iso.get("n_pontes_comprometidas") or 0),
+                taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                leitos_disponiveis=cap_assist.get("leitos_disponiveis_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                leitos_totais=cap_assist.get("leitos_totais_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+            )
+            if irs.get("ok"):
+                st.markdown("##### IRS proxy (recuperação sanitária)")
+                r1, r2, r3 = st.columns(3)
+                r1.metric(
+                    "IRS",
+                    f"{irs['irs']:.2f}".replace(".", ",")
+                    if irs.get("irs") is not None
+                    else "—",
+                )
+                r2.metric("Situação", irs.get("rotulo") or "—")
+                r3.metric(
+                    "Completude",
+                    f"{100 * float(irs.get('completude') or 0):.0f}%",
+                )
+                with st.expander("Decomposição IRS (11 dimensões)", expanded=False):
+                    linhas_irs = []
+                    termos_i = irs.get("termos") or {}
+                    det_i = irs.get("detalhe") or {}
+                    for k, lab in IRS_ROTULOS.items():
+                        v = termos_i.get(k)
+                        linhas_irs.append(
+                            {
+                                "dimensão": lab,
+                                "valor": "lacuna" if v is None else f"{float(v):.2f}",
+                                "detalhe": det_i.get(k) or "",
+                            }
+                        )
+                    st.dataframe(
+                        pd.DataFrame(linhas_irs),
+                        width="stretch",
+                        hide_index=True,
+                        height=340,
+                    )
+                st.caption(
+                    (irs.get("fonte") or "")
+                    + " · "
+                    + (irs.get("criterio_encerramento") or "")
+                )
+
             payload_cen = {
                 "barragem": str(r.get("nome") or ""),
                 "municipio": str(r.get("municipio") or ""),
@@ -1527,6 +1587,13 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "ipapd_completude": (
                     f"{100*float(ipapd.get('completude') or 0):.0f}%"
                     if ipapd.get("ok")
+                    else "—"
+                ),
+                "irs": irs.get("irs") if irs.get("ok") else "—",
+                "irs_rotulo": irs.get("rotulo") if irs.get("ok") else "—",
+                "irs_completude": (
+                    f"{100*float(irs.get('completude') or 0):.0f}%"
+                    if irs.get("ok")
                     else "—"
                 ),
                 "pae_status": next(

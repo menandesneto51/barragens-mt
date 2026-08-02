@@ -23,5 +23,13 @@
   "respiratorio": 15,
   "pele": 8,
   "psiquico": 12,
-  "observacoes": "Exemplo sintético para testes do IPAPD proxy. Não é evento real."
+  "abrigados_atual": 400,
+  "abrigados_pico": 2000,
+  "fracao_agua_ok": 0.55,
+  "fracao_rede_frio": 0.7,
+  "fracao_cronicos_ok": 0.4,
+  "fracao_saude_mental": 0.35,
+  "fracao_ambiental_ok": 0.5,
+  "controle_agravos": 0.6,
+  "observacoes": "Exemplo sintético para testes do IPAPD/IRS proxy. Não é evento real."
 }

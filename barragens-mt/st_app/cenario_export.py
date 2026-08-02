@@ -32,6 +32,9 @@ def montar_csv_cenario(cenario: dict[str, Any]) -> str:
         ("ipapd", "IPAPD"),
         ("ipapd_rotulo", "IPAPD rótulo"),
         ("ipapd_completude", "IPAPD completude"),
+        ("irs", "IRS"),
+        ("irs_rotulo", "IRS rótulo"),
+        ("irs_completude", "IRS completude"),
         ("pae_status", "PAE SNISB"),
         ("pae_lacunas", "Itens PAE lacuna/não"),
     ]

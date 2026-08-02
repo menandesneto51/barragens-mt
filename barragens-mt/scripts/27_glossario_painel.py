@@ -89,6 +89,13 @@ BLOCOS = [
         "A/P/C vêm da ficha rápida JSON.",
     ),
     (
+        "IRS proxy",
+        "Índice de Recuperação Sanitária (§5.5.7). Escala 0–1 onde 1 = recuperado. "
+        "Média das dimensões disponíveis (APS, hospitalar, água, vias, equipes, abrigos, "
+        "agravos, rede de frio, crônicos, saúde mental, ambiental). "
+        "Critério proposto de encerramento: IRS ≥ 0,90 por 4 semanas.",
+    ),
+    (
         "SITREP de cenário",
         "Markdown gerado na Simulação com exposição na mancha proxy, isolamento C7, "
         "demanda, IPAPD e status PAE. Há também CSV dos mesmos KPIs para planilha/COE.",

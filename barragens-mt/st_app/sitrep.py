@@ -115,6 +115,8 @@ def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
         f"- Água L/dia (15 L/p): **{cenario.get('demanda_agua', '—')}**",
         f"- IPAPD proxy: **{cenario.get('ipapd', '—')}** ({cenario.get('ipapd_rotulo', '—')}; "
         f"completude {cenario.get('ipapd_completude', '—')})",
+        f"- IRS proxy: **{cenario.get('irs', '—')}** ({cenario.get('irs_rotulo', '—')}; "
+        f"completude {cenario.get('irs_completude', '—')})",
         "",
         "## 4. PAE / articulação",
         f"- PAE SNISB (PAE-01): **{cenario.get('pae_status', '—')}**",

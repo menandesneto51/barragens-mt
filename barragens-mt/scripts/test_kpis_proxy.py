@@ -16,8 +16,12 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 from st_app.cenario_export import montar_csv_cenario  # noqa: E402
 from st_app.demanda_cenario import estimar_demanda  # noqa: E402
-from st_app.ficha_rapida import termos_ipapd_da_ficha  # noqa: E402
+from st_app.ficha_rapida import (  # noqa: E402
+    termos_ipapd_da_ficha,
+    termos_irs_da_ficha,
+)
 from st_app.ipapd import calcular_ipapd_proxy  # noqa: E402
+from st_app.irs import calcular_irs_proxy  # noqa: E402
 from st_app.pae_checklist import montar_checklist_pae  # noqa: E402
 from st_app.sitrep import montar_sitrep_cenario_md  # noqa: E402
 
@@ -132,6 +136,35 @@ class TestCenarioCsv(unittest.TestCase):
         self.assertIn("Barragem", csv_txt)
         self.assertIn("X", csv_txt)
         self.assertIn(";", csv_txt)
+
+
+class TestIrs(unittest.TestCase):
+    def test_sem_dados(self) -> None:
+        r = calcular_irs_proxy()
+        self.assertFalse(r["ok"])
+
+    def test_ficha_exemplo(self) -> None:
+        ft = termos_irs_da_ficha(
+            {
+                "us_abertas": 3,
+                "us_fechadas": 1,
+                "us_danificadas": 0,
+                "prof_disp": 20,
+                "prof_escala": 40,
+                "abrigados_atual": 100,
+                "abrigados_pico": 400,
+                "fracao_agua_ok": 0.8,
+                "_arquivo": "t.json",
+            }
+        )
+        r = calcular_irs_proxy(ficha_irs=ft, n_vias=0, n_pontes=0)
+        self.assertTrue(r["ok"])
+        self.assertIsNotNone(r["irs"])
+        self.assertGreaterEqual(r["irs"], 0.0)
+        self.assertLessEqual(r["irs"], 1.0)
+        self.assertIsNotNone(r["termos"]["aps"])
+        self.assertIsNotNone(r["termos"]["equipes"])
+        self.assertIsNotNone(r["termos"]["abrigos"])
 
 
 if __name__ == "__main__":

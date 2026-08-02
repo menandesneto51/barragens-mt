@@ -90,3 +90,52 @@ def termos_ipapd_da_ficha(ficha: dict[str, Any] | None) -> dict[str, Any]:
         pass
 
     return out
+
+
+def termos_irs_da_ficha(ficha: dict[str, Any] | None) -> dict[str, Any]:
+    """Extrai dimensões do IRS (§5.5.7) a partir da ficha rápida."""
+    if not ficha:
+        return {}
+    out: dict[str, Any] = {"fonte_ficha": ficha.get("_arquivo") or "ficha"}
+    base = termos_ipapd_da_ficha(ficha)
+
+    if "fracao_us_interrompidas" in base:
+        out["fracao_aps_funcionando"] = max(
+            0.0, 1.0 - float(base["fracao_us_interrompidas"])
+        )
+    if "fracao_profissionais_presentes" in base:
+        out["fracao_profissionais_presentes"] = base["fracao_profissionais_presentes"]
+    if "autonomia_min_horas" in base:
+        # preferência: autonomia de água explícita
+        try:
+            if ficha.get("aut_agua") not in (None, ""):
+                out["autonomia_agua_horas"] = float(ficha.get("aut_agua"))
+        except (TypeError, ValueError):
+            pass
+
+    # Campos opcionais explícitos da ficha (quando o formulário evoluir)
+    for src, dst in (
+        ("fracao_agua_ok", "fracao_agua_ok"),
+        ("fracao_vias_ok", "fracao_vias_ok"),
+        ("fracao_leitos_operacionais", "fracao_leitos_operacionais"),
+        ("fracao_rede_frio", "fracao_rede_frio"),
+        ("fracao_cronicos_ok", "fracao_cronicos_ok"),
+        ("fracao_saude_mental", "fracao_saude_mental"),
+        ("fracao_ambiental_ok", "fracao_ambiental_ok"),
+        ("controle_agravos", "controle_agravos"),
+    ):
+        if ficha.get(src) not in (None, ""):
+            try:
+                out[dst] = float(ficha.get(src))
+            except (TypeError, ValueError):
+                pass
+
+    try:
+        atual = float(ficha.get("abrigados_atual") or 0)
+        pico = float(ficha.get("abrigados_pico") or 0)
+        if pico > 0:
+            out["fracao_saida_abrigos"] = max(0.0, min(1.0, 1.0 - (atual / pico)))
+    except (TypeError, ValueError):
+        pass
+
+    return out
