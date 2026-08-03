@@ -1052,8 +1052,9 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             f"{float(iso.get('delta_km_medio_desvio') or 0):.1f}".replace(".", ","),
         )
         st.caption(
-            "Desvio = menor caminho OSM sede→hub depois do corte − antes "
-            "(proxy C7/D7; não é tempo de viagem oficial)."
+            "Desvio = menor caminho sede→hub depois do corte − antes "
+            "(Dijkstra na malha OSM; se o Overpass falhar, usa malha BR/MT offline da etapa 42). "
+            "Proxy C7/D7 — não é tempo de viagem oficial."
         )
         if iso.get("desvios_rota"):
             with st.expander("Desvios de rota por município", expanded=False):

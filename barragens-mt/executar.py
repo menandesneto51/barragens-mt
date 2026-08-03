@@ -161,6 +161,12 @@ ETAPAS = [
         "VIGIPÓS — linha de base e O/E (canal endêmico)",
         False,
     ),
+    (
+        "51",
+        "51_rotas_alternativas_offline.py",
+        "Rotas alternativas offline (Dijkstra C7/D7 no eixo)",
+        False,
+    ),
 ]
 
 

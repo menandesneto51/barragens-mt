@@ -331,7 +331,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | O que fornece | Arteriais e pontes OSM; km de rota sede→hub antes/depois do corte da mancha |
 | Acesso | OpenStreetMap / Overpass (já na Simulação); DNIT/Sinfra-MT ainda sem ETL oficial |
 | Uso pretendido | Isolamento e desvio de rota (roadmap 4.4); nível C7 proxy |
-| Implementado em | `st_app/vias_isolamento.py` — campos `desvios_rota`, `delta_km_medio_desvio`, `n_sedes_sem_rota` |
+| Implementado em | `st_app/vias_isolamento.py` — campos `desvios_rota`, `delta_km_medio_desvio`, `n_sedes_sem_rota`; fallback offline em `st_app/malha_offline.py` + etapa `51_rotas_alternativas_offline.py` |
 
 ### 2.5.11 INEP — Censo Escolar (escolas na mancha, C5)
 

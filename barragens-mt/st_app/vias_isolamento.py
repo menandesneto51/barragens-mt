@@ -123,7 +123,20 @@ def buscar_malha_osm(
         _overpass_query_around(lat, lon, int(raio_busca_km * 1000))
     )
     if data is None:
-        return {"elements": [], "erro": ultimo_erro}
+        from st_app.malha_offline import malha_offline_elements
+
+        offline = malha_offline_elements(lat=lat, lon=lon, raio_km=raio_busca_km)
+        if offline.get("elements"):
+            offline["erro"] = None
+            offline["_meta"] = {
+                **(offline.get("_meta") or {}),
+                "lat": lat,
+                "lon": lon,
+                "raio_busca_km": raio_busca_km,
+                "fallback_de": ultimo_erro or "overpass",
+            }
+            return offline
+        return {"elements": [], "erro": ultimo_erro or offline.get("erro")}
 
     try:
         payload = json.loads(data.decode("utf-8"))
@@ -176,7 +189,20 @@ def buscar_malha_osm_bbox(
 
     data, ultimo_erro = _post_overpass(_overpass_query_bbox(south, west, north, east))
     if data is None:
-        return {"elements": [], "erro": ultimo_erro}
+        from st_app.malha_offline import malha_offline_elements
+
+        offline = malha_offline_elements(
+            south=south, west=west, north=north, east=east
+        )
+        if offline.get("elements"):
+            offline["erro"] = None
+            offline["_meta"] = {
+                **(offline.get("_meta") or {}),
+                "bbox": [south, west, north, east],
+                "fallback_de": ultimo_erro or "overpass",
+            }
+            return offline
+        return {"elements": [], "erro": ultimo_erro or offline.get("erro")}
     try:
         payload = json.loads(data.decode("utf-8"))
     except json.JSONDecodeError as exc:
@@ -295,6 +321,7 @@ def analisar_isolamento(
         bruto = buscar_malha_osm(lat, lon, raio_busca)
     if bruto.get("erro") and not bruto.get("elements"):
         return _vazio(str(bruto.get("erro")))
+    fonte_malha = str((bruto.get("_meta") or {}).get("fonte") or "OpenStreetMap/Overpass")
 
     nodes: dict[int, tuple[float, float]] = {}
     ways: list[dict[str, Any]] = []
@@ -631,7 +658,7 @@ def analisar_isolamento(
 
     return {
         "ok": True,
-        "fonte": "OpenStreetMap/Overpass + IBGE Censo 2022",
+        "fonte": f"{fonte_malha} + IBGE Censo 2022",
         "raio_km": raio_km,
         "raio_busca_km": raio_busca,
         "geom": geom_label,
