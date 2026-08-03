@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260802-1810-7989
+Identificador do alerta : ALERTA-20260803-0753-7989
 Barragem                : Faz. Cabeça Branca - Barragem 06 (código 7989)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : ERALDO COIADO
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 02/08/2026 18:10 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
 IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 20)

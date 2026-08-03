@@ -1,7 +1,7 @@
 # Piloto operacional — eixo Manso–Cuiabá
 
 Ciclo: **dado (SisClima/TITAN) → IDAP → alerta → ficha (esqueleto)**.
-Emissão: 02/08/2026 18:10 (horário de Cuiabá).
+Emissão: 03/08/2026 07:53 (horário de Cuiabá).
 Seção de controle: `896573`.
 Região de saúde do piloto: **Baixada Cuiabana**.
 

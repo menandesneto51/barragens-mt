@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260802-1810-27626
+Identificador do alerta : ALERTA-20260803-0753-27626
 Barragem                : Barragem - Valdenir (código 27626)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : CLAUDIO HENRIQUE TEODORO DE ALMEIDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 02/08/2026 18:10 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
 IDAP                    : 14 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 28)

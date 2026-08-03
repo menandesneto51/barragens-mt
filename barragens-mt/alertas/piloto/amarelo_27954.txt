@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260802-1810-27954
+Identificador do alerta : ALERTA-20260803-0753-27954
 Barragem                : Lago Recreativo Cuiabá (código 27954)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : GBF NEGÓCIOS IMOBILIÁRIOS LTDA
 Uso principal           : Recreação
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 02/08/2026 18:10 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
 IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)

@@ -291,6 +291,9 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <div class="kpi"><div class="n" id="kMun">—</div><div class="r">Municípios a jusante</div></div>
         <div class="kpi" id="kpiPerfil"><div class="n" id="kPerfil">—</div><div class="r">Perfil sanitário</div></div>
         <div class="kpi"><div class="n" id="kUs">—</div><div class="r">US no buffer (CNES)</div></div>
+        <div class="kpi"><div class="n" id="kCap">—</div><div class="r">Captações Sisagua</div></div>
+        <div class="kpi"><div class="n" id="kEsc">—</div><div class="r">Escolas (INEP/OSM)</div></div>
+        <div class="kpi"><div class="n" id="kAtv">—</div><div class="r">Ativos essenciais</div></div>
       </div>
       <div class="perfil" id="boxPerfil"></div>
       <div class="lista-us" id="listaUs"></div>
@@ -308,6 +311,9 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <div class="legenda-mapa">
           <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área circular (proxy)</div>
           <div><i style="background:#0ea5e9;opacity:.75;border-radius:2px;width:14px"></i>Relevo HAND (proxy)</div>
+          <div><i style="background:#0891b2;border:2px solid #fff;box-sizing:border-box"></i>Captação Sisagua</div>
+          <div><i style="background:#7c3aed;border:2px solid #fff;box-sizing:border-box"></i>Escola</div>
+          <div><i style="background:#ca8a04;border:2px solid #fff;box-sizing:border-box"></i>Ativo essencial</div>
           <div><i style="background:#dc2626;border:2px solid #fff;box-sizing:border-box"></i>Hospital</div>
           <div><i style="background:#ea580c;border:2px solid #fff;box-sizing:border-box"></i>UPA / pronto-socorro</div>
           <div><i style="background:#2563eb;border:2px solid #fff;box-sizing:border-box"></i>UBS / ESF / posto</div>
@@ -331,6 +337,9 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
 <script>
 const DADOS = __DADOS__;
 const CNES = __CNES__;
+const SISAGUA = __SISAGUA__;
+const ESCOLAS = __ESCOLAS__;
+const ATIVOS = __ATIVOS__;
 const DENS = __DENS__;
 const DENS_PADRAO = __DENS_PADRAO__;
 const PERFIS = __PERFIS__;
@@ -361,6 +370,7 @@ mapa.getPane('barragem').style.zIndex = 460;
 
 const camadaMancha = L.layerGroup().addTo(mapa);
 const camadaHand = L.layerGroup().addTo(mapa);
+const camadaExtras = L.layerGroup().addTo(mapa);
 const camadaUs = L.layerGroup().addTo(mapa);
 const camadaBar = L.layerGroup().addTo(mapa);
 let manchaAtual = null;
@@ -401,6 +411,19 @@ function haversineKm(la1, lo1, la2, lo2) {
   const dLat = (la2 - la1) * toRad, dLon = (lo2 - lo1) * toRad;
   const a = Math.sin(dLat/2)**2 + Math.cos(la1*toRad)*Math.cos(la2*toRad)*Math.sin(dLon/2)**2;
   return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function listarPontosNoBuffer(lista, d, raioKm) {
+  if (d.la == null || d.lo == null || !(raioKm > 0) || !lista || !lista.length)
+    return {itens: [], total: 0};
+  const itens = [];
+  for (const p of lista) {
+    if (p.la == null || p.lo == null) continue;
+    const dist = haversineKm(d.la, d.lo, p.la, p.lo);
+    if (dist <= raioKm) itens.push({...p, dist});
+  }
+  itens.sort((a,b) => a.dist - b.dist);
+  return {itens, total: itens.length};
 }
 
 function listarCnesNoBuffer(d, raioKm) {
@@ -490,6 +513,9 @@ function desenhar() {
   const raio = Math.sqrt(area / Math.PI);
   const est = estimarPop(d, area, frac);
   const usBuf = listarCnesNoBuffer(d, raio);
+  const capBuf = listarPontosNoBuffer(SISAGUA, d, raio);
+  const escBuf = listarPontosNoBuffer(ESCOLAS, d, raio);
+  const atvBuf = listarPontosNoBuffer(ATIVOS, d, raio);
   const perfil = d.rej ? PERFIS.rejeito : PERFIS.agua;
   const corMancha = d.rej ? '#7f1d1d' : '#c2410c';
   const fillMancha = d.rej ? '#ef4444' : '#fb923c';
@@ -503,6 +529,9 @@ function desenhar() {
   document.getElementById('kUs').textContent = usBuf.total != null
     ? `${usBuf.total} (${usBuf.hosp} hosp.)`
     : (d.ust ? `${d.ust} eixo` : '—');
+  document.getElementById('kCap').textContent = String(capBuf.total);
+  document.getElementById('kEsc').textContent = String(escBuf.total);
+  document.getElementById('kAtv').textContent = String(atvBuf.total);
   document.getElementById('kPerfil').textContent = d.rej ? 'REJEITO' : 'ÁGUA';
   document.getElementById('kpiPerfil').className = 'kpi' + (d.rej ? ' tox' : '');
 
@@ -555,6 +584,7 @@ function desenhar() {
   // Mancha permanece como camada de fundo (pane baixo); US e barragem por cima.
   camadaMancha.clearLayers();
   camadaHand.clearLayers();
+  camadaExtras.clearLayers();
   camadaUs.clearLayers();
   camadaBar.clearLayers();
   manchaAtual = null;
@@ -646,6 +676,28 @@ function desenhar() {
       }
     }
 
+    const extras = [
+      [capBuf.itens.slice(0, 120), '#0891b2', 'Captação Sisagua'],
+      [escBuf.itens.slice(0, 120), '#7c3aed', 'Escola'],
+      [atvBuf.itens.slice(0, 120), '#ca8a04', 'Ativo essencial'],
+    ];
+    for (const [itens, cor, tipo] of extras) {
+      for (const p of itens) {
+        L.circleMarker([p.la, p.lo], {
+          pane: 'us',
+          radius: 5,
+          color: '#fff',
+          weight: 1,
+          fillColor: cor,
+          fillOpacity: 0.9
+        }).bindPopup(
+          `<b>${tipo}</b><br>${p.no || 'sem nome'}<br>${p.mu || '—'}` +
+          (p.cat ? `<br>${p.cat}` : '') +
+          `<br>${p.dist.toFixed(1)} km`
+        ).addTo(camadaExtras);
+      }
+    }
+
     const centro = [d.la, d.lo];
     const mudou = !ultimoCentro || ultimoCentro[0] !== centro[0] || ultimoCentro[1] !== centro[1];
     ultimoCentro = centro;
@@ -731,6 +783,37 @@ def _kpis_eixo_resumo() -> str:
     return " · ".join(parts) if parts else "rode etapas 35–41"
 
 
+def pontos_csv(
+    nome: str,
+    *,
+    nome_campo: str = "nome",
+    mun_campo: str = "municipio",
+    cat_campo: str | None = None,
+    limite: int = 800,
+) -> list[dict[str, Any]]:
+    caminho = comum.DADOS_TRATADOS / nome
+    if not caminho.exists():
+        return []
+    out: list[dict[str, Any]] = []
+    with caminho.open(encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f, delimiter=";"):
+            la, lo = num(r.get("latitude")), num(r.get("longitude"))
+            if la is None or lo is None:
+                continue
+            item = {
+                "la": la,
+                "lo": lo,
+                "no": (r.get(nome_campo) or r.get("nome_sistema") or "").strip() or "—",
+                "mu": (r.get(mun_campo) or "").strip(),
+            }
+            if cat_campo:
+                item["cat"] = (r.get(cat_campo) or "").strip()
+            out.append(item)
+            if len(out) >= limite:
+                break
+    return out
+
+
 def _carregar_hand_geo() -> tuple[dict[str, Any], list[float]]:
     path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba.geojson"
     meta_path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba_meta.json"
@@ -755,9 +838,21 @@ def _carregar_hand_geo() -> tuple[dict[str, Any], list[float]]:
 def main() -> None:
     dados, pontos_cnes = montar_dados()
     hand_geo, hand_lims = _carregar_hand_geo()
+    sisagua = pontos_csv(
+        "sisagua_captacoes_eixo.csv",
+        nome_campo="nome_sistema",
+        cat_campo="tipo_captacao",
+    )
+    escolas = pontos_csv("escolas_eixo_cuiaba.csv", nome_campo="nome")
+    ativos = pontos_csv(
+        "ativos_essenciais_osm_eixo.csv",
+        nome_campo="nome",
+        cat_campo="categoria",
+    )
     print(
-        f"Simulação — {len(dados)} barragens com volume · {len(pontos_cnes)} US CNES · "
-        f"HAND {len(hand_geo.get('features') or [])} polígonos"
+        f"Simulação — {len(dados)} barragens · {len(pontos_cnes)} US · "
+        f"HAND {len(hand_geo.get('features') or [])} · Sisagua {len(sisagua)} · "
+        f"escolas {len(escolas)} · ativos {len(ativos)}"
     )
     perfis = {
         "agua": _perfil_json(PERFIL_AGUA),
@@ -772,6 +867,9 @@ def main() -> None:
             "__CNES__",
             json.dumps(pontos_cnes, ensure_ascii=False, separators=(",", ":")),
         )
+        .replace("__SISAGUA__", json.dumps(sisagua, ensure_ascii=False, separators=(",", ":")))
+        .replace("__ESCOLAS__", json.dumps(escolas, ensure_ascii=False, separators=(",", ":")))
+        .replace("__ATIVOS__", json.dumps(ativos, ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS__", json.dumps(_carregar_densidades_ibge(), ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS_PADRAO__", str(DENSIDADE_PADRAO))
         .replace("__PERFIS__", json.dumps(perfis, ensure_ascii=False, separators=(",", ":")))
