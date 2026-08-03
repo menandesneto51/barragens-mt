@@ -100,15 +100,29 @@ def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
         f"- Captações na mancha: **{cenario.get('n_captacoes', '—')}**",
         f"- Escolas na mancha: **{cenario.get('n_escolas', '—')}**",
         f"- Ativos essenciais (ETA/ETE/energia/abrigos): **{cenario.get('n_ativos', '—')}**",
+        f"- MapBiomas urbana sede (ha): **{cenario.get('mapbiomas_ha_urbana', '—')}** "
+        f"(drenagem baixa: {cenario.get('mapbiomas_ha_drenagem_baixa', '—')} ha; "
+        f"{cenario.get('mapbiomas_pct_drenagem_baixa', '—')}%)",
         "",
         "## 2. Isolamento (C7 proxy)",
         f"- US na mancha / isoladas: **{cenario.get('n_us_atingidas', 0)}** / "
         f"**{cenario.get('n_us_isoladas', 0)}**",
         f"- Vias / pontes: **{cenario.get('n_vias', 0)}** / **{cenario.get('n_pontes', 0)}**",
         f"- Pessoas isoladas (proxy): **{cenario.get('pessoas_isoladas', 0)}**",
+        f"- Sedes sem rota / com desvio: **{cenario.get('n_sedes_sem_rota', 0)}** / "
+        f"**{cenario.get('n_sedes_com_desvio', 0)}**",
+        f"- Desvio médio (km): **{cenario.get('delta_km_medio_desvio', '—')}**",
         f"- Nível C7: **{cenario.get('nivel_c7', '—')}**",
         "",
-        "## 3. Capacidade e demanda",
+        "## 3. Clima (dimensão A — ponto da barragem)",
+        f"- Chuva 24h / 72h (mm): **{cenario.get('chuva_24h_mm', '—')}** / "
+        f"**{cenario.get('chuva_72h_mm', '—')}**",
+        f"- Prevista 24–72h (mm): **{cenario.get('chuva_prevista_mm', '—')}**",
+        f"- Percentil climatológico: **{cenario.get('percentil_climatologico', '—')}**",
+        f"- Fonte telemetria: **{cenario.get('fonte_telemetria', '—')}** "
+        f"({cenario.get('aproximacao_espacial', '—')})",
+        "",
+        "## 4. Capacidade e demanda",
         f"- Pressão estrutural CNES: **{cenario.get('pressao_estrutural', '—')}**",
         f"- Leitos disponíveis (IndicaSUS): **{cenario.get('leitos_disponiveis', '—')}**",
         f"- Demanda internação (2%): **{cenario.get('demanda_internacao', '—')}**",
@@ -118,14 +132,15 @@ def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
         f"- IRS proxy: **{cenario.get('irs', '—')}** ({cenario.get('irs_rotulo', '—')}; "
         f"completude {cenario.get('irs_completude', '—')})",
         "",
-        "## 4. PAE / articulação",
+        "## 5. PAE / articulação",
         f"- PAE SNISB (PAE-01): **{cenario.get('pae_status', '—')}**",
         f"- Itens checklist lacuna/não: **{cenario.get('pae_lacunas', '—')}**",
         f"- Mancha ZAS oficial: **{cenario.get('pae_zas', '—')}**",
         "",
-        "## 5. Ressalvas",
+        "## 6. Ressalvas",
         "- Proxy geométrico (círculo / trajeto / HAND) — **não** é mancha PAE nem dam break.",
         "- IPAPD e demanda usam parâmetros a validar; lacunas não são preenchidas com zero.",
+        "- MapBiomas é pressão municipal (contexto), não polígono na mancha.",
         "",
     ]
     return "\n".join(linhas)

@@ -247,6 +247,13 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
     (volume ÷ profundidade), não a geometria real da onda. Use para treino, priorização e
     diálogo com Defesa Civil / SES — nunca como ordem operacional de evacuação.
   </div>
+  <div class="aviso" style="background:#eef4fb;border-color:#1b3281;margin-top:10px">
+    <strong>Camadas avançadas (Streamlit):</strong> relevo HAND (piloto Manso–Cuiabá),
+    setores IBGE 2022, captações Sisagua, escolas/ativos OSM, desvio de rota C7 e MapBiomas
+    estão no app <code>streamlit run streamlit_app.py</code> (ou
+    <code>rodar_local.ps1</code>). Este HTML permanece o proxy circular rápido.
+    Bases tratadas: __KPIS_EIXO__.
+  </div>
   <div class="grade">
     <div class="painel">
       <h2>Parâmetros do cenário</h2>
@@ -613,6 +620,33 @@ def _perfil_json(perfil) -> dict[str, Any]:
     }
 
 
+def _kpis_eixo_resumo() -> str:
+    """Contagens estáticas das bases avançadas (HTML aponta ao Streamlit)."""
+    parts: list[str] = []
+    hand_meta = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba_meta.json"
+    if hand_meta.exists():
+        try:
+            meta = json.loads(hand_meta.read_text(encoding="utf-8"))
+            parts.append(f"HAND {meta.get('n_celulas', '?')} células")
+        except (OSError, json.JSONDecodeError):
+            pass
+    for nome, rotulo in (
+        ("setores_censitarios_eixo_cuiaba.csv", "setores"),
+        ("sisagua_captacoes_eixo.csv", "Sisagua"),
+        ("escolas_eixo_cuiaba.csv", "escolas"),
+        ("mapbiomas_pressao_eixo_cuiaba.csv", "MapBiomas mun."),
+    ):
+        path = comum.DADOS_TRATADOS / nome
+        if path.exists():
+            try:
+                with path.open(encoding="utf-8-sig", newline="") as f:
+                    n = max(0, sum(1 for _ in f) - 1)
+                parts.append(f"{rotulo} {n}")
+            except OSError:
+                pass
+    return " · ".join(parts) if parts else "rode etapas 35–41"
+
+
 def main() -> None:
     dados, pontos_cnes = montar_dados()
     print(f"Simulação — {len(dados)} barragens com volume · {len(pontos_cnes)} US CNES com coordenada")
@@ -633,6 +667,7 @@ def main() -> None:
         .replace("__DENS_PADRAO__", str(DENSIDADE_PADRAO))
         .replace("__PERFIS__", json.dumps(perfis, ensure_ascii=False, separators=(",", ":")))
         .replace("__GERADO__", dt.datetime.now().strftime("%d/%m/%Y %H:%M"))
+        .replace("__KPIS_EIXO__", _kpis_eixo_resumo())
     )
     SAIDA.mkdir(parents=True, exist_ok=True)
     destino = SAIDA / "simulacao.html"

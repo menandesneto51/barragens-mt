@@ -1560,6 +1560,19 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     + (irs.get("criterio_encerramento") or "")
                 )
 
+            from st_app.mapbiomas import pressao_municipio as _mb_pressao
+
+            _mb = _mb_pressao(str(r.get("municipio") or ""))
+
+            def _num_or_dash(v: object) -> object:
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    return "—"
+                try:
+                    return float(v)
+                except (TypeError, ValueError):
+                    s = str(v).strip()
+                    return s if s else "—"
+
             payload_cen = {
                 "barragem": str(r.get("nome") or ""),
                 "municipio": str(r.get("municipio") or ""),
@@ -1577,7 +1590,27 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 "n_vias": iso.get("n_vias_interrompidas", 0),
                 "n_pontes": iso.get("n_pontes_comprometidas", 0),
                 "pessoas_isoladas": iso.get("pessoas_isoladas_proxy", 0),
+                "n_sedes_sem_rota": iso.get("n_sedes_sem_rota", 0),
+                "n_sedes_com_desvio": iso.get("n_sedes_com_desvio", 0),
+                "delta_km_medio_desvio": iso.get("delta_km_medio_desvio", 0),
                 "nivel_c7": iso.get("rotulo_c7") or iso.get("nivel_c7_proxy") or "—",
+                "mapbiomas_ha_urbana": _mb.get("ha_urbana")
+                if _mb.get("disponivel")
+                else "—",
+                "mapbiomas_ha_drenagem_baixa": _mb.get("ha_urbana_drenagem_baixa")
+                if _mb.get("disponivel")
+                else "—",
+                "mapbiomas_pct_drenagem_baixa": _mb.get("pct_urbana_drenagem_baixa")
+                if _mb.get("disponivel")
+                else "—",
+                "chuva_24h_mm": _num_or_dash(r.get("chuva_24h_mm")),
+                "chuva_72h_mm": _num_or_dash(r.get("chuva_72h_mm")),
+                "chuva_prevista_mm": _num_or_dash(r.get("chuva_prevista_24_72h_mm")),
+                "percentil_climatologico": _num_or_dash(r.get("percentil_climatologico")),
+                "fonte_telemetria": str(
+                    r.get("fonte_telemetria_a") or r.get("fonte_precip") or "—"
+                ),
+                "aproximacao_espacial": str(r.get("aproximacao_espacial") or "—"),
                 "pressao_estrutural": cap_assist.get("pressao_estrutural"),
                 "leitos_disponiveis": cap_assist.get("leitos_disponiveis_mancha")
                 if cap_assist.get("leitos_ok")
