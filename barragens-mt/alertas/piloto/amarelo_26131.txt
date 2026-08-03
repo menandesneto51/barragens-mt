@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0759-26131
+Identificador do alerta : ALERTA-20260803-1151-26131
 Barragem                : BARRAGEM JVR (código 26131)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : JOAO ROBERTO CARDOSO
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
 IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 63% (confiabilidade parcial; IDAP projetado 23,80)

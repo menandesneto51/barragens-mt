@@ -1,7 +1,9 @@
-"""Preenche proxies C4/C5/C7 do IDAP para o eixo Manso–Cuiabá (offline).
+"""Preenche proxies C4/C5/C7 do IDAP (eixo + barragens prioritárias).
 
-Usa captações Sisagua, escolas, ativos essenciais e malha OSM já tratados.
+Usa captações Sisagua (estadual se houver), escolas, ativos essenciais e malha OSM.
 Não inventa mancha PAE: buffer geométrico a partir da barragem (proxy).
+
+Conjunto-alvo: eixo Manso–Cuiabá ∪ CRI/DPA Alto ∪ nível IDAP Amarelo+.
 
 Saídas:
   dados/tratados/idap_proxies_eixo.csv
@@ -24,14 +26,19 @@ import json
 import comum
 
 INV = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
+IDAP = comum.DADOS_TRATADOS / "idap_estadual_mt.csv"
 EIXO = comum.DADOS_TRATADOS / "barragens_montante_cuiaba.csv"
 RECORTE = comum.DADOS_TRATADOS / "cuiaba_municipios_de_interesse.json"
-CAP = comum.DADOS_TRATADOS / "sisagua_captacoes_eixo.csv"
+CAP_MT = comum.DADOS_TRATADOS / "sisagua_captacoes_mt.csv"
+CAP_EIXO = comum.DADOS_TRATADOS / "sisagua_captacoes_eixo.csv"
 ESC = comum.DADOS_TRATADOS / "escolas_eixo_cuiaba.csv"
 ATV = comum.DADOS_TRATADOS / "ativos_essenciais_osm_eixo.csv"
 MALHA = comum.DADOS_TRATADOS / "malha_dnit_osm_eixo.csv"
 SAIDA = comum.DADOS_TRATADOS / "idap_proxies_eixo.csv"
 REL = comum.RELATORIOS / "idap_proxies_eixo.md"
+
+NIVEIS_PRIORITARIOS = {"Amarelo", "Laranja", "Vermelho", "Roxo"}
+ALTO = {"alto", "alta"}
 
 
 def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -105,15 +112,32 @@ def main() -> int:
             for m in rec.get(chave) or []:
                 mun_eixo.add(str(m).strip())
 
+    prior_ids: set[str] = set()
+    if IDAP.is_file():
+        idap = pd.read_csv(IDAP, sep=";", dtype=str).fillna("")
+        col_nv = "nivel" if "nivel" in idap.columns else None
+        if col_nv:
+            prior_ids = set(
+                idap.loc[idap[col_nv].isin(NIVEIS_PRIORITARIOS), "id_snisb"]
+                .astype(str)
+                .str.strip()
+            )
+
     inv = pd.read_csv(INV, sep=";", dtype=str).fillna("")
-    mask = inv["id_snisb"].astype(str).isin(eixo_ids)
+    mask = inv["id_snisb"].astype(str).isin(eixo_ids | prior_ids)
     if mun_eixo:
         mask = mask | inv["municipio"].astype(str).str.strip().isin(mun_eixo)
     mask = mask | inv["nome"].astype(str).str.contains("MANSO", case=False, na=False)
+    # CRI / DPA Alto no inventário estadual
+    for col in ("categoria_risco", "dano_potencial_associado"):
+        if col in inv.columns:
+            mask = mask | inv[col].astype(str).str.strip().str.casefold().isin(ALTO)
     inv = inv[mask].copy()
     print(f"Barragens candidatas ao proxy C4/C5/C7: {len(inv)}")
 
-    caps = pd.read_csv(CAP, sep=";") if CAP.is_file() else pd.DataFrame()
+    cap_path = CAP_MT if CAP_MT.is_file() else CAP_EIXO
+    caps = pd.read_csv(cap_path, sep=";") if cap_path.is_file() else pd.DataFrame()
+    print(f"  captações: {len(caps)} ({cap_path.name})")
     escs = pd.read_csv(ESC, sep=";") if ESC.is_file() else pd.DataFrame()
     atvs = pd.read_csv(ATV, sep=";") if ATV.is_file() else pd.DataFrame()
     malha = pd.read_csv(MALHA, sep=";") if MALHA.is_file() else pd.DataFrame()
@@ -178,7 +202,12 @@ def main() -> int:
                 if haversine_km(lat, lon, pla, plo) > raio:
                     continue
                 mcap = str(p.get("municipio") or "")
-                if mcap.lower() in {"cuiabá", "cuiaba", "várzea grande", "varzea grande"}:
+                if mcap.casefold() == mun.casefold() or mcap.lower() in {
+                    "cuiabá",
+                    "cuiaba",
+                    "várzea grande",
+                    "varzea grande",
+                }:
                     tem_sede = True
                     break
 
@@ -200,7 +229,9 @@ def main() -> int:
                 "n_pontes": n_pontes,
                 "n_refs": len(refs),
                 "isolamento_rodoviario": isolamento,
-                "fonte": "proxy buffer eixo Manso–Cuiabá (Sisagua/INEP/OSM) — não é mancha PAE",
+                "fonte": (
+                    f"proxy buffer prioritário ({cap_path.name}/INEP/OSM) — não é mancha PAE"
+                ),
             }
         )
 
@@ -210,9 +241,10 @@ def main() -> int:
     out.to_csv(SAIDA, sep=";", index=False, encoding="utf-8-sig")
 
     md = [
-        "# Proxies IDAP C4/C5/C7 — eixo Manso–Cuiabá",
+        "# Proxies IDAP C4/C5/C7 — eixo + prioritárias",
         "",
-        f"- Barragens do eixo com proxy: **{len(out)}**",
+        f"- Barragens com proxy: **{len(out)}**",
+        f"- Captações usadas: `{cap_path.name}` (**{len(caps)}** pontos)",
         f"- Com ≥1 captação no buffer: **{int((out['n_captacoes'] > 0).sum()) if len(out) else 0}**",
         f"- Com ≥1 serviço essencial (escola+ativo): **{int((out['servicos_essenciais_ameacados'] > 0).sum()) if len(out) else 0}**",
         "",
@@ -229,7 +261,7 @@ def main() -> int:
         "",
         f"CSV: `{SAIDA.relative_to(comum.RAIZ)}`",
         "",
-        "_Proxy geométrico — lacuna permanece fora do eixo._",
+        "_Proxy geométrico — C7/escolas/ativos fora do eixo Manso–Cuiabá podem permanecer em lacuna._",
         "",
     ]
     REL.write_text("\n".join(md), encoding="utf-8")

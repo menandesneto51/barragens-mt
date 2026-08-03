@@ -553,7 +553,7 @@ def main() -> None:
         )
     )
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
-    print(f"  proxies C4/C5/C7 (eixo): {len(proxies_c45c7)} barragens")
+    print(f"  proxies C4/C5/C7 (eixo+prioritárias): {len(proxies_c45c7)} barragens")
 
     secoes = secoes_controle_por_municipio(inventario)
     print(f"  seções de controle provisórias: {len(secoes)} municípios")

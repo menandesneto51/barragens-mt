@@ -1,10 +1,11 @@
-"""Captações de água no eixo Manso–Cuiabá (Sisagua aberto + fallback OSM).
+"""Captações de água Sisagua (aberto) + fallback OSM no eixo.
 
 1. Baixa o cadastro oficial de pontos de captação (Dados Abertos SUS / S3).
-2. Filtra municípios do eixo Manso–Cuiabá com lat/lon.
-3. Se o zip oficial falhar, usa OpenStreetMap (intake / water_works) no bbox.
+2. Grava **MT estadual** (municípios com barragem) e o recorte do **eixo** Manso–Cuiabá.
+3. Se o zip oficial falhar, usa OpenStreetMap (intake / water_works) no bbox do eixo.
 
 Saídas:
+  dados/tratados/sisagua_captacoes_mt.csv
   dados/tratados/sisagua_captacoes_eixo.csv
   relatorios/sisagua_captacoes_eixo.md
 
@@ -28,10 +29,15 @@ from typing import Any
 
 import comum
 
-SAIDA = comum.DADOS_TRATADOS / "sisagua_captacoes_eixo.csv"
+SAIDA_EIXO = comum.DADOS_TRATADOS / "sisagua_captacoes_eixo.csv"
+SAIDA_MT = comum.DADOS_TRATADOS / "sisagua_captacoes_mt.csv"
+# Alias legado (mesmo arquivo do eixo).
+SAIDA = SAIDA_EIXO
 REL = comum.RELATORIOS / "sisagua_captacoes_eixo.md"
 BRUTOS = comum.DADOS_BRUTOS / "sisagua"
 INTERESSE = comum.DADOS_TRATADOS / "cuiaba_municipios_de_interesse.json"
+INV = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
+IBGE_MUN = comum.DADOS_TRATADOS / "ibge_municipios_mt.csv"
 EIXO_GEO = comum.DADOS_TRATADOS / "eixo_hidrografico_manso_cuiaba.geojson"
 
 ZIP_OFICIAL = BRUTOS / "cadastro_pontos_captacao_csv.zip"
@@ -69,6 +75,20 @@ def municipios_eixo() -> dict[str, str]:
         nome = str(m.get("nome") or "").strip()
         if cod and nome:
             out[cod] = nome
+    return out
+
+
+def municipios_com_barragem() -> dict[str, str]:
+    """IBGE7 → nome para municípios sede de barragem no inventário."""
+    if not INV.exists():
+        return {}
+    out: dict[str, str] = {}
+    with INV.open(encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f, delimiter=";"):
+            mun = (r.get("municipio") or "").strip()
+            cod = (r.get("codigo_ibge") or "").strip()
+            if mun and cod:
+                out[cod] = mun
     return out
 
 
@@ -134,15 +154,14 @@ def garantir_zip_oficial() -> Path | None:
         return None
 
 
-def captacoes_sisagua_oficial() -> list[dict[str, Any]]:
-    """Lê o CSV nacional em streaming e filtra o eixo."""
+def captacoes_sisagua_oficial(munis: dict[str, str], *, rotulo: str = "filtro") -> list[dict[str, Any]]:
+    """Lê o CSV nacional em streaming e filtra pelos municípios informados."""
     zpath = garantir_zip_oficial()
     if zpath is None:
         return []
 
-    munis = municipios_eixo()
     if not munis:
-        print("  aviso: municípios do eixo ausentes")
+        print(f"  aviso: municípios ({rotulo}) ausentes")
         return []
     ibge6_para_7 = {_ibge6(c): c for c in munis}
     nomes = {n.casefold(): c for c, n in munis.items()}
@@ -208,9 +227,9 @@ def captacoes_sisagua_oficial() -> list[dict[str, Any]]:
                     }
                 )
                 if n_lidos % 200_000 == 0:
-                    print(f"  … lidos {n_lidos:,} · eixo {len(out)}", flush=True)
+                    print(f"  … lidos {n_lidos:,} · {rotulo} {len(out)}", flush=True)
 
-    print(f"  Sisagua oficial: {len(out)} pontos no eixo (de {n_lidos:,} linhas)")
+    print(f"  Sisagua oficial: {len(out)} pontos ({rotulo}) de {n_lidos:,} linhas")
     return out
 
 
@@ -295,8 +314,31 @@ out center tags;
 def main() -> None:
     comum.preparar_diretorios()
     print("Coletando captações (Sisagua oficial → OSM)…", flush=True)
-    regs = captacoes_sisagua_oficial()
+    mun_eixo = municipios_eixo()
+    mun_mt = municipios_com_barragem()
+    print(f"  municípios eixo: {len(mun_eixo)} · com barragem (MT): {len(mun_mt)}")
+
+    regs_mt = captacoes_sisagua_oficial(mun_mt, rotulo="MT sedes")
     fonte_principal = "SISAGUA"
+    if regs_mt:
+        comum.salvar_csv(SAIDA_MT, regs_mt, CAMPOS)
+        print(f"  gravado {SAIDA_MT.relative_to(comum.RAIZ)} ({len(regs_mt)})")
+    else:
+        print("  aviso: Sisagua estadual vazio — mantendo só eixo/OSM")
+
+    # Eixo: subset do estadual quando possível; senão releitura / OSM.
+    if regs_mt and mun_eixo:
+        cods_eixo = set(mun_eixo)
+        nomes_eixo = {n.casefold() for n in mun_eixo.values()}
+        regs = [
+            r
+            for r in regs_mt
+            if r.get("codigo_ibge") in cods_eixo
+            or (r.get("municipio") or "").casefold() in nomes_eixo
+        ]
+    else:
+        regs = captacoes_sisagua_oficial(mun_eixo, rotulo="eixo") if mun_eixo else []
+
     if not regs:
         regs = captacoes_osm()
         fonte_principal = "OSM"
@@ -315,27 +357,31 @@ def main() -> None:
         ]
         fonte_principal = "esqueleto"
 
-    comum.salvar_csv(SAIDA, regs, CAMPOS)
+    comum.salvar_csv(SAIDA_EIXO, regs, CAMPOS)
     n_coord = sum(1 for r in regs if r.get("latitude") and r.get("longitude"))
+    n_mt = len(regs_mt)
     REL.write_text(
         "\n".join(
             [
-                "# Captações no eixo Manso–Cuiabá",
+                "# Captações Sisagua — eixo e estadual",
                 "",
-                f"- Registros: **{len(regs)}** ({n_coord} com coordenada)",
+                f"- Eixo Manso–Cuiabá: **{len(regs)}** ({n_coord} com coordenada)",
+                f"- MT (sedes com barragem): **{n_mt}**",
                 f"- Fonte principal desta execução: **{fonte_principal}**",
-                f"- Arquivo: `{SAIDA.relative_to(comum.RAIZ)}`",
+                f"- Arquivos: `{SAIDA_EIXO.relative_to(comum.RAIZ)}`, "
+                f"`{SAIDA_MT.relative_to(comum.RAIZ)}`",
                 f"- Origem oficial: `{URL_CSV_ZIP}`",
                 "",
-                "KPI C4 na Simulação: contagem de pontos com lat/lon dentro da mancha proxy.",
-                "OSM só entra se o cadastro Sisagua falhar.",
+                "KPI C4 na Simulação (eixo): contagem na mancha proxy.",
+                "Proxies IDAP (etapa 49) usam o estadual quando disponível.",
+                "OSM só entra se o cadastro Sisagua falhar no eixo.",
                 "",
             ]
         ),
         encoding="utf-8",
     )
     print(f"  gravado {REL.relative_to(comum.RAIZ)}")
-    print(f"  {len(regs)} registros · fonte={fonte_principal}")
+    print(f"  eixo {len(regs)} · MT {n_mt} · fonte={fonte_principal}")
 
 
 if __name__ == "__main__":

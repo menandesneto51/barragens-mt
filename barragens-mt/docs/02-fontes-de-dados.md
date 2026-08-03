@@ -305,7 +305,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | O que fornece | Pontos de captação / sistemas de abastecimento na faixa do eixo |
 | Acesso | Cadastro oficial Dados Abertos SUS: `cadastro_pontos_captacao_csv.zip` (S3 CKAN); catálogo em `dadosabertos.saude.gov.br/dataset/sisagua-pontos-de-captacao`. Fallback espacial OSM (`waterway=intake`, `man_made=water_works`) se o zip falhar |
 | Uso pretendido | Contagem de captações na mancha proxy (KPI C4) |
-| Implementado em | `scripts/38_sisagua_captacoes.py` → `sisagua_captacoes_eixo.csv`; UI em `st_app/sisagua_captacoes.py` |
+| Implementado em | `scripts/38_sisagua_captacoes.py` → `sisagua_captacoes_eixo.csv` + `sisagua_captacoes_mt.csv` (sedes com barragem); UI em `st_app/sisagua_captacoes.py`; proxies C4 na etapa `49` |
 
 ### 2.5.8 Telemetria pontual — dimensão A do IDAP
 

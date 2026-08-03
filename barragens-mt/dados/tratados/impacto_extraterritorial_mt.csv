@@ -110,8 +110,8 @@
 29579;Barramento II;Confresa;Santa Terezinha;67872;678322;montante;12;Verde;Baixo
 31569;Fazenda Luta;Confresa;Santa Terezinha;67872;678322;montante;16;Verde;Médio
 26333;PREFEITURA MUNICIPAL DE CONFRESA;Confresa;Santa Terezinha;678722;678322;montante;13;Verde;Não Classificado
-34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;Conquista D'Oeste;Comodoro;46994962;46993296;montante;17;Verde;Baixo
-34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;Conquista D'Oeste;Nova Lacerda;46994962;46993962;montante;17;Verde;Baixo
+34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;Conquista D'Oeste;Comodoro;46994962;46993296;montante;20;Amarelo;Baixo
+34039;CGH Fazenda Dois Irmãos - Córrego Seixas - Fazenda Dois Irmãos;Conquista D'Oeste;Nova Lacerda;46994962;46993962;montante;20;Amarelo;Baixo
 34226;CGH Galera Centrais Eletricas 1a - 1;Conquista D'Oeste;Comodoro;4699484;46993296;montante;16;Verde;Baixo
 34226;CGH Galera Centrais Eletricas 1a - 1;Conquista D'Oeste;Nova Lacerda;4699484;46993962;montante;16;Verde;Baixo
 34732;BARRAGEM 1;Cuiabá;Nossa Senhora do Livramento;8965754;89657184;montante;20;Amarelo;Baixo
@@ -308,12 +308,12 @@
 34857;Barragem I Jangada Agropastoril;Jangada;Cuiabá;89658;896573;montante;17;Verde;Médio
 34857;Barragem I Jangada Agropastoril;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;17;Verde;Médio
 34857;Barragem I Jangada Agropastoril;Jangada;Várzea Grande;89658;89657182;montante;17;Verde;Médio
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Cuiabá;89658;896573;montante;18;Verde;Baixo
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;18;Verde;Baixo
-35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Várzea Grande;89658;89657182;montante;18;Verde;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Cuiabá;89658;896573;montante;20;Amarelo;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;20;Amarelo;Baixo
-35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Várzea Grande;89658;89657182;montante;20;Amarelo;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Cuiabá;89658;896573;montante;20;Amarelo;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;20;Amarelo;Baixo
+35231;Fazenda Jangada Agropastoril - Barragem a montante;Jangada;Várzea Grande;89658;89657182;montante;20;Amarelo;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Cuiabá;89658;896573;montante;22;Amarelo;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Nossa Senhora do Livramento;89658;89657184;montante;22;Amarelo;Baixo
+35229;Fazenda Jangada Agropastoril II - Barragem Principal;Jangada;Várzea Grande;89658;89657182;montante;22;Amarelo;Baixo
 4715;PCH Antônio Brennand (Antiga  Alto Jauru) - Antônio Brennand;Jauru;Araputanga;8994;8994;mesmo trecho;19;Verde;Baixo
 4202;PCH Indiavaí - Indiavaí;Jauru;Araputanga;8994;8994;mesmo trecho;17;Verde;Médio
 26142;Barragem  LVR;Juína;Aripuanã;4629968;46293322;montante;21;Amarelo;Baixo
@@ -329,11 +329,11 @@
 31517;Barragem Bem-te-vi;Lucas do Rio Verde;Juara;44658;4463178;montante;16;Amarelo;Baixo
 31517;Barragem Bem-te-vi;Lucas do Rio Verde;Novo Horizonte do Norte;44658;44631784;montante;16;Amarelo;Baixo
 31517;Barragem Bem-te-vi;Lucas do Rio Verde;Porto dos Gaúchos;44658;4463354;montante;16;Amarelo;Baixo
-35359;Barragem do Parque Oeste;Lucas do Rio Verde;Alta Floresta;4448;44452872;montante;15;Amarelo;Médio
-35359;Barragem do Parque Oeste;Lucas do Rio Verde;Carlinda;4448;44457212;montante;15;Amarelo;Médio
-35359;Barragem do Parque Oeste;Lucas do Rio Verde;Itaúba;4448;444762;montante;15;Amarelo;Médio
-35359;Barragem do Parque Oeste;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;15;Amarelo;Médio
-35359;Barragem do Parque Oeste;Lucas do Rio Verde;Sinop;4448;4447944;montante;15;Amarelo;Médio
+35359;Barragem do Parque Oeste;Lucas do Rio Verde;Alta Floresta;4448;44452872;montante;18;Amarelo;Médio
+35359;Barragem do Parque Oeste;Lucas do Rio Verde;Carlinda;4448;44457212;montante;18;Amarelo;Médio
+35359;Barragem do Parque Oeste;Lucas do Rio Verde;Itaúba;4448;444762;montante;18;Amarelo;Médio
+35359;Barragem do Parque Oeste;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;18;Amarelo;Médio
+35359;Barragem do Parque Oeste;Lucas do Rio Verde;Sinop;4448;4447944;montante;18;Amarelo;Médio
 20051;Barramento Fazenda Carajas  - Lote 64;Lucas do Rio Verde;Alta Floresta;444852;44452872;montante;18;Amarelo;Médio
 20051;Barramento Fazenda Carajas  - Lote 64;Lucas do Rio Verde;Carlinda;444852;44457212;montante;18;Amarelo;Médio
 20051;Barramento Fazenda Carajas  - Lote 64;Lucas do Rio Verde;Ipiranga do Norte;444852;44483152;montante;18;Amarelo;Médio
@@ -358,14 +358,14 @@
 34136;CGH Aprovale - Associação Dos Produtores Do Vale Do Cedro - cedro;Lucas do Rio Verde;Sinop;44484;4447944;montante;14;Amarelo;Baixo
 34136;CGH Aprovale - Associação Dos Produtores Do Vale Do Cedro - cedro;Lucas do Rio Verde;Sorriso;44484;44483162;montante;14;Amarelo;Baixo
 34136;CGH Aprovale - Associação Dos Produtores Do Vale Do Cedro - cedro;Lucas do Rio Verde;Tapurah;44484;4448338;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Alta Floresta;444844;44452872;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Carlinda;444844;44457212;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Ipiranga do Norte;444844;44483152;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Itaúba;444844;444762;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Nova Canaã do Norte;444844;44473332;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Sinop;444844;4447944;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Sorriso;444844;44483162;montante;14;Amarelo;Baixo
-8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Tapurah;444844;4448338;montante;14;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Alta Floresta;444844;44452872;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Carlinda;444844;44457212;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Ipiranga do Norte;444844;44483152;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Itaúba;444844;444762;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Nova Canaã do Norte;444844;44473332;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Sinop;444844;4447944;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Sorriso;444844;44483162;montante;17;Amarelo;Baixo
+8028;FAZENDA DONA IRILDE;Lucas do Rio Verde;Tapurah;444844;4448338;montante;17;Amarelo;Baixo
 8034;FAZENDA OGLIARI;Lucas do Rio Verde;Alta Floresta;4448632;44452872;montante;14;Amarelo;Baixo
 8034;FAZENDA OGLIARI;Lucas do Rio Verde;Carlinda;4448632;44457212;montante;14;Amarelo;Baixo
 8034;FAZENDA OGLIARI;Lucas do Rio Verde;Ipiranga do Norte;4448632;44483152;montante;14;Amarelo;Baixo
@@ -377,73 +377,73 @@
 341;Faz. Espera Feliz;Lucas do Rio Verde;Juara;44658;4463178;montante;14;Amarelo;Baixo
 341;Faz. Espera Feliz;Lucas do Rio Verde;Novo Horizonte do Norte;44658;44631784;montante;14;Amarelo;Baixo
 341;Faz. Espera Feliz;Lucas do Rio Verde;Porto dos Gaúchos;44658;4463354;montante;14;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Alta Floresta;444842;44452872;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Carlinda;444842;44457212;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Ipiranga do Norte;444842;44483152;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Itaúba;444842;444762;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Nova Canaã do Norte;444842;44473332;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Sinop;444842;4447944;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Sorriso;444842;44483162;montante;16;Amarelo;Baixo
-8033;Fazenda Botucatu lll;Lucas do Rio Verde;Tapurah;444842;4448338;montante;16;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Alta Floresta;444842;44452872;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Carlinda;444842;44457212;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Ipiranga do Norte;444842;44483152;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Itaúba;444842;444762;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Nova Canaã do Norte;444842;44473332;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Sinop;444842;4447944;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Sorriso;444842;44483162;montante;14;Amarelo;Baixo
-5679;Fazenda Juliandre II;Lucas do Rio Verde;Tapurah;444842;4448338;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Alta Floresta;4448422;44452872;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Carlinda;4448422;44457212;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Ipiranga do Norte;4448422;44483152;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Itaúba;4448422;444762;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Nova Canaã do Norte;4448422;44473332;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Sinop;4448422;4447944;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Sorriso;4448422;44483162;montante;14;Amarelo;Baixo
-361;Fazenda Nadin;Lucas do Rio Verde;Tapurah;4448422;4448338;montante;14;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Alta Floresta;4448632;44452872;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Carlinda;4448632;44457212;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Ipiranga do Norte;4448632;44483152;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Itaúba;4448632;444762;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Nova Canaã do Norte;4448632;44473332;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Sinop;4448632;4447944;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Sorriso;4448632;44483162;montante;15;Amarelo;Baixo
-20075;Fazenda Ogliari;Lucas do Rio Verde;Tapurah;4448632;4448338;montante;15;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Alta Floresta;444856;44452872;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Carlinda;444856;44457212;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Ipiranga do Norte;444856;44483152;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Itaúba;444856;444762;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Nova Canaã do Norte;444856;44473332;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Sinop;444856;4447944;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Sorriso;444856;44483162;montante;14;Amarelo;Baixo
-8037;Fazenda Palmeira ll;Lucas do Rio Verde;Tapurah;444856;4448338;montante;14;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Alta Floresta;444842;44452872;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Carlinda;444842;44457212;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Ipiranga do Norte;444842;44483152;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Itaúba;444842;444762;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Nova Canaã do Norte;444842;44473332;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Sinop;444842;4447944;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Sorriso;444842;44483162;montante;19;Amarelo;Baixo
+8033;Fazenda Botucatu lll;Lucas do Rio Verde;Tapurah;444842;4448338;montante;19;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Alta Floresta;444842;44452872;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Carlinda;444842;44457212;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Ipiranga do Norte;444842;44483152;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Itaúba;444842;444762;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Nova Canaã do Norte;444842;44473332;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Sinop;444842;4447944;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Sorriso;444842;44483162;montante;17;Amarelo;Baixo
+5679;Fazenda Juliandre II;Lucas do Rio Verde;Tapurah;444842;4448338;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Alta Floresta;4448422;44452872;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Carlinda;4448422;44457212;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Ipiranga do Norte;4448422;44483152;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Itaúba;4448422;444762;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Nova Canaã do Norte;4448422;44473332;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Sinop;4448422;4447944;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Sorriso;4448422;44483162;montante;17;Amarelo;Baixo
+361;Fazenda Nadin;Lucas do Rio Verde;Tapurah;4448422;4448338;montante;17;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Alta Floresta;4448632;44452872;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Carlinda;4448632;44457212;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Ipiranga do Norte;4448632;44483152;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Itaúba;4448632;444762;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Nova Canaã do Norte;4448632;44473332;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Sinop;4448632;4447944;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Sorriso;4448632;44483162;montante;16;Amarelo;Baixo
+20075;Fazenda Ogliari;Lucas do Rio Verde;Tapurah;4448632;4448338;montante;16;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Alta Floresta;444856;44452872;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Carlinda;444856;44457212;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Ipiranga do Norte;444856;44483152;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Itaúba;444856;444762;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Nova Canaã do Norte;444856;44473332;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Sinop;444856;4447944;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Sorriso;444856;44483162;montante;17;Amarelo;Baixo
+8037;Fazenda Palmeira ll;Lucas do Rio Verde;Tapurah;444856;4448338;montante;17;Amarelo;Baixo
 8036;Fazenda Piva;Lucas do Rio Verde;Alta Floresta;4448;44452872;montante;14;Amarelo;Baixo
 8036;Fazenda Piva;Lucas do Rio Verde;Carlinda;4448;44457212;montante;14;Amarelo;Baixo
 8036;Fazenda Piva;Lucas do Rio Verde;Itaúba;4448;444762;montante;14;Amarelo;Baixo
 8036;Fazenda Piva;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;14;Amarelo;Baixo
 8036;Fazenda Piva;Lucas do Rio Verde;Sinop;4448;4447944;montante;14;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Alta Floresta;44486;44452872;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Carlinda;44486;44457212;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Ipiranga do Norte;44486;44483152;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Itaúba;44486;444762;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Nova Canaã do Norte;44486;44473332;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Sinop;44486;4447944;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Sorriso;44486;44483162;montante;15;Amarelo;Baixo
-389;Fazenda Santo Antonio I;Lucas do Rio Verde;Tapurah;44486;4448338;montante;15;Amarelo;Baixo
-31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Juara;4465882;4463178;montante;18;Amarelo;Baixo
-31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Novo Horizonte do Norte;4465882;44631784;montante;18;Amarelo;Baixo
-31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Porto dos Gaúchos;4465882;4463354;montante;18;Amarelo;Baixo
-5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Alta Floresta;4448;44452872;montante;15;Amarelo;Não Classificado
-5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Carlinda;4448;44457212;montante;15;Amarelo;Não Classificado
-5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Itaúba;4448;444762;montante;15;Amarelo;Não Classificado
-5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;15;Amarelo;Não Classificado
-5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Sinop;4448;4447944;montante;15;Amarelo;Não Classificado
-20177;Faz. Carvalho;Nobres;Cuiabá;896634;896573;montante;14;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Jangada;896634;89658;montante;14;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Nossa Senhora do Livramento;896634;89657184;montante;14;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Rosário Oeste;896634;8965932;montante;14;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Santo Antônio de Leverger;896634;896544;montante;14;Verde;Baixo
-20177;Faz. Carvalho;Nobres;Várzea Grande;896634;89657182;montante;14;Verde;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Alta Floresta;44486;44452872;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Carlinda;44486;44457212;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Ipiranga do Norte;44486;44483152;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Itaúba;44486;444762;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Nova Canaã do Norte;44486;44473332;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Sinop;44486;4447944;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Sorriso;44486;44483162;montante;16;Amarelo;Baixo
+389;Fazenda Santo Antonio I;Lucas do Rio Verde;Tapurah;44486;4448338;montante;16;Amarelo;Baixo
+31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Juara;4465882;4463178;montante;21;Amarelo;Baixo
+31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Novo Horizonte do Norte;4465882;44631784;montante;21;Amarelo;Baixo
+31561;Prefeitura Municipal de Lucas do Rio Verde;Lucas do Rio Verde;Porto dos Gaúchos;4465882;4463354;montante;21;Amarelo;Baixo
+5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Alta Floresta;4448;44452872;montante;18;Amarelo;Não Classificado
+5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Carlinda;4448;44457212;montante;18;Amarelo;Não Classificado
+5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Itaúba;4448;444762;montante;18;Amarelo;Não Classificado
+5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Nova Canaã do Norte;4448;44473332;montante;18;Amarelo;Não Classificado
+5751;Prefeitura de LUCAS DO RIO VERDE;Lucas do Rio Verde;Sinop;4448;4447944;montante;18;Amarelo;Não Classificado
+20177;Faz. Carvalho;Nobres;Cuiabá;896634;896573;montante;16;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Jangada;896634;89658;montante;16;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Nossa Senhora do Livramento;896634;89657184;montante;16;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Rosário Oeste;896634;8965932;montante;16;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Santo Antônio de Leverger;896634;896544;montante;16;Verde;Baixo
+20177;Faz. Carvalho;Nobres;Várzea Grande;896634;89657182;montante;16;Verde;Baixo
 4224;UHE Manso - Dique 1;Nobres;Juara;446984;4463178;montante;14;Verde;Alto
 4224;UHE Manso - Dique 1;Nobres;Novo Horizonte do Norte;446984;44631784;montante;14;Verde;Alto
 4224;UHE Manso - Dique 1;Nobres;Porto dos Gaúchos;446984;4463354;montante;14;Verde;Alto
@@ -515,10 +515,10 @@
 35120;Barragem Sankara;Nova Lacerda;Comodoro;4699476;46993296;montante;21;Amarelo;Baixo
 34225;CGH Fazenda Galera 1 - Galera 1A;Nova Lacerda;Comodoro;4699484;46993296;montante;15;Verde;Baixo
 24107;CGH MAX-01 (Nova Lacerda)  - NOVA LACERDA;Nova Lacerda;Comodoro;4699482;46993296;montante;15;Verde;Baixo
-34043;CGH Saxão - principal;Nova Lacerda;Comodoro;469948;46993296;montante;19;Verde;Baixo
+34043;CGH Saxão - principal;Nova Lacerda;Comodoro;469948;46993296;montante;20;Amarelo;Baixo
 4256;PCH Salto Corgão - Salto Corgão;Nova Lacerda;Comodoro;469948;46993296;montante;16;Verde;Baixo
-36532;Barragem Gran Fish - Jusante;Nova Marilândia;Barra do Bugres;899994;8999194;montante;18;Verde;Baixo
-36533;Barragem Gran Fish – Montante;Nova Marilândia;Barra do Bugres;899994;8999194;montante;18;Verde;Baixo
+36532;Barragem Gran Fish - Jusante;Nova Marilândia;Barra do Bugres;899994;8999194;montante;21;Amarelo;Baixo
+36533;Barragem Gran Fish – Montante;Nova Marilândia;Barra do Bugres;899994;8999194;montante;21;Amarelo;Baixo
 30884;Barragem na Fazenda Paulista III;Nova Marilândia;Barra do Bugres;899994;8999194;montante;16;Verde;Médio
 20146;Sítio São José;Nova Marilândia;Barra do Bugres;899994;8999194;montante;16;Verde;Baixo
 35025;CGH DUAS PONTES - Barramento Duas Pontes;Nova Maringá;Juara;4466;4463178;montante;13;Verde;Baixo
@@ -758,7 +758,7 @@
 35001;Barramento Santa Rita;Porto dos Gaúchos;Juara;4463354;4463178;montante;15;Verde;Baixo
 35001;Barramento Santa Rita;Porto dos Gaúchos;Novo Horizonte do Norte;4463354;44631784;montante;15;Verde;Baixo
 34978;Barramento principal - Fazenda Sinop I;Porto dos Gaúchos;Tabaporã;446282;4462582;montante;16;Verde;Médio
-34034;CGH Rancho Fundo - CGH RANCHO FUNDO;Porto dos Gaúchos;Tabaporã;446298;4462582;montante;18;Verde;Baixo
+34034;CGH Rancho Fundo - CGH RANCHO FUNDO;Porto dos Gaúchos;Tabaporã;446298;4462582;montante;19;Verde;Baixo
 20317;Faz. Agrovera;Porto dos Gaúchos;Tabaporã;446298;4462582;montante;15;Verde;Baixo
 5479;Fazenda Padre Cicero;Porto dos Gaúchos;Tabaporã;446296;4462582;montante;15;Verde;Não Classificado
 26328;Fazenda Água Boa;Poxoréu;General Carneiro;6878;687382;montante;14;Verde;Médio
@@ -769,9 +769,9 @@
 28886;Mariana II;Poxoréu;Novo São Joaquim;6878;6873132;montante;12;Verde;Baixo
 34610;Barramento - Fazenda Luchese I;Primavera do Leste;General Carneiro;6878;687382;montante;16;Verde;Baixo
 34610;Barramento - Fazenda Luchese I;Primavera do Leste;Novo São Joaquim;6878;6873132;montante;16;Verde;Baixo
-26164;Bacia Grota da Onça;Pontes e Lacerda;Comodoro;4699672;46993296;montante;21;Amarelo;Alto
-26164;Bacia Grota da Onça;Pontes e Lacerda;Nova Lacerda;4699672;46993962;montante;21;Amarelo;Alto
-26164;Bacia Grota da Onça;Pontes e Lacerda;Vila Bela da Santíssima Trindade;4699672;469958224;montante;21;Amarelo;Alto
+26164;Bacia Grota da Onça;Pontes e Lacerda;Comodoro;4699672;46993296;montante;24;Amarelo;Alto
+26164;Bacia Grota da Onça;Pontes e Lacerda;Nova Lacerda;4699672;46993962;montante;24;Amarelo;Alto
+26164;Bacia Grota da Onça;Pontes e Lacerda;Vila Bela da Santíssima Trindade;4699672;469958224;montante;24;Amarelo;Alto
 577;Barragem EPP;Pontes e Lacerda;Comodoro;4699644;46993296;montante;19;Verde;Alto
 577;Barragem EPP;Pontes e Lacerda;Nova Lacerda;4699644;46993962;montante;19;Verde;Alto
 577;Barragem EPP;Pontes e Lacerda;Vila Bela da Santíssima Trindade;4699644;469958224;montante;19;Verde;Alto
@@ -784,9 +784,9 @@
 21924;Berion;Pontes e Lacerda;Comodoro;469962;46993296;montante;24;Amarelo;Médio
 21924;Berion;Pontes e Lacerda;Nova Lacerda;469962;46993962;montante;24;Amarelo;Médio
 21924;Berion;Pontes e Lacerda;Vila Bela da Santíssima Trindade;469962;469958224;montante;24;Amarelo;Médio
-21946;Fortuna;Pontes e Lacerda;Comodoro;469966;46993296;montante;32;Amarelo;Alto
-21946;Fortuna;Pontes e Lacerda;Nova Lacerda;469966;46993962;montante;32;Amarelo;Alto
-21946;Fortuna;Pontes e Lacerda;Vila Bela da Santíssima Trindade;469966;469958224;montante;32;Amarelo;Alto
+21946;Fortuna;Pontes e Lacerda;Comodoro;469966;46993296;montante;35;Amarelo;Alto
+21946;Fortuna;Pontes e Lacerda;Nova Lacerda;469966;46993962;montante;35;Amarelo;Alto
+21946;Fortuna;Pontes e Lacerda;Vila Bela da Santíssima Trindade;469966;469958224;montante;35;Amarelo;Alto
 35099;LV-01;Pontes e Lacerda;Comodoro;4699644;46993296;montante;21;Amarelo;Baixo
 35099;LV-01;Pontes e Lacerda;Nova Lacerda;4699644;46993962;montante;21;Amarelo;Baixo
 35099;LV-01;Pontes e Lacerda;Vila Bela da Santíssima Trindade;4699644;469958224;montante;21;Amarelo;Baixo
@@ -878,14 +878,14 @@
 32150;Fazenda Alvorada III;Sinop;Alta Floresta;4447982;44452872;montante;15;Verde;Baixo
 32150;Fazenda Alvorada III;Sinop;Carlinda;4447982;44457212;montante;15;Verde;Baixo
 32150;Fazenda Alvorada III;Sinop;Nova Canaã do Norte;4447982;44473332;montante;15;Verde;Baixo
-31174;LOTES 79 E 80;Sinop;Alta Floresta;4449114;44452872;montante;17;Verde;Alto
-31174;LOTES 79 E 80;Sinop;Carlinda;4449114;44457212;montante;17;Verde;Alto
-31174;LOTES 79 E 80;Sinop;Itaúba;4449114;444762;montante;17;Verde;Alto
-31174;LOTES 79 E 80;Sinop;Nova Canaã do Norte;4449114;44473332;montante;17;Verde;Alto
-31175;LOTES 79 E 80;Sinop;Alta Floresta;4449114;44452872;montante;17;Verde;Médio
-31175;LOTES 79 E 80;Sinop;Carlinda;4449114;44457212;montante;17;Verde;Médio
-31175;LOTES 79 E 80;Sinop;Itaúba;4449114;444762;montante;17;Verde;Médio
-31175;LOTES 79 E 80;Sinop;Nova Canaã do Norte;4449114;44473332;montante;17;Verde;Médio
+31174;LOTES 79 E 80;Sinop;Alta Floresta;4449114;44452872;montante;20;Amarelo;Alto
+31174;LOTES 79 E 80;Sinop;Carlinda;4449114;44457212;montante;20;Amarelo;Alto
+31174;LOTES 79 E 80;Sinop;Itaúba;4449114;444762;montante;20;Amarelo;Alto
+31174;LOTES 79 E 80;Sinop;Nova Canaã do Norte;4449114;44473332;montante;20;Amarelo;Alto
+31175;LOTES 79 E 80;Sinop;Alta Floresta;4449114;44452872;montante;20;Amarelo;Médio
+31175;LOTES 79 E 80;Sinop;Carlinda;4449114;44457212;montante;20;Amarelo;Médio
+31175;LOTES 79 E 80;Sinop;Itaúba;4449114;444762;montante;20;Amarelo;Médio
+31175;LOTES 79 E 80;Sinop;Nova Canaã do Norte;4449114;44473332;montante;20;Amarelo;Médio
 31468;BARRAGEM PRINCIPAL;Sorriso;Alta Floresta;4449254;44452872;montante;15;Verde;Baixo
 31468;BARRAGEM PRINCIPAL;Sorriso;Carlinda;4449254;44457212;montante;15;Verde;Baixo
 31468;BARRAGEM PRINCIPAL;Sorriso;Itaúba;4449254;444762;montante;15;Verde;Baixo
@@ -946,12 +946,12 @@
 35461;Barramento - Fazenda Santo Antônio;Sorriso;Nova Canaã do Norte;4449344;44473332;montante;15;Verde;Baixo
 35461;Barramento - Fazenda Santo Antônio;Sorriso;Sinop;4449344;4447944;montante;15;Verde;Baixo
 35461;Barramento - Fazenda Santo Antônio;Sorriso;Vera;4449344;4449162;montante;15;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Alta Floresta;444932;44452872;montante;17;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Carlinda;444932;44457212;montante;17;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Itaúba;444932;444762;montante;17;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Nova Canaã do Norte;444932;44473332;montante;17;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Sinop;444932;4447944;montante;17;Verde;Baixo
-35123;Barramento - Fazenda Seriema;Sorriso;Vera;444932;4449162;montante;17;Verde;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Alta Floresta;444932;44452872;montante;20;Amarelo;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Carlinda;444932;44457212;montante;20;Amarelo;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Itaúba;444932;444762;montante;20;Amarelo;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Nova Canaã do Norte;444932;44473332;montante;20;Amarelo;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Sinop;444932;4447944;montante;20;Amarelo;Baixo
+35123;Barramento - Fazenda Seriema;Sorriso;Vera;444932;4449162;montante;20;Amarelo;Baixo
 34025;Barramento 01 (Montante) São Cristóvão;Sorriso;Alta Floresta;4449362;44452872;montante;15;Verde;Baixo
 34025;Barramento 01 (Montante) São Cristóvão;Sorriso;Carlinda;4449362;44457212;montante;15;Verde;Baixo
 34025;Barramento 01 (Montante) São Cristóvão;Sorriso;Itaúba;4449362;444762;montante;15;Verde;Baixo
@@ -1171,12 +1171,12 @@
 386;Fazenda Macape;Sorriso;Nova Canaã do Norte;4449212;44473332;montante;18;Verde;Médio
 386;Fazenda Macape;Sorriso;Sinop;4449212;4447944;montante;18;Verde;Médio
 386;Fazenda Macape;Sorriso;Vera;4449212;4449162;montante;18;Verde;Médio
-8049;Fazenda Marauense;Sorriso;Alta Floresta;444932;44452872;montante;17;Verde;Baixo
-8049;Fazenda Marauense;Sorriso;Carlinda;444932;44457212;montante;17;Verde;Baixo
-8049;Fazenda Marauense;Sorriso;Itaúba;444932;444762;montante;17;Verde;Baixo
-8049;Fazenda Marauense;Sorriso;Nova Canaã do Norte;444932;44473332;montante;17;Verde;Baixo
-8049;Fazenda Marauense;Sorriso;Sinop;444932;4447944;montante;17;Verde;Baixo
-8049;Fazenda Marauense;Sorriso;Vera;444932;4449162;montante;17;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Alta Floresta;444932;44452872;montante;19;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Carlinda;444932;44457212;montante;19;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Itaúba;444932;444762;montante;19;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Nova Canaã do Norte;444932;44473332;montante;19;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Sinop;444932;4447944;montante;19;Verde;Baixo
+8049;Fazenda Marauense;Sorriso;Vera;444932;4449162;montante;19;Verde;Baixo
 8047;Fazenda Poranga II - III;Sorriso;Alta Floresta;4449312;44452872;montante;13;Verde;Baixo
 8047;Fazenda Poranga II - III;Sorriso;Carlinda;4449312;44457212;montante;13;Verde;Baixo
 8047;Fazenda Poranga II - III;Sorriso;Itaúba;4449312;444762;montante;13;Verde;Baixo
@@ -1470,12 +1470,12 @@
 35785;Barramento - Fazenda Sorriso I;União do Sul;Marcelândia;426918;42678;montante;17;Verde;Baixo
 32970;Fazenda Frente da Mata – Barragem I;União do Sul;Cláudia;42692;426912;montante;15;Verde;Baixo
 32970;Fazenda Frente da Mata – Barragem I;União do Sul;Marcelândia;42692;42678;montante;15;Verde;Baixo
-34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Comodoro;46996;46993296;montante;17;Verde;Alto
-34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Nova Lacerda;46996;46993962;montante;17;Verde;Alto
-34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Vila Bela da Santíssima Trindade;46996;469958224;montante;17;Verde;Alto
-5212;UHE Guaporé - Guaporé;Vale de São Domingos;Comodoro;46996;46993296;montante;18;Verde;Alto
-5212;UHE Guaporé - Guaporé;Vale de São Domingos;Nova Lacerda;46996;46993962;montante;18;Verde;Alto
-5212;UHE Guaporé - Guaporé;Vale de São Domingos;Vila Bela da Santíssima Trindade;46996;469958224;montante;18;Verde;Alto
+34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Comodoro;46996;46993296;montante;20;Amarelo;Alto
+34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Nova Lacerda;46996;46993962;montante;20;Amarelo;Alto
+34094;PCH Nova Guaporé - Nova Guaporé;Vale de São Domingos;Vila Bela da Santíssima Trindade;46996;469958224;montante;20;Amarelo;Alto
+5212;UHE Guaporé - Guaporé;Vale de São Domingos;Comodoro;46996;46993296;montante;21;Amarelo;Alto
+5212;UHE Guaporé - Guaporé;Vale de São Domingos;Nova Lacerda;46996;46993962;montante;21;Amarelo;Alto
+5212;UHE Guaporé - Guaporé;Vale de São Domingos;Vila Bela da Santíssima Trindade;46996;469958224;montante;21;Amarelo;Alto
 35177;BARRAMENTO PRINCIPAL FAZ. REUNIDAS SÃO ROBERTO;Vera;Alta Floresta;444924;44452872;montante;15;Verde;Baixo
 35177;BARRAMENTO PRINCIPAL FAZ. REUNIDAS SÃO ROBERTO;Vera;Carlinda;444924;44457212;montante;15;Verde;Baixo
 35177;BARRAMENTO PRINCIPAL FAZ. REUNIDAS SÃO ROBERTO;Vera;Itaúba;444924;444762;montante;15;Verde;Baixo
@@ -1522,11 +1522,11 @@
 35608;FAZENDA JAÇANÃ - RESERVATÓRIO PULMÃO;Vera;Marcelândia;426986;42678;montante;15;Verde;Baixo
 35608;FAZENDA JAÇANÃ - RESERVATÓRIO PULMÃO;Vera;Santa Carmem;426986;426972;montante;15;Verde;Baixo
 35608;FAZENDA JAÇANÃ - RESERVATÓRIO PULMÃO;Vera;União do Sul;426986;426918;montante;15;Verde;Baixo
-8054;Fazenda Bela Vista II;Vera;Alta Floresta;4449184;44452872;montante;17;Verde;Baixo
-8054;Fazenda Bela Vista II;Vera;Carlinda;4449184;44457212;montante;17;Verde;Baixo
-8054;Fazenda Bela Vista II;Vera;Itaúba;4449184;444762;montante;17;Verde;Baixo
-8054;Fazenda Bela Vista II;Vera;Nova Canaã do Norte;4449184;44473332;montante;17;Verde;Baixo
-8054;Fazenda Bela Vista II;Vera;Sinop;4449184;4447944;montante;17;Verde;Baixo
+8054;Fazenda Bela Vista II;Vera;Alta Floresta;4449184;44452872;montante;19;Verde;Baixo
+8054;Fazenda Bela Vista II;Vera;Carlinda;4449184;44457212;montante;19;Verde;Baixo
+8054;Fazenda Bela Vista II;Vera;Itaúba;4449184;444762;montante;19;Verde;Baixo
+8054;Fazenda Bela Vista II;Vera;Nova Canaã do Norte;4449184;44473332;montante;19;Verde;Baixo
+8054;Fazenda Bela Vista II;Vera;Sinop;4449184;4447944;montante;19;Verde;Baixo
 27508;Fazenda Nandico;Vera;Alta Floresta;44492;44452872;montante;13;Verde;Baixo
 27508;Fazenda Nandico;Vera;Carlinda;44492;44457212;montante;13;Verde;Baixo
 27508;Fazenda Nandico;Vera;Itaúba;44492;444762;montante;13;Verde;Baixo

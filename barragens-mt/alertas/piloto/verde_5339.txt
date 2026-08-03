@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0759-5339
+Identificador do alerta : ALERTA-20260803-1151-5339
 Barragem                : ESTÂNCIA RANCHO DOURADO (código 5339)
 Município da estrutura  : Várzea Grande — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : IGOR CESAR DAVOGLIO
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
 IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 22)

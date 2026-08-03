@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0759-34733
+Identificador do alerta : ALERTA-20260803-1151-34733
 Barragem                : BARRAGEM 2 SUPERIOR (código 34733)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Cidade Jardim Incorporações de Empreendimentos Imobiliários Ltda.
 Uso principal           : Paisagismo
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
 IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 22)

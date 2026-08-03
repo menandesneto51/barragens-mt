@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0759-20617
+Identificador do alerta : ALERTA-20260803-1151-20617
 Barragem                : PCH Casca III - Casca III (código 20617)
 Município da estrutura  : Chapada dos Guimarães — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
 Empreendedor            : APIACAS ENERGIA S.A.
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
 IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 24,50)

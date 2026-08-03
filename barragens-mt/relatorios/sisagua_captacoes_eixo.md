@@ -1,9 +1,11 @@
-# Captações no eixo Manso–Cuiabá
+# Captações Sisagua — eixo e estadual
 
-- Registros: **281** (281 com coordenada)
+- Eixo Manso–Cuiabá: **270** (270 com coordenada)
+- MT (sedes com barragem): **1451**
 - Fonte principal desta execução: **SISAGUA**
-- Arquivo: `dados/tratados/sisagua_captacoes_eixo.csv`
+- Arquivos: `dados/tratados/sisagua_captacoes_eixo.csv`, `dados/tratados/sisagua_captacoes_mt.csv`
 - Origem oficial: `https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SISAGUA/cadastro_pontos_captacao_csv.zip`
 
-KPI C4 na Simulação: contagem de pontos com lat/lon dentro da mancha proxy.
-OSM só entra se o cadastro Sisagua falhar.
+KPI C4 na Simulação (eixo): contagem na mancha proxy.
+Proxies IDAP (etapa 49) usam o estadual quando disponível.
+OSM só entra se o cadastro Sisagua falhar no eixo.
