@@ -1663,16 +1663,16 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                         "Catálogo: `dados/config/dw_catalogo.json`."
                     )
 
-        from st_app.data import TRATADOS as _TR_MB
+        from st_app.mapbiomas import carregar_mapbiomas, pressao_municipio, resumo_eixo
 
-        mb_path = _TR_MB / "mapbiomas_pressao_eixo_cuiaba.csv"
-        if mb_path.is_file():
-            mb = pd.read_csv(mb_path, sep=";")
+        mb_resumo = resumo_eixo()
+        if mb_resumo.get("disponivel"):
+            mb = carregar_mapbiomas()
             st.markdown("##### Pressão de ocupação (MapBiomas — eixo)")
-            m1, m2, m3 = st.columns(3)
+            m1, m2, m3, m4 = st.columns(4)
             m1.metric(
                 "Área urbana 2024 (eixo)",
-                f"{mb['area_urbana_2024_ha'].sum():,.0f} ha".replace(",", "."),
+                f"{mb_resumo['ha_urbana_total']:,.0f} ha".replace(",", "."),
             )
             m2.metric(
                 "Crescimento 10 anos",
@@ -1680,10 +1680,21 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             )
             m3.metric(
                 "Urbana em drenagem ≤3 m",
-                f"{mb['area_urbana_drenagem_ate_3m_2024_ha'].sum():,.0f} ha".replace(
-                    ",", "."
-                ),
+                f"{mb_resumo['ha_drenagem_baixa_total']:,.0f} ha".replace(",", "."),
             )
+            mb_mun = pressao_municipio(str(r.get("municipio") or ""))
+            if mb_mun.get("disponivel") and mb_mun.get("ha_urbana") is not None:
+                m4.metric(
+                    f"Urbana sede ({mb_mun['municipio']})",
+                    f"{mb_mun['ha_urbana']:,.0f} ha".replace(",", "."),
+                    (
+                        f"{mb_mun['pct_urbana_drenagem_baixa']:.0f}% em drenagem baixa"
+                        if mb_mun.get("pct_urbana_drenagem_baixa") is not None
+                        else None
+                    ),
+                )
+            else:
+                m4.metric("Municípios no eixo", mb_resumo.get("n_municipios", 0))
             st.caption(
                 "MapBiomas Col.10 módulo urbano — contexto de exposição municipal "
                 "(não é mancha HAND). Rode `python executar.py 41` para atualizar."
