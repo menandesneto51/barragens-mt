@@ -248,11 +248,9 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
     diálogo com Defesa Civil / SES — nunca como ordem operacional de evacuação.
   </div>
   <div class="aviso" style="background:#eef4fb;border-color:#1b3281;margin-top:10px">
-    <strong>Camadas avançadas (Streamlit):</strong> relevo HAND (piloto Manso–Cuiabá),
-    setores IBGE 2022, captações Sisagua, escolas/ativos OSM, desvio de rota C7 e MapBiomas
-    estão no app <code>streamlit run streamlit_app.py</code> (ou
-    <code>rodar_local.ps1</code>). Este HTML permanece o proxy circular rápido.
-    Bases tratadas: __KPIS_EIXO__.
+    <strong>Geometria:</strong> círculo (todo o estado) e <strong>relevo HAND</strong>
+    no eixo Manso–Cuiabá (SRTM proxy). Setores/Sisagua/desvio C7 completos ficam no
+    Streamlit (<code>rodar_local.ps1</code>). Bases: __KPIS_EIXO__.
   </div>
   <div class="grade">
     <div class="painel">
@@ -265,10 +263,20 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
       </select>
       <label>Barragem</label>
       <select id="barragem"></select>
+      <label>Geometria da mancha</label>
+      <select id="geom">
+        <option value="circular">Circular (volume→área)</option>
+        <option value="ambos">Circular + relevo (HAND)</option>
+        <option value="hand">Só relevo (HAND)</option>
+      </select>
       <label>Fração do volume liberado: <span class="val" id="vFrac">50%</span></label>
       <input type="range" id="frac" min="5" max="100" step="5" value="50">
-      <label>Profundidade média da lâmina (m): <span class="val" id="vProf">2,0</span></label>
+      <label>Profundidade / lâmina HAND (m): <span class="val" id="vProf">2,0</span></label>
       <input type="range" id="prof" min="0.5" max="8" step="0.5" value="2">
+      <p style="margin:6px 0 0;font-size:12px;color:var(--muted)">
+        HAND usa o limiar SRTM mais próximo da lâmina (piloto Manso–Cuiabá).
+        Fora do eixo a camada HAND fica vazia — use o círculo.
+      </p>
       <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
         <button type="button" id="btnPlay" style="padding:8px 12px;border:0;background:#9a3412;color:#fff;font:inherit;font-weight:600;cursor:pointer">▶ Animar no mapa</button>
         <button type="button" id="btnStop" style="padding:8px 12px;border:0;background:#e4e9ef;color:#15202b;font:inherit;font-weight:600;cursor:pointer">Parar</button>
@@ -298,7 +306,8 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
       <div class="mapa-wrap">
         <div id="mapa"></div>
         <div class="legenda-mapa">
-          <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área atingida (proxy)</div>
+          <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área circular (proxy)</div>
+          <div><i style="background:#0ea5e9;opacity:.75;border-radius:2px;width:14px"></i>Relevo HAND (proxy)</div>
           <div><i style="background:#dc2626;border:2px solid #fff;box-sizing:border-box"></i>Hospital</div>
           <div><i style="background:#ea580c;border:2px solid #fff;box-sizing:border-box"></i>UPA / pronto-socorro</div>
           <div><i style="background:#2563eb;border:2px solid #fff;box-sizing:border-box"></i>UBS / ESF / posto</div>
@@ -325,6 +334,8 @@ const CNES = __CNES__;
 const DENS = __DENS__;
 const DENS_PADRAO = __DENS_PADRAO__;
 const PERFIS = __PERFIS__;
+const HAND_GEO = __HAND_GEO__;
+const HAND_LIMIARES = __HAND_LIMIARES__;
 
 const mapa = L.map('mapa', {zoomControl: true}).setView([-14.9, -55.8], 8);
 // Imagem de satélite ao fundo — a mancha proxy fica sobre o terreno real.
@@ -340,16 +351,42 @@ const rotulos = L.tileLayer(
 mapa.createPane('mancha');
 mapa.getPane('mancha').style.zIndex = 350;
 mapa.getPane('mancha').style.pointerEvents = 'none';
+mapa.createPane('hand');
+mapa.getPane('hand').style.zIndex = 360;
+mapa.getPane('hand').style.pointerEvents = 'none';
 mapa.createPane('us');
 mapa.getPane('us').style.zIndex = 450;
 mapa.createPane('barragem');
 mapa.getPane('barragem').style.zIndex = 460;
 
 const camadaMancha = L.layerGroup().addTo(mapa);
+const camadaHand = L.layerGroup().addTo(mapa);
 const camadaUs = L.layerGroup().addTo(mapa);
 const camadaBar = L.layerGroup().addTo(mapa);
 let manchaAtual = null;
 let ultimoCentro = null;
+
+function limiarHand(prof) {
+  const lims = (HAND_LIMIARES && HAND_LIMIARES.length) ? HAND_LIMIARES : [2,5,8,10,15,20,30];
+  const p = Math.max(0.5, Number(prof) || 2);
+  let best = lims[0], bestD = Infinity;
+  for (const L of lims) {
+    const d = Math.abs(L - p);
+    if (d < bestD) { bestD = d; best = L; }
+  }
+  return best;
+}
+
+function featureHand(limiar) {
+  if (!HAND_GEO || !HAND_GEO.features) return null;
+  const alvo = Number(limiar);
+  let hit = null;
+  for (const f of HAND_GEO.features) {
+    const hm = Number((f.properties || {}).hand_max_m);
+    if (hm === alvo) { hit = f; break; }
+  }
+  return hit;
+}
 
 function densMedia(d) {
   const munis = (d.af && d.af.length) ? d.af : [d.mu];
@@ -500,11 +537,16 @@ function desenhar() {
       (rede do eixo Cuiabá; fora da região o contador fica vazio).</div>`;
   }
 
+  const limPrev = limiarHand(prof);
+  const featPrev = featureHand(limPrev);
   document.getElementById('detalhe').innerHTML = `
     <strong>${d.no}</strong> (SNISB ${d.id})
     · <a href="barragem.html?id=${encodeURIComponent(d.id)}">ficha 360°</a><br>
     Sede: ${d.mu} · Uso: ${d.uso || '—'} · CRI ${d.cri||'—'} · DPA ${d.dpa||'—'}<br>
     IDAP: ${d.idap ?? '—'} (${d.nv||'—'}) · Método pop.: ${est.metodo}<br>
+    Geometria: <b>${document.getElementById('geom').selectedOptions[0].text}</b>
+    · HAND ≤ ${limPrev} m
+    (${featPrev && featPrev.properties ? (featPrev.properties.n_celulas + ' células') : 'sem polígono no limiar'})<br>
     US no buffer: ${usBuf.total != null ? usBuf.total + ' (' + usBuf.metodo + ')' : '—'}
     · eixo municipal (ref.): ${d.ust || 0}<br>
     Municípios a jusante:<br>${(d.af||[]).join(' · ') || '—'}
@@ -512,36 +554,66 @@ function desenhar() {
 
   // Mancha permanece como camada de fundo (pane baixo); US e barragem por cima.
   camadaMancha.clearLayers();
+  camadaHand.clearLayers();
   camadaUs.clearLayers();
   camadaBar.clearLayers();
   manchaAtual = null;
 
-  if (d.la != null && d.lo != null) {
-    manchaAtual = L.circle([d.la, d.lo], {
-      pane: 'mancha',
-      radius: raio * 1000,
-      color: corMancha,
-      weight: 2,
-      fillColor: fillMancha,
-      fillOpacity: 0.22 + 0.28 * Math.min(1, Math.max(0.15, frac)),
-      opacity: 0.7 + 0.25 * Math.min(1, frac),
-      className: 'mancha-pulse'
-    }).bindPopup(
-      `<b>Área atingida (proxy)</b><br>${fmt(area)} km² · raio ${fmt(raio,2)} km<br>` +
-      `Pop. est. ${fmt(est.pop,0)}` +
-      (usBuf.total != null ? `<br>US afetadas: <b>${usBuf.total}</b> (${usBuf.hosp} hosp.)` : '') +
-      `<br><small>Não é mancha oficial do PAE.</small>`
-    ).addTo(camadaMancha);
+  const geom = document.getElementById('geom').value;
+  const mostrarCircular = geom === 'circular' || geom === 'ambos';
+  const mostrarHand = geom === 'hand' || geom === 'ambos';
+  const limH = limiarHand(prof);
+  let handLayer = null;
 
-    // Halo externo suave para reforçar a área no satélite
-    L.circle([d.la, d.lo], {
-      pane: 'mancha',
-      radius: raio * 1000,
-      color: corMancha,
-      weight: 8,
-      opacity: 0.18,
-      fill: false
-    }).addTo(camadaMancha);
+  if (mostrarHand) {
+    const feat = featureHand(limH);
+    if (feat) {
+      handLayer = L.geoJSON(feat, {
+        pane: 'hand',
+        style: {
+          color: '#0369a1',
+          weight: 2,
+          fillColor: '#0ea5e9',
+          fillOpacity: 0.28,
+          opacity: 0.85
+        }
+      }).bindPopup(
+        `<b>Relevo HAND ≤ ${limH} m</b><br>` +
+        `${(feat.properties && feat.properties.rotulo) || ''}<br>` +
+        `Células: ${(feat.properties && feat.properties.n_celulas) || '—'}<br>` +
+        `<small>Proxy SRTM — não é mancha PAE / tempo de chegada.</small>`
+      ).addTo(camadaHand);
+    }
+  }
+
+  if (d.la != null && d.lo != null) {
+    if (mostrarCircular) {
+      manchaAtual = L.circle([d.la, d.lo], {
+        pane: 'mancha',
+        radius: raio * 1000,
+        color: corMancha,
+        weight: 2,
+        fillColor: fillMancha,
+        fillOpacity: 0.22 + 0.28 * Math.min(1, Math.max(0.15, frac)),
+        opacity: 0.7 + 0.25 * Math.min(1, frac),
+        className: 'mancha-pulse'
+      }).bindPopup(
+        `<b>Área atingida (proxy circular)</b><br>${fmt(area)} km² · raio ${fmt(raio,2)} km<br>` +
+        `Pop. est. ${fmt(est.pop,0)}` +
+        (usBuf.total != null ? `<br>US afetadas: <b>${usBuf.total}</b> (${usBuf.hosp} hosp.)` : '') +
+        `<br><small>Não é mancha oficial do PAE.</small>`
+      ).addTo(camadaMancha);
+
+      // Halo externo suave para reforçar a área no satélite
+      L.circle([d.la, d.lo], {
+        pane: 'mancha',
+        radius: raio * 1000,
+        color: corMancha,
+        weight: 8,
+        opacity: 0.18,
+        fill: false
+      }).addTo(camadaMancha);
+    }
 
     L.circleMarker([d.la, d.lo], {
       pane: 'barragem',
@@ -578,14 +650,26 @@ function desenhar() {
     const mudou = !ultimoCentro || ultimoCentro[0] !== centro[0] || ultimoCentro[1] !== centro[1];
     ultimoCentro = centro;
     if (mudou || !timerAnim) {
-      const b = manchaAtual.getBounds();
-      mapa.fitBounds(b.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      let bounds = null;
+      if (manchaAtual) bounds = manchaAtual.getBounds();
+      if (handLayer) {
+        const hb = handLayer.getBounds();
+        bounds = bounds ? bounds.extend(hb) : hb;
+      }
+      if (bounds && bounds.isValid && bounds.isValid()) {
+        mapa.fitBounds(bounds.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      } else if (bounds) {
+        mapa.fitBounds(bounds.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      } else {
+        mapa.setView(centro, 11, {animate: !timerAnim});
+      }
     }
   }
 }
 
 ['recorte'].forEach(id => document.getElementById(id).onchange = () => { preencherSelect(); desenhar(); });
-['barragem','frac','prof'].forEach(id => document.getElementById(id).oninput = desenhar);
+['barragem','frac','prof','geom'].forEach(id => document.getElementById(id).oninput = desenhar);
+document.getElementById('geom').onchange = desenhar;
 let timerAnim = null;
 document.getElementById('btnPlay').onclick = () => {
   if (timerAnim) clearInterval(timerAnim);
@@ -647,9 +731,34 @@ def _kpis_eixo_resumo() -> str:
     return " · ".join(parts) if parts else "rode etapas 35–41"
 
 
+def _carregar_hand_geo() -> tuple[dict[str, Any], list[float]]:
+    path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba.geojson"
+    meta_path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba_meta.json"
+    geo: dict[str, Any] = {"type": "FeatureCollection", "features": []}
+    limiares: list[float] = [2.0, 5.0, 8.0, 10.0, 15.0, 20.0, 30.0]
+    if path.exists():
+        try:
+            geo = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pass
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            lims = meta.get("limiares_m") or []
+            if lims:
+                limiares = [float(x) for x in lims]
+        except (OSError, json.JSONDecodeError, TypeError, ValueError):
+            pass
+    return geo, limiares
+
+
 def main() -> None:
     dados, pontos_cnes = montar_dados()
-    print(f"Simulação — {len(dados)} barragens com volume · {len(pontos_cnes)} US CNES com coordenada")
+    hand_geo, hand_lims = _carregar_hand_geo()
+    print(
+        f"Simulação — {len(dados)} barragens com volume · {len(pontos_cnes)} US CNES · "
+        f"HAND {len(hand_geo.get('features') or [])} polígonos"
+    )
     perfis = {
         "agua": _perfil_json(PERFIL_AGUA),
         "rejeito": _perfil_json(PERFIL_REJEITO),
@@ -666,6 +775,8 @@ def main() -> None:
         .replace("__DENS__", json.dumps(_carregar_densidades_ibge(), ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS_PADRAO__", str(DENSIDADE_PADRAO))
         .replace("__PERFIS__", json.dumps(perfis, ensure_ascii=False, separators=(",", ":")))
+        .replace("__HAND_GEO__", json.dumps(hand_geo, ensure_ascii=False, separators=(",", ":")))
+        .replace("__HAND_LIMIARES__", json.dumps(hand_lims, separators=(",", ":")))
         .replace("__GERADO__", dt.datetime.now().strftime("%d/%m/%Y %H:%M"))
         .replace("__KPIS_EIXO__", _kpis_eixo_resumo())
     )
