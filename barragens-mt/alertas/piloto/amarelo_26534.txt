@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-26534
+Identificador do alerta : ALERTA-20260803-0759-26534
 Barragem                : Fazenda KM (código 26534)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Khalil Mikhail Malouf
 Uso principal           : Abastecimento humano
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)

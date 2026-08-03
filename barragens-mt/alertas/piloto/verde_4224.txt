@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-4224
+Identificador do alerta : ALERTA-20260803-0759-4224
 Barragem                : UHE Manso - Dique 1 (código 4224)
 Município da estrutura  : Nobres — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
 Empreendedor            : PRODUTORES ENERGETICOS DE MANSO S/A - PROMAN
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 49% (confiabilidade parcial; IDAP projetado 26,50)
@@ -34,8 +34,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 56.
-   Unidades com internação ou urgência: 2.
+   Unidades sem internação na mancha ou sem via de acesso: 297.
+   Unidades com internação ou urgência: 9.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS

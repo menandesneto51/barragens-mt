@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-21940
+Identificador do alerta : ALERTA-20260803-0759-21940
 Barragem                : BR PIRÂMIDE (código 21940)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : SANTA FELICIDADE MINERACAO SPE LTDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 18 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 26,50)

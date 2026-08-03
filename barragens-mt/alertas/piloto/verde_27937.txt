@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-27937
+Identificador do alerta : ALERTA-20260803-0759-27937
 Barragem                : BRAVO 1 (código 27937)
 Município da estrutura  : Várzea Grande — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : NAGELLA CHRISSIE BRAVO SERRA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 24,50)

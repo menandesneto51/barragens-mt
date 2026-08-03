@@ -292,6 +292,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <div class="kpi" id="kpiPerfil"><div class="n" id="kPerfil">—</div><div class="r">Perfil sanitário</div></div>
         <div class="kpi"><div class="n" id="kUs">—</div><div class="r">US no buffer (CNES)</div></div>
         <div class="kpi"><div class="n" id="kCap">—</div><div class="r">Captações Sisagua</div></div>
+        <div class="kpi"><div class="n" id="kSet">—</div><div class="r">Pop. setores (IBGE)</div></div>
         <div class="kpi"><div class="n" id="kEsc">—</div><div class="r">Escolas (INEP/OSM)</div></div>
         <div class="kpi"><div class="n" id="kAtv">—</div><div class="r">Ativos essenciais</div></div>
       </div>
@@ -312,6 +313,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
           <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área circular (proxy)</div>
           <div><i style="background:#0ea5e9;opacity:.75;border-radius:2px;width:14px"></i>Relevo HAND (proxy)</div>
           <div><i style="background:#0891b2;border:2px solid #fff;box-sizing:border-box"></i>Captação Sisagua</div>
+          <div><i style="background:#0f766e;border:2px solid #fff;box-sizing:border-box"></i>Setor censitário (centróide)</div>
           <div><i style="background:#7c3aed;border:2px solid #fff;box-sizing:border-box"></i>Escola</div>
           <div><i style="background:#ca8a04;border:2px solid #fff;box-sizing:border-box"></i>Ativo essencial</div>
           <div><i style="background:#dc2626;border:2px solid #fff;box-sizing:border-box"></i>Hospital</div>
@@ -338,6 +340,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
 const DADOS = __DADOS__;
 const CNES = __CNES__;
 const SISAGUA = __SISAGUA__;
+const SETORES = __SETORES__;
 const ESCOLAS = __ESCOLAS__;
 const ATIVOS = __ATIVOS__;
 const DENS = __DENS__;
@@ -514,6 +517,8 @@ function desenhar() {
   const est = estimarPop(d, area, frac);
   const usBuf = listarCnesNoBuffer(d, raio);
   const capBuf = listarPontosNoBuffer(SISAGUA, d, raio);
+  const setBuf = listarPontosNoBuffer(SETORES, d, raio);
+  const popSet = setBuf.itens.reduce((s, p) => s + (Number(p.pop) || 0), 0);
   const escBuf = listarPontosNoBuffer(ESCOLAS, d, raio);
   const atvBuf = listarPontosNoBuffer(ATIVOS, d, raio);
   const perfil = d.rej ? PERFIS.rejeito : PERFIS.agua;
@@ -530,6 +535,9 @@ function desenhar() {
     ? `${usBuf.total} (${usBuf.hosp} hosp.)`
     : (d.ust ? `${d.ust} eixo` : '—');
   document.getElementById('kCap').textContent = String(capBuf.total);
+  document.getElementById('kSet').textContent = setBuf.total
+    ? `${fmt(popSet, 0)} (${setBuf.total} set.)`
+    : '0';
   document.getElementById('kEsc').textContent = String(escBuf.total);
   document.getElementById('kAtv').textContent = String(atvBuf.total);
   document.getElementById('kPerfil').textContent = d.rej ? 'REJEITO' : 'ÁGUA';
@@ -678,6 +686,7 @@ function desenhar() {
 
     const extras = [
       [capBuf.itens.slice(0, 120), '#0891b2', 'Captação Sisagua'],
+      [setBuf.itens.slice(0, 80), '#0f766e', 'Setor censitário'],
       [escBuf.itens.slice(0, 120), '#7c3aed', 'Escola'],
       [atvBuf.itens.slice(0, 120), '#ca8a04', 'Ativo essencial'],
     ];
@@ -693,6 +702,7 @@ function desenhar() {
         }).bindPopup(
           `<b>${tipo}</b><br>${p.no || 'sem nome'}<br>${p.mu || '—'}` +
           (p.cat ? `<br>${p.cat}` : '') +
+          (p.pop != null ? `<br>Pop. ${Number(p.pop).toLocaleString('pt-BR')}` : '') +
           `<br>${p.dist.toFixed(1)} km`
         ).addTo(camadaExtras);
       }
@@ -789,6 +799,7 @@ def pontos_csv(
     nome_campo: str = "nome",
     mun_campo: str = "municipio",
     cat_campo: str | None = None,
+    pop_campo: str | None = None,
     limite: int = 800,
 ) -> list[dict[str, Any]]:
     caminho = comum.DADOS_TRATADOS / nome
@@ -808,6 +819,9 @@ def pontos_csv(
             }
             if cat_campo:
                 item["cat"] = (r.get(cat_campo) or "").strip()
+            if pop_campo:
+                pop_v = num(r.get(pop_campo))
+                item["pop"] = int(pop_v) if pop_v is not None else 0
             out.append(item)
             if len(out) >= limite:
                 break
@@ -843,6 +857,12 @@ def main() -> None:
         nome_campo="nome_sistema",
         cat_campo="tipo_captacao",
     )
+    setores = pontos_csv(
+        "setores_censitarios_eixo_cuiaba.csv",
+        nome_campo="codigo_setor",
+        pop_campo="populacao",
+        limite=2500,
+    )
     escolas = pontos_csv("escolas_eixo_cuiaba.csv", nome_campo="nome")
     ativos = pontos_csv(
         "ativos_essenciais_osm_eixo.csv",
@@ -852,7 +872,7 @@ def main() -> None:
     print(
         f"Simulação — {len(dados)} barragens · {len(pontos_cnes)} US · "
         f"HAND {len(hand_geo.get('features') or [])} · Sisagua {len(sisagua)} · "
-        f"escolas {len(escolas)} · ativos {len(ativos)}"
+        f"setores {len(setores)} · escolas {len(escolas)} · ativos {len(ativos)}"
     )
     perfis = {
         "agua": _perfil_json(PERFIL_AGUA),
@@ -868,6 +888,7 @@ def main() -> None:
             json.dumps(pontos_cnes, ensure_ascii=False, separators=(",", ":")),
         )
         .replace("__SISAGUA__", json.dumps(sisagua, ensure_ascii=False, separators=(",", ":")))
+        .replace("__SETORES__", json.dumps(setores, ensure_ascii=False, separators=(",", ":")))
         .replace("__ESCOLAS__", json.dumps(escolas, ensure_ascii=False, separators=(",", ":")))
         .replace("__ATIVOS__", json.dumps(ativos, ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS__", json.dumps(_carregar_densidades_ibge(), ensure_ascii=False, separators=(",", ":")))

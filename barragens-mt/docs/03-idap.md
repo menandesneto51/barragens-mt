@@ -429,6 +429,10 @@ relevante para a resposta é de ordem de grandeza, não linear.
 Regra de precedência: **criticidade acima de quantidade**. Perder o único hospital do
 município é pior que perder quatro unidades básicas.
 
+**Implementação atual (`16_idap_estadual.py`):** C3 usa o CNES **estadual**
+(`cnes_estabelecimentos_mt.csv`), agregado por município afetado via Otto (proxy de
+mancha). Ainda não cruza vias de acesso nem geometria de ZAS oficial.
+
 ### 3.5.5 C4 — Captações de água ameaçadas (0–3)
 
 | Aspecto | Definição |
@@ -650,6 +654,10 @@ urgência e emergência.
 | >= 1,00 | 0 |
 | 0,50 a < 1,00 | 1 |
 | < 0,50 | 2 |
+
+**Implementação atual:** quando IndicaSUS/SISREG não têm carga, D6 usa proxy tipológico
+`hospitais_CNES × 40 leitos` / (2% da pop. dos municípios afetados), rotulado
+`cnes_tipologico_proxy` — a calibrar com a SES.
 
 ### 3.6.8 D7 — Ausência de rotas alternativas (0–1)
 

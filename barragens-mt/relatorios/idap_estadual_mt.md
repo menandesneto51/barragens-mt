@@ -24,9 +24,9 @@ A dimensão **A** (pressão hidroclimática) fica vazia de propósito: será pre
 | --- | ---: |
 | Roxo | 0 |
 | Vermelho | 0 |
-| Laranja | 0 |
-| Amarelo | 129 |
-| Verde | 1119 |
+| Laranja | 1 |
+| Amarelo | 161 |
+| Verde | 1086 |
 
 ## Impacto extraterritorial
 
@@ -39,31 +39,31 @@ A seção de controle por município é provisória (código Otto mais específi
 
 | IDAP | Nível | Completude | Sede | Nome | Municípios afetados (n) |
 | ---: | --- | ---: | --- | --- | ---: |
-| 39 | Amarelo | 0,710 | Nossa Senhora do Livramento | T G de Souza | 1 |
-| 35 | Amarelo | 0,710 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
-| 35 | Amarelo | 0,720 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
-| 33 | Amarelo | 0,720 | Nossa Senhora do Livramento | Santa Maria | 3 |
-| 31 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
-| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | 3 |
-| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
-| 30 | Amarelo | 0,670 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
-| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
-| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
-| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR03 | 1 |
-| 27 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem de Rejeito 01 | 0 |
-| 26 | Amarelo | 0,720 | Cuiabá | Barragem Serrinha | 2 |
-| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR BOSCO | 3 |
-| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
-| 26 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
-| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR02 | 1 |
-| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
-| 26 | Amarelo | 0,510 | Pontes e Lacerda | Fortuna | 3 |
-| 25 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
-| 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
-| 25 | Amarelo | 0,640 | Poconé | Barragem Barba 02 | 1 |
-| 25 | Amarelo | 0,640 | Poconé | TARUMÃ II | 1 |
-| 24 | Amarelo | 0,720 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
-| 24 | Amarelo | 0,670 | Poconé | GONÇA | 1 |
+| 41 | Laranja | 0,730 | Nossa Senhora do Livramento | T G de Souza | 1 |
+| 37 | Amarelo | 0,730 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
+| 37 | Amarelo | 0,740 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
+| 35 | Amarelo | 0,740 | Nossa Senhora do Livramento | Santa Maria | 3 |
+| 33 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
+| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | 3 |
+| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
+| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
+| 32 | Amarelo | 0,570 | Pontes e Lacerda | Fortuna | 3 |
+| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
+| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
+| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BR03 | 1 |
+| 29 | Amarelo | 0,640 | Nossa Senhora do Livramento | Barragem de Rejeito 01 | 0 |
+| 28 | Amarelo | 0,740 | Cuiabá | Barragem Serrinha | 2 |
+| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR BOSCO | 3 |
+| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
+| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
+| 28 | Amarelo | 0,730 | Nossa Senhora do Livramento | BR02 | 1 |
+| 28 | Amarelo | 0,700 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
+| 27 | Amarelo | 0,640 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
+| 27 | Amarelo | 0,700 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
+| 27 | Amarelo | 0,660 | Poconé | Barragem Barba 02 | 1 |
+| 27 | Amarelo | 0,660 | Poconé | TARUMÃ II | 1 |
+| 26 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
+| 26 | Amarelo | 0,690 | Poconé | GONÇA | 1 |
 
 ## Pressão hidroclimática (dimensão A)
 

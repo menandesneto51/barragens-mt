@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-26171
+Identificador do alerta : ALERTA-20260803-0759-26171
 Barragem                : MULTI 1 (código 26171)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : Ricardo Padilla de Bordon Neves
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 65% (confiabilidade parcial; IDAP projetado 23,10)

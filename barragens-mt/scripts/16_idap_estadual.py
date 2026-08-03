@@ -71,11 +71,22 @@ def ler_hidro_por_barragem() -> dict[str, dict[str, Any]]:
         }
 
 
+# Proxy tipológico D6 quando IndicaSUS / CNES-LT não têm série de ocupação.
+# Ordem de grandeza de hospital geral municipal — parâmetro a calibrar com SES.
+LEITOS_TIPOL_POR_HOSPITAL = 40.0
+
+
 def ler_cnes_por_municipio() -> dict[str, dict[str, int]]:
-    """Contagens CNES do eixo — prioriza UBS/ESF/UPA/hospital (C3 proxy)."""
+    """Contagens CNES por município — prioriza UBS/ESF/UPA/hospital (C3 proxy).
+
+    Prefere o cadastro estadual (`cnes_estabelecimentos_mt.csv`); cai para o
+    recorte do eixo Cuiabá se o estadual ainda não existir.
+    """
     from cnes_tipos import classificar_estabelecimento
 
-    caminho = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    estadual = comum.DADOS_TRATADOS / "cnes_estabelecimentos_mt.csv"
+    eixo = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    caminho = estadual if estadual.exists() else eixo
     if not caminho.exists():
         return {}
     contagem: dict[str, dict[str, int]] = defaultdict(
@@ -112,6 +123,21 @@ def ler_cnes_por_municipio() -> dict[str, dict[str, int]]:
             if cls["prioritario"]:
                 contagem[mun]["prioritarios"] += 1
     return dict(contagem)
+
+
+def ler_leitos_para_d6(
+    cnes_por_mun: dict[str, dict[str, int]],
+) -> tuple[dict[str, dict[str, float]], str]:
+    """Leitos por município para D6: IndicaSUS se houver; senão proxy tipológico CNES."""
+    indicasus = ler_leitos_indicasus_por_municipio()
+    if indicasus:
+        return indicasus, "indicasus"
+    out: dict[str, dict[str, float]] = {}
+    for mun, dados in cnes_por_mun.items():
+        n_h = int(dados.get("com_internacao") or 0)
+        leitos = float(n_h) * LEITOS_TIPOL_POR_HOSPITAL
+        out[mun.casefold()] = {"disponiveis": leitos, "operacionais": leitos}
+    return out, "cnes_tipologico_proxy"
 
 
 def ler_populacao_por_municipio() -> dict[str, int]:
@@ -500,7 +526,7 @@ def main() -> None:
     hidro_por_id = ler_hidro_por_barragem()
     cnes_por_mun = ler_cnes_por_municipio()
     pop_por_mun = ler_populacao_por_municipio()
-    leitos_por_mun = ler_leitos_indicasus_por_municipio()
+    leitos_por_mun, fonte_leitos_d6 = ler_leitos_para_d6(cnes_por_mun)
     alertab_por_id = ler_alertabilidade()
     proxies_c45c7 = ler_proxies_eixo_c45c7()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
@@ -516,9 +542,16 @@ def main() -> None:
         f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens "
         f"({n_tel} com telemetria pontual etapa 39)"
     )
-    print(f"  CNES eixo (proxy C3): {len(cnes_por_mun)} municípios")
+    print(f"  CNES estadual (proxy C3): {len(cnes_por_mun)} municípios")
     print(f"  população IBGE: {len(pop_por_mun)} municípios")
-    print(f"  IndicaSUS leitos (D6): {len(leitos_por_mun)} municípios")
+    print(
+        f"  leitos D6 ({fonte_leitos_d6}): {len(leitos_por_mun)} municípios"
+        + (
+            f" · {LEITOS_TIPOL_POR_HOSPITAL:.0f} leitos/hospital"
+            if fonte_leitos_d6 == "cnes_tipologico_proxy"
+            else ""
+        )
+    )
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
     print(f"  proxies C4/C5/C7 (eixo): {len(proxies_c45c7)} barragens")
 

@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-35115
+Identificador do alerta : ALERTA-20260803-0759-35115
 Barragem                : Barragem XIX (código 35115)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : SILMAR DE SOUZA GONÇALVEZ
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 12 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 24)

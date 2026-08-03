@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-5560
+Identificador do alerta : ALERTA-20260803-0759-5560
 Barragem                : Barragem de Rejeito Estrela (código 5560)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : HEUREKA MINERACAO LTDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 24 de 100 pontos (faixa Amarelo: atenção)
 Nível final             : Amarelo
 Completude do cálculo   : 63% (confiabilidade parcial; IDAP projetado 38,10)

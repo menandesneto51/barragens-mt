@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-0753-32261
+Identificador do alerta : ALERTA-20260803-0759-32261
 Barragem                : Represa da Estrada (código 32261)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Dorismar Rodrigues dos Santos
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 07:53 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 03/08/2026 07:59 (horário de Cuiabá, UTC-4)
 IDAP                    : 12 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 24)
