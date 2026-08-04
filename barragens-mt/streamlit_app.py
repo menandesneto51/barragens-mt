@@ -67,8 +67,11 @@ from st_app.style import CSS
 from st_app.navegacao import (
     AREAS,
     PAGINAS_DEV,
+    PERFIS,
     TELA_SIMULACAO,
     acoes_recomendadas,
+    aplicar_query_params,
+    areas_visiveis,
     aviso_simulacao_permanente,
     barra_contexto,
     bloco_guia_60s,
@@ -78,6 +81,7 @@ from st_app.navegacao import (
     migrar_estado_navegacao,
     motivo_nivel_texto,
     normalizar_pagina,
+    render_filtros_persistentes,
     rodape_lateral,
     tutorial_primeiro_acesso,
 )
@@ -144,88 +148,49 @@ def pagina_comando(df: pd.DataFrame) -> None:
         st.error("Base de alerta ausente. Rode `python executar.py 16 17` no projeto.")
         return
 
-    munis = municipios_catalogo(df)
-    from st_app.indicadores import carregar_contatos
-    from st_app.data import carregar_historico_indice
+    from st_app.navegacao import aplicar_filtros_df, bloco_historico_niveis
 
-    contatos = carregar_contatos()
-    regioes = (
-        sorted(contatos["regiao_saude"].dropna().unique().tolist())
-        if not contatos.empty and "regiao_saude" in contatos.columns
-        else []
-    )
-    munis_por_regiao: dict[str, set[str]] = {}
-    if regioes and "municipio" in contatos.columns:
-        for _, row in contatos.dropna(subset=["regiao_saude", "municipio"]).iterrows():
-            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(
-                str(row["municipio"]).strip()
-            )
-
-    with st.sidebar:
-        st.header("Filtros do recorte")
-        mun_sel = st.selectbox(
-            "Município",
-            ["(estado todo)"] + munis,
-            help="Sede ou potencialmente afetado a jusante.",
-        )
-        reg_sel = st.selectbox(
-            "Região de saúde",
-            ["(todas)"] + regioes,
-            help="Cadastro de contatos do eixo (expansão estadual pendente).",
-            disabled=not regioes,
-        )
-        niveis = st.multiselect(
-            "Nível de prontidão",
-            ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
-            default=["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
-            help="Padrão: todos os cenários (inclui Verde). Remova níveis para filtrar.",
-        )
-        so_piloto = st.checkbox("Só área prioritária Manso–Cuiabá", value=False)
-        busca = st.text_input("Busca (nome ou código)", "")
-        orgao = st.text_input("Órgão fiscalizador", "")
-
-    # Persiste recorte para a barra de contexto
-    st.session_state["ctx_municipio"] = None if mun_sel == "(estado todo)" else mun_sel
-    st.session_state["ctx_regiao"] = None if reg_sel == "(todas)" else reg_sel
-
-    view = df.copy()
-    mun_ativo = None if mun_sel == "(estado todo)" else mun_sel
+    view, mun_ativo = aplicar_filtros_df(df)
+    so_piloto = bool(st.session_state.get("filtro_piloto"))
+    reg_sel = st.session_state.get("filtro_regiao")
     if mun_ativo:
-        view = filtrar_municipio(view, mun_ativo)
         st.markdown(
             f'<p class="nota"><b>Recorte: {mun_ativo}</b> — sede <b>ou</b> jusante '
             "(a barragem pode estar em outro município).</p>",
             unsafe_allow_html=True,
         )
-    elif reg_sel != "(todas)" and reg_sel in munis_por_regiao:
-        alvos = munis_por_regiao[reg_sel]
-        mask = (
-            view["municipio_sede"].isin(alvos)
-            if "municipio_sede" in view.columns
-            else pd.Series(False, index=view.index)
-        )
-        if "municipios_potencialmente_afetados" in view.columns:
-            mask = mask | view["municipios_potencialmente_afetados"].fillna("").apply(
-                lambda t: any(m in str(t).split("|") for m in alvos)
-            )
-        view = view.loc[mask].copy()
+    elif reg_sel:
         st.markdown(
-            f'<p class="nota"><b>Região de saúde: {reg_sel}</b> — '
-            f"{len(alvos)} município(s) no cadastro.</p>",
+            f'<p class="nota"><b>Região de saúde: {reg_sel}</b>.</p>',
             unsafe_allow_html=True,
         )
-    if niveis:
-        view = view[view["nivel"].isin(niveis)]
-    if so_piloto and "piloto" in view.columns:
-        view = view[view["piloto"]]
+
+    # busca / órgão (refino local na home)
+    cbusca, corgao = st.columns(2)
+    with cbusca:
+        busca = st.text_input("Busca (nome ou código)", st.session_state.get("filtro_busca") or "")
+    with corgao:
+        orgao = st.text_input("Órgão fiscalizador", st.session_state.get("filtro_orgao") or "")
+    st.session_state["filtro_busca"] = busca
+    st.session_state["filtro_orgao"] = orgao
     if busca:
-        q = busca.lower()
-        view = view[
-            view["nome"].fillna("").str.lower().str.contains(q)
-            | view["id_snisb"].fillna("").str.contains(q)
-        ]
+        q = busca.casefold()
+        mask = view["nome"].fillna("").str.casefold().str.contains(q, regex=False)
+        if "id_snisb" in view.columns:
+            mask = mask | view["id_snisb"].astype(str).str.contains(busca, regex=False)
+        view = view.loc[mask]
     if orgao and "orgao_fiscalizador" in view.columns:
-        view = view[view["orgao_fiscalizador"].fillna("").str.contains(orgao, case=False)]
+        view = view[
+            view["orgao_fiscalizador"].fillna("").str.casefold().str.contains(
+                orgao.casefold(), regex=False
+            )
+        ]
+    if "idap" in view.columns and "idap_n" not in view.columns:
+        view = view.copy()
+        view["idap_n"] = pd.to_numeric(
+            view["idap"].astype(str).str.replace(",", ".", regex=False),
+            errors="coerce",
+        )
 
     if view.empty:
         st.warning("Nenhuma barragem no recorte. Amplie níveis ou limpe o município.")
@@ -331,6 +296,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
     if st.session_state.pop("gerar_sitrep_pedido", False):
         st.info("Use os botões abaixo para baixar o SITREP do recorte atual.")
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
+    bloco_historico_niveis()
 
     # —— Faixa 2: Pessoas e resposta ——
     faixa_titulo("2", "Pessoas e resposta", "Exposição sanitária e capacidade assistencial sob pressão")
@@ -341,6 +307,42 @@ def pagina_comando(df: pd.DataFrame) -> None:
     if mun_ativo:
         pagina_municipio_360(base_kpi, mun_ativo, incluir_sanitario=False)
     view = view.sort_values("idap_n", ascending=False)
+    # Seleção compartilhada mapa ↔ lista
+    opcoes_bar = [
+        f"{r.id_snisb} — {r.nome} ({r.nivel})"
+        for r in view.head(40).itertuples()
+    ]
+    if opcoes_bar:
+        destaque_atual = st.session_state.get("barragem_destaque_id")
+        idx0 = 0
+        for i, lab in enumerate(opcoes_bar):
+            if destaque_atual and lab.startswith(str(destaque_atual)):
+                idx0 = i
+                break
+        escolha = st.selectbox(
+            "Barragem destacada (mapa e lista)",
+            opcoes_bar,
+            index=idx0,
+            key="barragem_destaque_ui",
+        )
+        bid_sel = escolha.split(" — ")[0].strip()
+        st.session_state["barragem_destaque_id"] = bid_sel
+        cgo1, cgo2 = st.columns(2)
+        with cgo1:
+            if st.button("Abrir detalhe desta barragem", type="primary"):
+                st.session_state["barragem_360_id"] = bid_sel
+                from st_app.paginas_onda import ir_para
+
+                ir_para("Territórios e barragens", "Detalhe da barragem")
+        with cgo2:
+            try:
+                st.link_button(
+                    "Link direto (query)",
+                    f"?barragem={bid_sel}&pagina=Detalhe+da+barragem",
+                )
+            except Exception:  # noqa: BLE001
+                st.caption(f"Link: `?barragem={bid_sel}`")
+
     col_mapa, col_listas = st.columns([1.25, 1])
     with col_mapa:
         st.markdown("##### Mapa por faixa de prontidão")
@@ -352,15 +354,19 @@ def pagina_comando(df: pd.DataFrame) -> None:
             for _, r in pts.iterrows():
                 cor = CORES_NIVEL.get(r["nivel"], "#888")
                 critico = r["nivel"] != "Verde"
+                destaque = str(r.get("id_snisb")) == str(
+                    st.session_state.get("barragem_destaque_id") or ""
+                )
                 papel = r.get("papel_municipio") or ""
                 folium.CircleMarker(
-                    location=[r["latitude"], r["longitude"]],
-                    radius=9 if critico else 4,
-                    color="#111" if critico else "#555",
-                    weight=2 if critico else 0.5,
+                    location=[float(r["latitude"]), float(r["longitude"])],
+                    radius=14 if destaque else (9 if critico else 4),
+                    color="#1b3281" if destaque else ("#111" if critico else "#555"),
+                    weight=3 if destaque else (2 if critico else 0.5),
                     fill=True,
                     fill_color=cor,
-                    fill_opacity=0.9 if critico else 0.55,
+                    fill_opacity=0.95 if destaque else (0.9 if critico else 0.55),
+                    tooltip=f"{r.get('id_snisb')}|{r.get('nome')}",
                     popup=folium.Popup(
                         f"<b>{r['nome']}</b><br>Índice {r.get('idap','—')} — {r['nivel']}<br>"
                         f"Sede: {r.get('municipio_sede','—')}<br>"
@@ -374,13 +380,26 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 sw = [pts["latitude"].min(), pts["longitude"].min()]
                 ne = [pts["latitude"].max(), pts["longitude"].max()]
                 m.fit_bounds([sw, ne], padding=(30, 30))
-            st_folium(m, width=None, height=480, returned_objects=[])
+            mapa_state = st_folium(
+                m,
+                width=None,
+                height=480,
+                returned_objects=["last_object_clicked_tooltip"],
+                key="mapa_comando_estado",
+            )
+            tip = (mapa_state or {}).get("last_object_clicked_tooltip") or ""
+            if tip and "|" in str(tip):
+                bid_click = str(tip).split("|", 1)[0].strip()
+                if bid_click and bid_click != st.session_state.get("barragem_destaque_id"):
+                    st.session_state["barragem_destaque_id"] = bid_click
+                    st.rerun()
 
     with col_listas:
         st.markdown("##### Top 15 — olhar primeiro")
         cols_top = [
             c
             for c in (
+                "id_snisb",
                 "idap",
                 "nivel",
                 "nome",
@@ -395,6 +414,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
         ]
         top = view.head(15)[cols_top].rename(
             columns={
+                "id_snisb": "Código",
                 "idap": "Índice",
                 "nivel": "Prontidão",
                 "nome": "Barragem",
@@ -406,7 +426,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "completude": "Completude",
             }
         )
-        st.caption("Completude baixa = risco de falso verde.")
+        st.caption("Completude baixa = risco de falso verde. Clique no mapa ou use a lista acima.")
         st.dataframe(top, width="stretch", hide_index=True, height=240)
         bloco_quase_atencao(base_kpi, altura=200)
 
@@ -2323,7 +2343,8 @@ def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
 def main() -> None:
     aplicar_navegacao_pendente()
     migrar_estado_navegacao()
-    areas_ordem = list(AREAS.keys())
+    if "perfil_ui" not in st.session_state:
+        st.session_state["perfil_ui"] = "CIEVS / vigilância"
     if "jornada" not in st.session_state:
         st.session_state["jornada"] = "Visão geral"
     if "pagina" not in st.session_state:
@@ -2335,6 +2356,7 @@ def main() -> None:
         st.session_state["tutorial_passo"] = 1
 
     df = carregar_idap()
+    aplicar_query_params(df)
     situacao = _semaforo(df) if not df.empty else "—"
     atualizado = meta_atualizacao(df)
 
@@ -2351,12 +2373,20 @@ def main() -> None:
             '<p class="submarca">Navegação · filtros · fontes · guia</p>',
             unsafe_allow_html=True,
         )
-        if st.session_state.get("jornada") not in AREAS:
-            st.session_state["jornada"] = "Visão geral"
+        perfil = st.selectbox(
+            "Perfil de visualização",
+            list(PERFIS.keys()),
+            key="perfil_ui",
+            help=PERFIS.get(st.session_state.get("perfil_ui") or "", {}).get("ajuda", ""),
+        )
+        st.caption(PERFIS.get(perfil, {}).get("ajuda", ""))
+        areas_ordem = areas_visiveis(perfil)
+        if st.session_state.get("jornada") not in areas_ordem:
+            st.session_state["jornada"] = areas_ordem[0]
         area = st.selectbox("Área", areas_ordem, key="jornada")
         telas = list(AREAS[area])
-        # Expander de desenvolvimento (HTML gêmeos) só em Dados
-        if area == "Dados, metodologia e documentos":
+        # Expander de desenvolvimento (HTML gêmeos) só em Dados + perfil técnico
+        if area == "Dados, metodologia e documentos" and perfil == "Técnico / analista":
             with st.expander("Desenvolvimento / HTML offline", expanded=False):
                 st.caption("Duplicatas técnicas — fora da navegação operacional.")
                 for pdev in PAGINAS_DEV:
@@ -2366,10 +2396,8 @@ def main() -> None:
         st.session_state["pagina"] = normalizar_pagina(st.session_state.get("pagina"))
         if st.session_state.get("pagina") not in telas and st.session_state.get("pagina") not in PAGINAS_DEV:
             st.session_state["pagina"] = telas[0]
-        # Radio só com telas da área (dev acessadas pelo expander)
         opcoes_radio = telas
         if st.session_state.get("pagina") in PAGINAS_DEV:
-            # Mantém seleção dev sem poluir o radio
             pagina = st.session_state["pagina"]
             st.info(f"Modo desenvolvimento: **{pagina}**")
             if st.button("Voltar ao menu da área", key="sair_dev"):
@@ -2379,6 +2407,8 @@ def main() -> None:
             if st.session_state.get("pagina") not in opcoes_radio:
                 st.session_state["pagina"] = opcoes_radio[0]
             pagina = st.radio("Página", opcoes_radio, key="pagina")
+        st.divider()
+        render_filtros_persistentes(df)
         if st.button("Simular área potencialmente afetada", width="stretch", type="primary"):
             from st_app.paginas_onda import ir_para
 

@@ -84,6 +84,39 @@ ALIAS_AREA: dict[str, str] = {
 VERSAO_INSTITUCIONAL = "1.0 institucional"
 FONTES_PRINCIPAIS = "SNISB, SIGBM, ANA, Cemaden, INMET, CNES e bases SES-MT"
 
+# Perfis de visualização — restringem áreas padrão (técnico vê tudo).
+PERFIS: dict[str, dict[str, Any]] = {
+    "Gestor municipal": {
+        "areas": [
+            "Visão geral",
+            "Territórios e barragens",
+            "Alertas e resposta",
+            "Cenários e simulações",
+        ],
+        "ajuda": "Foco em recorte local, pessoas expostas e alertas a confirmar.",
+    },
+    "CIEVS / vigilância": {
+        "areas": [
+            "Visão geral",
+            "Territórios e barragens",
+            "Alertas e resposta",
+            "Cenários e simulações",
+            "Dados, metodologia e documentos",
+        ],
+        "ajuda": "Monitoramento estadual, despacho e interpretação dos indicadores.",
+    },
+    "Técnico / analista": {
+        "areas": list(AREAS.keys()),
+        "ajuda": "Acesso completo, inclusive cadastro, metodologia e HTML offline.",
+    },
+}
+
+
+def areas_visiveis(perfil: str | None = None) -> list[str]:
+    p = perfil or st.session_state.get("perfil_ui") or "CIEVS / vigilância"
+    cfg = PERFIS.get(p) or PERFIS["CIEVS / vigilância"]
+    return [a for a in AREAS if a in cfg["areas"]]
+
 
 def normalizar_pagina(nome: str | None) -> str:
     if not nome:
@@ -320,21 +353,235 @@ def motivo_nivel_texto(df: pd.DataFrame) -> str:
 
 
 def acoes_recomendadas(df: pd.DataFrame) -> list[str]:
-    acoes = [
-        "Verificar contato do ponto focal municipal nas barragens prioritárias.",
-        "Confirmar situação da barragem com o órgão fiscalizador responsável.",
-        "Acompanhar previsão de chuva e alertas Cemaden/INMET/ANA.",
-        "Revisar unidades de saúde potencialmente afetadas no cenário.",
-    ]
+    """Recomendações objetivas; prioriza ações conforme o pior nível do recorte."""
+    ordem = ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"]
+    sem = "Verde"
+    if df is not None and not df.empty and "nivel" in df.columns:
+        for n in ordem:
+            if (df["nivel"] == n).any():
+                sem = n
+                break
+
+    por_nivel: dict[str, list[str]] = {
+        "Roxo": [
+            "Acionar sala de situação CIEVS-MT e articular Defesa Civil imediatamente.",
+            "Confirmar recebimento do alerta com todos os pontos focais do recorte.",
+            "Revisar unidades de saúde e abrigos sob pressão agora.",
+        ],
+        "Vermelho": [
+            "Preparar e enviar alerta aos municípios potencialmente afetados.",
+            "Confirmar situação da barragem com o órgão fiscalizador responsável.",
+            "Revisar unidades de saúde potencialmente afetadas no cenário.",
+        ],
+        "Laranja": [
+            "Verificar contato do ponto focal municipal nas barragens prioritárias.",
+            "Acompanhar previsão de chuva e alertas Cemaden/INMET/ANA.",
+            "Preparar comunicado preventivo para a rede de atenção.",
+        ],
+        "Amarelo": [
+            "Verificar contato do ponto focal municipal nas barragens prioritárias.",
+            "Acompanhar previsão de chuva nas próximas 72 h.",
+            "Revisar unidades de saúde potencialmente afetadas no cenário.",
+        ],
+        "Verde": [
+            "Manter rotina de monitoramento e atualização de contatos.",
+            "Acompanhar previsão de chuva e alertas Cemaden/INMET/ANA.",
+            "Revisar cadastro e lacunas de dados nas barragens do recorte.",
+        ],
+    }
+    acoes = list(por_nivel.get(sem, por_nivel["Amarelo"]))
     if df is not None and not df.empty and "alertavel" in df.columns:
         s = df["alertavel"].astype(str).str.lower()
         n_nao = int((~s.isin(["sim", "true", "1", "yes"])).sum())
-        if n_nao > 0:
+        if n_nao > 0 and sem != "Verde":
             acoes.insert(
                 0,
-                f"Preparar comunicado preventivo — {n_nao} barragens sem canal de alerta confirmado.",
+                f"Completar canal de alerta — {n_nao} barragens sem contato confirmado no recorte.",
             )
     return acoes[:5]
+
+
+def aplicar_query_params(df: pd.DataFrame | None = None) -> None:
+    """Deep-links: ?municipio=...&barragem=...&area=...&pagina=..."""
+    try:
+        params = st.query_params
+    except Exception:  # noqa: BLE001
+        return
+    if not params:
+        return
+    if "perfil" in params:
+        p = str(params.get("perfil") or "")
+        if p in PERFIS:
+            st.session_state["perfil_ui"] = p
+    if "municipio" in params:
+        mun = str(params.get("municipio") or "").strip()
+        if mun:
+            st.session_state["filtro_municipio"] = mun
+            st.session_state["ctx_municipio"] = mun
+    if "barragem" in params:
+        bid = str(params.get("barragem") or "").strip()
+        if bid:
+            st.session_state["barragem_destaque_id"] = bid
+            st.session_state["barragem_360_id"] = bid
+            st.session_state["jornada"] = "Territórios e barragens"
+            st.session_state["pagina"] = "Detalhe da barragem"
+    if "area" in params:
+        area = normalizar_area(str(params.get("area") or ""))
+        if area in AREAS:
+            st.session_state["jornada"] = area
+    if "pagina" in params:
+        pag = normalizar_pagina(str(params.get("pagina") or ""))
+        st.session_state["pagina"] = pag
+        a = area_da_pagina(pag)
+        if a:
+            st.session_state["jornada"] = a
+
+
+def render_filtros_persistentes(df: pd.DataFrame) -> None:
+    """Filtros de recorte na sidebar — persistem entre páginas."""
+    from st_app.data import municipios_catalogo
+    from st_app.indicadores import carregar_contatos
+
+    st.markdown("##### Filtros do recorte")
+    munis = municipios_catalogo(df) if df is not None and not df.empty else []
+    contatos = carregar_contatos()
+    regioes = (
+        sorted(contatos["regiao_saude"].dropna().unique().tolist())
+        if not contatos.empty and "regiao_saude" in contatos.columns
+        else []
+    )
+    munis_por_regiao: dict[str, set[str]] = {}
+    if regioes and not contatos.empty and "municipio" in contatos.columns:
+        for _, row in contatos.dropna(subset=["regiao_saude", "municipio"]).iterrows():
+            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(
+                str(row["municipio"]).strip()
+            )
+    st.session_state["_munis_por_regiao"] = munis_por_regiao
+
+    op_mun = ["(estado todo)"] + munis
+    atual_mun = st.session_state.get("filtro_municipio") or "(estado todo)"
+    if atual_mun not in op_mun:
+        atual_mun = "(estado todo)"
+    idx_m = op_mun.index(atual_mun)
+    mun_sel = st.selectbox("Município", op_mun, index=idx_m, key="filtro_municipio_ui")
+    st.session_state["filtro_municipio"] = None if mun_sel == "(estado todo)" else mun_sel
+    st.session_state["ctx_municipio"] = st.session_state["filtro_municipio"]
+
+    op_reg = ["(todas)"] + regioes
+    atual_reg = st.session_state.get("filtro_regiao") or "(todas)"
+    if atual_reg not in op_reg:
+        atual_reg = "(todas)"
+    reg_sel = st.selectbox(
+        "Região de saúde",
+        op_reg,
+        index=op_reg.index(atual_reg),
+        key="filtro_regiao_ui",
+        disabled=not regioes,
+    )
+    st.session_state["filtro_regiao"] = None if reg_sel == "(todas)" else reg_sel
+    st.session_state["ctx_regiao"] = st.session_state["filtro_regiao"]
+
+    niveis_default = [
+        "Roxo",
+        "Vermelho",
+        "Laranja",
+        "Amarelo",
+        "Verde",
+    ]
+    if "filtro_niveis_ui" not in st.session_state:
+        st.session_state["filtro_niveis_ui"] = st.session_state.get("filtro_niveis") or niveis_default
+    niveis = st.multiselect(
+        "Nível de prontidão",
+        niveis_default,
+        key="filtro_niveis_ui",
+    )
+    st.session_state["filtro_niveis"] = niveis or niveis_default
+    if "filtro_piloto_ui" not in st.session_state:
+        st.session_state["filtro_piloto_ui"] = bool(st.session_state.get("filtro_piloto"))
+    so_piloto = st.checkbox(
+        "Só área prioritária Manso–Cuiabá",
+        key="filtro_piloto_ui",
+    )
+    st.session_state["filtro_piloto"] = so_piloto
+
+    if st.session_state.get("filtro_municipio"):
+        if st.button("Abrir análise deste município", width="stretch"):
+            st.session_state["jornada"] = "Territórios e barragens"
+            st.session_state["pagina"] = "Análise por município"
+            st.rerun()
+
+
+def aplicar_filtros_df(df: pd.DataFrame) -> tuple[pd.DataFrame, str | None]:
+    """Aplica filtros persistentes; retorna (view, municipio_ativo)."""
+    if df is None or df.empty:
+        return df, None
+    view = df.copy()
+    mun_ativo = st.session_state.get("filtro_municipio")
+    reg = st.session_state.get("filtro_regiao")
+    niveis = st.session_state.get("filtro_niveis") or [
+        "Roxo",
+        "Vermelho",
+        "Laranja",
+        "Amarelo",
+        "Verde",
+    ]
+    if mun_ativo:
+        from st_app.data import filtrar_municipio
+
+        view = filtrar_municipio(view, mun_ativo)
+    elif reg:
+        alvos = st.session_state.get("_munis_por_regiao", {}).get(reg) or set()
+        if alvos:
+            mask = (
+                view["municipio_sede"].isin(alvos)
+                if "municipio_sede" in view.columns
+                else pd.Series(False, index=view.index)
+            )
+            if "municipios_potencialmente_afetados" in view.columns:
+                mask = mask | view["municipios_potencialmente_afetados"].fillna("").apply(
+                    lambda t: any(m in str(t).split("|") for m in alvos)
+                )
+            view = view.loc[mask].copy()
+    if niveis and "nivel" in view.columns:
+        view = view[view["nivel"].isin(niveis)]
+    if st.session_state.get("filtro_piloto") and "piloto" in view.columns:
+        pil = view["piloto"]
+        if pil.dtype == bool:
+            view = view[pil]
+        else:
+            view = view[pd.to_numeric(pil, errors="coerce").fillna(0).astype(int) > 0]
+    return view, mun_ativo
+
+
+def bloco_historico_niveis() -> None:
+    """Série das últimas rodadas IDAP (contagens por nível)."""
+    try:
+        from st_app.data import carregar_historico_indice
+
+        hist = carregar_historico_indice()
+    except Exception:  # noqa: BLE001
+        hist = pd.DataFrame()
+    with st.expander("Histórico das mudanças de nível (estado)", expanded=False):
+        if hist is None or hist.empty:
+            st.caption("Histórico ainda sem snapshots suficientes.")
+            return
+        cols = [c for c in ("instante", "arquivo", "n_barragens", "roxo", "vermelho", "laranja", "amarelo", "verde") if c in hist.columns]
+        mostra = hist[cols].tail(8).iloc[::-1]
+        st.dataframe(mostra, width="stretch", hide_index=True, height=220)
+        if len(hist) >= 2:
+            ant, atu = hist.iloc[-2], hist.iloc[-1]
+            def _n(row, k):
+                try:
+                    return int(row.get(k) or 0)
+                except (TypeError, ValueError):
+                    return 0
+            ama_ant = _n(ant, "amarelo") + _n(ant, "laranja") + _n(ant, "vermelho") + _n(ant, "roxo")
+            ama_atu = _n(atu, "amarelo") + _n(atu, "laranja") + _n(atu, "vermelho") + _n(atu, "roxo")
+            delta = ama_atu - ama_ant
+            st.caption(
+                f"Atenção+ na última rodada: **{ama_atu}** "
+                f"({delta:+d} vs rodada anterior)."
+            )
 
 
 def meta_atualizacao(df: pd.DataFrame | None = None) -> str:
