@@ -572,17 +572,17 @@ def bloco_atalhos_comando(*, so_piloto: bool = False) -> None:
     m = metricas_alertabilidade()
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        if st.button("Simulação de cenário", width="stretch", type="primary"):
-            ir_para("Situação", "Simulação de cenário")
+        if st.button("Simular área afetada", width="stretch", type="primary"):
+            ir_para("Cenários e simulações", "Simular área potencialmente afetada")
     with c2:
-        if st.button("Visão territorial", width="stretch"):
-            ir_para("Território", "Visão territorial")
+        if st.button("Análise por município", width="stretch"):
+            ir_para("Territórios e barragens", "Análise por município")
     with c3:
-        if st.button(f"Notificações / impactos", width="stretch"):
-            ir_para("Ação", "Notificações e impactos")
+        if st.button("Notificações / impactos", width="stretch"):
+            ir_para("Alertas e resposta", "Notificações e impactos")
     with c4:
-        if st.button(f"Cobertura de alerta ({m.get('pct', 0)}%)", width="stretch"):
-            ir_para("Ação", "Alertabilidade / despacho")
+        if st.button(f"Preparar alerta ({m.get('pct', 0)}%)", width="stretch"):
+            ir_para("Alertas e resposta", "Preparar e enviar alerta")
 
 
 _CORES_VULN = {
@@ -607,12 +607,12 @@ def _cor_categoria(cat: str) -> str:
 
 
 def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
-    """Primeira tela do Território: mapa estadual integrado."""
-    st.markdown("# Visão territorial")
+    """Mapa estadual integrado — análise territorial por município."""
+    st.markdown("# Análise por município")
     st.markdown(
         '<p class="nota">Mapa de <b>todas as barragens</b> do inventário com camadas de '
-        "populações vulneráveis (eixo Manso–Cuiabá) e unidades de saúde (CNES). "
-        "Clique nos pontos para detalhes. Ribeirinhos ainda sem base espacial contínua.</p>",
+        "populações vulneráveis (área prioritária Manso–Cuiabá) e unidades de saúde (CNES). "
+        "Clique nos pontos para detalhes.</p>",
         unsafe_allow_html=True,
     )
     from st_app.data import carregar_cnes_pontos, ordenar_por_severidade
@@ -808,7 +808,7 @@ def pagina_vulneraveis() -> None:
 
 
 def pagina_extraterritorial() -> None:
-    st.markdown("# Impacto extraterritorial")
+    st.markdown("# Impacto fora do município-sede")
     st.markdown(
         '<p class="nota">Barragem na sede A que pode afetar município B a jusante (Otto). '
         "Clique na ligação ou nos pontos para ver IDAP, CRI/DPA, volume e afetados.</p>",
@@ -941,7 +941,7 @@ def pagina_extraterritorial() -> None:
 
 
 def pagina_alertabilidade_despacho() -> None:
-    st.markdown("# Alertabilidade e despacho")
+    st.markdown("# Preparar e enviar alerta")
     st.markdown(
         '<p class="nota">Onda 2 — cobertura de contatos do eixo e despacho (Telegram/e-mail). '
         "Destinatários = e-mails validados em `contatos_institucionais_piloto.csv`. "
@@ -1178,7 +1178,7 @@ def pagina_alertabilidade_despacho() -> None:
 
 
 def pagina_confirmacao_persistente() -> None:
-    st.markdown("# Confirmação de alerta (persistente)")
+    st.markdown("# Confirmação de recebimento")
     st.markdown(
         '<p class="nota">Registros gravados em dados/tratados/confirmacoes/ — '
         "complementa o protótipo HTML (localStorage).</p>",
@@ -1214,7 +1214,7 @@ def pagina_confirmacao_persistente() -> None:
             width="stretch",
             hide_index=True,
         )
-    st.info("O painel HTML com timer permanece em «Confirmação (HTML)» (Dados e apoio).")
+    st.info("O painel HTML com timer permanece em Desenvolvimento / HTML offline.")
 
 
 def pagina_rag_docs() -> None:
@@ -1342,12 +1342,12 @@ def pagina_notificacoes_impactos(df_barragens: pd.DataFrame) -> None:
     st.session_state["barragem_selecionada_id"] = bid
     r = df_barragens[df_barragens["id_snisb"] == bid].iloc[0]
     a1, a2 = st.columns(2)
-    if a1.button("Abrir Simulação com esta barragem"):
+    if a1.button("Abrir simulação com esta barragem"):
         st.session_state["barragem_sim_id"] = bid
-        ir_para("Situação", "Simulação de cenário")
-    if a2.button("Abrir Barragem 360°"):
+        ir_para("Cenários e simulações", "Simular área potencialmente afetada")
+    if a2.button("Abrir detalhe da barragem"):
         st.session_state["barragem_360_id"] = bid
-        ir_para("Território", "Barragem 360°")
+        ir_para("Territórios e barragens", "Detalhe da barragem")
 
     afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
     afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
@@ -1520,11 +1520,11 @@ def pagina_notificacoes_impactos(df_barragens: pd.DataFrame) -> None:
         (fila / nome_arq).write_text(texto, encoding="utf-8")
         st.info(
             f"Texto gerado na fila: `alertas/piloto/{nome_arq}`. "
-            "Abra **Alertabilidade / despacho** para dry-run ou envio "
+            "Abra **Preparar e enviar alerta** para dry-run ou envio "
             "(requer e-mails validados + SMTP/Telegram)."
         )
-        if st.button("Ir para Alertabilidade / despacho"):
-            ir_para("Ação", "Alertabilidade / despacho")
+        if st.button("Ir para Preparar e enviar alerta"):
+            ir_para("Alertas e resposta", "Preparar e enviar alerta")
     elif gravar:
         st.warning("Informe o nome do informante para gravar.")
 

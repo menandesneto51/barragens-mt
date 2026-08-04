@@ -64,43 +64,26 @@ from st_app.paginas_onda import (
     tendencia_unificada,
 )
 from st_app.style import CSS
+from st_app.navegacao import (
+    AREAS,
+    PAGINAS_DEV,
+    TELA_SIMULACAO,
+    acoes_recomendadas,
+    aviso_simulacao_permanente,
+    barra_contexto,
+    bloco_guia_60s,
+    bloco_idap_na_home,
+    cabecalho_institucional,
+    meta_atualizacao,
+    migrar_estado_navegacao,
+    motivo_nivel_texto,
+    normalizar_pagina,
+    rodape_lateral,
+    tutorial_primeiro_acesso,
+)
 
-JORNADAS: dict[str, list[str]] = {
-    "Território": [
-        "Visão territorial",
-        "Populações vulneráveis",
-        "Impacto extraterritorial",
-        "Mapa por tipologia",
-        "Barragem 360°",
-    ],
-    "Situação": [
-        "Comando estadual",
-        "Simulação de cenário",
-        "VIGIPÓS O/E",
-        "Hidro municipal",
-        "Eixo Manso–Cuiabá",
-    ],
-    "Ação": [
-        "Simulação de cenário",
-        "VIGIPÓS O/E",
-        "Notificações e impactos",
-        "Alertabilidade / despacho",
-        "Fila de alertas",
-        "Confirmação persistente",
-        "Ficha rápida",
-    ],
-    "Dados e apoio": [
-        "Interpretação / KPIs",
-        "Região de saúde",
-        "Documentos (RAG leve)",
-        "Inventário",
-        "Confirmação (HTML)",
-        "Comando (HTML)",
-    ],
-}
-
-# Nome canônico da tela (aparece em Situação e Ação).
-TELA_SIMULACAO = "Simulação de cenário"
+# Compat: JORNADAS aponta para AREAS (código legado / imports).
+JORNADAS = AREAS
 
 st.set_page_config(
     page_title="VIGIBARRAGENS–MT",
@@ -149,12 +132,14 @@ def _semaforo(df: pd.DataFrame) -> str:
 
 
 def pagina_comando(df: pd.DataFrame) -> None:
-    st.markdown("# VIGIBARRAGENS–MT")
+    st.markdown("# Visão geral estadual")
     st.markdown(
-        '<p class="nota">Comando estadual — <b>como está Mato Grosso agora</b> e '
-        "onde olhar primeiro. Linguagem operacional (sem siglas na 1ª leitura).</p>",
+        '<p class="nota"><b>Como está Mato Grosso agora</b> e onde olhar primeiro. '
+        "Linguagem operacional (sem siglas na 1ª leitura).</p>",
         unsafe_allow_html=True,
     )
+    bloco_guia_60s()
+    bloco_idap_na_home()
     if df.empty:
         st.error("Base de alerta ausente. Rode `python executar.py 16 17` no projeto.")
         return
@@ -177,7 +162,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
             )
 
     with st.sidebar:
-        st.header("Filtros do comando")
+        st.header("Filtros do recorte")
         mun_sel = st.selectbox(
             "Município",
             ["(estado todo)"] + munis,
@@ -195,9 +180,13 @@ def pagina_comando(df: pd.DataFrame) -> None:
             default=["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
             help="Padrão: todos os cenários (inclui Verde). Remova níveis para filtrar.",
         )
-        so_piloto = st.checkbox("Só eixo Manso–Cuiabá", value=False)
+        so_piloto = st.checkbox("Só área prioritária Manso–Cuiabá", value=False)
         busca = st.text_input("Busca (nome ou código)", "")
         orgao = st.text_input("Órgão fiscalizador", "")
+
+    # Persiste recorte para a barra de contexto
+    st.session_state["ctx_municipio"] = None if mun_sel == "(estado todo)" else mun_sel
+    st.session_state["ctx_regiao"] = None if reg_sel == "(todas)" else reg_sel
 
     view = df.copy()
     mun_ativo = None if mun_sel == "(estado todo)" else mun_sel
@@ -331,7 +320,16 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="motivo-box"><b>Por que o nível está assim?</b><br>{motivo_nivel_texto(base_kpi)}</div>',
+        unsafe_allow_html=True,
+    )
+    with st.expander("O que fazer agora", expanded=True):
+        for i, acao in enumerate(acoes_recomendadas(base_kpi), 1):
+            st.markdown(f"{i}. {acao}")
     bloco_frescor()
+    if st.session_state.pop("gerar_sitrep_pedido", False):
+        st.info("Use os botões abaixo para baixar o SITREP do recorte atual.")
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
 
     # —— Faixa 2: Pessoas e resposta ——
@@ -555,7 +553,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
 
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
-    st.markdown("# Hidrometeorologia municipal")
+    st.markdown("# Chuva e condições hidrológicas")
     st.markdown(
         '<p class="nota">SisClima/TITAN + previsão ECMWF (Copernicus/C3S) + amostra GloFAS. '
         "Nomes municipais completados via IBGE quando a fonte só traz o código.</p>",
@@ -632,7 +630,7 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
 
 
 def pagina_piloto(piloto: pd.DataFrame) -> None:
-    st.markdown("# Eixo Manso–Cuiabá")
+    st.markdown("# Área prioritária Manso–Cuiabá")
     st.markdown(
         '<p class="nota">Recorte operacional do eixo que pode afetar Cuiabá / Várzea Grande '
         "(antes chamado «piloto»).</p>",
@@ -659,7 +657,7 @@ def _fmt_br(valor: float, casas: int = 1, sufixo: str = "") -> str:
 
 
 def pagina_simulacao(df: pd.DataFrame) -> None:
-    st.markdown("# Simulação de cenário")
+    st.markdown("# Simular área potencialmente afetada")
     st.markdown(
         '<p class="nota">Proxy para <b>qualquer barragem</b> do inventário — '
         "<b>não</b> é mancha oficial nem ordem de evacuação. "
@@ -1998,7 +1996,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
 
 
 def pagina_interpretacao() -> None:
-    st.markdown("# Interpretação dos indicadores")
+    st.markdown("# Como interpretar os indicadores")
     st.markdown(
         '<p class="nota">Leitura operacional dos KPIs usados no comando estadual, '
         "no IDAP e na simulação — para quem não é especialista em barragens.</p>",
@@ -2110,7 +2108,7 @@ def _txt(v: object, suf: str = "") -> str:
 
 
 def pagina_ficha(df: pd.DataFrame) -> None:
-    st.markdown("# Barragem 360°")
+    st.markdown("# Detalhe da barragem")
     if df.empty:
         st.error("Sem dados.")
         return
@@ -2247,17 +2245,17 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         st.session_state["barragem_sim_id"] = bid
         from st_app.paginas_onda import ir_para
 
-        ir_para("Situação", TELA_SIMULACAO)
+        ir_para("Cenários e simulações", TELA_SIMULACAO)
     if n2.button("Registrar notificação / impacto"):
         st.session_state["barragem_notif_id"] = bid
         from st_app.paginas_onda import ir_para
 
-        ir_para("Ação", "Notificações e impactos")
+        ir_para("Alertas e resposta", "Notificações e impactos")
 
 
 def pagina_tipologia(df: pd.DataFrame) -> None:
     """Mapa estadual colorido por uso principal (tipologia)."""
-    st.markdown("# Barragens por tipologia")
+    st.markdown("# Tipos e usos das barragens")
     st.markdown(
         '<p class="nota">Uso principal do cadastro SNISB — visão estadual. '
         "Cores institucionais SES-MT / agrupamento operacional.</p>",
@@ -2324,76 +2322,116 @@ def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
 
 def main() -> None:
     aplicar_navegacao_pendente()
-    jornadas_ordem = list(JORNADAS.keys())
+    migrar_estado_navegacao()
+    areas_ordem = list(AREAS.keys())
     if "jornada" not in st.session_state:
-        st.session_state["jornada"] = "Território"
+        st.session_state["jornada"] = "Visão geral"
     if "pagina" not in st.session_state:
-        st.session_state["pagina"] = "Visão territorial"
+        st.session_state["pagina"] = "Visão geral estadual"
+    # Tutorial automático no primeiro acesso da sessão
+    if "tutorial_iniciado" not in st.session_state:
+        st.session_state["tutorial_iniciado"] = True
+        st.session_state["mostrar_tutorial"] = True
+        st.session_state["tutorial_passo"] = 1
+
+    df = carregar_idap()
+    situacao = _semaforo(df) if not df.empty else "—"
+    atualizado = meta_atualizacao(df)
 
     with st.sidebar:
-        # Assinatura conforme o manual: marca do governo + nome da secretaria.
         st.markdown(
             '<div class="assinatura-gov">'
             '<span class="gov">Governo de Mato Grosso</span>'
-            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS</span>'
+            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS-MT</span>'
             "</div>",
             unsafe_allow_html=True,
         )
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
         st.markdown(
-            '<p class="submarca">Saúde 360 · jornada '
-            "Território → Situação → Ação → Dados</p>",
+            '<p class="submarca">Navegação · filtros · fontes · guia</p>',
             unsafe_allow_html=True,
         )
-        if st.session_state.get("jornada") not in JORNADAS:
-            st.session_state["jornada"] = "Território"
-        jornada = st.selectbox("Jornada", jornadas_ordem, key="jornada")
-        telas = JORNADAS[jornada]
-        # Migra nome antigo da tela
-        if st.session_state.get("pagina") == "Simulação volume/área":
-            st.session_state["pagina"] = TELA_SIMULACAO
-        if st.session_state.get("pagina") not in telas:
+        if st.session_state.get("jornada") not in AREAS:
+            st.session_state["jornada"] = "Visão geral"
+        area = st.selectbox("Área", areas_ordem, key="jornada")
+        telas = list(AREAS[area])
+        # Expander de desenvolvimento (HTML gêmeos) só em Dados
+        if area == "Dados, metodologia e documentos":
+            with st.expander("Desenvolvimento / HTML offline", expanded=False):
+                st.caption("Duplicatas técnicas — fora da navegação operacional.")
+                for pdev in PAGINAS_DEV:
+                    if st.button(pdev, key=f"dev_{pdev}", width="stretch"):
+                        st.session_state["pagina"] = pdev
+                        st.rerun()
+        st.session_state["pagina"] = normalizar_pagina(st.session_state.get("pagina"))
+        if st.session_state.get("pagina") not in telas and st.session_state.get("pagina") not in PAGINAS_DEV:
             st.session_state["pagina"] = telas[0]
-        pagina = st.radio("Tela", telas, key="pagina")
-        if st.button("Abrir simulação de cenário", width="stretch", type="primary"):
+        # Radio só com telas da área (dev acessadas pelo expander)
+        opcoes_radio = telas
+        if st.session_state.get("pagina") in PAGINAS_DEV:
+            # Mantém seleção dev sem poluir o radio
+            pagina = st.session_state["pagina"]
+            st.info(f"Modo desenvolvimento: **{pagina}**")
+            if st.button("Voltar ao menu da área", key="sair_dev"):
+                st.session_state["pagina"] = telas[0]
+                st.rerun()
+        else:
+            if st.session_state.get("pagina") not in opcoes_radio:
+                st.session_state["pagina"] = opcoes_radio[0]
+            pagina = st.radio("Página", opcoes_radio, key="pagina")
+        if st.button("Simular área potencialmente afetada", width="stretch", type="primary"):
             from st_app.paginas_onda import ir_para
 
-            ir_para("Situação", TELA_SIMULACAO)
+            ir_para("Cenários e simulações", TELA_SIMULACAO)
+        if st.button("? Como usar este painel", width="stretch"):
+            st.session_state["mostrar_tutorial"] = True
+            st.session_state["tutorial_passo"] = 1
+            st.rerun()
         st.divider()
-        st.caption(f"Dados: `{(Path(__file__).parent / 'dados' / 'tratados').as_posix()}`")
+        rodape_lateral(atualizado_em=atualizado[:10] if atualizado else None)
 
-    df = carregar_idap()
-    if pagina == "Visão territorial":
-        pagina_visao_territorial(df)
-    elif pagina == "Comando estadual":
+    # Cabeçalho e contexto na área principal
+    cabecalho_institucional(situacao=situacao, atualizado_em=atualizado)
+    barra_contexto(
+        regiao=st.session_state.get("ctx_regiao"),
+        municipio=st.session_state.get("ctx_municipio"),
+        atualizado_em=atualizado,
+    )
+    tutorial_primeiro_acesso()
+
+    pagina = normalizar_pagina(st.session_state.get("pagina"))
+    if pagina == "Visão geral estadual":
         pagina_comando(df)
-    elif pagina == "Hidro municipal":
+    elif pagina == "Análise por município":
+        pagina_visao_territorial(df)
+    elif pagina == "Chuva e condições hidrológicas":
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
-    elif pagina == "Eixo Manso–Cuiabá":
+    elif pagina == "Área prioritária Manso–Cuiabá":
         pagina_piloto(carregar_piloto())
     elif pagina == "VIGIPÓS O/E":
         pagina_vigipos_oe()
-    elif pagina in (TELA_SIMULACAO, "Simulação volume/área"):
+    elif pagina == TELA_SIMULACAO:
+        aviso_simulacao_permanente()
         pagina_simulacao(df)
-    elif pagina == "Mapa por tipologia":
+    elif pagina == "Tipos e usos das barragens":
         pagina_tipologia(df)
     elif pagina == "Populações vulneráveis":
         pagina_vulneraveis()
-    elif pagina == "Impacto extraterritorial":
+    elif pagina == "Impacto fora do município-sede":
         pagina_extraterritorial()
-    elif pagina == "Interpretação / KPIs":
+    elif pagina == "Como interpretar os indicadores":
         pagina_interpretacao()
-    elif pagina == "Barragem 360°":
+    elif pagina == "Detalhe da barragem":
         pagina_ficha(df)
     elif pagina == "Notificações e impactos":
         pagina_notificacoes_impactos(df)
-    elif pagina == "Alertabilidade / despacho":
+    elif pagina == "Preparar e enviar alerta":
         pagina_alertabilidade_despacho()
-    elif pagina == "Confirmação persistente":
+    elif pagina == "Confirmação de recebimento":
         pagina_confirmacao_persistente()
-    elif pagina == "Região de saúde":
+    elif pagina == "Análise por região de saúde":
         pagina_regiao_saude()
-    elif pagina == "Documentos (RAG leve)":
+    elif pagina == "Biblioteca e documentos":
         pagina_rag_docs()
     elif pagina == "Fila de alertas":
         pagina_html_painel(
@@ -2401,30 +2439,29 @@ def main() -> None:
             "Fila de alertas",
             "Fila do piloto — textos territorializados. Escalonamento a canais reais ainda não ligado.",
         )
-    elif pagina == "Ficha rápida":
+    elif pagina == "Registro rápido pós-evento":
         pagina_html_painel(
             "ficha_rapida.html",
-            "Ficha rápida pós-desastre",
+            "Registro rápido pós-evento",
             "Captura operacional quando os sistemas oficiais ainda não refletem o evento.",
         )
     elif pagina == "Confirmação (HTML)":
         pagina_html_painel(
             "confirmacao_alerta.html",
-            "Confirmação de alerta",
+            "Confirmação de alerta (HTML offline)",
             "Prazos por nível e registro local de confirmação (protótipo).",
         )
-    elif pagina == "Inventário":
+    elif pagina == "Cadastro de barragens":
         pagina_html_painel(
             "inventario.html",
-            "Inventário de barragens",
+            "Cadastro de barragens",
             "Cadastro consolidado SNISB/SIGBM/SEMA — visão de fiscalização.",
         )
     elif pagina == "Comando (HTML)":
         pagina_html_painel(
             "comando.html",
-            "Comando estadual (HTML)",
-            "Gêmeo autocontido da 1ª tela (etapa 20) — serve para distribuir offline "
-            "sem depender de um segundo servidor.",
+            "Comando estadual (HTML offline)",
+            "Gêmeo autocontido da visão geral (etapa 20) — distribuição offline.",
         )
     else:
         pagina_ficha(df)
