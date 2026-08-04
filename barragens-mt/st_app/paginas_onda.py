@@ -1218,7 +1218,7 @@ def pagina_confirmacao_persistente() -> None:
 
 
 def pagina_rag_docs() -> None:
-    st.markdown("# Documentos e dúvidas (RAG leve)")
+    st.markdown("# Biblioteca e documentos")
     st.markdown(
         '<p class="nota">Busca lexical nos docs/ do projeto — base para o RAG completo. '
         "Não inventa norma: só recupera trechos existentes.</p>",
@@ -1254,7 +1254,7 @@ def pagina_rag_docs() -> None:
 
 
 def pagina_regiao_saude() -> None:
-    st.markdown("# Região de saúde")
+    st.markdown("# Análise por região de saúde")
     st.markdown(
         '<p class="nota">Vínculo município → região a partir do cadastro de contatos do eixo. '
         "Expansão estadual depende da tabela oficial da SES-MT.</p>",
