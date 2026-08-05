@@ -31,7 +31,12 @@ if [[ -f painel/index.html ]]; then
 fi
 
 echo "== Streamlit em http://127.0.0.1:8501 =="
+echo "Abrindo o navegador..."
+( sleep 3; command -v xdg-open >/dev/null && xdg-open http://127.0.0.1:8501 || command -v open >/dev/null && open http://127.0.0.1:8501 || true ) &
+
 exec python -m streamlit run streamlit_app.py \
   --server.port 8501 \
   --server.address 127.0.0.1 \
+  --server.headless false \
+  --browser.serverAddress localhost \
   --browser.gatherUsageStats false

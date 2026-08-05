@@ -1,6 +1,10 @@
 # Streamlit Community Cloud — entrada na raiz do repositório.
 # Espelha barragens-mt/requirements-streamlit.txt: o Cloud instala este arquivo.
-streamlit>=1.50.0
+#
+# Pin obrigatório: streamlit 1.61 puxa starlette>=1.4, e o middleware GZip do
+# Streamlit não passa thread_minimum_size → TypeError / health check 500.
+streamlit==1.57.0
+starlette>=0.40.0,<1.4.0
 pandas>=2.2.0
 folium>=0.17.0
 streamlit-folium>=0.23.0
