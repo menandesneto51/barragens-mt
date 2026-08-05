@@ -115,10 +115,39 @@ def cnes_pontos(*, so_prioritarios: bool = False) -> list[dict[str, Any]]:
     return pontos
 
 
+def _ana_por_barragem() -> dict[str, list[dict[str, Any]]]:
+    """Estações ANA vinculadas (contexto fluvial — não altera mancha)."""
+    out: dict[str, list[dict[str, Any]]] = {}
+    for r in ler_csv("ana_estacoes_barragem.csv"):
+        bid = (r.get("id_snisb") or "").strip()
+        if not bid:
+            continue
+        la, lo = num(r.get("lat")), num(r.get("lon"))
+        item = {
+            "cod": r.get("codigo_estacao") or "",
+            "no": r.get("nome_estacao") or "",
+            "rio": r.get("nome_rio") or "",
+            "rel": r.get("relacao") or "",
+            "dist": num(r.get("dist_barragem_km")),
+            "cota": num(r.get("cota_cm")),
+            "vazao": num(r.get("vazao_m3s")),
+            "alerta": num(r.get("cota_alerta_cm")),
+            "razao": num(r.get("razao_nivel_cota_alerta")),
+            "dt": r.get("data_ultima") or "",
+            "la": round(la, 5) if la is not None else None,
+            "lo": round(lo, 5) if lo is not None else None,
+        }
+        out.setdefault(bid, []).append(item)
+    for bid, itens in out.items():
+        itens.sort(key=lambda x: x.get("dist") if x.get("dist") is not None else 999)
+    return out
+
+
 def montar_dados() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     inv = {r["id_snisb"]: r for r in ler_csv("inventario_barragens_mt.csv")}
     idap = {r["id_snisb"]: r for r in ler_csv("idap_estadual_mt.csv")}
     piloto_ids = {r["id_snisb"] for r in ler_csv("piloto_manso_cuiaba.csv")}
+    ana = _ana_por_barragem()
     cnes = cnes_por_municipio()
     pontos = cnes_pontos()
 
@@ -161,6 +190,7 @@ def montar_dados() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                 "ust": us_total,
                 "ush": us_hosp,
                 "rej": 1 if rejeito else 0,
+                "ana": ana.get(bid, [])[:5],
             }
         )
     saida.sort(key=lambda x: (-x["vol"], x["no"]))
@@ -295,7 +325,9 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <div class="kpi"><div class="n" id="kSet">—</div><div class="r">Pop. setores (IBGE)</div></div>
         <div class="kpi"><div class="n" id="kEsc">—</div><div class="r">Escolas (INEP/OSM)</div></div>
         <div class="kpi"><div class="n" id="kAtv">—</div><div class="r">Ativos essenciais</div></div>
+        <div class="kpi"><div class="n" id="kAna">—</div><div class="r">Estações ANA (contexto)</div></div>
       </div>
+      <div class="perfil" id="boxAna" style="max-height:140px"></div>
       <div class="perfil" id="boxPerfil"></div>
       <div class="lista-us" id="listaUs"></div>
       <div class="lista" id="detalhe"></div>
@@ -321,6 +353,7 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
           <div><i style="background:#2563eb;border:2px solid #fff;box-sizing:border-box"></i>UBS / ESF / posto</div>
           <div><i style="background:#64748b;border:2px solid #fff;box-sizing:border-box"></i>Demais US CNES</div>
           <div><i style="background:#ea580c"></i>Barragem</div>
+          <div><i style="background:#0369a1;border:2px solid #fff;box-sizing:border-box"></i>Estação ANA (rio)</div>
         </div>
       </div>
       <div style="margin-top:10px;background:#fff;border:1px solid var(--line);padding:10px 12px">
@@ -540,8 +573,30 @@ function desenhar() {
     : '0';
   document.getElementById('kEsc').textContent = String(escBuf.total);
   document.getElementById('kAtv').textContent = String(atvBuf.total);
+  const ana = d.ana || [];
+  const anaCota = ana.filter(a => a.cota != null).length;
+  const anaAcima = ana.filter(a => a.razao != null && a.razao >= 1).length;
+  document.getElementById('kAna').textContent = ana.length
+    ? `${ana.length} (${anaCota} cota${anaAcima ? ', ' + anaAcima + ' ≥ alerta' : ''})`
+    : '0';
   document.getElementById('kPerfil').textContent = d.rej ? 'REJEITO' : 'ÁGUA';
   document.getElementById('kpiPerfil').className = 'kpi' + (d.rej ? ' tox' : '');
+
+  const boxAna = document.getElementById('boxAna');
+  if (ana.length) {
+    boxAna.innerHTML = `<h3>Contexto fluvial ANA/SisClima</h3>
+      <div style="color:#4a5d73;margin-bottom:6px">Cota/vazão observadas — <b>não</b> alteram a mancha proxy.</div>` +
+      ana.map(a => `<div><b>${a.cod}</b> ${a.no || ''} · ${a.rio || '—'} · ${a.rel || ''}
+        · ${a.dist != null ? a.dist.toFixed(1) + ' km' : '—'}
+        · cota ${a.cota != null ? fmt(a.cota, 0) + ' cm' : '—'}
+        · Q ${a.vazao != null ? fmt(a.vazao, 1) + ' m³/s' : '—'}
+        ${a.alerta != null ? ' · alerta ' + fmt(a.alerta, 0) + ' cm' : ''}
+        ${a.razao != null ? ' · razão ' + fmt(a.razao, 2) : ''}
+      </div>`).join('');
+  } else {
+    boxAna.innerHTML = `<h3>Contexto fluvial ANA/SisClima</h3>
+      <div style="color:#5a6b7a">Sem estação vinculada — rode <code>python executar.py 52 53</code>.</div>`;
+  }
 
   document.getElementById('boxPerfil').innerHTML = `
     <h3>${perfil.rotulo}</h3>
@@ -586,7 +641,8 @@ function desenhar() {
     (${featPrev && featPrev.properties ? (featPrev.properties.n_celulas + ' células') : 'sem polígono no limiar'})<br>
     US no buffer: ${usBuf.total != null ? usBuf.total + ' (' + usBuf.metodo + ')' : '—'}
     · eixo municipal (ref.): ${d.ust || 0}<br>
-    Municípios a jusante:<br>${(d.af||[]).join(' · ') || '—'}
+    Municípios a jusante:<br>${(d.af||[]).join(' · ') || '—'}<br>
+    Estações ANA (contexto): ${(d.ana||[]).length}
   `;
 
   // Mancha permanece como camada de fundo (pane baixo); US e barragem por cima.
@@ -658,6 +714,20 @@ function desenhar() {
       radius: 9, color: '#fff', weight: 2,
       fillColor: d.rej ? '#b91c1c' : '#ea580c', fillOpacity: 1
     }).bindPopup(`<b>${d.no}</b><br>${perfil.rotulo}<br>Pop. est. ${fmt(est.pop,0)}`).addTo(camadaBar);
+
+    for (const a of (d.ana || [])) {
+      if (a.la == null || a.lo == null) continue;
+      L.circleMarker([a.la, a.lo], {
+        pane: 'us',
+        radius: 7, color: '#fff', weight: 2,
+        fillColor: '#0369a1', fillOpacity: 0.95
+      }).bindPopup(
+        `<b>Estação ANA ${a.cod}</b><br>${a.no || ''}<br>${a.rio || '—'} · ${a.rel || ''}<br>` +
+        `Cota ${a.cota != null ? fmt(a.cota,0) + ' cm' : '—'} · ` +
+        `Q ${a.vazao != null ? fmt(a.vazao,1) + ' m³/s' : '—'}<br>` +
+        `<small>Contexto fluvial — não define a mancha.</small>`
+      ).addTo(camadaUs);
+    }
 
     // Todas as US no buffer — ícone completo para prioritárias; círculo leve para as demais.
     for (const p of usBuf.itens) {

@@ -315,6 +315,16 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
 | Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
 
+### 2.5.8b Telemetria fluviométrica ANA — rios (contexto / A6)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Estações fluviométricas próximas à barragem: **cota (cm)**, **vazão (m³/s)**, cota de alerta quando cadastrada |
+| Fonte | SisClima (`ana_estacoes` / `ana_telemetria` com `ANA_FETCH_SERIES=true`) ou CSV fallback em `dados/brutos/ana_*.csv` |
+| Uso | Bloco “Contexto fluvial” na Simulação; IDAP **A6** com `razao = cota/cota_alerta` quando ambos existem (`a6_fonte=cota_medida`) |
+| Fronteira | **Não** redefine a mancha Circular/Trajeto/HAND — telemetria de rio não é hidrodinâmica de ruptura |
+| Implementado em | `scripts/52_auditoria_ana_sisclima.py`, `scripts/53_estacoes_ana_eixo.py` → `ana_estacoes_barragem.csv`; UI `st_app/ana_fluvial.py` |
+
 ### 2.5.9 Ativos essenciais OSM (C5 — ETA/ETE/energia/abrigos)
 
 | Aspecto | Conteúdo |

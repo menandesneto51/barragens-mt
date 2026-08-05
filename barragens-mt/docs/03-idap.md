@@ -183,6 +183,7 @@ Faixas (**proposta a validar**):
 | Por que existe | Um rio já em cota de alerta amplifica qualquer contribuição adicional da barragem, e reduz o tempo disponível para evacuação por via terrestre |
 | Recálculo | A cada leitura, 15 min a 1 h |
 | Dado ausente | Lacuna. Depende de haver estação a jusante com cota de alerta cadastrada — pendência mapeada em `docs/02-fontes-de-dados.md`, §2.11 |
+| Implementação atual | Preferência: razão **medida** `cota_cm / cota_alerta_cm` via etapa `53` (`a6_fonte=cota_medida` em `hidro_barragens_mt.csv`). Sem cota de alerta oficial, permanece o proxy de estágio SisClima do script `17` ou lacuna. Telemetria de rio **não** entra na geometria da mancha de simulação |
 
 Faixas (**proposta a validar**):
 

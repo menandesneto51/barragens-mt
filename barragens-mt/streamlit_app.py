@@ -1118,6 +1118,40 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         )
         cap_kpi = cruzar_captacoes_mancha(**_geom_mancha)
         esc_kpi = cruzar_escolas_mancha(**_geom_mancha)
+
+        from st_app.ana_fluvial import contexto_fluvial_barragem
+
+        flu = contexto_fluvial_barragem(str(r.get("id_snisb") or ""))
+        st.markdown("##### Contexto fluvial (ANA / SisClima)")
+        if flu.get("disponivel"):
+            f1, f2, f3 = st.columns(3)
+            f1.metric("Estações próximas", flu["n_estacoes"])
+            f2.metric("Com cota recente", flu["n_com_cota"])
+            f3.metric("Acima da cota de alerta", flu["n_acima_alerta"])
+            st.caption(flu.get("nota") or "")
+            if flu.get("itens"):
+                tab = pd.DataFrame(
+                    [
+                        {
+                            "Código": it["codigo"],
+                            "Estação": it["nome"],
+                            "Rio": it["rio"],
+                            "Relação": it["relacao"],
+                            "Dist. km": it["dist_km"],
+                            "Cota cm": it["cota_cm"],
+                            "Vazão m³/s": it["vazao_m3s"],
+                            "Cota alerta": it["cota_alerta_cm"],
+                            "Razão": it["razao"],
+                            "Data": it["data"],
+                        }
+                        for it in flu["itens"]
+                    ]
+                )
+                st.dataframe(tab, width="stretch", hide_index=True, height=180)
+            st.caption(f"Fonte: `{flu.get('fonte')}`")
+        else:
+            st.caption(flu.get("nota") or "Contexto fluvial indisponível.")
+
         if set_kpi.get("disponivel"):
             s1, s2, s3, s4 = st.columns(4)
             s1.metric(

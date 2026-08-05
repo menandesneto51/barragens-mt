@@ -37,6 +37,8 @@ CANDIDATOS_DB = [
     Path(os.environ["VIGIBARRAGENS_SISCLIMA_DB"])
     if os.environ.get("VIGIBARRAGENS_SISCLIMA_DB")
     else None,
+    comum.RAIZ.parent / "sisclima-repo" / "data" / "cloud" / "sis_cloud_seed.db",
+    comum.RAIZ.parent / "sisclima-repo" / "data" / "output" / "sis_integrado.db",
     Path(
         r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
         r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\cloud\sis_cloud_seed.db"

@@ -167,6 +167,18 @@ ETAPAS = [
         "Rotas alternativas offline (Dijkstra C7/D7 no eixo)",
         False,
     ),
+    (
+        "52",
+        "52_auditoria_ana_sisclima.py",
+        "Auditoria ANA/SisClima (estações, cota/vazão, eixo)",
+        False,
+    ),
+    (
+        "53",
+        "53_estacoes_ana_eixo.py",
+        "Estações ANA por barragem + A6 cota medida",
+        False,
+    ),
 ]
 
 
