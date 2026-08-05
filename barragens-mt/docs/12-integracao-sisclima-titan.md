@@ -56,7 +56,7 @@ Etapas `52` (auditoria) e `53` (vínculo estação↔barragem):
 | `ANA_FETCH_SERIES=true` | Baixa séries `cota` / `vazao` / `chuva` (default `false` = só metadados) |
 | `ANA_HIDROWEB_TOKEN` | Auth HidroWeb v3 |
 | `ANA_ESTACOES_CSV` / `ANA_TELEMETRIA_CSV` | Fallback offline |
-| Fallback local | `dados/brutos/ana_estacoes_mt.csv`, `ana_telemetria.csv`, `ana_cotas_alerta_mt.csv` |
+| Fallback local | `dados/tratados/ana_*_sample.csv` (e opcionalmente `dados/brutos/ana_*.csv`) |
 
 Saídas: `auditoria_ana_sisclima.json`, `ana_estacoes_barragem.csv`; mescla em `hidro_barragens_mt.csv` de `cota_cm`, `vazao_m3s` e, **quando houver cota de alerta**, `razao_nivel_cota_alerta` com `a6_fonte=cota_medida` (substitui o proxy de cor de alerta do estágio 17).
 
