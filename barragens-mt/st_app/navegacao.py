@@ -463,9 +463,23 @@ def render_filtros_persistentes(df: pd.DataFrame) -> None:
     if atual_mun not in op_mun:
         atual_mun = "(estado todo)"
     idx_m = op_mun.index(atual_mun)
-    mun_sel = st.selectbox("Município", op_mun, index=idx_m, key="filtro_municipio_ui")
+    mun_sel = st.selectbox(
+        "Município / localidade",
+        op_mun,
+        index=idx_m,
+        key="filtro_municipio_ui",
+        help=(
+            "Ex.: Cuiabá — lista barragens (sede ou jusante), população IBGE, "
+            "indígenas, assentamentos, quilombos e CNES. Ribeirinhos: sem base estadual."
+        ),
+    )
     st.session_state["filtro_municipio"] = None if mun_sel == "(estado todo)" else mun_sel
     st.session_state["ctx_municipio"] = st.session_state["filtro_municipio"]
+    if st.session_state["filtro_municipio"]:
+        st.caption(
+            f"Recorte ativo: **{st.session_state['filtro_municipio']}** "
+            "(sede + jusante Otto)."
+        )
 
     op_reg = ["(todas)"] + regioes
     atual_reg = st.session_state.get("filtro_regiao") or "(todas)"

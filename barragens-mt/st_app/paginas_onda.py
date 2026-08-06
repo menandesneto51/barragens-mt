@@ -402,67 +402,215 @@ def bloco_quase_atencao(df: pd.DataFrame, *, altura: int = 280) -> None:
     )
 
 
-def pagina_municipio_360(df: pd.DataFrame, municipio: str, *, incluir_sanitario: bool = False) -> None:
-    st.markdown(f"### Município 360° — {municipio}")
+def pagina_municipio_360(
+    df: pd.DataFrame,
+    municipio: str,
+    *,
+    incluir_sanitario: bool = False,
+    titulo_nivel: str = "###",
+) -> None:
+    """Dossiê da localidade: barragens, população, indígenas, quilombos, ribeirinhos (lacuna)."""
+    from st_app.localidade import montar_dossie_localidade, municipios_vizinhos_vulneraveis
+
+    dossie = montar_dossie_localidade(municipio, df)
+    bars = dossie["barragens"]
+    pop = dossie["populacao"] or {}
+    pop_n = pop.get("populacao")
+    pop_txt = f"{pop_n:,}".replace(",", ".") if pop_n is not None else "—"
+
+    st.markdown(f"{titulo_nivel} Localidade — {municipio}")
     st.markdown(
-        '<p class="nota">Visão do município como <b>sede</b> e/ou '
-        "<b>potencialmente afetado a jusante</b>.</p>",
+        '<p class="nota">Recorte <b>sede</b> e/ou <b>potencialmente afetado a jusante</b> (Otto). '
+        "População IBGE; povos e comunidades (FUNAI, INCRA, Palmares); CNES. "
+        "Comunidades <b>ribeirinhas</b>: sem base estadual consolidada.</p>",
         unsafe_allow_html=True,
     )
-    if df.empty:
-        st.warning("Sem barragens vinculadas a este município.")
-        return
-    if incluir_sanitario:
-        bloco_sanitario_e_historico(df, mun_ativo=municipio)
-    sede = df[
-        df.get("papel_municipio", pd.Series(dtype=str)).astype(str).str.contains("Sede", na=False)
-    ]
-    jus = df[
-        df.get("papel_municipio", pd.Series(dtype=str))
-        .astype(str)
-        .str.contains("jusante|Afetado", case=False, na=False)
-    ]
-    c1, c2 = st.columns(2)
-    c1.metric("Como sede", len(sede) if "papel_municipio" in df.columns else "—")
-    c2.metric("Como afetado a jusante", len(jus) if "papel_municipio" in df.columns else "—")
-    pts = df.dropna(subset=["latitude", "longitude"])
-    if not pts.empty:
-        m = folium.Map(
-            location=[pts["latitude"].mean(), pts["longitude"].mean()],
-            zoom_start=9,
-            tiles="CartoDB positron",
-        )
-        for _, r in pts.iterrows():
-            folium.CircleMarker(
-                [r["latitude"], r["longitude"]],
-                radius=8,
-                color="#1b3281",
-                fill=True,
-                fill_color=CORES_NIVEL.get(r["nivel"], "#888"),
-                fill_opacity=0.9,
-                popup=f"{r['nome']}<br>{r.get('papel_municipio','')}<br>{r['nivel']}",
-            ).add_to(m)
-        st_folium(m, height=320, use_container_width=True, returned_objects=[])
-    st.dataframe(
-        df[
-            [
-                c
-                for c in (
-                    "nome",
-                    "papel_municipio",
-                    "municipio_sede",
-                    "nivel",
-                    "idap",
-                    "completude",
-                    "municipios_potencialmente_afetados",
-                )
-                if c in df.columns
-            ]
-        ],
-        width="stretch",
-        hide_index=True,
-        height=220,
+
+    k1, k2, k3, k4, k5 = st.columns(5)
+    k1.metric("Barragens vinculadas", dossie["n_barragens"])
+    k2.metric("Como sede", dossie["n_sede"])
+    k3.metric("Como jusante", dossie["n_jusante"])
+    k4.metric(
+        "População IBGE",
+        pop_txt,
+        help=f"Ano {pop.get('ano') or '—'} · {pop.get('fonte') or '—'}",
     )
+    k5.metric("US CNES no município", dossie["n_cnes"])
+
+    niveis = dossie.get("niveis") or {}
+    if niveis:
+        chips = " · ".join(f"{n}: {q}" for n, q in sorted(niveis.items(), key=lambda x: -x[1]))
+        st.caption(f"Níveis de prontidão no recorte: {chips}")
+
+    if incluir_sanitario and not bars.empty:
+        bloco_sanitario_e_historico(bars, mun_ativo=municipio)
+
+    # —— Povos e comunidades ——
+    st.markdown("##### Povos, comunidades e saúde")
+    v1, v2, v3, v4, v5 = st.columns(5)
+    v1.metric("Terras indígenas (FUNAI)", len(dossie["terras_indigenas"]))
+    v2.metric("Aldeias (FUNAI)", len(dossie["aldeias"]))
+    v3.metric(
+        "Assentamentos (INCRA)",
+        len(dossie["assentamentos"]),
+        help=(
+            f"Famílias declaradas: {dossie['familias_assentamentos']}"
+            if dossie.get("familias_assentamentos") is not None
+            else "INCRA"
+        ),
+    )
+    v4.metric(
+        "Quilombos (Palmares)",
+        len(dossie["quilombolas_palmares"]),
+        help=(
+            f"Moradores informados: {dossie['moradores_palmares']}"
+            if dossie.get("moradores_palmares") is not None
+            else "Fundação Palmares"
+        ),
+    )
+    v5.metric("US prioritárias (CNES)", dossie["n_cnes_prioritarios"])
+
+    rib = dossie["ribeirinhos"]
+    st.info(f"**Ribeirinhos:** {rib['mensagem']}")
+
+    if (
+        len(dossie["terras_indigenas"]) == 0
+        and len(dossie["aldeias"]) == 0
+        and dossie.get("sedes_montante")
+    ):
+        viz = municipios_vizinhos_vulneraveis(municipio, dossie["sedes_montante"])
+        if not viz.empty:
+            st.caption(
+                "Neste município não há TI/aldeia FUNAI cadastrada. "
+                "Municípios sede a montante (Otto) com vulneráveis registrados:"
+            )
+            st.dataframe(viz, width="stretch", hide_index=True, height=min(220, 48 + 28 * len(viz)))
+
+    ab1, ab2, ab3, ab4 = st.tabs(
+        ["Barragens", "Indígenas / assentamentos / quilombos", "Unidades de saúde", "Fontes"]
+    )
+    with ab1:
+        if bars.empty:
+            st.warning("Sem barragens vinculadas a este município no inventário filtrado.")
+        else:
+            pts = bars.dropna(subset=["latitude", "longitude"])
+            if not pts.empty:
+                m = folium.Map(
+                    location=[pts["latitude"].mean(), pts["longitude"].mean()],
+                    zoom_start=9,
+                    tiles="CartoDB positron",
+                )
+                for _, r in pts.iterrows():
+                    folium.CircleMarker(
+                        [r["latitude"], r["longitude"]],
+                        radius=8,
+                        color="#1b3281",
+                        fill=True,
+                        fill_color=CORES_NIVEL.get(str(r.get("nivel") or ""), "#888"),
+                        fill_opacity=0.9,
+                        popup=(
+                            f"<b>{r.get('nome')}</b><br>{r.get('papel_municipio', '')}<br>"
+                            f"{r.get('nivel')} · IDAP {r.get('idap')}"
+                        ),
+                    ).add_to(m)
+                st_folium(m, height=320, use_container_width=True, returned_objects=[])
+            st.dataframe(
+                bars[
+                    [
+                        c
+                        for c in (
+                            "nome",
+                            "papel_municipio",
+                            "municipio_sede",
+                            "nivel",
+                            "idap",
+                            "completude",
+                            "municipios_potencialmente_afetados",
+                        )
+                        if c in bars.columns
+                    ]
+                ],
+                width="stretch",
+                hide_index=True,
+                height=280,
+            )
+    with ab2:
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.markdown("**Terras indígenas**")
+            tis = dossie["terras_indigenas"]
+            if tis.empty:
+                st.caption("Nenhuma TI FUNAI com este município no campo de localização.")
+            else:
+                cols = [
+                    c
+                    for c in ("terrai_nome", "etnia_nome", "fase_ti", "municipio_nome", "superficie_perimetro_ha")
+                    if c in tis.columns
+                ]
+                st.dataframe(tis[cols] if cols else tis, width="stretch", hide_index=True, height=200)
+            st.markdown("**Aldeias**")
+            ald = dossie["aldeias"]
+            if ald.empty:
+                st.caption("Nenhuma aldeia FUNAI neste município.")
+            else:
+                cols = [c for c in ("nome_aldeia", "nommunic", "cod_ti", "coord_lat", "coord_long") if c in ald.columns]
+                st.dataframe(ald[cols] if cols else ald, width="stretch", hide_index=True, height=200)
+        with col_b:
+            st.markdown("**Assentamentos INCRA**")
+            ass = dossie["assentamentos"]
+            if ass.empty:
+                st.caption("Nenhum assentamento INCRA neste município.")
+            else:
+                cols = [
+                    c
+                    for c in ("nome_projeto", "municipio", "num_familias", "area_hectare_declarada", "forma_obtencao")
+                    if c in ass.columns
+                ]
+                st.dataframe(ass[cols] if cols else ass, width="stretch", hide_index=True, height=200)
+            st.markdown("**Comunidades quilombolas (Palmares)**")
+            pal = dossie["quilombolas_palmares"]
+            if pal.empty:
+                st.caption("Nenhuma comunidade certificada Palmares neste município.")
+            else:
+                cols = [
+                    c
+                    for c in ("COMUNIDADE", "MUNICÍPIO", "Nº DE MORADORES", "URBANA/RURAL", "ANO CERTIFICAÇÃO")
+                    if c in pal.columns
+                ]
+                st.dataframe(pal[cols] if cols else pal, width="stretch", hide_index=True, height=200)
+        eixo = dossie.get("exposicao_eixo")
+        if eixo is not None and not eixo.empty:
+            st.markdown("**Exposição no eixo Manso–Cuiabá (recorte municipal)**")
+            cols = [
+                c
+                for c in ("categoria", "nome", "municipio", "distancia_eixo_km", "faixa", "familias", "detalhe")
+                if c in eixo.columns
+            ]
+            st.dataframe(eixo[cols] if cols else eixo, width="stretch", hide_index=True, height=200)
+    with ab3:
+        cnes = dossie["cnes"]
+        if cnes.empty:
+            st.caption("Sem estabelecimentos CNES georreferenciados para este município no recorte.")
+        else:
+            cols = [
+                c
+                for c in ("nome", "municipio", "tipo", "prioritario", "latitude", "longitude")
+                if c in cnes.columns
+            ]
+            st.dataframe(
+                cnes[cols].head(200) if cols else cnes.head(200),
+                width="stretch",
+                hide_index=True,
+                height=280,
+            )
+    with ab4:
+        fontes = dossie.get("fontes") or {}
+        for k, v in fontes.items():
+            st.markdown(f"- **{k}:** {v}")
+        st.caption(
+            "O filtro lateral «Município» alimenta esta visão em todo o painel "
+            "(Visão geral e Análise por município)."
+        )
 
 
 NAV_DESTINO = "_nav_destino"
@@ -607,21 +755,64 @@ def _cor_categoria(cat: str) -> str:
 
 
 def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
-    """Mapa estadual integrado — análise territorial por município."""
+    """Dossiê + mapa por localidade (filtro lateral ou seletor da página)."""
+    from st_app.data import carregar_cnes_pontos, filtrar_municipio, municipios_catalogo, ordenar_por_severidade
+    from st_app.localidade import nomes_equivalentes
+
     st.markdown("# Análise por município")
     st.markdown(
-        '<p class="nota">Mapa de <b>todas as barragens</b> do inventário com camadas de '
-        "populações vulneráveis (área prioritária Manso–Cuiabá) e unidades de saúde (CNES). "
-        "Clique nos pontos para detalhes.</p>",
+        '<p class="nota">Escolha uma <b>localidade</b> (ex.: Cuiabá) para ver barragens '
+        "(sede e jusante), população IBGE, indígenas, assentamentos, quilombos e CNES. "
+        "Ribeirinhos: lacuna de base estadual. O mapa abaixo acompanha o recorte.</p>",
         unsafe_allow_html=True,
     )
-    from st_app.data import carregar_cnes_pontos, ordenar_por_severidade
 
-    bars = df_barragens.dropna(subset=["latitude", "longitude"]).copy() if not df_barragens.empty else pd.DataFrame()
-    vul = carregar_exposicao_vulneraveis()
-    cnes = carregar_cnes_pontos(so_prioritarios=True)
-    if cnes.empty:
+    catalogo = municipios_catalogo(df_barragens) if not df_barragens.empty else []
+    mun_ativo = st.session_state.get("filtro_municipio")
+
+    if not mun_ativo:
+        st.info(
+            "Selecione a localidade abaixo ou use o filtro **Município / localidade** na barra lateral."
+        )
+        escolha = st.selectbox(
+            "Localidade",
+            ["— escolher —"] + catalogo,
+            key="analise_municipio_escolher",
+        )
+        if escolha and escolha != "— escolher —":
+            st.session_state["filtro_municipio"] = escolha
+            st.session_state["filtro_municipio_ui"] = escolha
+            st.session_state["ctx_municipio"] = escolha
+            st.rerun()
+        bars = df_barragens
+        vul = carregar_exposicao_vulneraveis()
+        cnes = carregar_cnes_pontos(so_prioritarios=True)
+        if cnes.empty:
+            cnes = carregar_cnes_pontos(so_prioritarios=False)
+    else:
+        c_top1, c_top2 = st.columns([3, 1])
+        with c_top1:
+            st.success(f"Localidade ativa: **{mun_ativo}** (sede + jusante Otto).")
+        with c_top2:
+            if st.button("Limpar filtro", width="stretch"):
+                st.session_state["filtro_municipio"] = None
+                st.session_state["filtro_municipio_ui"] = "(estado todo)"
+                st.session_state["ctx_municipio"] = None
+                st.rerun()
+        pagina_municipio_360(df_barragens, mun_ativo, incluir_sanitario=True, titulo_nivel="##")
+        st.divider()
+        st.markdown("##### Mapa do recorte")
+        bars = filtrar_municipio(df_barragens, mun_ativo)
+        vul = carregar_exposicao_vulneraveis()
+        if not vul.empty and "municipio" in vul.columns:
+            vul = vul[vul["municipio"].apply(lambda m: nomes_equivalentes(mun_ativo, m))].copy()
         cnes = carregar_cnes_pontos(so_prioritarios=False)
+        if not cnes.empty and "municipio" in cnes.columns:
+            from st_app.indicadores import us_nos_municipios
+
+            cnes = us_nos_municipios(cnes, {mun_ativo})
+
+    bars = bars.dropna(subset=["latitude", "longitude"]).copy() if not bars.empty else pd.DataFrame()
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Barragens no mapa", len(bars))
@@ -631,9 +822,9 @@ def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
         cats = vul["categoria"].fillna("").astype(str).str.lower()
         n_us_eixo = int(cats.str.contains("saúde|saude|estabelecimento").sum())
         n_trad = int((~cats.str.contains("saúde|saude|estabelecimento")).sum())
-    c2.metric("Povos/comunidades (eixo)", n_trad)
+    c2.metric("Povos/comunidades (camada)", n_trad)
     c3.metric("US no arquivo de exposição", n_us_eixo)
-    c4.metric("US CNES prioritárias", len(cnes) if not cnes.empty else 0)
+    c4.metric("US CNES no mapa", len(cnes) if not cnes.empty else 0)
 
     camadas = st.multiselect(
         "Camadas",
@@ -744,6 +935,18 @@ def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
                 fill_opacity=0.8,
                 popup=folium.Popup(pop, max_width=260),
             ).add_to(m)
+
+    if mun_ativo and not bars.empty:
+        try:
+            m.fit_bounds(
+                [
+                    [bars["latitude"].min(), bars["longitude"].min()],
+                    [bars["latitude"].max(), bars["longitude"].max()],
+                ],
+                padding=(40, 40),
+            )
+        except Exception:  # noqa: BLE001
+            pass
 
     st_folium(m, height=560, use_container_width=True, returned_objects=[])
     st.caption(
