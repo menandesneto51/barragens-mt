@@ -55,8 +55,8 @@ def candidatos_estacoes_csv() -> list[Path]:
         out.append(Path(env))
     out.extend(
         [
-            comum.DADOS_TRATADOS / "ana_estacoes_mt_sample.csv",
             comum.DADOS_BRUTOS / "ana_estacoes_mt.csv",
+            comum.DADOS_TRATADOS / "ana_estacoes_mt_sample.csv",
             comum.RAIZ.parent
             / "sisclima-repo"
             / "data"
@@ -74,8 +74,8 @@ def candidatos_telemetria_csv() -> list[Path]:
         out.append(Path(env))
     out.extend(
         [
-            comum.DADOS_TRATADOS / "ana_telemetria_sample.csv",
             comum.DADOS_BRUTOS / "ana_telemetria.csv",
+            comum.DADOS_TRATADOS / "ana_telemetria_sample.csv",
             comum.RAIZ.parent / "sisclima-repo" / "data" / "sample" / "ana_telemetria.csv",
         ]
     )
@@ -87,8 +87,8 @@ def candidatos_cotas_alerta_csv() -> list[Path]:
     out: list[Path] = []
     if env:
         out.append(Path(env))
-    out.append(comum.DADOS_TRATADOS / "ana_cotas_alerta_mt_sample.csv")
     out.append(comum.DADOS_BRUTOS / "ana_cotas_alerta_mt.csv")
+    out.append(comum.DADOS_TRATADOS / "ana_cotas_alerta_mt_sample.csv")
     return out
 
 

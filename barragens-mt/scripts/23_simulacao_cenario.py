@@ -133,6 +133,7 @@ def _ana_por_barragem() -> dict[str, list[dict[str, Any]]]:
             "vazao": num(r.get("vazao_m3s")),
             "alerta": num(r.get("cota_alerta_cm")),
             "razao": num(r.get("razao_nivel_cota_alerta")),
+            "a6": r.get("a6_fonte") or "",
             "dt": r.get("data_ultima") or "",
             "la": round(la, 5) if la is not None else None,
             "lo": round(lo, 5) if lo is not None else None,
@@ -576,8 +577,9 @@ function desenhar() {
   const ana = d.ana || [];
   const anaCota = ana.filter(a => a.cota != null).length;
   const anaAcima = ana.filter(a => a.razao != null && a.razao >= 1).length;
+  const anaA6 = ana.filter(a => a.a6 === 'cota_medida').length;
   document.getElementById('kAna').textContent = ana.length
-    ? `${ana.length} (${anaCota} cota${anaAcima ? ', ' + anaAcima + ' ≥ alerta' : ''})`
+    ? `${ana.length} (${anaCota} cota${anaAcima ? ', ' + anaAcima + ' ≥ alerta' : ''}${anaA6 ? ', A6 medido ' + anaA6 : ''})`
     : '0';
   document.getElementById('kPerfil').textContent = d.rej ? 'REJEITO' : 'ÁGUA';
   document.getElementById('kpiPerfil').className = 'kpi' + (d.rej ? ' tox' : '');
@@ -592,6 +594,7 @@ function desenhar() {
         · Q ${a.vazao != null ? fmt(a.vazao, 1) + ' m³/s' : '—'}
         ${a.alerta != null ? ' · alerta ' + fmt(a.alerta, 0) + ' cm' : ''}
         ${a.razao != null ? ' · razão ' + fmt(a.razao, 2) : ''}
+        ${a.a6 ? ' · ' + a.a6 : ''}
       </div>`).join('');
   } else {
     boxAna.innerHTML = `<h3>Contexto fluvial ANA/SisClima</h3>

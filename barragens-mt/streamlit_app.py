@@ -1124,11 +1124,51 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         flu = contexto_fluvial_barragem(str(r.get("id_snisb") or ""))
         st.markdown("##### Contexto fluvial (ANA / SisClima)")
         if flu.get("disponivel"):
-            f1, f2, f3 = st.columns(3)
+            f1, f2, f3, f4 = st.columns(4)
             f1.metric("Estações próximas", flu["n_estacoes"])
             f2.metric("Com cota recente", flu["n_com_cota"])
             f3.metric("Acima da cota de alerta", flu["n_acima_alerta"])
+            n_a6 = sum(
+                1
+                for it in (flu.get("itens") or [])
+                if str(it.get("a6_fonte") or "") == "cota_medida"
+            )
+            f4.metric("A6 cota medida", n_a6)
             st.caption(flu.get("nota") or "")
+            # Vazão observada vs GloFAS (contexto; não altera mancha).
+            hidro_row = None
+            try:
+                from st_app.data import ler_csv as _ler_hidro
+
+                h_all = _ler_hidro("hidro_barragens_mt.csv")
+                if not h_all.empty and "id_snisb" in h_all.columns:
+                    bid = str(r.get("id_snisb") or "").strip()
+                    hit = h_all[h_all["id_snisb"].astype(str).str.strip() == bid]
+                    if not hit.empty:
+                        hidro_row = hit.iloc[0]
+            except Exception:  # noqa: BLE001
+                hidro_row = None
+            if hidro_row is not None:
+                def _f(v):
+                    try:
+                        s = str(v or "").strip().replace(",", ".")
+                        return float(s) if s and s.lower() not in ("nan", "none") else None
+                    except ValueError:
+                        return None
+
+                q_obs = None
+                for it in flu.get("itens") or []:
+                    if it.get("vazao_m3s") is not None:
+                        q_obs = it["vazao_m3s"]
+                        break
+                q_glo = _f(hidro_row.get("vazao_prevista_glofas_m3s"))
+                if q_obs is not None or q_glo is not None:
+                    st.caption(
+                        "Vazão observada (ANA) vs GloFAS (modelo): "
+                        f"{'—' if q_obs is None else f'{q_obs:.1f} m³/s'} · "
+                        f"{'—' if q_glo is None else f'{q_glo:.2f} m³/s'} — "
+                        "antecipação regional; não redefine a mancha."
+                    )
             if flu.get("itens"):
                 tab = pd.DataFrame(
                     [
@@ -1142,6 +1182,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                             "Vazão m³/s": it["vazao_m3s"],
                             "Cota alerta": it["cota_alerta_cm"],
                             "Razão": it["razao"],
+                            "A6 fonte": it.get("a6_fonte") or "",
                             "Data": it["data"],
                         }
                         for it in flu["itens"]

@@ -1,6 +1,7 @@
 {
-  "gerado_em": "2026-08-05T00:37:18Z",
+  "gerado_em": "2026-08-06T18:13:42Z",
   "db_sisclima": "/workspace/sisclima-repo/data/cloud/sis_cloud_seed.db",
+  "sqlite_tem_tabelas_ana": false,
   "fonte_estacoes": "csv:/workspace/barragens-mt/dados/brutos/ana_estacoes_mt.csv",
   "fonte_telemetria": "csv:/workspace/barragens-mt/dados/brutos/ana_telemetria.csv",
   "n_estacoes_mt": 5,

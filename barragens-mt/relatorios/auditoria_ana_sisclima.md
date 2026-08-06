@@ -1,7 +1,8 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-08-05T00:37:18Z`
+- Gerado: `2026-08-06T18:13:42Z`
 - DB: `/workspace/sisclima-repo/data/cloud/sis_cloud_seed.db`
+- SQLite com tabelas ANA: **False**
 - Estações: `csv:/workspace/barragens-mt/dados/brutos/ana_estacoes_mt.csv` (5 MT)
 - Telemetria: `csv:/workspace/barragens-mt/dados/brutos/ana_telemetria.csv` (13 registros)
 - Com cota / vazão / cota_alerta (última leitura): **3** / **3** / **2**

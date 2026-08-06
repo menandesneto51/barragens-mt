@@ -133,9 +133,25 @@ def main() -> None:
         for u in ultimas.values()
     )
 
+    sqlite_tem_ana = False
+    if db is not None:
+        try:
+            import sqlite3
+
+            con = sqlite3.connect(str(db))
+            nomes = {
+                r[0]
+                for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            }
+            con.close()
+            sqlite_tem_ana = "ana_estacoes" in nomes or "ana_telemetria" in nomes
+        except Exception:  # noqa: BLE001
+            sqlite_tem_ana = False
+
     relatorio = {
         "gerado_em": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "db_sisclima": str(db) if db else None,
+        "sqlite_tem_tabelas_ana": sqlite_tem_ana,
         "fonte_estacoes": fonte_est,
         "fonte_telemetria": fonte_tel,
         "n_estacoes_mt": len(mt),
@@ -168,6 +184,7 @@ def main() -> None:
         "",
         f"- Gerado: `{relatorio['gerado_em']}`",
         f"- DB: `{relatorio['db_sisclima'] or 'não encontrado'}`",
+        f"- SQLite com tabelas ANA: **{sqlite_tem_ana}**",
         f"- Estações: `{fonte_est}` ({len(mt)} MT)",
         f"- Telemetria: `{fonte_tel}` ({len(tele)} registros)",
         f"- Com cota / vazão / cota_alerta (última leitura): "
