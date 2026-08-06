@@ -1,17 +1,17 @@
 ==============================================================================
-ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
+ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-586
-Barragem                : BR BOSCO (código 586)
+Identificador do alerta : ALERTA-20260803-1151-21940
+Barragem                : BR PIRÂMIDE (código 21940)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
-Empreendedor            : MAX JOEL RUSSI
+Empreendedor            : SANTA FELICIDADE MINERACAO SPE LTDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 21 de 100 pontos (faixa Amarelo: atenção)
-Nível final             : Amarelo
-Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 30,90)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
+IDAP                    : 18 de 100 pontos (faixa Verde: normalidade)
+Nível final             : Verde
+Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 26,50)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -19,21 +19,20 @@ Versão dos pesos        : 0.1.0-metodologica
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
    - [B3] Ausência de estabilidade declarada: - (3 de 5 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
-   - [C1] População residente na Zona de Autossalvamento: 77 habitantes — 50 a 199 residentes (2 de 5 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
+   - [C1] População residente na Zona de Autossalvamento: 35 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 5/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 6/30 (completude 67%)
-   - C. Impacto sanitário potencial: 9/25 (completude 56%)
+   - C. Impacto sanitário potencial: 8/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
-   População residente estimada na ZAS: 77 pessoas.
-   Em grupos prioritários: cerca de 12 pessoas (15%).
+   População residente estimada na ZAS: 35 pessoas.
+   Em grupos prioritários: cerca de 5 pessoas (15%).
    Material predominante no reservatório: Rejeito não inerte ou perigoso.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
@@ -49,8 +48,8 @@ Versão dos pesos        : 0.1.0-metodologica
 5. IMPACTO SANITÁRIO POR TIPO DE ESTRUTURA
    Perfil de estrutura: Barragem de rejeitos / mineração
    Material considerado: Rejeito não inerte ou perigoso (cadastro / ANM)
-   População potencialmente exposta (estimativa): 77 pessoas [método: area_x_densidade]
-   Área equivalente de lâmina (proxy, não mancha oficial): 0.5 km²
+   População potencialmente exposta (estimativa): 35 pessoas [método: area_x_densidade]
+   Área equivalente de lâmina (proxy, não mancha oficial): 0.22 km²
    Proxy geométrico: área equivalente × densidade média (155.3 hab/km²) dos municípios do vínculo Otto/sede. Cenário de referência do alerta: 50% do volume / lâmina 2 m.
    Efeitos imediatos a considerar:
    - Trauma e soterramento por lama de rejeito (alta densidade)
@@ -83,9 +82,8 @@ Versão dos pesos        : 0.1.0-metodologica
    - Nenhuma.
 
 7. AÇÕES RECOMENDADAS
-   - Acompanhar a evolução da chuva e do nível a jusante nas próximas 24 h.
-   - Confirmar com o empreendedor a condição da estrutura e da instrumentação.
-   - Verificar a vigência do plano de emergência e a lista de contatos dos municípios da ZAS.
+   - Manter a rotina de monitoramento e a atualização cadastral da barragem.
+   - Revalidar os contatos institucionais da ZAS a cada 90 dias.
    - [perfil rejeito] Acionar Vigiagua + vigilância em saúde ambiental com painel laboratorial ampliado
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
@@ -117,8 +115,6 @@ Versão dos pesos        : 0.1.0-metodologica
    instrumentação da própria barragem.
    Área/população por lâmina equivalente e agravos listados são hipóteses
    de vigilância na ausência de mancha oficial — não são diagnóstico.
-   Confirmação de recebimento obrigatória em até 120 min, com identificação
-   do responsável; a ausência de confirmação escalona o alerta (regra R09).
    Cálculo com completude 68%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

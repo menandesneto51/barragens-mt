@@ -1,0 +1,32 @@
+{
+  "dataset": "srtm30m",
+  "fonte_api": "https://api.opentopodata.org/v1/srtm30m",
+  "eixo": "manso_capital",
+  "max_s_km": 80.0,
+  "passo_eixo_km": 2.0,
+  "offsets_km": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0
+  ],
+  "limiares_m": [
+    2.0,
+    5.0,
+    8.0,
+    10.0,
+    15.0,
+    20.0,
+    30.0
+  ],
+  "n_celulas": 697,
+  "n_hand_valido": 697,
+  "arquivo_grade": "hand_piloto_manso_cuiaba_grade.csv",
+  "arquivo_geojson": "hand_piloto_manso_cuiaba.geojson",
+  "aviso": "Proxy geomorfológico SRTM/HAND — não é mancha PAE nem dam break. Não estima tempo de chegada da onda."
+}

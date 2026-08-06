@@ -1,7 +1,10 @@
 {
-  "gerado": "2026-07-30T14:31:02",
-  "estabelecimentos": 13060,
-  "com_coordenada_mt": 12426,
+  "gerado": "2026-08-02T22:09:06",
+  "municipios_alvo": 115,
+  "municipios_coletados_nesta_rodada": 115,
+  "estabelecimentos": 13062,
+  "com_coordenada_mt": 12428,
+  "novos_nesta_rodada": 2,
   "arquivo_csv": "cnes_estabelecimentos_mt.csv",
   "arquivo_geojson": "cnes_estabelecimentos_mt.geojson",
   "bloqueio": null

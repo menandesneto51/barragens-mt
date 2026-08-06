@@ -8,8 +8,6 @@ from typing import Any
 
 import pandas as pd
 
-from st_app.indicadores import indicadores_sanitarios, tendencia_idap_48h
-
 
 def montar_sitrep_md(
     df: pd.DataFrame,
@@ -18,6 +16,9 @@ def montar_sitrep_md(
     proj: dict[str, Any] | None = None,
     tend_clima: str | None = None,
 ) -> str:
+    # Import lazy: evita exigir streamlit ao importar apenas montar_sitrep_cenario_md.
+    from st_app.indicadores import indicadores_sanitarios, tendencia_idap_48h
+
     san = indicadores_sanitarios(df)
     hist = tendencia_idap_48h()
     agora = dt.datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -75,6 +76,71 @@ def montar_sitrep_md(
         "",
         "---",
         "_Proxy geométrico e estimativas rotuladas — não substitui mancha PAE nem ordem de evacuação._",
+        "",
+    ]
+    return "\n".join(linhas)
+
+
+def montar_sitrep_cenario_md(cenario: dict[str, Any]) -> str:
+    """SITREP de um cenário de simulação (mancha ativa + KPIs)."""
+    agora = dt.datetime.now().strftime("%d/%m/%Y %H:%M")
+    nome = cenario.get("barragem") or "—"
+    mun = cenario.get("municipio") or "—"
+    geom = cenario.get("geometria") or "—"
+    linhas = [
+        "# SITREP de cenário — VIGIBARRAGENS–MT",
+        f"**Gerado em:** {agora}",
+        f"**Barragem:** {nome}",
+        f"**Município-sede:** {mun}",
+        f"**Geometria ativa:** {geom}",
+        "",
+        "## 1. Exposição",
+        f"- População exposta (setores/proxy): **{cenario.get('pop_exposta', '—')}**",
+        f"- Setores na mancha: **{cenario.get('n_setores', '—')}**",
+        f"- Captações na mancha: **{cenario.get('n_captacoes', '—')}**",
+        f"- Escolas na mancha: **{cenario.get('n_escolas', '—')}**",
+        f"- Ativos essenciais (ETA/ETE/energia/abrigos): **{cenario.get('n_ativos', '—')}**",
+        f"- MapBiomas urbana sede (ha): **{cenario.get('mapbiomas_ha_urbana', '—')}** "
+        f"(drenagem baixa: {cenario.get('mapbiomas_ha_drenagem_baixa', '—')} ha; "
+        f"{cenario.get('mapbiomas_pct_drenagem_baixa', '—')}%)",
+        "",
+        "## 2. Isolamento (C7 proxy)",
+        f"- US na mancha / isoladas: **{cenario.get('n_us_atingidas', 0)}** / "
+        f"**{cenario.get('n_us_isoladas', 0)}**",
+        f"- Vias / pontes: **{cenario.get('n_vias', 0)}** / **{cenario.get('n_pontes', 0)}**",
+        f"- Pessoas isoladas (proxy): **{cenario.get('pessoas_isoladas', 0)}**",
+        f"- Sedes sem rota / com desvio: **{cenario.get('n_sedes_sem_rota', 0)}** / "
+        f"**{cenario.get('n_sedes_com_desvio', 0)}**",
+        f"- Desvio médio (km): **{cenario.get('delta_km_medio_desvio', '—')}**",
+        f"- Nível C7: **{cenario.get('nivel_c7', '—')}**",
+        "",
+        "## 3. Clima (dimensão A — ponto da barragem)",
+        f"- Chuva 24h / 72h (mm): **{cenario.get('chuva_24h_mm', '—')}** / "
+        f"**{cenario.get('chuva_72h_mm', '—')}**",
+        f"- Prevista 24–72h (mm): **{cenario.get('chuva_prevista_mm', '—')}**",
+        f"- Percentil climatológico: **{cenario.get('percentil_climatologico', '—')}**",
+        f"- Fonte telemetria: **{cenario.get('fonte_telemetria', '—')}** "
+        f"({cenario.get('aproximacao_espacial', '—')})",
+        "",
+        "## 4. Capacidade e demanda",
+        f"- Pressão estrutural CNES: **{cenario.get('pressao_estrutural', '—')}**",
+        f"- Leitos disponíveis (IndicaSUS): **{cenario.get('leitos_disponiveis', '—')}**",
+        f"- Demanda internação (2%): **{cenario.get('demanda_internacao', '—')}**",
+        f"- Água L/dia (15 L/p): **{cenario.get('demanda_agua', '—')}**",
+        f"- IPAPD proxy: **{cenario.get('ipapd', '—')}** ({cenario.get('ipapd_rotulo', '—')}; "
+        f"completude {cenario.get('ipapd_completude', '—')})",
+        f"- IRS proxy: **{cenario.get('irs', '—')}** ({cenario.get('irs_rotulo', '—')}; "
+        f"completude {cenario.get('irs_completude', '—')})",
+        "",
+        "## 5. PAE / articulação",
+        f"- PAE SNISB (PAE-01): **{cenario.get('pae_status', '—')}**",
+        f"- Itens checklist lacuna/não: **{cenario.get('pae_lacunas', '—')}**",
+        f"- Mancha ZAS oficial: **{cenario.get('pae_zas', '—')}**",
+        "",
+        "## 6. Ressalvas",
+        "- Proxy geométrico (círculo / trajeto / HAND) — **não** é mancha PAE nem dam break.",
+        "- IPAPD e demanda usam parâmetros a validar; lacunas não são preenchidas com zero.",
+        "- MapBiomas é pressão municipal (contexto), não polígono na mancha.",
         "",
     ]
     return "\n".join(linhas)

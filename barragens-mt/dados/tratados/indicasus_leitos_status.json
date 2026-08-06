@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "motivo": "nenhuma fonte (CSV/SQLite/DW_URL)",
+  "n_linhas": 0,
+  "orientacao": "Disponibilize dump CSV em dados/brutos/indicasus_leitos.csv, ou defina VIGIBARRAGENS_INDICASUS_CSV / VIGIBARRAGENS_DW_SQLITE / VIGIBARRAGENS_DW_URL. Ver docs/15-integracao-indicasus-dw.md.",
+  "gerado_em": "2026-08-02T20:37:10.486382+00:00",
+  "catalogo": "indicasus_leitos"
+}

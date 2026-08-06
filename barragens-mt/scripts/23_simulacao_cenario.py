@@ -115,10 +115,40 @@ def cnes_pontos(*, so_prioritarios: bool = False) -> list[dict[str, Any]]:
     return pontos
 
 
+def _ana_por_barragem() -> dict[str, list[dict[str, Any]]]:
+    """Estações ANA vinculadas (contexto fluvial — não altera mancha)."""
+    out: dict[str, list[dict[str, Any]]] = {}
+    for r in ler_csv("ana_estacoes_barragem.csv"):
+        bid = (r.get("id_snisb") or "").strip()
+        if not bid:
+            continue
+        la, lo = num(r.get("lat")), num(r.get("lon"))
+        item = {
+            "cod": r.get("codigo_estacao") or "",
+            "no": r.get("nome_estacao") or "",
+            "rio": r.get("nome_rio") or "",
+            "rel": r.get("relacao") or "",
+            "dist": num(r.get("dist_barragem_km")),
+            "cota": num(r.get("cota_cm")),
+            "vazao": num(r.get("vazao_m3s")),
+            "alerta": num(r.get("cota_alerta_cm")),
+            "razao": num(r.get("razao_nivel_cota_alerta")),
+            "a6": r.get("a6_fonte") or "",
+            "dt": r.get("data_ultima") or "",
+            "la": round(la, 5) if la is not None else None,
+            "lo": round(lo, 5) if lo is not None else None,
+        }
+        out.setdefault(bid, []).append(item)
+    for bid, itens in out.items():
+        itens.sort(key=lambda x: x.get("dist") if x.get("dist") is not None else 999)
+    return out
+
+
 def montar_dados() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     inv = {r["id_snisb"]: r for r in ler_csv("inventario_barragens_mt.csv")}
     idap = {r["id_snisb"]: r for r in ler_csv("idap_estadual_mt.csv")}
     piloto_ids = {r["id_snisb"] for r in ler_csv("piloto_manso_cuiaba.csv")}
+    ana = _ana_por_barragem()
     cnes = cnes_por_municipio()
     pontos = cnes_pontos()
 
@@ -161,6 +191,7 @@ def montar_dados() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                 "ust": us_total,
                 "ush": us_hosp,
                 "rej": 1 if rejeito else 0,
+                "ana": ana.get(bid, [])[:5],
             }
         )
     saida.sort(key=lambda x: (-x["vol"], x["no"]))
@@ -247,6 +278,11 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
     (volume ÷ profundidade), não a geometria real da onda. Use para treino, priorização e
     diálogo com Defesa Civil / SES — nunca como ordem operacional de evacuação.
   </div>
+  <div class="aviso" style="background:#eef4fb;border-color:#1b3281;margin-top:10px">
+    <strong>Geometria:</strong> círculo (todo o estado) e <strong>relevo HAND</strong>
+    no eixo Manso–Cuiabá (SRTM proxy). Setores/Sisagua/desvio C7 completos ficam no
+    Streamlit (<code>rodar_local.ps1</code>). Bases: __KPIS_EIXO__.
+  </div>
   <div class="grade">
     <div class="painel">
       <h2>Parâmetros do cenário</h2>
@@ -258,10 +294,20 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
       </select>
       <label>Barragem</label>
       <select id="barragem"></select>
+      <label>Geometria da mancha</label>
+      <select id="geom">
+        <option value="circular">Circular (volume→área)</option>
+        <option value="ambos">Circular + relevo (HAND)</option>
+        <option value="hand">Só relevo (HAND)</option>
+      </select>
       <label>Fração do volume liberado: <span class="val" id="vFrac">50%</span></label>
       <input type="range" id="frac" min="5" max="100" step="5" value="50">
-      <label>Profundidade média da lâmina (m): <span class="val" id="vProf">2,0</span></label>
+      <label>Profundidade / lâmina HAND (m): <span class="val" id="vProf">2,0</span></label>
       <input type="range" id="prof" min="0.5" max="8" step="0.5" value="2">
+      <p style="margin:6px 0 0;font-size:12px;color:var(--muted)">
+        HAND usa o limiar SRTM mais próximo da lâmina (piloto Manso–Cuiabá).
+        Fora do eixo a camada HAND fica vazia — use o círculo.
+      </p>
       <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
         <button type="button" id="btnPlay" style="padding:8px 12px;border:0;background:#9a3412;color:#fff;font:inherit;font-weight:600;cursor:pointer">▶ Animar no mapa</button>
         <button type="button" id="btnStop" style="padding:8px 12px;border:0;background:#e4e9ef;color:#15202b;font:inherit;font-weight:600;cursor:pointer">Parar</button>
@@ -276,7 +322,13 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
         <div class="kpi"><div class="n" id="kMun">—</div><div class="r">Municípios a jusante</div></div>
         <div class="kpi" id="kpiPerfil"><div class="n" id="kPerfil">—</div><div class="r">Perfil sanitário</div></div>
         <div class="kpi"><div class="n" id="kUs">—</div><div class="r">US no buffer (CNES)</div></div>
+        <div class="kpi"><div class="n" id="kCap">—</div><div class="r">Captações Sisagua</div></div>
+        <div class="kpi"><div class="n" id="kSet">—</div><div class="r">Pop. setores (IBGE)</div></div>
+        <div class="kpi"><div class="n" id="kEsc">—</div><div class="r">Escolas (INEP/OSM)</div></div>
+        <div class="kpi"><div class="n" id="kAtv">—</div><div class="r">Ativos essenciais</div></div>
+        <div class="kpi"><div class="n" id="kAna">—</div><div class="r">Estações ANA (contexto)</div></div>
       </div>
+      <div class="perfil" id="boxAna" style="max-height:140px"></div>
       <div class="perfil" id="boxPerfil"></div>
       <div class="lista-us" id="listaUs"></div>
       <div class="lista" id="detalhe"></div>
@@ -291,12 +343,18 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
       <div class="mapa-wrap">
         <div id="mapa"></div>
         <div class="legenda-mapa">
-          <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área atingida (proxy)</div>
+          <div><i style="background:#fb923c;opacity:.85;border-radius:2px;width:14px"></i>Área circular (proxy)</div>
+          <div><i style="background:#0ea5e9;opacity:.75;border-radius:2px;width:14px"></i>Relevo HAND (proxy)</div>
+          <div><i style="background:#0891b2;border:2px solid #fff;box-sizing:border-box"></i>Captação Sisagua</div>
+          <div><i style="background:#0f766e;border:2px solid #fff;box-sizing:border-box"></i>Setor censitário (centróide)</div>
+          <div><i style="background:#7c3aed;border:2px solid #fff;box-sizing:border-box"></i>Escola</div>
+          <div><i style="background:#ca8a04;border:2px solid #fff;box-sizing:border-box"></i>Ativo essencial</div>
           <div><i style="background:#dc2626;border:2px solid #fff;box-sizing:border-box"></i>Hospital</div>
           <div><i style="background:#ea580c;border:2px solid #fff;box-sizing:border-box"></i>UPA / pronto-socorro</div>
           <div><i style="background:#2563eb;border:2px solid #fff;box-sizing:border-box"></i>UBS / ESF / posto</div>
           <div><i style="background:#64748b;border:2px solid #fff;box-sizing:border-box"></i>Demais US CNES</div>
           <div><i style="background:#ea580c"></i>Barragem</div>
+          <div><i style="background:#0369a1;border:2px solid #fff;box-sizing:border-box"></i>Estação ANA (rio)</div>
         </div>
       </div>
       <div style="margin-top:10px;background:#fff;border:1px solid var(--line);padding:10px 12px">
@@ -315,9 +373,15 @@ padding:8px 10px;background:#f7fbf9;line-height:1.4}
 <script>
 const DADOS = __DADOS__;
 const CNES = __CNES__;
+const SISAGUA = __SISAGUA__;
+const SETORES = __SETORES__;
+const ESCOLAS = __ESCOLAS__;
+const ATIVOS = __ATIVOS__;
 const DENS = __DENS__;
 const DENS_PADRAO = __DENS_PADRAO__;
 const PERFIS = __PERFIS__;
+const HAND_GEO = __HAND_GEO__;
+const HAND_LIMIARES = __HAND_LIMIARES__;
 
 const mapa = L.map('mapa', {zoomControl: true}).setView([-14.9, -55.8], 8);
 // Imagem de satélite ao fundo — a mancha proxy fica sobre o terreno real.
@@ -333,16 +397,43 @@ const rotulos = L.tileLayer(
 mapa.createPane('mancha');
 mapa.getPane('mancha').style.zIndex = 350;
 mapa.getPane('mancha').style.pointerEvents = 'none';
+mapa.createPane('hand');
+mapa.getPane('hand').style.zIndex = 360;
+mapa.getPane('hand').style.pointerEvents = 'none';
 mapa.createPane('us');
 mapa.getPane('us').style.zIndex = 450;
 mapa.createPane('barragem');
 mapa.getPane('barragem').style.zIndex = 460;
 
 const camadaMancha = L.layerGroup().addTo(mapa);
+const camadaHand = L.layerGroup().addTo(mapa);
+const camadaExtras = L.layerGroup().addTo(mapa);
 const camadaUs = L.layerGroup().addTo(mapa);
 const camadaBar = L.layerGroup().addTo(mapa);
 let manchaAtual = null;
 let ultimoCentro = null;
+
+function limiarHand(prof) {
+  const lims = (HAND_LIMIARES && HAND_LIMIARES.length) ? HAND_LIMIARES : [2,5,8,10,15,20,30];
+  const p = Math.max(0.5, Number(prof) || 2);
+  let best = lims[0], bestD = Infinity;
+  for (const L of lims) {
+    const d = Math.abs(L - p);
+    if (d < bestD) { bestD = d; best = L; }
+  }
+  return best;
+}
+
+function featureHand(limiar) {
+  if (!HAND_GEO || !HAND_GEO.features) return null;
+  const alvo = Number(limiar);
+  let hit = null;
+  for (const f of HAND_GEO.features) {
+    const hm = Number((f.properties || {}).hand_max_m);
+    if (hm === alvo) { hit = f; break; }
+  }
+  return hit;
+}
 
 function densMedia(d) {
   const munis = (d.af && d.af.length) ? d.af : [d.mu];
@@ -357,6 +448,19 @@ function haversineKm(la1, lo1, la2, lo2) {
   const dLat = (la2 - la1) * toRad, dLon = (lo2 - lo1) * toRad;
   const a = Math.sin(dLat/2)**2 + Math.cos(la1*toRad)*Math.cos(la2*toRad)*Math.sin(dLon/2)**2;
   return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function listarPontosNoBuffer(lista, d, raioKm) {
+  if (d.la == null || d.lo == null || !(raioKm > 0) || !lista || !lista.length)
+    return {itens: [], total: 0};
+  const itens = [];
+  for (const p of lista) {
+    if (p.la == null || p.lo == null) continue;
+    const dist = haversineKm(d.la, d.lo, p.la, p.lo);
+    if (dist <= raioKm) itens.push({...p, dist});
+  }
+  itens.sort((a,b) => a.dist - b.dist);
+  return {itens, total: itens.length};
 }
 
 function listarCnesNoBuffer(d, raioKm) {
@@ -446,6 +550,11 @@ function desenhar() {
   const raio = Math.sqrt(area / Math.PI);
   const est = estimarPop(d, area, frac);
   const usBuf = listarCnesNoBuffer(d, raio);
+  const capBuf = listarPontosNoBuffer(SISAGUA, d, raio);
+  const setBuf = listarPontosNoBuffer(SETORES, d, raio);
+  const popSet = setBuf.itens.reduce((s, p) => s + (Number(p.pop) || 0), 0);
+  const escBuf = listarPontosNoBuffer(ESCOLAS, d, raio);
+  const atvBuf = listarPontosNoBuffer(ATIVOS, d, raio);
   const perfil = d.rej ? PERFIS.rejeito : PERFIS.agua;
   const corMancha = d.rej ? '#7f1d1d' : '#c2410c';
   const fillMancha = d.rej ? '#ef4444' : '#fb923c';
@@ -459,8 +568,38 @@ function desenhar() {
   document.getElementById('kUs').textContent = usBuf.total != null
     ? `${usBuf.total} (${usBuf.hosp} hosp.)`
     : (d.ust ? `${d.ust} eixo` : '—');
+  document.getElementById('kCap').textContent = String(capBuf.total);
+  document.getElementById('kSet').textContent = setBuf.total
+    ? `${fmt(popSet, 0)} (${setBuf.total} set.)`
+    : '0';
+  document.getElementById('kEsc').textContent = String(escBuf.total);
+  document.getElementById('kAtv').textContent = String(atvBuf.total);
+  const ana = d.ana || [];
+  const anaCota = ana.filter(a => a.cota != null).length;
+  const anaAcima = ana.filter(a => a.razao != null && a.razao >= 1).length;
+  const anaA6 = ana.filter(a => a.a6 === 'cota_medida').length;
+  document.getElementById('kAna').textContent = ana.length
+    ? `${ana.length} (${anaCota} cota${anaAcima ? ', ' + anaAcima + ' ≥ alerta' : ''}${anaA6 ? ', A6 medido ' + anaA6 : ''})`
+    : '0';
   document.getElementById('kPerfil').textContent = d.rej ? 'REJEITO' : 'ÁGUA';
   document.getElementById('kpiPerfil').className = 'kpi' + (d.rej ? ' tox' : '');
+
+  const boxAna = document.getElementById('boxAna');
+  if (ana.length) {
+    boxAna.innerHTML = `<h3>Contexto fluvial ANA/SisClima</h3>
+      <div style="color:#4a5d73;margin-bottom:6px">Cota/vazão observadas — <b>não</b> alteram a mancha proxy.</div>` +
+      ana.map(a => `<div><b>${a.cod}</b> ${a.no || ''} · ${a.rio || '—'} · ${a.rel || ''}
+        · ${a.dist != null ? a.dist.toFixed(1) + ' km' : '—'}
+        · cota ${a.cota != null ? fmt(a.cota, 0) + ' cm' : '—'}
+        · Q ${a.vazao != null ? fmt(a.vazao, 1) + ' m³/s' : '—'}
+        ${a.alerta != null ? ' · alerta ' + fmt(a.alerta, 0) + ' cm' : ''}
+        ${a.razao != null ? ' · razão ' + fmt(a.razao, 2) : ''}
+        ${a.a6 ? ' · ' + a.a6 : ''}
+      </div>`).join('');
+  } else {
+    boxAna.innerHTML = `<h3>Contexto fluvial ANA/SisClima</h3>
+      <div style="color:#5a6b7a">Sem estação vinculada — rode <code>python executar.py 52 53</code>.</div>`;
+  }
 
   document.getElementById('boxPerfil').innerHTML = `
     <h3>${perfil.rotulo}</h3>
@@ -493,54 +632,105 @@ function desenhar() {
       (rede do eixo Cuiabá; fora da região o contador fica vazio).</div>`;
   }
 
+  const limPrev = limiarHand(prof);
+  const featPrev = featureHand(limPrev);
   document.getElementById('detalhe').innerHTML = `
     <strong>${d.no}</strong> (SNISB ${d.id})
     · <a href="barragem.html?id=${encodeURIComponent(d.id)}">ficha 360°</a><br>
     Sede: ${d.mu} · Uso: ${d.uso || '—'} · CRI ${d.cri||'—'} · DPA ${d.dpa||'—'}<br>
     IDAP: ${d.idap ?? '—'} (${d.nv||'—'}) · Método pop.: ${est.metodo}<br>
+    Geometria: <b>${document.getElementById('geom').selectedOptions[0].text}</b>
+    · HAND ≤ ${limPrev} m
+    (${featPrev && featPrev.properties ? (featPrev.properties.n_celulas + ' células') : 'sem polígono no limiar'})<br>
     US no buffer: ${usBuf.total != null ? usBuf.total + ' (' + usBuf.metodo + ')' : '—'}
     · eixo municipal (ref.): ${d.ust || 0}<br>
-    Municípios a jusante:<br>${(d.af||[]).join(' · ') || '—'}
+    Municípios a jusante:<br>${(d.af||[]).join(' · ') || '—'}<br>
+    Estações ANA (contexto): ${(d.ana||[]).length}
   `;
 
   // Mancha permanece como camada de fundo (pane baixo); US e barragem por cima.
   camadaMancha.clearLayers();
+  camadaHand.clearLayers();
+  camadaExtras.clearLayers();
   camadaUs.clearLayers();
   camadaBar.clearLayers();
   manchaAtual = null;
 
-  if (d.la != null && d.lo != null) {
-    manchaAtual = L.circle([d.la, d.lo], {
-      pane: 'mancha',
-      radius: raio * 1000,
-      color: corMancha,
-      weight: 2,
-      fillColor: fillMancha,
-      fillOpacity: 0.22 + 0.28 * Math.min(1, Math.max(0.15, frac)),
-      opacity: 0.7 + 0.25 * Math.min(1, frac),
-      className: 'mancha-pulse'
-    }).bindPopup(
-      `<b>Área atingida (proxy)</b><br>${fmt(area)} km² · raio ${fmt(raio,2)} km<br>` +
-      `Pop. est. ${fmt(est.pop,0)}` +
-      (usBuf.total != null ? `<br>US afetadas: <b>${usBuf.total}</b> (${usBuf.hosp} hosp.)` : '') +
-      `<br><small>Não é mancha oficial do PAE.</small>`
-    ).addTo(camadaMancha);
+  const geom = document.getElementById('geom').value;
+  const mostrarCircular = geom === 'circular' || geom === 'ambos';
+  const mostrarHand = geom === 'hand' || geom === 'ambos';
+  const limH = limiarHand(prof);
+  let handLayer = null;
 
-    // Halo externo suave para reforçar a área no satélite
-    L.circle([d.la, d.lo], {
-      pane: 'mancha',
-      radius: raio * 1000,
-      color: corMancha,
-      weight: 8,
-      opacity: 0.18,
-      fill: false
-    }).addTo(camadaMancha);
+  if (mostrarHand) {
+    const feat = featureHand(limH);
+    if (feat) {
+      handLayer = L.geoJSON(feat, {
+        pane: 'hand',
+        style: {
+          color: '#0369a1',
+          weight: 2,
+          fillColor: '#0ea5e9',
+          fillOpacity: 0.28,
+          opacity: 0.85
+        }
+      }).bindPopup(
+        `<b>Relevo HAND ≤ ${limH} m</b><br>` +
+        `${(feat.properties && feat.properties.rotulo) || ''}<br>` +
+        `Células: ${(feat.properties && feat.properties.n_celulas) || '—'}<br>` +
+        `<small>Proxy SRTM — não é mancha PAE / tempo de chegada.</small>`
+      ).addTo(camadaHand);
+    }
+  }
+
+  if (d.la != null && d.lo != null) {
+    if (mostrarCircular) {
+      manchaAtual = L.circle([d.la, d.lo], {
+        pane: 'mancha',
+        radius: raio * 1000,
+        color: corMancha,
+        weight: 2,
+        fillColor: fillMancha,
+        fillOpacity: 0.22 + 0.28 * Math.min(1, Math.max(0.15, frac)),
+        opacity: 0.7 + 0.25 * Math.min(1, frac),
+        className: 'mancha-pulse'
+      }).bindPopup(
+        `<b>Área atingida (proxy circular)</b><br>${fmt(area)} km² · raio ${fmt(raio,2)} km<br>` +
+        `Pop. est. ${fmt(est.pop,0)}` +
+        (usBuf.total != null ? `<br>US afetadas: <b>${usBuf.total}</b> (${usBuf.hosp} hosp.)` : '') +
+        `<br><small>Não é mancha oficial do PAE.</small>`
+      ).addTo(camadaMancha);
+
+      // Halo externo suave para reforçar a área no satélite
+      L.circle([d.la, d.lo], {
+        pane: 'mancha',
+        radius: raio * 1000,
+        color: corMancha,
+        weight: 8,
+        opacity: 0.18,
+        fill: false
+      }).addTo(camadaMancha);
+    }
 
     L.circleMarker([d.la, d.lo], {
       pane: 'barragem',
       radius: 9, color: '#fff', weight: 2,
       fillColor: d.rej ? '#b91c1c' : '#ea580c', fillOpacity: 1
     }).bindPopup(`<b>${d.no}</b><br>${perfil.rotulo}<br>Pop. est. ${fmt(est.pop,0)}`).addTo(camadaBar);
+
+    for (const a of (d.ana || [])) {
+      if (a.la == null || a.lo == null) continue;
+      L.circleMarker([a.la, a.lo], {
+        pane: 'us',
+        radius: 7, color: '#fff', weight: 2,
+        fillColor: '#0369a1', fillOpacity: 0.95
+      }).bindPopup(
+        `<b>Estação ANA ${a.cod}</b><br>${a.no || ''}<br>${a.rio || '—'} · ${a.rel || ''}<br>` +
+        `Cota ${a.cota != null ? fmt(a.cota,0) + ' cm' : '—'} · ` +
+        `Q ${a.vazao != null ? fmt(a.vazao,1) + ' m³/s' : '—'}<br>` +
+        `<small>Contexto fluvial — não define a mancha.</small>`
+      ).addTo(camadaUs);
+    }
 
     // Todas as US no buffer — ícone completo para prioritárias; círculo leve para as demais.
     for (const p of usBuf.itens) {
@@ -567,18 +757,54 @@ function desenhar() {
       }
     }
 
+    const extras = [
+      [capBuf.itens.slice(0, 120), '#0891b2', 'Captação Sisagua'],
+      [setBuf.itens.slice(0, 80), '#0f766e', 'Setor censitário'],
+      [escBuf.itens.slice(0, 120), '#7c3aed', 'Escola'],
+      [atvBuf.itens.slice(0, 120), '#ca8a04', 'Ativo essencial'],
+    ];
+    for (const [itens, cor, tipo] of extras) {
+      for (const p of itens) {
+        L.circleMarker([p.la, p.lo], {
+          pane: 'us',
+          radius: 5,
+          color: '#fff',
+          weight: 1,
+          fillColor: cor,
+          fillOpacity: 0.9
+        }).bindPopup(
+          `<b>${tipo}</b><br>${p.no || 'sem nome'}<br>${p.mu || '—'}` +
+          (p.cat ? `<br>${p.cat}` : '') +
+          (p.pop != null ? `<br>Pop. ${Number(p.pop).toLocaleString('pt-BR')}` : '') +
+          `<br>${p.dist.toFixed(1)} km`
+        ).addTo(camadaExtras);
+      }
+    }
+
     const centro = [d.la, d.lo];
     const mudou = !ultimoCentro || ultimoCentro[0] !== centro[0] || ultimoCentro[1] !== centro[1];
     ultimoCentro = centro;
     if (mudou || !timerAnim) {
-      const b = manchaAtual.getBounds();
-      mapa.fitBounds(b.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      let bounds = null;
+      if (manchaAtual) bounds = manchaAtual.getBounds();
+      if (handLayer) {
+        const hb = handLayer.getBounds();
+        bounds = bounds ? bounds.extend(hb) : hb;
+      }
+      if (bounds && bounds.isValid && bounds.isValid()) {
+        mapa.fitBounds(bounds.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      } else if (bounds) {
+        mapa.fitBounds(bounds.pad(0.25), {animate: !timerAnim, maxZoom: 13});
+      } else {
+        mapa.setView(centro, 11, {animate: !timerAnim});
+      }
     }
   }
 }
 
 ['recorte'].forEach(id => document.getElementById(id).onchange = () => { preencherSelect(); desenhar(); });
-['barragem','frac','prof'].forEach(id => document.getElementById(id).oninput = desenhar);
+['barragem','frac','prof','geom'].forEach(id => document.getElementById(id).oninput = desenhar);
+document.getElementById('geom').onchange = desenhar;
 let timerAnim = null;
 document.getElementById('btnPlay').onclick = () => {
   if (timerAnim) clearInterval(timerAnim);
@@ -613,9 +839,114 @@ def _perfil_json(perfil) -> dict[str, Any]:
     }
 
 
+def _kpis_eixo_resumo() -> str:
+    """Contagens estáticas das bases avançadas (HTML aponta ao Streamlit)."""
+    parts: list[str] = []
+    hand_meta = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba_meta.json"
+    if hand_meta.exists():
+        try:
+            meta = json.loads(hand_meta.read_text(encoding="utf-8"))
+            parts.append(f"HAND {meta.get('n_celulas', '?')} células")
+        except (OSError, json.JSONDecodeError):
+            pass
+    for nome, rotulo in (
+        ("setores_censitarios_eixo_cuiaba.csv", "setores"),
+        ("sisagua_captacoes_eixo.csv", "Sisagua"),
+        ("escolas_eixo_cuiaba.csv", "escolas"),
+        ("mapbiomas_pressao_eixo_cuiaba.csv", "MapBiomas mun."),
+    ):
+        path = comum.DADOS_TRATADOS / nome
+        if path.exists():
+            try:
+                with path.open(encoding="utf-8-sig", newline="") as f:
+                    n = max(0, sum(1 for _ in f) - 1)
+                parts.append(f"{rotulo} {n}")
+            except OSError:
+                pass
+    return " · ".join(parts) if parts else "rode etapas 35–41"
+
+
+def pontos_csv(
+    nome: str,
+    *,
+    nome_campo: str = "nome",
+    mun_campo: str = "municipio",
+    cat_campo: str | None = None,
+    pop_campo: str | None = None,
+    limite: int = 800,
+) -> list[dict[str, Any]]:
+    caminho = comum.DADOS_TRATADOS / nome
+    if not caminho.exists():
+        return []
+    out: list[dict[str, Any]] = []
+    with caminho.open(encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f, delimiter=";"):
+            la, lo = num(r.get("latitude")), num(r.get("longitude"))
+            if la is None or lo is None:
+                continue
+            item = {
+                "la": la,
+                "lo": lo,
+                "no": (r.get(nome_campo) or r.get("nome_sistema") or "").strip() or "—",
+                "mu": (r.get(mun_campo) or "").strip(),
+            }
+            if cat_campo:
+                item["cat"] = (r.get(cat_campo) or "").strip()
+            if pop_campo:
+                pop_v = num(r.get(pop_campo))
+                item["pop"] = int(pop_v) if pop_v is not None else 0
+            out.append(item)
+            if len(out) >= limite:
+                break
+    return out
+
+
+def _carregar_hand_geo() -> tuple[dict[str, Any], list[float]]:
+    path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba.geojson"
+    meta_path = comum.DADOS_TRATADOS / "hand_piloto_manso_cuiaba_meta.json"
+    geo: dict[str, Any] = {"type": "FeatureCollection", "features": []}
+    limiares: list[float] = [2.0, 5.0, 8.0, 10.0, 15.0, 20.0, 30.0]
+    if path.exists():
+        try:
+            geo = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pass
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            lims = meta.get("limiares_m") or []
+            if lims:
+                limiares = [float(x) for x in lims]
+        except (OSError, json.JSONDecodeError, TypeError, ValueError):
+            pass
+    return geo, limiares
+
+
 def main() -> None:
     dados, pontos_cnes = montar_dados()
-    print(f"Simulação — {len(dados)} barragens com volume · {len(pontos_cnes)} US CNES com coordenada")
+    hand_geo, hand_lims = _carregar_hand_geo()
+    sisagua = pontos_csv(
+        "sisagua_captacoes_eixo.csv",
+        nome_campo="nome_sistema",
+        cat_campo="tipo_captacao",
+    )
+    setores = pontos_csv(
+        "setores_censitarios_eixo_cuiaba.csv",
+        nome_campo="codigo_setor",
+        pop_campo="populacao",
+        limite=2500,
+    )
+    escolas = pontos_csv("escolas_eixo_cuiaba.csv", nome_campo="nome")
+    ativos = pontos_csv(
+        "ativos_essenciais_osm_eixo.csv",
+        nome_campo="nome",
+        cat_campo="categoria",
+    )
+    print(
+        f"Simulação — {len(dados)} barragens · {len(pontos_cnes)} US · "
+        f"HAND {len(hand_geo.get('features') or [])} · Sisagua {len(sisagua)} · "
+        f"setores {len(setores)} · escolas {len(escolas)} · ativos {len(ativos)}"
+    )
     perfis = {
         "agua": _perfil_json(PERFIL_AGUA),
         "rejeito": _perfil_json(PERFIL_REJEITO),
@@ -629,10 +960,17 @@ def main() -> None:
             "__CNES__",
             json.dumps(pontos_cnes, ensure_ascii=False, separators=(",", ":")),
         )
+        .replace("__SISAGUA__", json.dumps(sisagua, ensure_ascii=False, separators=(",", ":")))
+        .replace("__SETORES__", json.dumps(setores, ensure_ascii=False, separators=(",", ":")))
+        .replace("__ESCOLAS__", json.dumps(escolas, ensure_ascii=False, separators=(",", ":")))
+        .replace("__ATIVOS__", json.dumps(ativos, ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS__", json.dumps(_carregar_densidades_ibge(), ensure_ascii=False, separators=(",", ":")))
         .replace("__DENS_PADRAO__", str(DENSIDADE_PADRAO))
         .replace("__PERFIS__", json.dumps(perfis, ensure_ascii=False, separators=(",", ":")))
+        .replace("__HAND_GEO__", json.dumps(hand_geo, ensure_ascii=False, separators=(",", ":")))
+        .replace("__HAND_LIMIARES__", json.dumps(hand_lims, separators=(",", ":")))
         .replace("__GERADO__", dt.datetime.now().strftime("%d/%m/%Y %H:%M"))
+        .replace("__KPIS_EIXO__", _kpis_eixo_resumo())
     )
     SAIDA.mkdir(parents=True, exist_ok=True)
     destino = SAIDA / "simulacao.html"

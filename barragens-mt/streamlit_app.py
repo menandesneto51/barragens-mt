@@ -32,12 +32,16 @@ from st_app.data import (
     estimar_pop_cenario,
     filtrar_municipio,
     municipios_catalogo,
+    ordenar_por_severidade,
     projecao_semana,
+    rotulo_regulada,
+    rotulo_sim_nao,
     severidade_pct,
     tendencia_climatica_texto,
     tendencias_estado,
 )
 from st_app.mapa_sim import html_mapa_simulacao
+from st_app.vias_isolamento import analisar_isolamento_json
 from st_app.paginas_onda import (
     aplicar_navegacao_pendente,
     bloco_atalhos_comando,
@@ -51,41 +55,39 @@ from st_app.paginas_onda import (
     pagina_confirmacao_persistente,
     pagina_extraterritorial,
     pagina_municipio_360,
+    pagina_notificacoes_impactos,
     pagina_rag_docs,
     pagina_regiao_saude,
+    pagina_vigipos_oe,
+    pagina_visao_territorial,
     pagina_vulneraveis,
     tendencia_unificada,
 )
 from st_app.style import CSS
+from st_app.navegacao import (
+    AREAS,
+    PAGINAS_DEV,
+    PERFIS,
+    TELA_SIMULACAO,
+    acoes_recomendadas,
+    aplicar_query_params,
+    areas_visiveis,
+    aviso_simulacao_permanente,
+    barra_contexto,
+    bloco_guia_60s,
+    bloco_idap_na_home,
+    cabecalho_institucional,
+    meta_atualizacao,
+    migrar_estado_navegacao,
+    motivo_nivel_texto,
+    normalizar_pagina,
+    render_filtros_persistentes,
+    rodape_lateral,
+    tutorial_primeiro_acesso,
+)
 
-JORNADAS: dict[str, list[str]] = {
-    "Situação": [
-        "Comando estadual",
-        "Hidro municipal",
-        "Eixo Manso–Cuiabá",
-    ],
-    "Território": [
-        "Populações vulneráveis",
-        "Impacto extraterritorial",
-        "Mapa por tipologia",
-        "Barragem 360°",
-    ],
-    "Ação": [
-        "Alertabilidade / despacho",
-        "Fila de alertas",
-        "Confirmação persistente",
-        "Ficha rápida",
-        "Simulação volume/área",
-    ],
-    "Dados e apoio": [
-        "Interpretação / KPIs",
-        "Região de saúde",
-        "Documentos (RAG leve)",
-        "Inventário",
-        "Confirmação (HTML)",
-        "Comando (HTML)",
-    ],
-}
+# Compat: JORNADAS aponta para AREAS (código legado / imports).
+JORNADAS = AREAS
 
 st.set_page_config(
     page_title="VIGIBARRAGENS–MT",
@@ -94,6 +96,29 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 st.markdown(CSS, unsafe_allow_html=True)
+
+
+@st.cache_data(show_spinner=False, ttl=6 * 3600)
+def _isolamento_cached(
+    lat0: float,
+    lon0: float,
+    raio0: float,
+    cnes_key: str,
+    corredor_key: str = "",
+    sedes_key: str = "",
+    uniao_circular: bool = False,
+    hand_limiar: float | None = None,
+) -> dict:
+    return analisar_isolamento_json(
+        lat0,
+        lon0,
+        raio0,
+        cnes_key,
+        corredor_key,
+        sedes_key,
+        uniao_circular,
+        hand_limiar,
+    )
 
 
 def _badge(nivel: str) -> str:
@@ -111,93 +136,61 @@ def _semaforo(df: pd.DataFrame) -> str:
 
 
 def pagina_comando(df: pd.DataFrame) -> None:
-    st.markdown("# VIGIBARRAGENS–MT")
+    st.markdown("# Visão geral estadual")
     st.markdown(
-        '<p class="nota">Comando estadual — <b>como está Mato Grosso agora</b> e '
-        "onde olhar primeiro. Linguagem operacional (sem siglas na 1ª leitura).</p>",
+        '<p class="nota"><b>Como está Mato Grosso agora</b> e onde olhar primeiro. '
+        "Linguagem operacional (sem siglas na 1ª leitura).</p>",
         unsafe_allow_html=True,
     )
+    bloco_guia_60s()
+    bloco_idap_na_home()
     if df.empty:
         st.error("Base de alerta ausente. Rode `python executar.py 16 17` no projeto.")
         return
 
-    munis = municipios_catalogo(df)
-    from st_app.indicadores import carregar_contatos
-    from st_app.data import carregar_historico_indice
+    from st_app.navegacao import aplicar_filtros_df, bloco_historico_niveis
 
-    contatos = carregar_contatos()
-    regioes = (
-        sorted(contatos["regiao_saude"].dropna().unique().tolist())
-        if not contatos.empty and "regiao_saude" in contatos.columns
-        else []
-    )
-    munis_por_regiao: dict[str, set[str]] = {}
-    if regioes and "municipio" in contatos.columns:
-        for _, row in contatos.dropna(subset=["regiao_saude", "municipio"]).iterrows():
-            munis_por_regiao.setdefault(str(row["regiao_saude"]), set()).add(
-                str(row["municipio"]).strip()
-            )
-
-    with st.sidebar:
-        st.header("Filtros do comando")
-        mun_sel = st.selectbox(
-            "Município",
-            ["(estado todo)"] + munis,
-            help="Sede ou potencialmente afetado a jusante.",
-        )
-        reg_sel = st.selectbox(
-            "Região de saúde",
-            ["(todas)"] + regioes,
-            help="Cadastro de contatos do eixo (expansão estadual pendente).",
-            disabled=not regioes,
-        )
-        niveis = st.multiselect(
-            "Nível de prontidão",
-            ["Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"],
-            default=["Roxo", "Vermelho", "Laranja", "Amarelo"],
-        )
-        so_piloto = st.checkbox("Só eixo Manso–Cuiabá", value=False)
-        busca = st.text_input("Busca (nome ou código)", "")
-        orgao = st.text_input("Órgão fiscalizador", "")
-
-    view = df.copy()
-    mun_ativo = None if mun_sel == "(estado todo)" else mun_sel
+    view, mun_ativo = aplicar_filtros_df(df)
+    so_piloto = bool(st.session_state.get("filtro_piloto"))
+    reg_sel = st.session_state.get("filtro_regiao")
     if mun_ativo:
-        view = filtrar_municipio(view, mun_ativo)
         st.markdown(
             f'<p class="nota"><b>Recorte: {mun_ativo}</b> — sede <b>ou</b> jusante '
             "(a barragem pode estar em outro município).</p>",
             unsafe_allow_html=True,
         )
-    elif reg_sel != "(todas)" and reg_sel in munis_por_regiao:
-        alvos = munis_por_regiao[reg_sel]
-        mask = (
-            view["municipio_sede"].isin(alvos)
-            if "municipio_sede" in view.columns
-            else pd.Series(False, index=view.index)
-        )
-        if "municipios_potencialmente_afetados" in view.columns:
-            mask = mask | view["municipios_potencialmente_afetados"].fillna("").apply(
-                lambda t: any(m in str(t).split("|") for m in alvos)
-            )
-        view = view.loc[mask].copy()
+    elif reg_sel:
         st.markdown(
-            f'<p class="nota"><b>Região de saúde: {reg_sel}</b> — '
-            f"{len(alvos)} município(s) no cadastro.</p>",
+            f'<p class="nota"><b>Região de saúde: {reg_sel}</b>.</p>',
             unsafe_allow_html=True,
         )
-    if niveis:
-        view = view[view["nivel"].isin(niveis)]
-    if so_piloto and "piloto" in view.columns:
-        view = view[view["piloto"]]
+
+    # busca / órgão (refino local na home)
+    cbusca, corgao = st.columns(2)
+    with cbusca:
+        busca = st.text_input("Busca (nome ou código)", st.session_state.get("filtro_busca") or "")
+    with corgao:
+        orgao = st.text_input("Órgão fiscalizador", st.session_state.get("filtro_orgao") or "")
+    st.session_state["filtro_busca"] = busca
+    st.session_state["filtro_orgao"] = orgao
     if busca:
-        q = busca.lower()
-        view = view[
-            view["nome"].fillna("").str.lower().str.contains(q)
-            | view["id_snisb"].fillna("").str.contains(q)
-        ]
+        q = busca.casefold()
+        mask = view["nome"].fillna("").str.casefold().str.contains(q, regex=False)
+        if "id_snisb" in view.columns:
+            mask = mask | view["id_snisb"].astype(str).str.contains(busca, regex=False)
+        view = view.loc[mask]
     if orgao and "orgao_fiscalizador" in view.columns:
-        view = view[view["orgao_fiscalizador"].fillna("").str.contains(orgao, case=False)]
+        view = view[
+            view["orgao_fiscalizador"].fillna("").str.casefold().str.contains(
+                orgao.casefold(), regex=False
+            )
+        ]
+    if "idap" in view.columns and "idap_n" not in view.columns:
+        view = view.copy()
+        view["idap_n"] = pd.to_numeric(
+            view["idap"].astype(str).str.replace(",", ".", regex=False),
+            errors="coerce",
+        )
 
     if view.empty:
         st.warning("Nenhuma barragem no recorte. Amplie níveis ou limpe o município.")
@@ -292,8 +285,18 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="motivo-box"><b>Por que o nível está assim?</b><br>{motivo_nivel_texto(base_kpi)}</div>',
+        unsafe_allow_html=True,
+    )
+    with st.expander("O que fazer agora", expanded=True):
+        for i, acao in enumerate(acoes_recomendadas(base_kpi), 1):
+            st.markdown(f"{i}. {acao}")
     bloco_frescor()
+    if st.session_state.pop("gerar_sitrep_pedido", False):
+        st.info("Use os botões abaixo para baixar o SITREP do recorte atual.")
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
+    bloco_historico_niveis()
 
     # —— Faixa 2: Pessoas e resposta ——
     faixa_titulo("2", "Pessoas e resposta", "Exposição sanitária e capacidade assistencial sob pressão")
@@ -304,6 +307,42 @@ def pagina_comando(df: pd.DataFrame) -> None:
     if mun_ativo:
         pagina_municipio_360(base_kpi, mun_ativo, incluir_sanitario=False)
     view = view.sort_values("idap_n", ascending=False)
+    # Seleção compartilhada mapa ↔ lista
+    opcoes_bar = [
+        f"{r.id_snisb} — {r.nome} ({r.nivel})"
+        for r in view.head(40).itertuples()
+    ]
+    if opcoes_bar:
+        destaque_atual = st.session_state.get("barragem_destaque_id")
+        idx0 = 0
+        for i, lab in enumerate(opcoes_bar):
+            if destaque_atual and lab.startswith(str(destaque_atual)):
+                idx0 = i
+                break
+        escolha = st.selectbox(
+            "Barragem destacada (mapa e lista)",
+            opcoes_bar,
+            index=idx0,
+            key="barragem_destaque_ui",
+        )
+        bid_sel = escolha.split(" — ")[0].strip()
+        st.session_state["barragem_destaque_id"] = bid_sel
+        cgo1, cgo2 = st.columns(2)
+        with cgo1:
+            if st.button("Abrir detalhe desta barragem", type="primary"):
+                st.session_state["barragem_360_id"] = bid_sel
+                from st_app.paginas_onda import ir_para
+
+                ir_para("Territórios e barragens", "Detalhe da barragem")
+        with cgo2:
+            try:
+                st.link_button(
+                    "Link direto (query)",
+                    f"?barragem={bid_sel}&pagina=Detalhe+da+barragem",
+                )
+            except Exception:  # noqa: BLE001
+                st.caption(f"Link: `?barragem={bid_sel}`")
+
     col_mapa, col_listas = st.columns([1.25, 1])
     with col_mapa:
         st.markdown("##### Mapa por faixa de prontidão")
@@ -315,15 +354,19 @@ def pagina_comando(df: pd.DataFrame) -> None:
             for _, r in pts.iterrows():
                 cor = CORES_NIVEL.get(r["nivel"], "#888")
                 critico = r["nivel"] != "Verde"
+                destaque = str(r.get("id_snisb")) == str(
+                    st.session_state.get("barragem_destaque_id") or ""
+                )
                 papel = r.get("papel_municipio") or ""
                 folium.CircleMarker(
-                    location=[r["latitude"], r["longitude"]],
-                    radius=9 if critico else 4,
-                    color="#111" if critico else "#555",
-                    weight=2 if critico else 0.5,
+                    location=[float(r["latitude"]), float(r["longitude"])],
+                    radius=14 if destaque else (9 if critico else 4),
+                    color="#1b3281" if destaque else ("#111" if critico else "#555"),
+                    weight=3 if destaque else (2 if critico else 0.5),
                     fill=True,
                     fill_color=cor,
-                    fill_opacity=0.9 if critico else 0.55,
+                    fill_opacity=0.95 if destaque else (0.9 if critico else 0.55),
+                    tooltip=f"{r.get('id_snisb')}|{r.get('nome')}",
                     popup=folium.Popup(
                         f"<b>{r['nome']}</b><br>Índice {r.get('idap','—')} — {r['nivel']}<br>"
                         f"Sede: {r.get('municipio_sede','—')}<br>"
@@ -337,13 +380,26 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 sw = [pts["latitude"].min(), pts["longitude"].min()]
                 ne = [pts["latitude"].max(), pts["longitude"].max()]
                 m.fit_bounds([sw, ne], padding=(30, 30))
-            st_folium(m, width=None, height=480, returned_objects=[])
+            mapa_state = st_folium(
+                m,
+                width=None,
+                height=480,
+                returned_objects=["last_object_clicked_tooltip"],
+                key="mapa_comando_estado",
+            )
+            tip = (mapa_state or {}).get("last_object_clicked_tooltip") or ""
+            if tip and "|" in str(tip):
+                bid_click = str(tip).split("|", 1)[0].strip()
+                if bid_click and bid_click != st.session_state.get("barragem_destaque_id"):
+                    st.session_state["barragem_destaque_id"] = bid_click
+                    st.rerun()
 
     with col_listas:
         st.markdown("##### Top 15 — olhar primeiro")
         cols_top = [
             c
             for c in (
+                "id_snisb",
                 "idap",
                 "nivel",
                 "nome",
@@ -358,6 +414,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
         ]
         top = view.head(15)[cols_top].rename(
             columns={
+                "id_snisb": "Código",
                 "idap": "Índice",
                 "nivel": "Prontidão",
                 "nome": "Barragem",
@@ -369,7 +426,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "completude": "Completude",
             }
         )
-        st.caption("Completude baixa = risco de falso verde.")
+        st.caption("Completude baixa = risco de falso verde. Clique no mapa ou use a lista acima.")
         st.dataframe(top, width="stretch", hide_index=True, height=240)
         bloco_quase_atencao(base_kpi, altura=200)
 
@@ -516,9 +573,10 @@ def pagina_comando(df: pd.DataFrame) -> None:
 
 
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
-    st.markdown("# Hidrometeorologia municipal")
+    st.markdown("# Chuva e condições hidrológicas")
     st.markdown(
-        '<p class="nota">SisClima/TITAN + previsão ECMWF (Copernicus/C3S) + amostra GloFAS.</p>',
+        '<p class="nota">SisClima/TITAN + previsão ECMWF (Copernicus/C3S) + amostra GloFAS. '
+        "Nomes municipais completados via IBGE quando a fonte só traz o código.</p>",
         unsafe_allow_html=True,
     )
     if hidro.empty:
@@ -541,7 +599,7 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
             "indice_saturacao_solo": "Saturação do solo",
         }[x],
     )
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     c1.metric("Municípios", len(hidro))
     c2.metric("Máx. chuva 24 h", f"{hidro['chuva_24h_mm'].max():.1f} mm" if "chuva_24h_mm" in hidro else "—")
     c3.metric(
@@ -550,16 +608,49 @@ def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:
         if "chuva_prevista_24_72h_mm" in hidro
         else "—",
     )
+    n_nome = int((hidro["municipio"].fillna("").astype(str).str.strip() != "").sum()) if "municipio" in hidro.columns else 0
+    c4.metric("Com nome IBGE", f"{n_nome}/{len(hidro)}")
     ordenado = hidro.sort_values(metrica, ascending=False, na_position="last")
-    st.bar_chart(ordenado.set_index("municipio")[metrica].head(25), height=360)
-    mostrar = ordenado.copy()
-    if not pop.empty:
-        mostrar = mostrar.merge(pop[["municipio", "populacao"]], on="municipio", how="left")
-    st.dataframe(mostrar, width="stretch", hide_index=True, height=400)
+    rotulos = ordenado["municipio"].fillna("").astype(str)
+    rotulos = rotulos.where(rotulos.str.strip() != "", ordenado.get("codigo_ibge", pd.Series("", index=ordenado.index)).astype(str))
+    chart = ordenado.assign(_rotulo=rotulos).set_index("_rotulo")[metrica].head(25)
+    st.bar_chart(chart, height=360)
+    cols_pref = [
+        c
+        for c in (
+            "municipio",
+            "codigo_ibge",
+            "populacao",
+            "chuva_24h_mm",
+            "chuva_72h_mm",
+            "chuva_prevista_24_72h_mm",
+            "percentil_climatologico",
+            "indice_saturacao_solo",
+            "classe_saturacao_solo",
+            "nivel_alerta_hidro",
+            "dias_consecutivos_chuva_intensa",
+            "fonte_precip",
+            "fonte_previsao",
+            "data_referencia",
+        )
+        if c in ordenado.columns
+    ]
+    mostrar = ordenado[cols_pref].copy() if cols_pref else ordenado.copy()
+    if not pop.empty and "populacao" not in mostrar.columns and "municipio" in mostrar.columns:
+        mostrar = mostrar.merge(
+            pop[["municipio", "populacao"]].drop_duplicates("municipio"),
+            on="municipio",
+            how="left",
+        )
+    st.dataframe(mostrar, width="stretch", hide_index=True, height=420)
+    st.caption(
+        "Colunas principais: chuva observada/prevista, saturação, alerta hidro, população IBGE e fontes. "
+        "Demais campos técnicos permanecem no CSV tratado."
+    )
 
 
 def pagina_piloto(piloto: pd.DataFrame) -> None:
-    st.markdown("# Eixo Manso–Cuiabá")
+    st.markdown("# Área prioritária Manso–Cuiabá")
     st.markdown(
         '<p class="nota">Recorte operacional do eixo que pode afetar Cuiabá / Várzea Grande '
         "(antes chamado «piloto»).</p>",
@@ -586,11 +677,14 @@ def _fmt_br(valor: float, casas: int = 1, sufixo: str = "") -> str:
 
 
 def pagina_simulacao(df: pd.DataFrame) -> None:
-    st.markdown("# Simulação volume → área")
+    st.markdown("# Simular área potencialmente afetada")
     st.markdown(
-        '<p class="nota">Proxy geométrico — <b>não</b> é mancha oficial nem ordem de evacuação. '
-        "O rompimento afeta população e a <b>capacidade de resposta local</b> "
-        "(unidades de saúde no buffer).</p>",
+        '<p class="nota">Proxy para <b>qualquer barragem</b> do inventário — '
+        "<b>não</b> é mancha oficial nem ordem de evacuação. "
+        "O <b>círculo</b> (volume→área) funciona em todo o MT; o "
+        "<b>trajeto hidráulico</b> (corredor jusante) quando há calha BHO/eixo; "
+        "o <b>relevo (HAND)</b> no eixo Manso–Cuiabá quando a grade SRTM estiver gerada. "
+        "No mapa: US CNES, rodovias e pontes OSM dentro da área.</p>",
         unsafe_allow_html=True,
     )
     base = df.dropna(subset=["capacidade_hm3"]).copy()
@@ -598,26 +692,172 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     if base.empty:
         st.warning("Sem volumes no inventário.")
         return
-    recorte = st.radio("Recorte", ["Eixo Manso–Cuiabá", "Top 40 volumes", "Todas com volume"], horizontal=True)
+    recorte = st.radio(
+        "Recorte",
+        ["Todas com volume", "Top 40 volumes", "Eixo Manso–Cuiabá"],
+        horizontal=True,
+        help="Padrão: todas as barragens com volume no inventário estadual.",
+    )
     if recorte == "Eixo Manso–Cuiabá":
         base = base[base.get("piloto", False) == True]  # noqa: E712
     elif recorte == "Top 40 volumes":
         base = base.sort_values("capacidade_hm3", ascending=False).head(40)
+    filtro_mun = st.text_input(
+        "Filtrar por município (opcional)",
+        "",
+        placeholder="ex.: Cuiabá, Rondonópolis, Sinop…",
+    ).strip()
+    if filtro_mun:
+        col_sede = (
+            base["municipio_sede"]
+            if "municipio_sede" in base.columns
+            else pd.Series("", index=base.index)
+        )
+        col_mun = (
+            base["municipio"]
+            if "municipio" in base.columns
+            else pd.Series("", index=base.index)
+        )
+        mask = col_sede.fillna("").str.contains(filtro_mun, case=False, na=False) | col_mun.fillna(
+            ""
+        ).str.contains(filtro_mun, case=False, na=False)
+        base = base[mask]
     opcoes = {
-        f"{r['nome']} ({r['id_snisb']}) — {r['capacidade_hm3']:.1f} hm³": r["id_snisb"]
+        f"{r['nome']} ({r['id_snisb']}) — {r.get('municipio_sede') or r.get('municipio') or '—'} — {r['capacidade_hm3']:.1f} hm³": r[
+            "id_snisb"
+        ]
         for _, r in base.sort_values("capacidade_hm3", ascending=False).iterrows()
     }
     if not opcoes:
-        st.info("Nenhuma barragem no recorte.")
+        st.info("Nenhuma barragem no recorte/filtro.")
         return
-    escolha = st.selectbox("Barragem", list(opcoes.keys()))
+    chaves = list(opcoes.keys())
+    pre_sim = str(st.session_state.pop("barragem_sim_id", "") or "")
+    idx_sim = 0
+    if pre_sim:
+        for i, k in enumerate(chaves):
+            if opcoes[k] == pre_sim:
+                idx_sim = i
+                break
+    escolha = st.selectbox("Barragem", chaves, index=idx_sim)
     bid = opcoes[escolha]
+    st.session_state["barragem_selecionada_id"] = bid
     r = base[base["id_snisb"] == bid].iloc[0]
     frac = st.slider("Fração liberada (%)", 5, 100, 50, 5) / 100
     prof = st.slider("Profundidade média da lâmina (m)", 0.5, 8.0, 2.0, 0.5)
     liberado = float(r["capacidade_hm3"]) * frac
     area = liberado / prof
     raio = math.sqrt(area / math.pi)
+    # Raio operacional para CNES (piso evita buffer inútil; teto evita Overpass absurdo)
+    raio_us = max(3.0, min(float(raio), 80.0))
+    raio_osm = max(8.0, min(float(raio) * 1.35 + 6.0, 45.0))
+
+    from st_app.relevo_hand import (
+        hand_arquivos_ok,
+        hand_disponivel_para,
+        limiar_para_lamina,
+        resumo_hand,
+    )
+    from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
+
+    # Pré-avalia trajeto / HAND para escolher geometria padrão
+    trajeto_probe: dict = {"ok": False}
+    hand_ok = False
+    if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
+        trajeto_probe = construir_trajeto(
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            area_km2=float(area),
+            semi_largura_km=2.0,
+            incluir_jusante_capital=True,
+        )
+        hand_ok = hand_arquivos_ok() and hand_disponivel_para(
+            float(r["latitude"]), float(r["longitude"])
+        )
+
+    opcoes_geom = ["Só circular (todas as barragens)"]
+    if trajeto_probe.get("ok") and hand_ok:
+        opcoes_geom = [
+            "Ambos (comparar)",
+            "Só circular (todas as barragens)",
+            "Só trajeto hidráulico",
+            "Só relevo (HAND)",
+            "Circular + relevo (HAND)",
+        ]
+    elif trajeto_probe.get("ok"):
+        opcoes_geom = [
+            "Ambos (comparar)",
+            "Só circular (todas as barragens)",
+            "Só trajeto hidráulico",
+        ]
+    elif hand_ok:
+        opcoes_geom = [
+            "Só circular (todas as barragens)",
+            "Só relevo (HAND)",
+            "Circular + relevo (HAND)",
+        ]
+    geom_modo = st.radio(
+        "Geometria da mancha proxy",
+        opcoes_geom,
+        horizontal=True,
+        help="Circular vale para qualquer barragem do MT. "
+        "Trajeto = corredor jusante (eixo Manso–Cuiabá ou BHO) quando disponível. "
+        "Relevo (HAND) = células SRTM ≤ lâmina no eixo Manso–Cuiabá (etapa 35).",
+    )
+    usar_hand = "relevo" in geom_modo.lower() or "HAND" in geom_modo
+    mostrar_circular = (
+        "circular" in geom_modo.lower()
+        or geom_modo.startswith("Ambos")
+        or geom_modo.startswith("Circular +")
+    )
+    mostrar_trajeto = (
+        (geom_modo.startswith("Ambos") or geom_modo.startswith("Só trajeto"))
+        and not usar_hand
+    )
+    semi_largura = 2.0
+    if mostrar_trajeto:
+        semi_largura = st.slider(
+            "Semi-largura do corredor hidráulico (km)",
+            0.5,
+            6.0,
+            2.0,
+            0.5,
+            help="Metade da faixa em cada margem do talvegue. "
+            "Comprimento jusante ≈ área / (2 × semi-largura).",
+        )
+
+    hand_limiar = limiar_para_lamina(float(prof)) if usar_hand else None
+    hand_info: dict = {"ok": False}
+    if usar_hand and hand_limiar is not None:
+        hand_info = resumo_hand(hand_limiar)
+        st.caption(
+            f"Relevo HAND ≤ **{hand_limiar:.0f} m** (lâmina {prof:.1f} m) · "
+            f"{hand_info.get('n_celulas', 0)} células · área proxy ~"
+            f"{hand_info.get('area_proxy_km2', 0)} km² · `{hand_info.get('fonte')}`. "
+            f"{hand_info.get('aviso', '')}"
+        )
+        if not hand_info.get("ok"):
+            st.info("Grade HAND sem células neste limiar — usando círculo.")
+            usar_hand = False
+            hand_limiar = None
+            mostrar_circular = True
+
+    trajeto: dict = {"ok": False, "polyline": [], "largura_km": semi_largura}
+    if mostrar_trajeto and pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
+        trajeto = construir_trajeto(
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            area_km2=float(area),
+            semi_largura_km=float(semi_largura),
+            incluir_jusante_capital=True,
+        )
+        if not trajeto.get("ok"):
+            st.info(
+                trajeto.get("aviso")
+                or "Trajeto hidráulico indisponível — usando apenas o círculo."
+            )
+            mostrar_circular = True
+            mostrar_trajeto = False
 
     afetados_txt = str(r.get("municipios_potencialmente_afetados") or "")
     afetados = [p.strip() for p in afetados_txt.split("|") if p.strip()]
@@ -637,36 +877,88 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
     us_buf = pd.DataFrame()
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         us_buf = cnes_no_buffer(
-            cnes, float(r["latitude"]), float(r["longitude"]), raio
+            cnes, float(r["latitude"]), float(r["longitude"]), raio_us
         )
     n_us = len(us_buf)
     n_hosp = int(us_buf["hospitalar"].sum()) if n_us and "hospitalar" in us_buf.columns else 0
     n_upa = int(us_buf["upa_ps"].sum()) if n_us and "upa_ps" in us_buf.columns else 0
     n_ubs = int(us_buf["ubs_esf"].sum()) if n_us and "ubs_esf" in us_buf.columns else 0
 
+    # US no corredor (quando houver trajeto)
+    n_us_tr = 0
+    us_tr_ids: list[dict] = []
+    if trajeto.get("ok") and not cnes.empty:
+        for row in cnes.itertuples():
+            if ponto_no_corredor(
+                float(row.latitude),
+                float(row.longitude),
+                trajeto["polyline"],
+                float(trajeto["largura_km"]),
+            ):
+                n_us_tr += 1
+                if getattr(row, "prioritario", False) or row.hospitalar or row.upa_ps or row.ubs_esf:
+                    us_tr_ids.append(
+                        {
+                            "nome": row.nome,
+                            "tipo": row.tipo,
+                            "municipio": row.municipio,
+                        }
+                    )
+
     k1, k2, k3, k4 = st.columns(4)
     k1.metric("Volume liberado", _fmt_br(liberado, 1, " hm³"))
     k2.metric("Área equivalente", _fmt_br(area, 1, " km²"))
-    k3.metric("Raio equivalente", _fmt_br(raio, 2, " km"))
+    k3.metric("Raio circular", _fmt_br(raio, 2, " km"))
     k4.metric("IDAP", f"{r.get('idap', '—')} ({r.get('nivel', '—')})")
-    p1, p2, p3, p4 = st.columns(4)
-    n_prio = (
-        int(us_buf["prioritario"].sum())
-        if n_us and "prioritario" in us_buf.columns
-        else (n_hosp + n_upa + n_ubs)
-    )
-    p1.metric("População estimada", f"{pop_n:,}".replace(",", "."))
-    p2.metric("US no buffer (todas)", n_us)
-    p3.metric("Hospital / UPA", f"{n_hosp} / {n_upa}")
-    p4.metric("Prioritárias (APS/urg.)", n_prio)
-    st.caption(
-        f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
-        "CNES: **todas** as unidades com coordenada no raio "
-        "(base estadual quando `cnes_estabelecimentos_mt` existir)."
-    )
 
+    if mostrar_circular and mostrar_trajeto and trajeto.get("ok"):
+        c_a, c_b = st.columns(2)
+        with c_a:
+            st.markdown("##### Circular")
+            p1, p2 = st.columns(2)
+            p1.metric("Pop. estimada (ref.)", f"{pop_n:,}".replace(",", "."))
+            p2.metric("US no círculo", n_us)
+        with c_b:
+            st.markdown("##### Trajeto hidráulico")
+            t1, t2 = st.columns(2)
+            t1.metric(
+                "Comprimento na calha",
+                _fmt_br(float(trajeto.get("comprimento_km") or 0), 1, " km"),
+            )
+            t2.metric("US no corredor", n_us_tr)
+        st.caption(
+            f"Corredor ±{trajeto.get('largura_km')} km · área faixa ~"
+            f"{trajeto.get('area_corredor_km2')} km² · "
+            f"dist. barragem→eixo {trajeto.get('dist_eixo_km')} km · "
+            f"`{trajeto.get('fonte')}`. População continua estimada pela área equivalente "
+            f"(`{metodo}`), não pelo polígono do corredor."
+        )
+    else:
+        p1, p2, p3, p4 = st.columns(4)
+        n_prio = (
+            int(us_buf["prioritario"].sum())
+            if n_us and "prioritario" in us_buf.columns
+            else (n_hosp + n_upa + n_ubs)
+        )
+        p1.metric("População estimada", f"{pop_n:,}".replace(",", "."))
+        p2.metric("US no círculo", n_us)
+        if trajeto.get("ok") and mostrar_trajeto:
+            p3.metric("US no corredor", n_us_tr)
+            p4.metric(
+                "Calha / faixa",
+                f"{trajeto.get('comprimento_km')} km · ±{trajeto.get('largura_km')} km",
+            )
+        else:
+            p3.metric("Hospital / UPA", f"{n_hosp} / {n_upa}")
+            p4.metric("Prioritárias (APS/urg.)", n_prio)
+        st.caption(
+            f"Método da população: `{metodo}` — {est.get('detalhe', '')} "
+            "CNES no círculo: unidades com coordenada no raio equivalente."
+        )
+
+    cnes_todos: list[dict] = []
+    iso: dict = {}
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
-        # Todos os CNES da região: a animação recalcula o buffer ao expandir o raio.
         cnes_todos = [
             {
                 "la": float(row.latitude),
@@ -682,6 +974,962 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             }
             for row in cnes.itertuples()
         ] if not cnes.empty else []
+
+        st.markdown("#### Área de simulação — US, rodovias e pontes")
+        import json as _json
+
+        from st_app.sedes_municipais import sedes_candidatas
+
+        # CNES no recorte da mancha — evita serializar 12k pontos no cache.
+        from st_app.data import haversine_km as _hav
+
+        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+        raio_filtro = max(raio_us, raio_osm) + 5.0
+        if mostrar_trajeto and trajeto.get("ok") and trajeto.get("polyline"):
+            # Amplia para cobrir o corredor jusante inteiro
+            plas = [float(p[0]) for p in trajeto["polyline"]]
+            plos = [float(p[1]) for p in trajeto["polyline"]]
+            dmax = max(_hav(lat0, lon0, a, b) for a, b in zip(plas, plos))
+            raio_filtro = max(raio_filtro, dmax + float(trajeto.get("largura_km") or 2) + 5)
+        if usar_hand and hand_info.get("ok"):
+            from st_app.relevo_hand import bbox_hand as _bbox_hand
+
+            bb = _bbox_hand(float(hand_limiar or 5.0))
+            if bb:
+                # canto mais distante da bbox → raio de filtro CNES
+                cantos = [
+                    (bb[0], bb[1]),
+                    (bb[0], bb[3]),
+                    (bb[2], bb[1]),
+                    (bb[2], bb[3]),
+                ]
+                dmax_h = max(_hav(lat0, lon0, a, b) for a, b in cantos)
+                raio_filtro = max(raio_filtro, dmax_h + 5)
+        cnes_perto = [
+            p for p in cnes_todos if _hav(lat0, lon0, p["la"], p["lo"]) <= raio_filtro
+        ]
+        cnes_key = _json.dumps(cnes_perto, ensure_ascii=False)
+        corredor_key = ""
+        if mostrar_trajeto and trajeto.get("ok"):
+            corredor_key = _json.dumps(
+                {
+                    "polyline": trajeto["polyline"],
+                    "largura_km": trajeto["largura_km"],
+                },
+                ensure_ascii=False,
+            )
+        sedes = sedes_candidatas(
+            municipios_afetados=afetados or None,
+            so_eixo=False,
+            lat=float(r["latitude"]),
+            lon=float(r["longitude"]),
+            raio_km=max(raio_osm, raio_filtro),
+        )
+        sedes_key = _json.dumps(sedes, ensure_ascii=False)
+        uniao = bool(
+            mostrar_circular
+            and (
+                (mostrar_trajeto and trajeto.get("ok"))
+                or (usar_hand and hand_info.get("ok"))
+            )
+        )
+        with st.spinner(
+            "Cruzando CNES, vias/pontes OSM e sedes municipais na área de simulação…"
+        ):
+            iso = _isolamento_cached(
+                float(r["latitude"]),
+                float(r["longitude"]),
+                round(float(raio_us), 2),
+                cnes_key,
+                corredor_key,
+                sedes_key,
+                uniao,
+                float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            )
+
+        i1, i2, i3, i4, i5 = st.columns(5)
+        i1.metric("US na área (CNES)", iso.get("n_us_atingidas", 0))
+        i2.metric(
+            "Rodovias / pontes",
+            f"{iso.get('n_vias_interrompidas', 0)} / {iso.get('n_pontes_comprometidas', 0)}",
+        )
+        i3.metric("US isoladas", iso.get("n_us_isoladas", 0))
+        i4.metric(
+            "Pessoas isoladas (proxy)",
+            f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", "."),
+        )
+        i5.metric(
+            "C7 proxy",
+            f"{iso.get('nivel_c7_proxy', 0)} · {iso.get('n_municipios_isolados', 0)} mun.",
+        )
+        d1, d2, d3 = st.columns(3)
+        d1.metric("Sedes sem rota", iso.get("n_sedes_sem_rota", 0))
+        d2.metric("Sedes com desvio", iso.get("n_sedes_com_desvio", 0))
+        d3.metric(
+            "Desvio médio (km)",
+            f"{float(iso.get('delta_km_medio_desvio') or 0):.1f}".replace(".", ","),
+        )
+        st.caption(
+            "Desvio = menor caminho sede→hub depois do corte − antes "
+            "(Dijkstra na malha OSM; se o Overpass falhar, usa malha BR/MT offline da etapa 42). "
+            "Proxy C7/D7 — não é tempo de viagem oficial."
+        )
+        if iso.get("desvios_rota"):
+            with st.expander("Desvios de rota por município", expanded=False):
+                st.dataframe(
+                    pd.DataFrame(iso["desvios_rota"]),
+                    width="stretch",
+                    hide_index=True,
+                    height=240,
+                )
+        geom_iso = iso.get("geom") or "circular"
+        if iso.get("aviso"):
+            st.warning(f"Malha viária / isolamento: {iso['aviso']}")
+        else:
+            st.caption(
+                f"Área = geometria **{geom_iso}** · raio US {raio_us:.1f} km "
+                f"(equiv. {raio:.1f} km) · busca OSM ~{raio_osm:.0f} km · "
+                f"{iso.get('fonte')} · ~{iso.get('km_vias_no_buffer', 0)} km de vias. "
+                "Contagens = elementos **dentro da área de simulação** (CNES + OSM)."
+            )
+
+        from st_app.escolas_inep import cruzar_escolas_mancha
+        from st_app.setores_ibge import cruzar_setores_mancha
+        from st_app.sisagua_captacoes import cruzar_captacoes_mancha
+
+        munis_iso_nomes = [
+            str(m.get("municipio") or "")
+            for m in (iso.get("municipios_isolados") or [])
+            if m.get("municipio")
+        ]
+        _geom_mancha = dict(
+            lat0=lat0,
+            lon0=lon0,
+            raio_km=float(raio),
+            mostrar_circular=mostrar_circular,
+            trajeto=trajeto if trajeto.get("ok") else None,
+            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            hand_limiar=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            usar_hand=bool(usar_hand and hand_info.get("ok")),
+        )
+        set_kpi = cruzar_setores_mancha(
+            **_geom_mancha,
+            munis_isolamento=munis_iso_nomes,
+        )
+        cap_kpi = cruzar_captacoes_mancha(**_geom_mancha)
+        esc_kpi = cruzar_escolas_mancha(**_geom_mancha)
+
+        from st_app.ana_fluvial import contexto_fluvial_barragem
+
+        flu = contexto_fluvial_barragem(str(r.get("id_snisb") or ""))
+        st.markdown("##### Contexto fluvial (ANA / SisClima)")
+        if flu.get("disponivel"):
+            f1, f2, f3, f4 = st.columns(4)
+            f1.metric("Estações próximas", flu["n_estacoes"])
+            f2.metric("Com cota recente", flu["n_com_cota"])
+            f3.metric("Acima da cota de alerta", flu["n_acima_alerta"])
+            n_a6 = sum(
+                1
+                for it in (flu.get("itens") or [])
+                if str(it.get("a6_fonte") or "") == "cota_medida"
+            )
+            f4.metric("A6 cota medida", n_a6)
+            st.caption(flu.get("nota") or "")
+            # Vazão observada vs GloFAS (contexto; não altera mancha).
+            hidro_row = None
+            try:
+                from st_app.data import ler_csv as _ler_hidro
+
+                h_all = _ler_hidro("hidro_barragens_mt.csv")
+                if not h_all.empty and "id_snisb" in h_all.columns:
+                    bid = str(r.get("id_snisb") or "").strip()
+                    hit = h_all[h_all["id_snisb"].astype(str).str.strip() == bid]
+                    if not hit.empty:
+                        hidro_row = hit.iloc[0]
+            except Exception:  # noqa: BLE001
+                hidro_row = None
+            if hidro_row is not None:
+                def _f(v):
+                    try:
+                        s = str(v or "").strip().replace(",", ".")
+                        return float(s) if s and s.lower() not in ("nan", "none") else None
+                    except ValueError:
+                        return None
+
+                q_obs = None
+                for it in flu.get("itens") or []:
+                    if it.get("vazao_m3s") is not None:
+                        q_obs = it["vazao_m3s"]
+                        break
+                q_glo = _f(hidro_row.get("vazao_prevista_glofas_m3s"))
+                if q_obs is not None or q_glo is not None:
+                    st.caption(
+                        "Vazão observada (ANA) vs GloFAS (modelo): "
+                        f"{'—' if q_obs is None else f'{q_obs:.1f} m³/s'} · "
+                        f"{'—' if q_glo is None else f'{q_glo:.2f} m³/s'} — "
+                        "antecipação regional; não redefine a mancha."
+                    )
+            if flu.get("itens"):
+                tab = pd.DataFrame(
+                    [
+                        {
+                            "Código": it["codigo"],
+                            "Estação": it["nome"],
+                            "Rio": it["rio"],
+                            "Relação": it["relacao"],
+                            "Dist. km": it["dist_km"],
+                            "Cota cm": it["cota_cm"],
+                            "Vazão m³/s": it["vazao_m3s"],
+                            "Cota alerta": it["cota_alerta_cm"],
+                            "Razão": it["razao"],
+                            "A6 fonte": it.get("a6_fonte") or "",
+                            "Data": it["data"],
+                        }
+                        for it in flu["itens"]
+                    ]
+                )
+                st.dataframe(tab, width="stretch", hide_index=True, height=180)
+            st.caption(f"Fonte: `{flu.get('fonte')}`")
+        else:
+            st.caption(flu.get("nota") or "Contexto fluvial indisponível.")
+
+        if set_kpi.get("disponivel"):
+            s1, s2, s3, s4 = st.columns(4)
+            s1.metric(
+                "Pop. exposta (setores)",
+                f"{int(set_kpi['pop_exposta_setores']):,}".replace(",", "."),
+            )
+            s2.metric("Setores na mancha", set_kpi["n_setores_expostos"])
+            s3.metric(
+                "Pop. isolada (setores)",
+                f"{int(set_kpi['pop_isolada_setores']):,}".replace(",", "."),
+            )
+            s4.metric("Setores isolados (proxy)", set_kpi["n_setores_isolados_proxy"])
+            st.caption(
+                f"Censo IBGE 2022 por setor (eixo Manso–Cuiabá, n={set_kpi['n_setores_eixo']}). "
+                "Exposta = centróide na mancha; isolada = fora da mancha em município com vias cortadas. "
+                f"`{set_kpi.get('fonte')}`"
+            )
+            if set_kpi.get("por_municipio"):
+                with st.expander("População por município (setores)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(set_kpi["por_municipio"]).head(20),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+        else:
+            st.caption(
+                "Setores censitários do eixo ainda não tratados — rode `python executar.py 37`."
+            )
+
+        if cap_kpi.get("disponivel"):
+            c1, c2 = st.columns(2)
+            c1.metric("Captações na mancha", cap_kpi["n_na_mancha"])
+            c2.metric("Captações no eixo (cadastro)", cap_kpi["n_total"])
+            label = "esqueleto Sisagua" if cap_kpi.get("esqueleto") else "Sisagua/OSM"
+            st.caption(
+                f"Captações ({label}) intersectando a mancha proxy — KPI C4. "
+                f"`{cap_kpi.get('fonte')}`"
+            )
+            if cap_kpi.get("itens"):
+                with st.expander("Captações atingidas", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(cap_kpi["itens"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=200,
+                    )
+        else:
+            st.caption(
+                "Captações Sisagua ausentes — rode `python executar.py 38` "
+                "(portal oficial ou fallback OSM)."
+            )
+
+        if esc_kpi.get("disponivel"):
+            e1, e2 = st.columns(2)
+            e1.metric("Escolas na mancha", esc_kpi["n_na_mancha"])
+            e2.metric("Escolas no eixo (espacial)", esc_kpi["n_total"])
+            st.caption(
+                f"Escolas na mancha proxy — KPI C5 (`{esc_kpi.get('fonte')}`). "
+                "Microdados INEP 2024 sem lat/lon (LGPD); pontos = OSM. "
+                "Contagem oficial por município em `escolas_inep_contagem_municipio.csv`."
+            )
+            if esc_kpi.get("itens"):
+                with st.expander("Escolas atingidas", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(esc_kpi["itens"]).drop(
+                            columns=["lat", "lon"], errors="ignore"
+                        ),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+            from st_app.data import TRATADOS as _TR
+
+            cont_esc = _TR / "escolas_inep_contagem_municipio.csv"
+            if cont_esc.is_file():
+                with st.expander("Contagem INEP por município (eixo)", expanded=False):
+                    st.dataframe(
+                        pd.read_csv(cont_esc, sep=";"),
+                        width="stretch",
+                        hide_index=True,
+                        height=260,
+                    )
+        else:
+            st.caption(
+                "Escolas do eixo ausentes — rode `python executar.py 40` "
+                "(microdados INEP + camada OSM)."
+            )
+
+        from st_app.ativos_essenciais import cruzar_ativos_mancha
+        from st_app.demanda_cenario import estimar_demanda
+
+        ativos_kpi = cruzar_ativos_mancha(**_geom_mancha)
+
+        # C5 — serviços essenciais não assistenciais na mancha
+        n_pontes_c5 = int(iso.get("n_pontes_comprometidas") or 0)
+        n_esc_c5 = int(esc_kpi.get("n_na_mancha") or 0) if esc_kpi.get("disponivel") else 0
+        n_cap_c5 = int(cap_kpi.get("n_na_mancha") or 0) if cap_kpi.get("disponivel") else 0
+        n_eta = int(ativos_kpi.get("n_eta") or 0) if ativos_kpi.get("disponivel") else 0
+        n_ete = int(ativos_kpi.get("n_ete") or 0) if ativos_kpi.get("disponivel") else 0
+        n_energia = int(ativos_kpi.get("n_energia") or 0) if ativos_kpi.get("disponivel") else 0
+        n_abrigo = int(ativos_kpi.get("n_abrigo") or 0) if ativos_kpi.get("disponivel") else 0
+        n_ativos_c5 = n_eta + n_ete + n_energia + n_abrigo
+        st.markdown("##### Serviços essenciais na mancha (C5 proxy)")
+        c5a, c5b, c5c, c5d = st.columns(4)
+        c5a.metric("Escolas", n_esc_c5)
+        c5b.metric("Captações", n_cap_c5)
+        c5c.metric("Pontes OSM", n_pontes_c5)
+        c5d.metric(
+            "Total C5 proxy",
+            n_esc_c5 + n_cap_c5 + n_pontes_c5 + n_ativos_c5,
+        )
+        if ativos_kpi.get("disponivel"):
+            a1, a2, a3, a4 = st.columns(4)
+            a1.metric("ETA / água (OSM)", n_eta)
+            a2.metric("ETE / esgoto (OSM)", n_ete)
+            a3.metric("Subestações", n_energia)
+            a4.metric("Abrigos OSM", n_abrigo)
+            st.caption(
+                f"C5 = escolas + captações + pontes + ativos OSM (`{ativos_kpi.get('fonte')}`). "
+                "Proxy espacial — preferir cadastros oficiais de concessionárias/Defesa Civil. "
+                "Rode `python executar.py 46` para atualizar."
+            )
+            if ativos_kpi.get("itens"):
+                with st.expander("Ativos essenciais na mancha", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(ativos_kpi["itens"]).drop(
+                            columns=["lat", "lon"], errors="ignore"
+                        ),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+        else:
+            st.caption(
+                "C5 = escolas + captações Sisagua + pontes OSM. "
+                "Ativos ETA/ETE/energia/abrigos ausentes — rode `python executar.py 46`."
+            )
+
+        from st_app.malha_dnit import cruzar_malha_mancha
+        from st_app.capacidade_cnes import cruzar_capacidade_mancha
+
+        malha_kpi = cruzar_malha_mancha(**_geom_mancha)
+        if malha_kpi.get("disponivel"):
+            st.markdown("##### Malha federal/estadual na mancha (proxy DNIT)")
+            d1, d2, d3, d4 = st.columns(4)
+            d1.metric("Refs BR/MT na mancha", malha_kpi["n_na_mancha"])
+            d2.metric("Federais (BR-)", malha_kpi["n_federais_mancha"])
+            d3.metric("Pontes (ref)", malha_kpi["n_pontes_mancha"])
+            d4.metric("Km aprox. na mancha", f"{malha_kpi['km_na_mancha']:.0f}")
+            st.caption(
+                f"`{malha_kpi.get('fonte')}` — rode `python executar.py 42` para atualizar. "
+                "SNV/DNIT oficial permanece a fonte preferida quando o portal responder."
+            )
+            if malha_kpi.get("itens"):
+                with st.expander("Trechos BR/MT atingidos", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(malha_kpi["itens"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=240,
+                    )
+        else:
+            st.caption(
+                "Malha BR/MT (proxy DNIT) ausente — rode `python executar.py 42`."
+            )
+
+        pop_exp_setores = None
+        if set_kpi.get("disponivel"):
+            try:
+                pop_exp_setores = float(set_kpi.get("pop_exposta_setores") or 0) or None
+            except (TypeError, ValueError):
+                pop_exp_setores = None
+        cap_assist = cruzar_capacidade_mancha(
+            cnes,
+            **_geom_mancha,
+            us_isoladas=iso.get("us_isoladas") or [],
+            pop_exposta=pop_exp_setores or (float(pop_n) if pop_n else None),
+        )
+        if cap_assist.get("disponivel"):
+            st.markdown("##### Capacidade assistencial sob pressão (D6)")
+            a1, a2, a3, a4 = st.columns(4)
+            a1.metric("Hospitalar na mancha", cap_assist["n_hospitalar_mancha"])
+            a2.metric("UPA/PS na mancha", cap_assist["n_upa_mancha"])
+            a3.metric("UBS/ESF na mancha", cap_assist["n_ubs_mancha"])
+            a4.metric("Pressão estrutural", cap_assist["pressao_estrutural"])
+            b1, b2, b3 = st.columns(3)
+            b1.metric("Hospitalar isolada", cap_assist["n_hospitalar_isolada"])
+            b2.metric("UPA isolada", cap_assist["n_upa_isolada"])
+            b3.metric("UBS isolada", cap_assist["n_ubs_isolada"])
+            st.caption(
+                f"{cap_assist['rotulo_pressao']}. `{cap_assist.get('fonte')}`. "
+                "Score estrutural = 3×hospital + 2×UPA + 1×UBS (mancha + isoladas)."
+            )
+            if cap_assist.get("leitos_ok"):
+                l1, l2, l3, l4 = st.columns(4)
+                l1.metric(
+                    "Leitos operacionais (mancha)",
+                    cap_assist["leitos_operacionais_mancha"],
+                )
+                l2.metric(
+                    "Leitos ocupados",
+                    cap_assist["leitos_ocupados_mancha"],
+                )
+                l3.metric(
+                    "Leitos disponíveis",
+                    cap_assist["leitos_disponiveis_mancha"],
+                )
+                taxa = cap_assist.get("taxa_ocupacao_mancha")
+                l4.metric(
+                    "Taxa ocupação",
+                    "—" if taxa is None else f"{taxa:.1f}%".replace(".", ","),
+                )
+                if cap_assist.get("razao_leitos_demanda") is not None:
+                    st.caption(
+                        f"D6 razão leitos disponíveis / demanda (2% pop. exposta) = "
+                        f"**{cap_assist['razao_leitos_demanda']:.2f}** "
+                        "(≥1,00 = 0 pts; 0,50–1 = 1 pt; <0,50 = 2 pts)."
+                    )
+            elif cap_assist.get("cadastrados_ok"):
+                st.metric(
+                    "Leitos cadastrados CNES na mancha (SAU-01)",
+                    cap_assist["leitos_cadastrados_mancha"],
+                )
+                st.caption(
+                    "Capacidade cadastrada (CNES LT) — **não** é ocupação operacional. "
+                    "Para vagos/ocupação, aponte IndicaSUS e rode `python executar.py 43`."
+                )
+            else:
+                st.caption(
+                    "Leitos ainda não carregados — IndicaSUS: `python executar.py 43`; "
+                    "CNES LT cadastrado: `python executar.py 45`. "
+                    "Ver `docs/15-integracao-indicasus-dw.md`."
+                )
+
+            # Demanda sanitária do cenário (roadmap 4.3) — usa pop. setores ou proxy
+            pop_demanda = pop_exp_setores
+            if not pop_demanda:
+                try:
+                    pop_demanda = float(pop_n) if pop_n else None
+                except (TypeError, ValueError):
+                    pop_demanda = None
+            leitos_disp_dem = None
+            if cap_assist.get("leitos_ok"):
+                leitos_disp_dem = cap_assist.get("leitos_disponiveis_mancha")
+            dem = estimar_demanda(pop_demanda, leitos_disponiveis=leitos_disp_dem)
+            if dem.get("ok"):
+                st.markdown("##### Demanda estimada do cenário (proxy 4.3)")
+                e1, e2, e3, e4 = st.columns(4)
+                e1.metric(
+                    "Pop. de referência",
+                    f"{dem['pop_exposta']:,}".replace(",", "."),
+                )
+                e2.metric("Internações (2%)", dem["demanda_internacao"])
+                e3.metric("Atendimentos 72 h (8%)", dem["demanda_atendimentos_72h"])
+                e4.metric(
+                    "Água L/dia (15 L/p)",
+                    f"{dem['demanda_agua_L_dia']:,}".replace(",", "."),
+                )
+                e5, e6 = st.columns(2)
+                e5.metric("Ambulâncias ref. (1/10 mil)", dem["ambulancias_ref"])
+                if dem.get("razao_leitos_demanda") is not None:
+                    e6.metric(
+                        "Razão leitos/demanda",
+                        f"{dem['razao_leitos_demanda']:.2f}".replace(".", ","),
+                    )
+                else:
+                    e6.metric("Razão leitos/demanda", "—")
+                st.caption(dem.get("nota") or "")
+
+            from st_app.cenario_export import montar_csv_cenario
+            from st_app.ficha_rapida import (
+                carregar_ficha,
+                listar_fichas,
+                termos_ipapd_da_ficha,
+                termos_irs_da_ficha,
+            )
+            from st_app.ipapd import calcular_ipapd_proxy
+            from st_app.irs import ROTULOS as IRS_ROTULOS
+            from st_app.irs import calcular_irs_proxy
+            from st_app.pae_checklist import (
+                checklist_para_dataframe,
+                exportar_checklist_csv,
+                montar_checklist_pae,
+            )
+            from st_app.sitrep import montar_sitrep_cenario_md
+
+            chk_pae = montar_checklist_pae(r)
+            with st.expander("Checklist PAE / PAEBM (lacunas)", expanded=False):
+                res = chk_pae.get("resumo") or {}
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("OK", str(res.get("ok", 0)))
+                c2.metric("Atenção", str(res.get("atencao", 0)))
+                c3.metric("Não", str(res.get("nao", 0)))
+                c4.metric("Lacuna", str(res.get("lacuna", 0)))
+                st.dataframe(
+                    checklist_para_dataframe(chk_pae),
+                    width="stretch",
+                    hide_index=True,
+                    height=280,
+                )
+                st.download_button(
+                    "Baixar checklist PAE (CSV)",
+                    data=exportar_checklist_csv(chk_pae),
+                    file_name=f"checklist_pae_{(r.get('id_snisb') or 'barragem')}.csv",
+                    mime="text/csv",
+                    key="checklist_pae_csv",
+                )
+                st.caption(chk_pae.get("fonte") or "")
+
+            # S usa o mesmo universo no numerador/denominador (escolas+captações+ativos)
+            n_ess_mancha = n_esc_c5 + n_cap_c5 + n_ativos_c5
+            n_ess_eixo = 0
+            if esc_kpi.get("disponivel"):
+                n_ess_eixo += int(esc_kpi.get("n_total") or 0)
+            if cap_kpi.get("disponivel"):
+                n_ess_eixo += int(cap_kpi.get("n_total") or 0)
+            if ativos_kpi.get("disponivel"):
+                n_ess_eixo += int(ativos_kpi.get("n_total") or 0)
+            if n_ess_eixo < n_ess_mancha:
+                n_ess_eixo = n_ess_mancha
+
+            ficha_termos: dict = {}
+            ficha_irs: dict = {}
+            with st.expander("Ficha rápida → IPAPD / IRS", expanded=False):
+                st.caption(
+                    "Exporte o JSON em `painel/ficha_rapida.html` para "
+                    "`dados/tratados/fichas_rapidas/` ou envie abaixo."
+                )
+                up = st.file_uploader(
+                    "JSON da ficha rápida",
+                    type=["json"],
+                    key="ficha_ipapd_up",
+                )
+                ficha_data = None
+                if up is not None:
+                    import json as _json_f
+
+                    try:
+                        ficha_data = _json_f.loads(up.getvalue().decode("utf-8"))
+                        ficha_data["_arquivo"] = up.name
+                    except Exception as exc:  # noqa: BLE001
+                        st.warning(f"JSON inválido: {exc}")
+                elif listar_fichas():
+                    ficha_data = carregar_ficha()
+                    if ficha_data:
+                        st.caption(f"Usando `{ficha_data.get('_arquivo')}`")
+                ficha_termos = termos_ipapd_da_ficha(ficha_data)
+                ficha_irs = termos_irs_da_ficha(ficha_data)
+
+            ipapd = calcular_ipapd_proxy(
+                taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                n_us_atingidas=int(iso.get("n_us_atingidas") or 0),
+                n_us_isoladas=int(iso.get("n_us_isoladas") or 0),
+                pessoas_isoladas=int(iso.get("pessoas_isoladas_proxy") or 0),
+                pop_exposta=pop_demanda,
+                n_servicos_essenciais_mancha=n_ess_mancha,
+                n_servicos_essenciais_eixo=n_ess_eixo,
+                ficha_termos=ficha_termos or None,
+            )
+            if ipapd.get("ok"):
+                st.markdown("##### IPAPD proxy (pressão assistencial)")
+                p1, p2, p3 = st.columns(3)
+                p1.metric(
+                    "IPAPD",
+                    f"{ipapd['ipapd']:.2f}".replace(".", ",")
+                    if ipapd.get("ipapd") is not None
+                    else "—",
+                )
+                p2.metric("Situação", ipapd.get("rotulo") or "—")
+                p3.metric(
+                    "Completude dos termos",
+                    f"{100 * float(ipapd.get('completude') or 0):.0f}%",
+                )
+                termos = ipapd.get("termos") or {}
+                det = ipapd.get("detalhe") or {}
+                with st.expander("Decomposição IPAPD (O/A/P/E/C/S)", expanded=False):
+                    linhas_ip = []
+                    nomes = {
+                        "O": "Ocupação (0,25)",
+                        "A": "Aumento atendimentos (0,20)",
+                        "P": "Profissionais (0,15)",
+                        "E": "Perda de acesso (0,15)",
+                        "C": "Autonomia crítica (0,15)",
+                        "S": "Interrupção serviços (0,10)",
+                    }
+                    for k in ("O", "A", "P", "E", "C", "S"):
+                        v = termos.get(k)
+                        linhas_ip.append(
+                            {
+                                "termo": nomes[k],
+                                "valor": "lacuna" if v is None else f"{float(v):.2f}",
+                                "detalhe": det.get(k) or "",
+                            }
+                        )
+                    st.dataframe(
+                        pd.DataFrame(linhas_ip),
+                        width="stretch",
+                        hide_index=True,
+                        height=240,
+                    )
+                st.caption(ipapd.get("fonte") or "")
+
+            irs = calcular_irs_proxy(
+                ficha_irs=ficha_irs or None,
+                n_us_atingidas=int(iso.get("n_us_atingidas") or 0),
+                n_us_isoladas=int(iso.get("n_us_isoladas") or 0),
+                n_vias=int(iso.get("n_vias_interrompidas") or 0),
+                n_pontes=int(iso.get("n_pontes_comprometidas") or 0),
+                taxa_ocupacao_pct=cap_assist.get("taxa_ocupacao_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                leitos_disponiveis=cap_assist.get("leitos_disponiveis_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+                leitos_totais=cap_assist.get("leitos_totais_mancha")
+                if cap_assist.get("leitos_ok")
+                else None,
+            )
+            if irs.get("ok"):
+                st.markdown("##### IRS proxy (recuperação sanitária)")
+                r1, r2, r3 = st.columns(3)
+                r1.metric(
+                    "IRS",
+                    f"{irs['irs']:.2f}".replace(".", ",")
+                    if irs.get("irs") is not None
+                    else "—",
+                )
+                r2.metric("Situação", irs.get("rotulo") or "—")
+                r3.metric(
+                    "Completude",
+                    f"{100 * float(irs.get('completude') or 0):.0f}%",
+                )
+                with st.expander("Decomposição IRS (11 dimensões)", expanded=False):
+                    linhas_irs = []
+                    termos_i = irs.get("termos") or {}
+                    det_i = irs.get("detalhe") or {}
+                    for k, lab in IRS_ROTULOS.items():
+                        v = termos_i.get(k)
+                        linhas_irs.append(
+                            {
+                                "dimensão": lab,
+                                "valor": "lacuna" if v is None else f"{float(v):.2f}",
+                                "detalhe": det_i.get(k) or "",
+                            }
+                        )
+                    st.dataframe(
+                        pd.DataFrame(linhas_irs),
+                        width="stretch",
+                        hide_index=True,
+                        height=340,
+                    )
+                st.caption(
+                    (irs.get("fonte") or "")
+                    + " · "
+                    + (irs.get("criterio_encerramento") or "")
+                )
+
+            from st_app.mapbiomas import pressao_municipio as _mb_pressao
+
+            _mb = _mb_pressao(str(r.get("municipio") or ""))
+
+            def _num_or_dash(v: object) -> object:
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    return "—"
+                try:
+                    return float(v)
+                except (TypeError, ValueError):
+                    s = str(v).strip()
+                    return s if s else "—"
+
+            payload_cen = {
+                "barragem": str(r.get("nome") or ""),
+                "municipio": str(r.get("municipio") or ""),
+                "id_snisb": str(r.get("id_snisb") or ""),
+                "geometria": geom_iso,
+                "pop_exposta": int(pop_demanda or 0),
+                "n_setores": set_kpi.get("n_setores_expostos")
+                if set_kpi.get("disponivel")
+                else "—",
+                "n_captacoes": n_cap_c5,
+                "n_escolas": n_esc_c5,
+                "n_ativos": n_ativos_c5,
+                "n_us_atingidas": iso.get("n_us_atingidas", 0),
+                "n_us_isoladas": iso.get("n_us_isoladas", 0),
+                "n_vias": iso.get("n_vias_interrompidas", 0),
+                "n_pontes": iso.get("n_pontes_comprometidas", 0),
+                "pessoas_isoladas": iso.get("pessoas_isoladas_proxy", 0),
+                "n_sedes_sem_rota": iso.get("n_sedes_sem_rota", 0),
+                "n_sedes_com_desvio": iso.get("n_sedes_com_desvio", 0),
+                "delta_km_medio_desvio": iso.get("delta_km_medio_desvio", 0),
+                "nivel_c7": iso.get("rotulo_c7") or iso.get("nivel_c7_proxy") or "—",
+                "mapbiomas_ha_urbana": _mb.get("ha_urbana")
+                if _mb.get("disponivel")
+                else "—",
+                "mapbiomas_ha_drenagem_baixa": _mb.get("ha_urbana_drenagem_baixa")
+                if _mb.get("disponivel")
+                else "—",
+                "mapbiomas_pct_drenagem_baixa": _mb.get("pct_urbana_drenagem_baixa")
+                if _mb.get("disponivel")
+                else "—",
+                "chuva_24h_mm": _num_or_dash(r.get("chuva_24h_mm")),
+                "chuva_72h_mm": _num_or_dash(r.get("chuva_72h_mm")),
+                "chuva_prevista_mm": _num_or_dash(r.get("chuva_prevista_24_72h_mm")),
+                "percentil_climatologico": _num_or_dash(r.get("percentil_climatologico")),
+                "fonte_telemetria": str(
+                    r.get("fonte_telemetria_a") or r.get("fonte_precip") or "—"
+                ),
+                "aproximacao_espacial": str(r.get("aproximacao_espacial") or "—"),
+                "pressao_estrutural": cap_assist.get("pressao_estrutural"),
+                "leitos_disponiveis": cap_assist.get("leitos_disponiveis_mancha")
+                if cap_assist.get("leitos_ok")
+                else "—",
+                "demanda_internacao": dem.get("demanda_internacao")
+                if dem.get("ok")
+                else "—",
+                "demanda_agua": dem.get("demanda_agua_L_dia") if dem.get("ok") else "—",
+                "ipapd": ipapd.get("ipapd") if ipapd.get("ok") else "—",
+                "ipapd_rotulo": ipapd.get("rotulo") if ipapd.get("ok") else "—",
+                "ipapd_completude": (
+                    f"{100*float(ipapd.get('completude') or 0):.0f}%"
+                    if ipapd.get("ok")
+                    else "—"
+                ),
+                "irs": irs.get("irs") if irs.get("ok") else "—",
+                "irs_rotulo": irs.get("rotulo") if irs.get("ok") else "—",
+                "irs_completude": (
+                    f"{100*float(irs.get('completude') or 0):.0f}%"
+                    if irs.get("ok")
+                    else "—"
+                ),
+                "pae_status": next(
+                    (
+                        it["status"]
+                        for it in (chk_pae.get("itens") or [])
+                        if it.get("codigo") == "PAE-01"
+                    ),
+                    "",
+                ),
+                "pae_zas": next(
+                    (
+                        it["status"]
+                        for it in (chk_pae.get("itens") or [])
+                        if it.get("codigo") == "PAE-04"
+                    ),
+                    "",
+                ),
+                "pae_lacunas": chk_pae.get("n_lacunas", 0),
+            }
+            sitrep_cen = montar_sitrep_cenario_md(payload_cen)
+            d1, d2 = st.columns(2)
+            with d1:
+                st.download_button(
+                    "Baixar SITREP do cenário (Markdown)",
+                    data=sitrep_cen.encode("utf-8"),
+                    file_name=f"sitrep_cenario_{(r.get('id_snisb') or 'barragem')}.md",
+                    mime="text/markdown",
+                    key="sitrep_cenario_md",
+                )
+            with d2:
+                st.download_button(
+                    "Baixar KPIs do cenário (CSV)",
+                    data=montar_csv_cenario(payload_cen),
+                    file_name=f"kpis_cenario_{(r.get('id_snisb') or 'barragem')}.csv",
+                    mime="text/csv",
+                    key="kpis_cenario_csv",
+                )
+            if cap_assist.get("itens_mancha"):
+                with st.expander("US na mancha (tipologia + leitos)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(cap_assist["itens_mancha"]),
+                        width="stretch",
+                        hide_index=True,
+                        height=220,
+                    )
+
+            from st_app.dw_status import listar_status_dw
+
+            dw_itens = listar_status_dw()
+            if dw_itens:
+                with st.expander("Fontes DW / saúde (status)", expanded=False):
+                    st.dataframe(
+                        pd.DataFrame(dw_itens)[
+                            ["extrato", "titulo", "prioridade", "pipeline", "ok", "n_linhas", "fonte"]
+                        ],
+                        width="stretch",
+                        hide_index=True,
+                        height=260,
+                    )
+                    st.caption(
+                        "Pipeline 43=IndicaSUS · 44=SIH/SIA/SISREG/SINAN · 45=CNES LT. "
+                        "Catálogo: `dados/config/dw_catalogo.json`."
+                    )
+
+        from st_app.mapbiomas import carregar_mapbiomas, pressao_municipio, resumo_eixo
+
+        mb_resumo = resumo_eixo()
+        if mb_resumo.get("disponivel"):
+            mb = carregar_mapbiomas()
+            st.markdown("##### Pressão de ocupação (MapBiomas — eixo)")
+            m1, m2, m3, m4 = st.columns(4)
+            m1.metric(
+                "Área urbana 2024 (eixo)",
+                f"{mb_resumo['ha_urbana_total']:,.0f} ha".replace(",", "."),
+            )
+            m2.metric(
+                "Crescimento 10 anos",
+                f"{mb['delta_urbana_10a_ha'].sum():,.0f} ha".replace(",", "."),
+            )
+            m3.metric(
+                "Urbana em drenagem ≤3 m",
+                f"{mb_resumo['ha_drenagem_baixa_total']:,.0f} ha".replace(",", "."),
+            )
+            mb_mun = pressao_municipio(str(r.get("municipio") or ""))
+            if mb_mun.get("disponivel") and mb_mun.get("ha_urbana") is not None:
+                m4.metric(
+                    f"Urbana sede ({mb_mun['municipio']})",
+                    f"{mb_mun['ha_urbana']:,.0f} ha".replace(",", "."),
+                    (
+                        f"{mb_mun['pct_urbana_drenagem_baixa']:.0f}% em drenagem baixa"
+                        if mb_mun.get("pct_urbana_drenagem_baixa") is not None
+                        else None
+                    ),
+                )
+            else:
+                m4.metric("Municípios no eixo", mb_resumo.get("n_municipios", 0))
+            st.caption(
+                "MapBiomas Col.10 módulo urbano — contexto de exposição municipal "
+                "(não é mancha HAND). Rode `python executar.py 41` para atualizar."
+            )
+            with st.expander("MapBiomas por município", expanded=False):
+                st.dataframe(mb, width="stretch", hide_index=True, height=280)
+        if (
+            iso.get("n_us_atingidas", 0) == 0
+            and iso.get("n_vias_interrompidas", 0) == 0
+            and iso.get("n_pontes_comprometidas", 0) == 0
+        ):
+            st.info(
+                "Nenhuma US, rodovia estruturante ou ponte OSM encontrada nesta área. "
+                "Tente aumentar a fração liberada, reduzir a profundidade (raio maior) "
+                "ou escolher uma barragem mais próxima de malha urbana/CNES."
+            )
+
+        from st_app.indicadores import carregar_exposicao_vulneraveis
+        from st_app.data import haversine_km as _hav_v
+        from st_app.relevo_hand import ponto_na_mancha_hand as _pnt_hand
+
+        vul_mapa: list[dict] = []
+        vul_df = carregar_exposicao_vulneraveis()
+        no_circ = pd.DataFrame()
+        no_tr = pd.DataFrame()
+        if not vul_df.empty:
+            lat0, lon0 = float(r["latitude"]), float(r["longitude"])
+            vul_df = vul_df.dropna(subset=["latitude", "longitude"]).copy()
+            vul_df["dist_km"] = vul_df.apply(
+                lambda row: _hav_v(
+                    lat0, lon0, float(row["latitude"]), float(row["longitude"])
+                ),
+                axis=1,
+            )
+            # Exclui estabelecimentos de saúde (já cobertos pelo CNES no mapa)
+            if "categoria" in vul_df.columns:
+                cats = vul_df["categoria"].fillna("").astype(str).str.lower()
+                vul_df = vul_df[
+                    ~cats.str.contains("saúde|saude|estabelecimento", regex=True)
+                ].copy()
+
+            def _na_mancha_vul(row) -> bool:
+                la, lo = float(row["latitude"]), float(row["longitude"])
+                ok = False
+                if mostrar_circular and row["dist_km"] <= raio:
+                    ok = True
+                if mostrar_trajeto and trajeto.get("ok"):
+                    ok = ok or ponto_no_corredor(
+                        la, lo, trajeto["polyline"], float(trajeto["largura_km"])
+                    )
+                if usar_hand and hand_limiar is not None:
+                    ok = ok or _pnt_hand(la, lo, float(hand_limiar))
+                return ok
+
+            na = vul_df[vul_df.apply(_na_mancha_vul, axis=1)].sort_values("dist_km")
+            if mostrar_circular:
+                no_circ = vul_df[vul_df["dist_km"] <= raio].sort_values("dist_km")
+            if trajeto.get("ok") and mostrar_trajeto:
+                mask = vul_df.apply(
+                    lambda row: ponto_no_corredor(
+                        float(row["latitude"]),
+                        float(row["longitude"]),
+                        trajeto["polyline"],
+                        float(trajeto["largura_km"]),
+                    ),
+                    axis=1,
+                )
+                no_tr = vul_df[mask].sort_values("dist_km")
+            for row in na.head(200).itertuples():
+                fam = getattr(row, "familias", None)
+                try:
+                    fam_n = int(float(fam)) if fam not in (None, "") and not pd.isna(fam) else None
+                except (TypeError, ValueError):
+                    fam_n = None
+                vul_mapa.append(
+                    {
+                        "la": float(row.latitude),
+                        "lo": float(row.longitude),
+                        "no": getattr(row, "nome", None),
+                        "cat": getattr(row, "categoria", None),
+                        "mu": getattr(row, "municipio", None),
+                        "fam": fam_n,
+                        "dist": float(row.dist_km),
+                    }
+                )
+            st.metric("Comunidades vulneráveis na mancha", len(vul_mapa))
+
+        escolas_mapa = [
+            {
+                "la": it["lat"],
+                "lo": it["lon"],
+                "no": it.get("nome") or "Escola",
+                "mu": it.get("municipio") or "",
+            }
+            for it in (esc_kpi.get("itens") or [])
+            if esc_kpi.get("disponivel") and it.get("lat") is not None
+        ]
+        ativos_mapa = [
+            {
+                "la": it["lat"],
+                "lo": it["lon"],
+                "no": it.get("nome") or "",
+                "mu": it.get("municipio") or "",
+                "cat": it.get("categoria") or "",
+                "rotulo": it.get("rotulo") or "",
+            }
+            for it in (ativos_kpi.get("itens") or [])
+            if ativos_kpi.get("disponivel") and it.get("lat") is not None
+        ]
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
@@ -691,46 +1939,140 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             profundidade_m=float(prof),
             pop_est=pop_n,
             metodo_pop=metodo,
-            cnes=cnes_todos,
-            altura=480,
+            cnes=cnes_perto,
+            vias=iso.get("vias") or [],
+            pontes=iso.get("pontes") or [],
+            us_atingidas=iso.get("us_atingidas") or [],
+            us_isoladas=iso.get("us_isoladas") or [],
+            municipios_isolados=iso.get("municipios_isolados") or [],
+            isolamento=iso,
+            trajeto=trajeto if trajeto.get("ok") else None,
+            mostrar_circular=mostrar_circular,
+            mostrar_trajeto=mostrar_trajeto and bool(trajeto.get("ok")),
+            hand_poligonos=hand_info.get("poligonos") if usar_hand else None,
+            hand_limiar_m=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
+            mostrar_hand=bool(usar_hand and hand_info.get("ok")),
+            vulneraveis=vul_mapa,
+            escolas=escolas_mapa,
+            ativos=ativos_mapa,
+            altura=560,
             autoplay=False,
         )
-        components.html(html, height=500, scrolling=False)
+        components.html(html, height=580, scrolling=False)
+
+        if mostrar_circular:
+            st.subheader("Populações vulneráveis — círculo")
+            if no_circ.empty:
+                st.caption(
+                    "Nenhuma aldeia/TI/assentamento/quilombo do eixo no raio. "
+                    "Ribeirinhos ainda sem base espacial contínua."
+                )
+            else:
+                st.dataframe(
+                    no_circ[
+                        [
+                            c
+                            for c in (
+                                "nome",
+                                "categoria",
+                                "municipio",
+                                "faixa",
+                                "dist_km",
+                                "familias",
+                            )
+                            if c in no_circ.columns
+                        ]
+                    ].head(40),
+                    width="stretch",
+                    hide_index=True,
+                    height=200,
+                )
+        if trajeto.get("ok") and mostrar_trajeto:
+            st.subheader("Populações vulneráveis — corredor hidráulico")
+            if no_tr.empty:
+                st.caption("Nenhuma população vulnerável do eixo no corredor.")
+            else:
+                st.dataframe(
+                    no_tr[
+                        [
+                            c
+                            for c in (
+                                "nome",
+                                "categoria",
+                                "municipio",
+                                "faixa",
+                                "dist_km",
+                                "familias",
+                            )
+                            if c in no_tr.columns
+                        ]
+                    ].head(40),
+                    width="stretch",
+                    hide_index=True,
+                    height=200,
+                )
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
 
-    from st_app.indicadores import carregar_exposicao_vulneraveis
-    from st_app.data import haversine_km
-
-    vul = carregar_exposicao_vulneraveis()
-    if (
-        not vul.empty
-        and pd.notna(r.get("latitude"))
-        and pd.notna(r.get("longitude"))
-    ):
-        lat0, lon0 = float(r["latitude"]), float(r["longitude"])
-        vul = vul.dropna(subset=["latitude", "longitude"]).copy()
-        vul["dist_km"] = vul.apply(
-            lambda row: haversine_km(lat0, lon0, float(row["latitude"]), float(row["longitude"])),
-            axis=1,
+    us_at = list(iso.get("us_atingidas") or []) if iso else []
+    if us_at:
+        st.subheader(f"US reais atingidas — CNES na mancha ({len(us_at)})")
+        st.dataframe(
+            pd.DataFrame(us_at).rename(
+                columns={"no": "nome", "mu": "municipio", "tp": "tipo", "dist": "dist_km"}
+            )[["nome", "tipo", "municipio", "dist_km"]],
+            width="stretch",
+            hide_index=True,
+            height=240,
         )
-        no_buf = vul[vul["dist_km"] <= raio].sort_values("dist_km")
-        st.subheader("Populações vulneráveis no buffer (proxy)")
-        if no_buf.empty:
-            st.caption("Nenhuma aldeia/assentamento/quilombo do eixo dentro do raio equivalente.")
-        else:
-            st.dataframe(
-                no_buf[
-                    [c for c in ("nome", "categoria", "municipio", "faixa", "dist_km", "familias") if c in no_buf.columns]
-                ].head(40),
-                width="stretch",
-                hide_index=True,
-                height=220,
-            )
 
-    if n_us:
+    mun_iso = list(iso.get("municipios_isolados") or []) if iso else []
+    if mun_iso:
+        st.subheader(
+            f"Pessoas isoladas (proxy) — "
+            f"{int(iso.get('pessoas_isoladas_proxy') or 0):,}".replace(",", ".")
+            + f" hab. em {len(mun_iso)} município(s)"
+        )
+        st.dataframe(
+            pd.DataFrame(mun_iso)[["municipio", "populacao", "dist", "codigo_ibge"]].rename(
+                columns={"dist": "dist_km"}
+            ),
+            width="stretch",
+            hide_index=True,
+            height=220,
+        )
+        st.caption(
+            "População = Censo IBGE 2022 do município cuja sede (centroide) perde "
+            "caminho terrestre ao hub após corte de vias/pontes. Ordem de grandeza."
+        )
+
+    us_iso = list(iso.get("us_isoladas") or []) if iso else []
+    if us_iso:
+        st.subheader("US isoladas — fora da mancha, sem rota ao hub")
+        st.dataframe(
+            pd.DataFrame(us_iso).rename(
+                columns={
+                    "no": "nome",
+                    "mu": "municipio",
+                    "tp": "tipo",
+                    "dist": "dist_km",
+                }
+            )[["nome", "tipo", "municipio", "dist_km"]],
+            width="stretch",
+            hide_index=True,
+            height=200,
+        )
+
+    if us_tr_ids and mostrar_trajeto and trajeto.get("ok") and not us_at:
         st.markdown(
-            f'<p class="lista-us-titulo">US prioritárias no buffer ({n_us})</p>',
+            f'<p class="lista-us-titulo">US prioritárias no corredor ({len(us_tr_ids)})</p>',
+            unsafe_allow_html=True,
+        )
+        st.dataframe(pd.DataFrame(us_tr_ids).head(60), width="stretch", hide_index=True, height=220)
+
+    if n_us and mostrar_circular and not us_at:
+        st.markdown(
+            f'<p class="lista-us-titulo">US prioritárias no círculo ({n_us})</p>',
             unsafe_allow_html=True,
         )
         mostrar = us_buf[
@@ -738,21 +2080,18 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         ].copy()
         mostrar["dist_km"] = mostrar["dist_km"].round(2)
         st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
-    else:
-        st.info(
-            "Nenhuma US CNES prioritária com coordenada neste raio "
-            "(cobertura atual: eixo Cuiabá)."
-        )
 
     st.caption(
-        "Fórmula: área_km² = (hm³ × fração) / profundidade_m. "
-        "Use ▶ Animar no mapa para ver a expansão da mancha proxy e o ingresso de US. "
-        "Não substitui PAE / dam break."
+        "Circular: área_km² = (hm³ × fração) / profundidade_m → raio = √(área/π). "
+        "Trajeto: L ≈ área / (2×semi-largura) ao longo do eixo BHO Manso–Cuiabá. "
+        "Relevo HAND: células SRTM com elevação − talvegue ≤ lâmina (piloto Manso–Cuiabá). "
+        "Vias/C7 usam a geometria ativa (círculo, corredor ou HAND). "
+        "Não é mancha PAE, dam break nem tempo de chegada da onda."
     )
 
 
 def pagina_interpretacao() -> None:
-    st.markdown("# Interpretação dos indicadores")
+    st.markdown("# Como interpretar os indicadores")
     st.markdown(
         '<p class="nota">Leitura operacional dos KPIs usados no comando estadual, '
         "no IDAP e na simulação — para quem não é especialista em barragens.</p>",
@@ -804,6 +2143,30 @@ def pagina_interpretacao() -> None:
             "interdição ou sobrecarga — não o município inteiro.",
         ),
         (
+            "Vias, pontes e isolamento (C7 proxy)",
+            "Malha OpenStreetMap (arteriais e pontes) cruzada com a geometria ativa "
+            "(círculo, corredor hidráulico ou relevo HAND). "
+            "Trecho na mancha = interrompido. US fora da mancha sem caminho terrestre até o "
+            "hub de Cuiabá = potencialmente isolada. Escala 0–2 espelha o C7 do IDAP.",
+        ),
+        (
+            "Trajeto hidráulico vs círculo vs relevo (HAND)",
+            "Círculo: espalha a área equivalente em disco isótropo. "
+            "Trajeto: percorre a calha BHO jusante e forma um corredor com semi-largura "
+            "ajustável — L ≈ área/(2×w). "
+            "Relevo HAND (piloto Manso–Cuiabá): células SRTM com elevação − talvegue ≤ "
+            "lâmina proxy (etapa 35 / OpenTopoData). Todos são proxies; a mancha PAE "
+            "oficial (dam break) entra depois como camada própria.",
+        ),
+        (
+            "US atingidas, vias/pontes e pessoas isoladas",
+            "US atingidas = estabelecimentos CNES dentro da mancha proxy. "
+            "Vias/pontes = arteriais OSM que cruzam a mancha. "
+            "US isoladas = fora da mancha sem rota terrestre ao hub após o corte. "
+            "Pessoas isoladas = soma da população IBGE 2022 dos municípios cuja sede "
+            "(centroide) perde caminho ao hub — ordem de grandeza, não censo de desalojados.",
+        ),
+        (
             "CRI e DPA",
             "CRI = probabilidade relativa de acidente (estado da estrutura). "
             "DPA = consequência de um eventual rompimento (volume, população, ambiente). "
@@ -828,43 +2191,108 @@ def pagina_interpretacao() -> None:
             st.markdown(glossario.read_text(encoding="utf-8"))
 
 
+def _txt(v: object, suf: str = "") -> str:
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return "—"
+    s = str(v).strip()
+    if not s or s.lower() in ("nan", "none", "-"):
+        return "—"
+    if suf and isinstance(v, (int, float)):
+        return f"{float(v):.2f}{suf}".replace(".", ",")
+    return s
+
+
 def pagina_ficha(df: pd.DataFrame) -> None:
-    st.markdown("# Barragem 360°")
+    st.markdown("# Detalhe da barragem")
     if df.empty:
         st.error("Sem dados.")
         return
-    ordenado = df.sort_values(["nivel", "idap_n"], ascending=[True, False])
-    labels = [f"{r.nome} — {r.id_snisb}" for r in ordenado.itertuples()]
-    escolha = st.selectbox("Barragem", labels)
-    bid = escolha.split(" — ")[-1]
+    ordenado = ordenar_por_severidade(df)
+    labels = [
+        f"{r.nome} — {r.id_snisb} ({getattr(r, 'nivel', '—')})"
+        for r in ordenado.itertuples()
+    ]
+    pre_360 = str(st.session_state.pop("barragem_360_id", "") or "")
+    idx360 = 0
+    if pre_360:
+        for i, lab in enumerate(labels):
+            if f" — {pre_360} " in lab:
+                idx360 = i
+                break
+    escolha = st.selectbox("Barragem", labels, index=idx360)
+    bid = escolha.split(" — ")[1].split(" ")[0]
+    st.session_state["barragem_selecionada_id"] = bid
     r = df[df["id_snisb"] == bid].iloc[0]
     st.markdown(f"## {r['nome']}")
     st.markdown(
-        f"{_badge(r['nivel'])} &nbsp; IDAP **{r.get('idap','—')}/100** · "
-        f"completude {r.get('completude','—')} · {r.get('confiabilidade','—')}",
+        f"{_badge(r['nivel'])} &nbsp; IDAP **{_txt(r.get('idap'))}/100** · "
+        f"completude {_txt(r.get('completude'))} · {_txt(r.get('confiabilidade'))}",
         unsafe_allow_html=True,
     )
     a, b = st.columns(2)
     with a:
-        st.markdown("### Identificação")
+        st.markdown("### Identificação e engenharia")
         st.write(
             {
-                "SNISB": r["id_snisb"],
-                "Município": r.get("municipio_sede"),
-                "Órgão": r.get("orgao_fiscalizador"),
-                "Uso": r.get("uso_principal"),
-                "CRI / DPA": f"{r.get('categoria_risco','—')} / {r.get('dano_potencial_associado','—')}",
-                "Afetados (Otto)": r.get("municipios_potencialmente_afetados"),
+                "SNISB": _txt(r.get("id_snisb")),
+                "Município sede": _txt(r.get("municipio_sede") or r.get("municipio")),
+                "Empreendedor": _txt(r.get("empreendedor")),
+                "Tipo empreendedor": _txt(r.get("tipo_empreendedor")),
+                "Órgão fiscalizador": _txt(r.get("orgao_fiscalizador")),
+                "Uso principal": _txt(r.get("uso_principal")),
+                "Fase de vida": _txt(r.get("fase_de_vida")),
+                "Classe": _txt(r.get("classe")),
+                "Material": _txt(r.get("tipo_material")),
+                "Altura (m)": _txt(r.get("altura_m")),
+                "Capacidade (hm³)": _txt(r.get("capacidade_hm3")),
+                "PAE": rotulo_sim_nao(r.get("possui_pae")),
+                "Regulada PNSB": rotulo_regulada(
+                    r.get("indicador_regulada"), r.get("regulada_pelo_pnsb")
+                ),
+                "Última inspeção": _txt(r.get("data_ultima_inspecao")),
+                "CRI / DPA": f"{_txt(r.get('categoria_risco'))} / {_txt(r.get('dano_potencial_associado'))}",
+                "Pop. jusante (SIGBM)": _txt(r.get("sigbm_populacao_jusante")),
+                "Pessoas afetadas (SIGBM)": _txt(r.get("sigbm_pessoas_afetadas")),
+                "Status DCE (SIGBM)": _txt(r.get("sigbm_status_dce")),
+                "Alteamento / minério": (
+                    f"{_txt(r.get('sigbm_tipo_alteamento'))} / {_txt(r.get('sigbm_minerio'))}"
+                ),
+                "Afetados (Otto)": _txt(r.get("municipios_potencialmente_afetados")),
+                "Nº mun. afetados / extraterr.": (
+                    f"{_txt(r.get('n_municipios_afetados'))} / "
+                    f"{_txt(r.get('n_municipios_extraterritoriais'))}"
+                ),
             }
         )
+        from st_app.pae_checklist import (
+            checklist_para_dataframe,
+            exportar_checklist_csv,
+            montar_checklist_pae,
+        )
+
+        chk_det = montar_checklist_pae(r)
+        with st.expander("Checklist PAE / PAEBM", expanded=False):
+            st.dataframe(
+                checklist_para_dataframe(chk_det),
+                width="stretch",
+                hide_index=True,
+                height=260,
+            )
+            st.download_button(
+                "Baixar checklist PAE (CSV)",
+                data=exportar_checklist_csv(chk_det),
+                file_name=f"checklist_pae_{(r.get('id_snisb') or 'barragem')}.csv",
+                mime="text/csv",
+                key="checklist_pae_detalhe_csv",
+            )
         st.markdown("### Dimensões IDAP")
         st.bar_chart(
             pd.Series(
                 {
-                    "A": float(r.get("pontos_a") or 0),
-                    "B": float(r.get("pontos_b") or 0),
-                    "C": float(r.get("pontos_c") or 0),
-                    "D": float(r.get("pontos_d") or 0),
+                    "A hidro": float(r.get("pontos_a") or 0),
+                    "B estrutural": float(r.get("pontos_b") or 0),
+                    "C impacto": float(r.get("pontos_c") or 0),
+                    "D articulação": float(r.get("pontos_d") or 0),
                 }
             )
         )
@@ -872,15 +2300,17 @@ def pagina_ficha(df: pd.DataFrame) -> None:
         st.markdown("### Hidro / alertas")
         st.write(
             {
-                "Chuva 24 h": r.get("chuva_24h_mm"),
-                "Chuva 72 h": r.get("chuva_72h_mm"),
-                "Prevista 24–72 h": r.get("chuva_prevista_24_72h_mm"),
-                "Percentil": r.get("percentil_climatologico"),
-                "Saturação": r.get("saturacao_antecedente"),
-                "Cemaden": r.get("alerta_cemaden") or "—",
-                "Integrado SIS": r.get("nivel_alerta_integrado") or "—",
-                "GloFAS m³/s": r.get("vazao_prevista_glofas_m3s"),
-                "Regras": r.get("regras_disparadas") or "—",
+                "Chuva 24 h (mm)": _txt(r.get("chuva_24h_mm")),
+                "Chuva 72 h (mm)": _txt(r.get("chuva_72h_mm")),
+                "Prevista 24–72 h (mm)": _txt(r.get("chuva_prevista_24_72h_mm")),
+                "Percentil": _txt(r.get("percentil_climatologico")),
+                "Saturação": _txt(r.get("saturacao_antecedente")),
+                "Alerta hidro": _txt(r.get("nivel_alerta_hidro")),
+                "Cemaden": _txt(r.get("alerta_cemaden")),
+                "Integrado SIS": _txt(r.get("nivel_alerta_integrado")),
+                "GloFAS m³/s": _txt(r.get("vazao_prevista_glofas_m3s")),
+                "Alertável": rotulo_sim_nao(r.get("alertavel")),
+                "Regras disparadas": _txt(r.get("regras_disparadas")),
             }
         )
         if pd.notna(r.get("latitude")):
@@ -892,16 +2322,63 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                 fill=True,
                 fill_color=CORES_NIVEL.get(r["nivel"], "#888"),
                 fill_opacity=0.95,
-                popup=r["nome"],
+                popup=folium.Popup(
+                    f"<b>{r['nome']}</b><br>{r.get('municipio_sede')}<br>"
+                    f"{r.get('nivel')} · IDAP {r.get('idap')}",
+                    max_width=260,
+                ),
             ).add_to(m)
-            st_folium(m, height=280, returned_objects=[])
+            st_folium(m, height=300, returned_objects=[])
+        st.caption(
+            "Campos vazios no cadastro SNISB/SIGBM aparecem como «—». "
+            "Valores 1/2/3 de regulada foram traduzidos para texto legível."
+        )
+
+    # Impacto em outras localidades (Otto) — mapa dedicado
+    try:
+        n_extra = int(float(str(r.get("n_municipios_extraterritoriais") or 0).replace(",", ".")))
+    except (TypeError, ValueError):
+        n_extra = 0
+    if n_extra > 0 or str(r.get("municipios_potencialmente_afetados") or "").strip():
+        st.markdown("### Impacto em outras localidades (jusante)")
+        st.caption(
+            "Municípios fora da sede que a topologia Otto associa a esta barragem. "
+            "Não é mancha PAE."
+        )
+        from st_app.indicadores import carregar_impacto_extraterritorial
+        from st_app.mapa_impacto import montar_mapa_impacto
+
+        imp = carregar_impacto_extraterritorial()
+        mapa_j, meta_j = montar_mapa_impacto(imp, id_snisb=str(bid), max_ligacoes=80)
+        if mapa_j is not None and int(meta_j.get("n_ligacoes") or 0) > 0:
+            j1, j2, j3 = st.columns(3)
+            j1.metric("Localidades a jusante", int(meta_j.get("n_destinos") or 0))
+            j2.metric("Ligações no mapa", int(meta_j.get("n_ligacoes") or 0))
+            j3.metric("Extraterritoriais (cadastro)", n_extra)
+            st_folium(mapa_j, height=420, use_container_width=True, returned_objects=[])
+        else:
+            st.info(
+                "Lista Otto: "
+                + str(r.get("municipios_potencialmente_afetados") or "—")
+            )
     if r.get("lacunas"):
         st.warning(f"Lacunas: {r['lacunas']}")
+    n1, n2 = st.columns(2)
+    if n1.button("Simular esta barragem"):
+        st.session_state["barragem_sim_id"] = bid
+        from st_app.paginas_onda import ir_para
+
+        ir_para("Cenários e simulações", TELA_SIMULACAO)
+    if n2.button("Registrar notificação / impacto"):
+        st.session_state["barragem_notif_id"] = bid
+        from st_app.paginas_onda import ir_para
+
+        ir_para("Alertas e resposta", "Notificações e impactos")
 
 
 def pagina_tipologia(df: pd.DataFrame) -> None:
     """Mapa estadual colorido por uso principal (tipologia)."""
-    st.markdown("# Barragens por tipologia")
+    st.markdown("# Tipos e usos das barragens")
     st.markdown(
         '<p class="nota">Uso principal do cadastro SNISB — visão estadual. '
         "Cores institucionais SES-MT / agrupamento operacional.</p>",
@@ -968,63 +2445,126 @@ def pagina_html_painel(nome_arquivo: str, titulo: str, nota: str) -> None:
 
 def main() -> None:
     aplicar_navegacao_pendente()
-    jornadas_ordem = list(JORNADAS.keys())
+    migrar_estado_navegacao()
+    if "perfil_ui" not in st.session_state:
+        st.session_state["perfil_ui"] = "CIEVS / vigilância"
     if "jornada" not in st.session_state:
-        st.session_state["jornada"] = "Situação"
+        st.session_state["jornada"] = "Visão geral"
     if "pagina" not in st.session_state:
-        st.session_state["pagina"] = "Comando estadual"
+        st.session_state["pagina"] = "Visão geral estadual"
+    # Tutorial automático no primeiro acesso da sessão
+    if "tutorial_iniciado" not in st.session_state:
+        st.session_state["tutorial_iniciado"] = True
+        st.session_state["mostrar_tutorial"] = True
+        st.session_state["tutorial_passo"] = 1
+
+    df = carregar_idap()
+    aplicar_query_params(df)
+    situacao = _semaforo(df) if not df.empty else "—"
+    atualizado = meta_atualizacao(df)
 
     with st.sidebar:
-        # Assinatura conforme o manual: marca do governo + nome da secretaria.
         st.markdown(
             '<div class="assinatura-gov">'
             '<span class="gov">Governo de Mato Grosso</span>'
-            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS</span>'
+            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS-MT</span>'
             "</div>",
             unsafe_allow_html=True,
         )
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)
         st.markdown(
-            '<p class="submarca">Saúde 360 · jornada '
-            "Situação → Território → Ação → Dados</p>",
+            '<p class="submarca">Navegação · filtros · fontes · guia</p>',
             unsafe_allow_html=True,
         )
-        if st.session_state.get("jornada") not in JORNADAS:
-            st.session_state["jornada"] = "Situação"
-        jornada = st.selectbox("Jornada", jornadas_ordem, key="jornada")
-        telas = JORNADAS[jornada]
-        if st.session_state.get("pagina") not in telas:
+        perfil = st.selectbox(
+            "Perfil de visualização",
+            list(PERFIS.keys()),
+            key="perfil_ui",
+            help=PERFIS.get(st.session_state.get("perfil_ui") or "", {}).get("ajuda", ""),
+        )
+        st.caption(PERFIS.get(perfil, {}).get("ajuda", ""))
+        areas_ordem = areas_visiveis(perfil)
+        if st.session_state.get("jornada") not in areas_ordem:
+            st.session_state["jornada"] = areas_ordem[0]
+        area = st.selectbox("Área", areas_ordem, key="jornada")
+        telas = list(AREAS[area])
+        # Expander de desenvolvimento (HTML gêmeos) só em Dados + perfil técnico
+        if area == "Dados, metodologia e documentos" and perfil == "Técnico / analista":
+            with st.expander("Desenvolvimento / HTML offline", expanded=False):
+                st.caption("Duplicatas técnicas — fora da navegação operacional.")
+                for pdev in PAGINAS_DEV:
+                    if st.button(pdev, key=f"dev_{pdev}", width="stretch"):
+                        st.session_state["pagina"] = pdev
+                        st.rerun()
+        st.session_state["pagina"] = normalizar_pagina(st.session_state.get("pagina"))
+        if st.session_state.get("pagina") not in telas and st.session_state.get("pagina") not in PAGINAS_DEV:
             st.session_state["pagina"] = telas[0]
-        pagina = st.radio("Tela", telas, key="pagina")
+        opcoes_radio = telas
+        if st.session_state.get("pagina") in PAGINAS_DEV:
+            pagina = st.session_state["pagina"]
+            st.info(f"Modo desenvolvimento: **{pagina}**")
+            if st.button("Voltar ao menu da área", key="sair_dev"):
+                st.session_state["pagina"] = telas[0]
+                st.rerun()
+        else:
+            if st.session_state.get("pagina") not in opcoes_radio:
+                st.session_state["pagina"] = opcoes_radio[0]
+            pagina = st.radio("Página", opcoes_radio, key="pagina")
         st.divider()
-        st.caption(f"Dados: `{(Path(__file__).parent / 'dados' / 'tratados').as_posix()}`")
+        render_filtros_persistentes(df)
+        if st.button("Simular área potencialmente afetada", width="stretch", type="primary"):
+            from st_app.paginas_onda import ir_para
 
-    df = carregar_idap()
-    if pagina == "Comando estadual":
+            ir_para("Cenários e simulações", TELA_SIMULACAO)
+        if st.button("? Como usar este painel", width="stretch"):
+            st.session_state["mostrar_tutorial"] = True
+            st.session_state["tutorial_passo"] = 1
+            st.rerun()
+        st.divider()
+        rodape_lateral(atualizado_em=atualizado[:10] if atualizado else None)
+
+    # Cabeçalho e contexto na área principal
+    cabecalho_institucional(situacao=situacao, atualizado_em=atualizado)
+    barra_contexto(
+        regiao=st.session_state.get("ctx_regiao"),
+        municipio=st.session_state.get("ctx_municipio"),
+        atualizado_em=atualizado,
+    )
+    tutorial_primeiro_acesso()
+
+    pagina = normalizar_pagina(st.session_state.get("pagina"))
+    if pagina == "Visão geral estadual":
         pagina_comando(df)
-    elif pagina == "Hidro municipal":
+    elif pagina == "Análise por município":
+        pagina_visao_territorial(df)
+    elif pagina == "Chuva e condições hidrológicas":
         pagina_hidro(carregar_hidro_mun(), carregar_populacao())
-    elif pagina == "Eixo Manso–Cuiabá":
+    elif pagina == "Área prioritária Manso–Cuiabá":
         pagina_piloto(carregar_piloto())
-    elif pagina == "Simulação volume/área":
+    elif pagina == "VIGIPÓS O/E":
+        pagina_vigipos_oe()
+    elif pagina == TELA_SIMULACAO:
+        aviso_simulacao_permanente()
         pagina_simulacao(df)
-    elif pagina == "Mapa por tipologia":
+    elif pagina == "Tipos e usos das barragens":
         pagina_tipologia(df)
     elif pagina == "Populações vulneráveis":
         pagina_vulneraveis()
-    elif pagina == "Impacto extraterritorial":
+    elif pagina == "Impacto fora do município-sede":
         pagina_extraterritorial()
-    elif pagina == "Interpretação / KPIs":
+    elif pagina == "Como interpretar os indicadores":
         pagina_interpretacao()
-    elif pagina == "Barragem 360°":
+    elif pagina == "Detalhe da barragem":
         pagina_ficha(df)
-    elif pagina == "Alertabilidade / despacho":
+    elif pagina == "Notificações e impactos":
+        pagina_notificacoes_impactos(df)
+    elif pagina == "Preparar e enviar alerta":
         pagina_alertabilidade_despacho()
-    elif pagina == "Confirmação persistente":
+    elif pagina == "Confirmação de recebimento":
         pagina_confirmacao_persistente()
-    elif pagina == "Região de saúde":
+    elif pagina == "Análise por região de saúde":
         pagina_regiao_saude()
-    elif pagina == "Documentos (RAG leve)":
+    elif pagina == "Biblioteca e documentos":
         pagina_rag_docs()
     elif pagina == "Fila de alertas":
         pagina_html_painel(
@@ -1032,30 +2572,29 @@ def main() -> None:
             "Fila de alertas",
             "Fila do piloto — textos territorializados. Escalonamento a canais reais ainda não ligado.",
         )
-    elif pagina == "Ficha rápida":
+    elif pagina == "Registro rápido pós-evento":
         pagina_html_painel(
             "ficha_rapida.html",
-            "Ficha rápida pós-desastre",
+            "Registro rápido pós-evento",
             "Captura operacional quando os sistemas oficiais ainda não refletem o evento.",
         )
     elif pagina == "Confirmação (HTML)":
         pagina_html_painel(
             "confirmacao_alerta.html",
-            "Confirmação de alerta",
+            "Confirmação de alerta (HTML offline)",
             "Prazos por nível e registro local de confirmação (protótipo).",
         )
-    elif pagina == "Inventário":
+    elif pagina == "Cadastro de barragens":
         pagina_html_painel(
             "inventario.html",
-            "Inventário de barragens",
+            "Cadastro de barragens",
             "Cadastro consolidado SNISB/SIGBM/SEMA — visão de fiscalização.",
         )
     elif pagina == "Comando (HTML)":
         pagina_html_painel(
             "comando.html",
-            "Comando estadual (HTML)",
-            "Gêmeo autocontido da 1ª tela (etapa 20) — serve para distribuir offline "
-            "sem depender de um segundo servidor.",
+            "Comando estadual (HTML offline)",
+            "Gêmeo autocontido da visão geral (etapa 20) — distribuição offline.",
         )
     else:
         pagina_ficha(df)

@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-26138
+Identificador do alerta : ALERTA-20260803-1151-26138
 Barragem                : Barragem Serrinha (código 26138)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : SERRINHA GOLDMINE LTDA
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 20 de 100 pontos (faixa Amarelo: atenção)
-Nível final             : Amarelo
-Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 29,40)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
+IDAP                    : 18 de 100 pontos (faixa Verde: normalidade)
+Nível final             : Amarelo — elevado por regra determinística
+Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 26,50)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -19,14 +19,13 @@ Versão dos pesos        : 0.1.0-metodologica
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
    - [B3] Ausência de estabilidade declarada: - (3 de 5 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
    - [C1] População residente na Zona de Autossalvamento: 7 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 5/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 6/30 (completude 67%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
