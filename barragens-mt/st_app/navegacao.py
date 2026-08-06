@@ -60,7 +60,7 @@ ALIAS_PAGINA: dict[str, str] = {
     "Visão territorial": "Análise por município",
     "Hidro municipal": "Chuva e condições hidrológicas",
     "Eixo Manso–Cuiabá": "Área prioritária Manso–Cuiabá",
-    "Impacto extraterritorial": "Impacto fora do município-sede",
+    "Impacto extraterritorial": "Mapa de impacto em outras localidades (jusante)",
     "Mapa por tipologia": "Tipos e usos das barragens",
     "Barragem 360°": "Detalhe da barragem",
     "Alertabilidade / despacho": "Preparar e enviar alerta",

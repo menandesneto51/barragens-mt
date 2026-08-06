@@ -2292,6 +2292,34 @@ def pagina_ficha(df: pd.DataFrame) -> None:
             "Campos vazios no cadastro SNISB/SIGBM aparecem como «—». "
             "Valores 1/2/3 de regulada foram traduzidos para texto legível."
         )
+
+    # Impacto em outras localidades (Otto) — mapa dedicado
+    try:
+        n_extra = int(float(str(r.get("n_municipios_extraterritoriais") or 0).replace(",", ".")))
+    except (TypeError, ValueError):
+        n_extra = 0
+    if n_extra > 0 or str(r.get("municipios_potencialmente_afetados") or "").strip():
+        st.markdown("### Impacto em outras localidades (jusante)")
+        st.caption(
+            "Municípios fora da sede que a topologia Otto associa a esta barragem. "
+            "Não é mancha PAE."
+        )
+        from st_app.indicadores import carregar_impacto_extraterritorial
+        from st_app.mapa_impacto import montar_mapa_impacto
+
+        imp = carregar_impacto_extraterritorial()
+        mapa_j, meta_j = montar_mapa_impacto(imp, id_snisb=str(bid), max_ligacoes=80)
+        if mapa_j is not None and int(meta_j.get("n_ligacoes") or 0) > 0:
+            j1, j2, j3 = st.columns(3)
+            j1.metric("Localidades a jusante", int(meta_j.get("n_destinos") or 0))
+            j2.metric("Ligações no mapa", int(meta_j.get("n_ligacoes") or 0))
+            j3.metric("Extraterritoriais (cadastro)", n_extra)
+            st_folium(mapa_j, height=420, use_container_width=True, returned_objects=[])
+        else:
+            st.info(
+                "Lista Otto: "
+                + str(r.get("municipios_potencialmente_afetados") or "—")
+            )
     if r.get("lacunas"):
         st.warning(f"Lacunas: {r['lacunas']}")
     n1, n2 = st.columns(2)

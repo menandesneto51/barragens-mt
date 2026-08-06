@@ -810,134 +810,111 @@ def pagina_vulneraveis() -> None:
 def pagina_extraterritorial() -> None:
     st.markdown("# Impacto fora do município-sede")
     st.markdown(
-        '<p class="nota">Barragem na sede A que pode afetar município B a jusante (Otto). '
-        "Clique na ligação ou nos pontos para ver IDAP, CRI/DPA, volume e afetados.</p>",
+        '<p class="nota">Mapa das <b>outras localidades</b> que uma barragem pode pressionar '
+        "a jusante (topologia Otto). Cor do município = nº de barragens a montante. "
+        "Linhas = ligação esquemática sede → afetado. "
+        "<b>Não é mancha PAE</b> nem trajeto hidrodinâmico da onda.</p>",
         unsafe_allow_html=True,
     )
     df = carregar_impacto_extraterritorial()
     if df.empty:
-        st.error("impacto_extraterritorial_mt.csv ausente.")
+        st.error("impacto_extraterritorial_mt.csv ausente — rode `python executar.py 16`.")
         return
-    so_atencao = st.checkbox("Só Em atenção+", value=False)
-    view = df.copy()
-    if so_atencao and "nivel" in view.columns:
-        view = view[view["nivel"].isin(["Amarelo", "Laranja", "Vermelho", "Roxo"])]
-    mun = st.selectbox(
-        "Filtrar município afetado",
-        ["(todos)"] + sorted(view["municipio_potencialmente_afetado"].dropna().unique().tolist()),
+
+    from st_app.mapa_impacto import agregar_pressao_destino, montar_mapa_impacto
+
+    so_atencao = st.checkbox("Só Em atenção+ (origem)", value=False, key="extra_so_atencao")
+    base = df.copy()
+    if so_atencao and "nivel" in base.columns:
+        base = base[base["nivel"].isin(["Amarelo", "Laranja", "Vermelho", "Roxo"])]
+
+    pressao_all = agregar_pressao_destino(base)
+    destinos = sorted(pressao_all["municipio"].dropna().unique().tolist()) if not pressao_all.empty else []
+    origens = (
+        base[["id_snisb", "nome_barragem", "municipio_sede"]]
+        .drop_duplicates("id_snisb")
+        .sort_values("nome_barragem")
+        if not base.empty
+        else pd.DataFrame()
     )
-    if mun != "(todos)":
-        view = view[view["municipio_potencialmente_afetado"] == mun]
-    st.metric("Pares sede → afetado", len(view))
 
-    from st_app.data import carregar_idap
-
-    idap = carregar_idap()
-    coords_bar: dict[str, tuple[float, float]] = {}
-    info_bar: dict[str, dict] = {}
-    centroides: dict[str, tuple[float, float]] = {}
-    if not idap.empty and "latitude" in idap.columns:
-        for _, r in idap.dropna(subset=["latitude", "longitude"]).iterrows():
-            bid = str(r.get("id_snisb") or "")
-            if bid:
-                coords_bar[bid] = (float(r["latitude"]), float(r["longitude"]))
-                info_bar[bid] = {
-                    "cri": r.get("categoria_risco") or "—",
-                    "dpa": r.get("dano_potencial_associado") or "—",
-                    "vol": r.get("capacidade_hm3"),
-                    "alt": r.get("altura_m"),
-                    "uso": r.get("uso_principal") or "—",
-                    "orgao": r.get("orgao_fiscalizador") or "—",
-                    "pop_j": r.get("sigbm_populacao_jusante"),
-                    "pop_a": r.get("sigbm_pessoas_afetadas"),
-                    "n_af": r.get("n_municipios_afetados"),
-                }
-        g = (
-            idap.dropna(subset=["latitude", "longitude"])
-            .assign(_sede=idap["municipio_sede"].fillna("").astype(str).str.strip())
-            .groupby("_sede")
-            .agg(latitude=("latitude", "mean"), longitude=("longitude", "mean"))
+    c_a, c_b = st.columns(2)
+    with c_a:
+        mun = st.selectbox(
+            "Município afetado (destaque)",
+            ["(todos)"] + destinos,
+            help="Pinta e filtra localidades sob pressão a jusante.",
         )
-        centroides = {
-            str(i): (float(row.latitude), float(row.longitude))
-            for i, row in g.iterrows()
-            if i
-        }
+    with c_b:
+        rotulos_bar = ["(todas)"]
+        mapa_bar: dict[str, str] = {}
+        if not origens.empty:
+            for _, r in origens.iterrows():
+                bid = str(r.get("id_snisb") or "")
+                lab = f"{r.get('nome_barragem') or bid} — {r.get('municipio_sede') or ''}"
+                rotulos_bar.append(lab)
+                mapa_bar[lab] = bid
+        bar_sel = st.selectbox(
+            "Barragem de origem",
+            rotulos_bar,
+            help="Mostra só o leque jusante dessa estrutura.",
+        )
 
-    def _fmt(v: object, suf: str = "") -> str:
-        if v in (None, "", "nan", "None"):
-            return "—"
-        try:
-            return f"{float(v):.2f}{suf}".replace(".", ",")
-        except (TypeError, ValueError):
-            return str(v)
+    mun_f = None if mun == "(todos)" else mun
+    bid_f = None if bar_sel == "(todas)" else mapa_bar.get(bar_sel)
 
-    linhas_mapa = 0
-    if coords_bar and centroides:
-        m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
-        amostra = view.head(250)
-        for _, r in amostra.iterrows():
-            bid = str(r.get("id_snisb") or "")
-            dest = str(r.get("municipio_potencialmente_afetado") or "").strip()
-            origem = coords_bar.get(bid)
-            destino = centroides.get(dest)
-            if not origem or not destino:
-                continue
-            cor = CORES_NIVEL.get(str(r.get("nivel") or ""), "#1b3281")
-            extra = info_bar.get(bid, {})
-            html = (
-                f"<b>{r.get('nome_barragem') or 'Barragem'}</b><br>"
-                f"SNISB {bid}<br>"
-                f"<b>{r.get('municipio_sede') or '—'}</b> → <b>{dest}</b><br>"
-                f"Nível {r.get('nivel') or '—'} · IDAP {r.get('idap') or '—'}<br>"
-                f"CRI/DPA: {extra.get('cri')} / {extra.get('dpa')}<br>"
-                f"Uso: {extra.get('uso')}<br>"
-                f"Volume {_fmt(extra.get('vol'), ' hm³')} · altura {_fmt(extra.get('alt'), ' m')}<br>"
-                f"Pop. jusante (SIGBM): {_fmt(extra.get('pop_j'), '')}<br>"
-                f"Pessoas afetadas (SIGBM): {_fmt(extra.get('pop_a'), '')}<br>"
-                f"Municípios afetados (Otto): {extra.get('n_af') or '—'}<br>"
-                f"Órgão: {extra.get('orgao')}"
+    mapa, meta = montar_mapa_impacto(
+        base,
+        municipio_destino=mun_f,
+        id_snisb=bid_f,
+        so_atencao=False,  # já filtrado em `base`
+        max_ligacoes=220 if bid_f or mun_f else 160,
+    )
+    pressao = meta.get("pressao") if isinstance(meta.get("pressao"), pd.DataFrame) else pressao_all
+
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Localidades sob pressão", int(meta.get("n_destinos") or 0))
+    k2.metric("Barragens de origem", int(meta.get("n_origens") or 0))
+    k3.metric("Ligações no mapa", int(meta.get("n_ligacoes") or 0))
+    n_aten = int(pressao["n_atencao"].sum()) if not pressao.empty and "n_atencao" in pressao.columns else 0
+    k4.metric("Pares Em atenção+", n_aten)
+
+    if mapa is not None:
+        st_folium(mapa, height=560, use_container_width=True, returned_objects=[])
+        st.caption(
+            "Camadas: municípios sob pressão · ligações sede→afetado · barragens de origem · satélite. "
+            "Clique no polígono ou na linha para o detalhe."
+        )
+    else:
+        st.info("Sem geometria suficiente para o mapa neste filtro.")
+
+    st.markdown("##### Ranking — localidades mais pressionadas a jusante")
+    if pressao is not None and not pressao.empty:
+        rank = pressao.rename(
+            columns={
+                "municipio": "Município afetado",
+                "n_barragens_montante": "Barragens a montante",
+                "n_atencao": "Em atenção+",
+                "idap_max": "IDAP máx.",
+                "populacao": "População IBGE",
+                "n_pares": "Pares Otto",
+            }
+        )
+        cols = [
+            c
+            for c in (
+                "Município afetado",
+                "Barragens a montante",
+                "Em atenção+",
+                "IDAP máx.",
+                "População IBGE",
+                "Pares Otto",
             )
-            popup = folium.Popup(html, max_width=340)
-            folium.PolyLine(
-                [origem, destino],
-                color=cor,
-                weight=2.5,
-                opacity=0.65,
-                popup=popup,
-                tooltip=f"{r.get('nome_barragem')}: {r.get('municipio_sede')} → {dest}",
-            ).add_to(m)
-            folium.CircleMarker(
-                origem,
-                radius=5,
-                color="#111",
-                fill=True,
-                fill_color=cor,
-                fill_opacity=0.95,
-                popup=popup,
-                tooltip=str(r.get("nome_barragem") or bid),
-            ).add_to(m)
-            folium.CircleMarker(
-                destino,
-                radius=4,
-                color="#1b3281",
-                fill=True,
-                fill_color="#fff",
-                fill_opacity=0.95,
-                popup=folium.Popup(
-                    f"<b>Município potencialmente afetado</b><br>{dest}<br>"
-                    f"Origem: {r.get('nome_barragem')} ({r.get('municipio_sede')})",
-                    max_width=280,
-                ),
-                tooltip=dest,
-            ).add_to(m)
-            linhas_mapa += 1
-        if linhas_mapa:
-            st_folium(m, height=520, use_container_width=True, returned_objects=[])
-            st.caption(f"{linhas_mapa} ligação(ões) desenhadas (amostra até 250).")
-        else:
-            st.info("Sem pares com coordenadas suficientes para o mapa.")
-    st.dataframe(view.head(500), width="stretch", hide_index=True, height=360)
+            if c in rank.columns
+        ]
+        st.dataframe(rank[cols].head(40), width="stretch", hide_index=True, height=320)
+    with st.expander("Tabela de pares sede → afetado", expanded=False):
+        st.dataframe(base.head(500), width="stretch", hide_index=True, height=360)
 
 
 def pagina_alertabilidade_despacho() -> None:
