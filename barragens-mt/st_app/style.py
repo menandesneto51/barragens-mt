@@ -320,6 +320,40 @@ details[data-testid="stExpander"] summary {
 div[data-testid="stDataFrame"] { border: 1px solid var(--line); }
 button[data-baseweb="tab"] { font-weight: 600; }
 
+/* ---- Faixa de logos institucionais ---- */
+.faixa-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f4f6fa;
+  border-bottom: 1px solid var(--line);
+}
+.faixa-logos .logo-inst {
+  height: 42px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(15, 39, 79, 0.08);
+}
+.faixa-logos-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+}
+.faixa-logos-sidebar .logo-inst {
+  height: 34px;
+  width: auto;
+  max-width: 48%;
+  border-radius: 3px;
+  background: #fff;
+}
+
 /* ---- Cabeçalho institucional (área principal) ---- */
 .cab-inst {
   background: var(--surface);

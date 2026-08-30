@@ -2545,11 +2545,17 @@ def main() -> None:
     atualizado = meta_atualizacao(df)
 
     with st.sidebar:
+        from st_app.marca_institucional import html_faixa_logos
+
         st.markdown(
             '<div class="assinatura-gov">'
             '<span class="gov">Governo de Mato Grosso</span>'
-            '<span class="secretaria">Secretaria de Estado de Saúde · CIEVS-MT</span>'
+            '<span class="secretaria">SES-MT · CIEVS · Vigidesastres · Defesa Civil</span>'
             "</div>",
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            html_faixa_logos(altura_px=32, classe="faixa-logos-sidebar"),
             unsafe_allow_html=True,
         )
         st.markdown('<p class="marca">VIGIBARRAGENS–MT</p>', unsafe_allow_html=True)

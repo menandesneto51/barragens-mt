@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" role="img" aria-label="CIEVS Mato Grosso">
+  <title>CIEVS-MT</title>
+  <rect width="220" height="64" rx="4" fill="#0f274f"/>
+  <circle cx="28" cy="32" r="16" fill="#fff"/>
+  <path d="M14 32c4-8 10-12 14-12s10 4 14 12c-4 8-10 12-14 12s-10-4-14-12z" fill="none" stroke="#1b3281" stroke-width="2.2"/>
+  <circle cx="28" cy="32" r="4.5" fill="#1b3281"/>
+  <path d="M44 22c6 4 6 16 0 20M48 18c9 6 9 22 0 28" fill="none" stroke="#7aa2e8" stroke-width="1.6" stroke-linecap="round" opacity="0"/>
+  <text x="52" y="28" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">CIEVS-MT</text>
+  <text x="52" y="46" fill="#d7e0f5" font-family="Source Sans 3, Arial, sans-serif" font-size="9">Centro de Informações Estratégicas</text>
+</svg>

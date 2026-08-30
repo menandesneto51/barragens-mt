@@ -487,6 +487,10 @@ text-transform:uppercase;letter-spacing:.14em}
 .barra-gov span{font-family:"Source Sans 3",sans-serif;font-weight:400;
 text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.85);margin-left:10px;
 padding-left:10px;border-left:1px solid rgba(255,255,255,.35)}
+.faixa-logos{display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+padding:8px 24px;background:#f4f6fa;border-bottom:1px solid var(--line)}
+.faixa-logos .logo-inst{height:40px;width:auto;max-width:170px;object-fit:contain;
+border-radius:4px;box-shadow:0 1px 2px rgba(15,39,79,.08)}
 header{padding:16px 24px 14px;border-bottom:3px solid var(--ses);background:var(--card);
 display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
 .marca{font-family:"Montserrat",sans-serif;font-size:clamp(1.2rem,2vw,1.5rem);
@@ -587,7 +591,13 @@ margin-bottom:5px;font-size:12.5px}
 </style>
 </head>
 <body>
-<div class="barra-gov">Governo de Mato Grosso<span>Secretaria de Estado de Saúde · CIEVS</span></div>
+<div class="barra-gov">Governo de Mato Grosso<span>SES-MT · CIEVS · Vigidesastres · Defesa Civil</span></div>
+<div class="faixa-logos" role="group" aria-label="Instituições: SES-MT, CIEVS-MT, Vigidesastres e Defesa Civil">
+  <img class="logo-inst" src="media/logos/ses_mt.svg" alt="SES-MT" title="Secretaria de Estado de Saúde" height="40" />
+  <img class="logo-inst" src="media/logos/cievs_mt.svg" alt="CIEVS-MT" title="Centro de Informações Estratégicas em Vigilância em Saúde" height="40" />
+  <img class="logo-inst" src="media/logos/vigidesastres.svg" alt="Vigidesastres" title="Vigilância em Saúde ante Desastres" height="40" />
+  <img class="logo-inst" src="media/logos/defesa_civil_mt.svg" alt="Defesa Civil" title="Defesa Civil do Estado de Mato Grosso" height="40" />
+</div>
 <header>
   <div>
     <h1 class="marca">VIGIBARRAGENS–MT</h1>

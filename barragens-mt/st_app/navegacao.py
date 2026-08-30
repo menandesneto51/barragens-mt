@@ -153,7 +153,9 @@ def cabecalho_institucional(
     situacao: str = "—",
     atualizado_em: str | None = None,
 ) -> None:
-    """Faixa superior: assinatura GOV/SES + produto + ações."""
+    """Faixa superior: logos institucionais + assinatura GOV/SES + produto."""
+    from st_app.marca_institucional import html_faixa_logos
+
     agora = atualizado_em or datetime.now().strftime("%d/%m/%Y, %Hh%M")
     cor_sit = {
         "Verde": "#1e8449",
@@ -162,12 +164,15 @@ def cabecalho_institucional(
         "Vermelho": "#c0392b",
         "Roxo": "#5b2c6f",
     }.get(situacao, "#5b6b80")
+    logos = html_faixa_logos(altura_px=44)
     st.markdown(
         f"""
 <div class="cab-inst">
   <div class="cab-inst-topo">
-    Governo de Mato Grosso · Secretaria de Estado de Saúde · CIEVS-MT
+    Governo de Mato Grosso · Secretaria de Estado de Saúde · CIEVS-MT ·
+    Vigidesastres · Defesa Civil Estadual
   </div>
+  {logos}
   <div class="cab-inst-linha">
     <div class="cab-inst-marca">
       <div class="cab-inst-nome">VIGIBARRAGENS–MT</div>
