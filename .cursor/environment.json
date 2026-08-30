@@ -1,0 +1,17 @@
+{
+  "name": "VIGIBARRAGENS-MT (Streamlit)",
+  "install": "pip3 install --user -r requirements.txt httpx",
+  "terminals": [
+    {
+      "name": "streamlit",
+      "command": "python3 -m streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true",
+      "description": "VIGIBARRAGENS-MT dashboard dev server on port 8501. Serves the offline Streamlit app (data is committed under barragens-mt/dados/tratados/)."
+    }
+  ],
+  "ports": [
+    {
+      "name": "streamlit",
+      "port": 8501
+    }
+  ]
+}
