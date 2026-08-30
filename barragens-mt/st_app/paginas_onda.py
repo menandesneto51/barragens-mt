@@ -410,7 +410,12 @@ def pagina_municipio_360(
     titulo_nivel: str = "###",
 ) -> None:
     """Dossiê da localidade: barragens, população, indígenas, quilombos, ribeirinhos (proxy)."""
-    from st_app.localidade import montar_dossie_localidade, municipios_vizinhos_vulneraveis
+    from st_app.localidade import (
+        fila_acao_localidade,
+        montar_dossie_localidade,
+        municipios_vizinhos_vulneraveis,
+        pressao_assistencial_localidade,
+    )
 
     dossie = montar_dossie_localidade(municipio, df)
     bars = dossie["barragens"]
@@ -442,6 +447,66 @@ def pagina_municipio_360(
     if niveis:
         chips = " · ".join(f"{n}: {q}" for n, q in sorted(niveis.items(), key=lambda x: -x[1]))
         st.caption(f"Níveis de prontidão no recorte: {chips}")
+
+    # —— Fila de ação + IPAPD ——
+    st.markdown("##### O que fazer agora")
+    fila = fila_acao_localidade(dossie)
+    if fila:
+        for i, item in enumerate(fila, 1):
+            st.markdown(f"{i}. **{item['tema']}** — {item['acao']}")
+    else:
+        st.caption("Sem ações prioritárias geradas para este recorte.")
+
+    ipapd = pressao_assistencial_localidade(municipio, dossie)
+    with st.expander("IPAPD proxy (pressão assistencial no município)", expanded=bool(ipapd.get("ok"))):
+        meta_f = ipapd.get("ficha") or {}
+        if meta_f.get("encontrada"):
+            st.caption(
+                f"Ficha: `{meta_f.get('arquivo')}` · "
+                f"{meta_f.get('tipo') or '—'} / {meta_f.get('status') or '—'}"
+            )
+        else:
+            st.caption(
+                "Sem ficha rápida deste município — termos A/P/C em lacuna. "
+                "Exporte JSON em `painel/ficha_rapida.html` → `dados/tratados/fichas_rapidas/`."
+            )
+        if ipapd.get("ok"):
+            p1, p2, p3 = st.columns(3)
+            p1.metric(
+                "IPAPD",
+                f"{ipapd['ipapd']:.2f}".replace(".", ",")
+                if ipapd.get("ipapd") is not None
+                else "—",
+            )
+            p2.metric("Situação", ipapd.get("rotulo") or "—")
+            p3.metric(
+                "Completude",
+                f"{100 * float(ipapd.get('completude') or 0):.0f}%",
+            )
+            termos = ipapd.get("termos") or {}
+            det = ipapd.get("detalhe") or {}
+            linhas = []
+            nomes = {
+                "O": "Ocupação (0,25)",
+                "A": "Aumento atendimentos (0,20)",
+                "P": "Profissionais (0,15)",
+                "E": "Perda de acesso (0,15)",
+                "C": "Autonomia crítica (0,15)",
+                "S": "Serviços (0,10)",
+            }
+            for k, rot in nomes.items():
+                v = termos.get(k)
+                linhas.append(
+                    {
+                        "Termo": rot,
+                        "Valor": "—" if v is None else f"{float(v):.2f}".replace(".", ","),
+                        "Detalhe": det.get(k) or "",
+                    }
+                )
+            st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True, height=220)
+            st.caption(ipapd.get("fonte") or "")
+        else:
+            st.info(ipapd.get("fonte") or "IPAPD indisponível neste recorte.")
 
     if incluir_sanitario and not bars.empty:
         bloco_sanitario_e_historico(bars, mun_ativo=municipio)

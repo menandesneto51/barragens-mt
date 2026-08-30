@@ -1537,9 +1537,17 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     except Exception as exc:  # noqa: BLE001
                         st.warning(f"JSON inválido: {exc}")
                 elif listar_fichas():
-                    ficha_data = carregar_ficha()
+                    from st_app.ficha_rapida import carregar_ficha_municipio
+
+                    sede = str(r.get("municipio_sede") or r.get("municipio") or "").strip()
+                    ficha_data = carregar_ficha_municipio(sede) if sede else None
+                    if ficha_data is None:
+                        ficha_data = carregar_ficha()
                     if ficha_data:
-                        st.caption(f"Usando `{ficha_data.get('_arquivo')}`")
+                        st.caption(
+                            f"Usando `{ficha_data.get('_arquivo')}`"
+                            + (f" (município {sede})" if sede and ficha_data.get("municipio") else "")
+                        )
                 ficha_termos = termos_ipapd_da_ficha(ficha_data)
                 ficha_irs = termos_irs_da_ficha(ficha_data)
 

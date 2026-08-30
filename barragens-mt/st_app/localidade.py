@@ -321,8 +321,207 @@ def montar_dossie_localidade(
                 "Proxy setores do eixo Manso–Cuiabá (IBGE 2022) + exposição ≤5 km; "
                 "sem cadastro estadual de comunidade ribeirinha"
             ),
+            "acao": "Fila gerada a partir de IDAP, PAE checklist, vulneráveis e ficha rápida",
         },
     }
+
+
+def _taxa_ocupacao_municipio(municipio: str) -> float | None:
+    """Taxa de ocupação IndicaSUS municipal (0–100), se existir."""
+    from st_app.leitos_indicasus import carregar_leitos_municipio
+
+    df = carregar_leitos_municipio()
+    if df.empty or "municipio" not in df.columns or "taxa_ocupacao" not in df.columns:
+        return None
+    hit = df[df["municipio"].apply(lambda m: nomes_equivalentes(municipio, m))]
+    if hit.empty:
+        return None
+    try:
+        v = float(hit.iloc[0]["taxa_ocupacao"])
+        # DW às vezes grava 0–1
+        return v * 100.0 if v <= 1.5 else v
+    except (TypeError, ValueError):
+        return None
+
+
+def pressao_assistencial_localidade(municipio: str, dossie: dict[str, Any] | None = None) -> dict[str, Any]:
+    """IPAPD proxy no recorte municipal — A/P/C via ficha do município quando houver."""
+    from st_app.ficha_rapida import carregar_ficha_municipio, termos_ipapd_da_ficha
+    from st_app.ipapd import calcular_ipapd_proxy
+
+    dossie = dossie or {}
+    ficha = carregar_ficha_municipio(municipio)
+    termos = termos_ipapd_da_ficha(ficha)
+    taxa = _taxa_ocupacao_municipio(municipio)
+    rib = dossie.get("ribeirinhos") or {}
+    pop_proxy = rib.get("populacao_eixo") if rib.get("disponivel") else None
+    if pop_proxy is None:
+        pop_proxy = (dossie.get("populacao") or {}).get("populacao")
+
+    ipapd = calcular_ipapd_proxy(
+        taxa_ocupacao_pct=taxa,
+        n_us_atingidas=int(dossie.get("n_cnes") or 0),
+        n_us_isoladas=0,
+        pessoas_isoladas=0,
+        pop_exposta=pop_proxy,
+        n_servicos_essenciais_mancha=0,
+        n_servicos_essenciais_eixo=0,
+        ficha_termos=termos or None,
+    )
+    ipapd["ficha"] = {
+        "encontrada": ficha is not None,
+        "arquivo": (ficha or {}).get("_arquivo"),
+        "municipio_ficha": (ficha or {}).get("municipio"),
+        "tipo": (ficha or {}).get("tipo"),
+        "status": (ficha or {}).get("status"),
+    }
+    return ipapd
+
+
+def fila_acao_localidade(dossie: dict[str, Any]) -> list[dict[str, str]]:
+    """Prioriza o que o gestor municipal deve olhar agora (máx. ~8 itens)."""
+    mun = str(dossie.get("municipio") or "")
+    bars = dossie.get("barragens")
+    if not isinstance(bars, pd.DataFrame):
+        bars = pd.DataFrame()
+    acoes: list[dict[str, str]] = []
+
+    niveis_aten = {"Amarelo", "Laranja", "Vermelho", "Roxo"}
+    n_aten = 0
+    if not bars.empty and "nivel" in bars.columns:
+        n_aten = int(bars["nivel"].isin(niveis_aten).sum())
+    if n_aten > 0:
+        acoes.append(
+            {
+                "prioridade": "1",
+                "tema": "Prontidão IDAP",
+                "acao": (
+                    f"Revisar {n_aten} barragem(ns) Em atenção+ vinculadas a {mun} "
+                    "(sede ou jusante) — abrir Detalhe da barragem / Simulação."
+                ),
+            }
+        )
+
+    # PAE lacunas no recorte
+    pae = ler_csv("pae_checklist_lacunas.csv")
+    n_pae_crit = 0
+    if not pae.empty and not bars.empty and "id_snisb" in bars.columns:
+        ids = set(bars["id_snisb"].astype(str).str.strip())
+        sub = pae[pae["id_snisb"].astype(str).str.strip().isin(ids)]
+        if "n_lacunas_criticas" in sub.columns:
+            n_pae_crit = int(pd.to_numeric(sub["n_lacunas_criticas"], errors="coerce").fillna(0).sum())
+        elif "n_lacuna" in sub.columns:
+            n_pae_crit = int(pd.to_numeric(sub["n_lacuna"], errors="coerce").fillna(0).gt(0).sum())
+    if n_pae_crit > 0:
+        acoes.append(
+            {
+                "prioridade": "2",
+                "tema": "PAE / documentação",
+                "acao": (
+                    f"Há lacunas críticas de PAE/PAEBM no recorte (soma={n_pae_crit}). "
+                    "Cobrar empreendedor/SEMA e registrar checklist na Simulação."
+                ),
+            }
+        )
+
+    if dossie.get("n_jusante", 0) > 0:
+        sedes = dossie.get("sedes_montante") or []
+        extra = f" Sedes a montante: {', '.join(sedes[:5])}." if sedes else ""
+        acoes.append(
+            {
+                "prioridade": "2",
+                "tema": "Impacto a jusante",
+                "acao": (
+                    f"{dossie['n_jusante']} estrutura(s) fora da sede podem atingir {mun} (Otto)."
+                    f"{extra} Usar mapa de impacto em outras localidades."
+                ),
+            }
+        )
+
+    n_vuln = 0
+    for key in ("terras_indigenas", "aldeias", "assentamentos", "quilombolas_palmares"):
+        bloco = dossie.get(key)
+        if isinstance(bloco, pd.DataFrame):
+            n_vuln += len(bloco)
+        elif isinstance(bloco, (list, tuple)):
+            n_vuln += len(bloco)
+    if n_vuln > 0:
+        acoes.append(
+            {
+                "prioridade": "3",
+                "tema": "Povos e comunidades",
+                "acao": (
+                    f"{n_vuln} registro(s) FUNAI/INCRA/Palmares no município — "
+                    "incluir na comunicação de risco e na ficha rápida."
+                ),
+            }
+        )
+
+    rib = dossie.get("ribeirinhos") or {}
+    if rib.get("disponivel") and int(rib.get("populacao_rural_eixo") or 0) > 0:
+        acoes.append(
+            {
+                "prioridade": "3",
+                "tema": "Ribeirinhos (proxy)",
+                "acao": (
+                    f"Proxy: ~{int(rib['populacao_rural_eixo']):,} hab. em setores rurais do eixo "
+                    f"({rib.get('n_setores_rural_eixo') or 0} setores). "
+                    "Priorizar APS de beira d’água — não é cadastro oficial."
+                ).replace(",", "."),
+            }
+        )
+    elif not rib.get("disponivel"):
+        acoes.append(
+            {
+                "prioridade": "4",
+                "tema": "Ribeirinhos",
+                "acao": (
+                    "Sem proxy de eixo neste município. Solicitar cadastro SES/Defesa Civil "
+                    "de comunidades ribeirinhas."
+                ),
+            }
+        )
+
+    from st_app.ficha_rapida import carregar_ficha_municipio
+
+    ficha = carregar_ficha_municipio(mun)
+    if ficha is None:
+        acoes.append(
+            {
+                "prioridade": "3",
+                "tema": "Ficha rápida / IPAPD",
+                "acao": (
+                    "Sem ficha rápida para este município — A/P/C do IPAPD ficam lacuna. "
+                    "Preencher `painel/ficha_rapida.html` e salvar em "
+                    "`dados/tratados/fichas_rapidas/`."
+                ),
+            }
+        )
+    else:
+        acoes.append(
+            {
+                "prioridade": "3",
+                "tema": "Ficha rápida / IPAPD",
+                "acao": (
+                    f"Ficha `{ficha.get('_arquivo')}` encontrada "
+                    f"({ficha.get('tipo') or '—'} / {ficha.get('status') or '—'}). "
+                    "Conferir decomposição IPAPD abaixo."
+                ),
+            }
+        )
+
+    if dossie.get("n_cnes_prioritarios", 0) == 0 and dossie.get("n_cnes", 0) == 0:
+        acoes.append(
+            {
+                "prioridade": "4",
+                "tema": "Rede CNES",
+                "acao": "Nenhuma US georreferenciada no recorte — validar município no CNES estadual.",
+            }
+        )
+
+    # Ordena por prioridade numérica
+    acoes.sort(key=lambda a: int(a.get("prioridade") or 9))
+    return acoes[:8]
 
 
 def municipios_vizinhos_vulneraveis(

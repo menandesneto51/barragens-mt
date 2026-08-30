@@ -16,6 +16,21 @@ def listar_fichas() -> list[Path]:
     return sorted(DIR_FICHAS.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
 
 
+def _norm_txt(texto: object) -> str:
+    import unicodedata
+
+    s = str(texto or "").strip().casefold()
+    s = "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
+    return " ".join(s.split())
+
+
+def _nomes_batem(a: object, b: object) -> bool:
+    na, nb = _norm_txt(a), _norm_txt(b)
+    if not na or not nb:
+        return False
+    return na == nb or na in nb or nb in na
+
+
 def carregar_ficha(path: Path | None = None) -> dict[str, Any] | None:
     """Carrega a ficha mais recente ou um caminho explícito."""
     if path is None:
@@ -31,6 +46,20 @@ def carregar_ficha(path: Path | None = None) -> dict[str, Any] | None:
         return None
     data["_arquivo"] = path.name
     return data
+
+
+def carregar_ficha_municipio(municipio: str) -> dict[str, Any] | None:
+    """Prefere ficha cujo campo `municipio` bate com a localidade; senão None."""
+    alvo = (municipio or "").strip()
+    if not alvo:
+        return None
+    for path in listar_fichas():
+        data = carregar_ficha(path)
+        if not data:
+            continue
+        if _nomes_batem(data.get("municipio"), alvo):
+            return data
+    return None
 
 
 def termos_ipapd_da_ficha(ficha: dict[str, Any] | None) -> dict[str, Any]:
