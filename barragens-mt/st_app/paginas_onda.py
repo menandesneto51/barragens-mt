@@ -409,7 +409,7 @@ def pagina_municipio_360(
     incluir_sanitario: bool = False,
     titulo_nivel: str = "###",
 ) -> None:
-    """Dossiê da localidade: barragens, população, indígenas, quilombos, ribeirinhos (lacuna)."""
+    """Dossiê da localidade: barragens, população, indígenas, quilombos, ribeirinhos (proxy)."""
     from st_app.localidade import montar_dossie_localidade, municipios_vizinhos_vulneraveis
 
     dossie = montar_dossie_localidade(municipio, df)
@@ -422,7 +422,8 @@ def pagina_municipio_360(
     st.markdown(
         '<p class="nota">Recorte <b>sede</b> e/ou <b>potencialmente afetado a jusante</b> (Otto). '
         "População IBGE; povos e comunidades (FUNAI, INCRA, Palmares); CNES. "
-        "Comunidades <b>ribeirinhas</b>: sem base estadual consolidada.</p>",
+        "Comunidades <b>ribeirinhas</b>: sem cadastro estadual — proxy por setores do eixo "
+        "Manso–Cuiabá quando o município estiver no recorte.</p>",
         unsafe_allow_html=True,
     )
 
@@ -471,7 +472,56 @@ def pagina_municipio_360(
     v5.metric("US prioritárias (CNES)", dossie["n_cnes_prioritarios"])
 
     rib = dossie["ribeirinhos"]
-    st.info(f"**Ribeirinhos:** {rib['mensagem']}")
+    st.markdown("##### Ribeirinhos (proxy operacional)")
+    if rib.get("disponivel"):
+        r1, r2, r3, r4 = st.columns(4)
+        r1.metric("Setores do eixo", rib.get("n_setores_eixo") or 0)
+        r2.metric(
+            "Pop. setores do eixo",
+            f"{int(rib.get('populacao_eixo') or 0):,}".replace(",", "."),
+            help="População IBGE 2022 nos setores do corredor hidrográfico — não é contagem ribeirinha.",
+        )
+        r3.metric(
+            "Setores rurais do eixo",
+            rib.get("n_setores_rural_eixo") or 0,
+            help="Sinal mais próximo de margens / comunidades de beira d’água no recorte.",
+        )
+        r4.metric(
+            "Pop. rural no eixo",
+            f"{int(rib.get('populacao_rural_eixo') or 0):,}".replace(",", "."),
+        )
+        st.caption(rib.get("aviso") or "")
+        st.info(rib.get("mensagem") or "")
+        prox_df = rib.get("elementos_proximos")
+        if isinstance(prox_df, pd.DataFrame) and not prox_df.empty:
+            cols_show = [
+                c
+                for c in (
+                    "categoria",
+                    "nome",
+                    "municipio",
+                    "distancia_eixo_km",
+                    "faixa",
+                    "familias",
+                    "detalhe",
+                )
+                if c in prox_df.columns
+            ]
+            with st.expander(
+                f"Elementos vulneráveis a ≤5 km do eixo ({len(prox_df)})",
+                expanded=False,
+            ):
+                st.dataframe(
+                    prox_df[cols_show] if cols_show else prox_df,
+                    width="stretch",
+                    hide_index=True,
+                    height=min(260, 48 + 28 * min(len(prox_df), 8)),
+                )
+        st.caption(f"Fonte: `{rib.get('fonte') or '—'}`")
+    else:
+        st.warning(f"**Ribeirinhos:** {rib.get('mensagem') or 'Lacuna.'}")
+        if rib.get("aviso"):
+            st.caption(rib["aviso"])
 
     if (
         len(dossie["terras_indigenas"]) == 0

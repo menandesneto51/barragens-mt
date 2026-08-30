@@ -296,7 +296,7 @@ ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
 | O que fornece | Malha e população por setor censitário — granularidade abaixo do município |
 | Acesso | IBGE downloads / FTP de malhas e resultados do Censo |
 | Uso pretendido | População exposta e isolada na mancha proxy (C1 do IDAP com rigor) |
-| Status no repositório | Implementado no eixo Manso–Cuiabá: `scripts/37_ibge_setores_eixo.py` → `dados/tratados/setores_censitarios_eixo_cuiaba.csv` (+ GeoJSON). KPI na Simulação via `st_app/setores_ibge.py` (centróide do setor na mancha). População municipal permanece em `ibge_populacao_municipios_mt.csv` para o proxy C7 estadual |
+| Status no repositório | Implementado no eixo Manso–Cuiabá: `scripts/37_ibge_setores_eixo.py` → `dados/tratados/setores_censitarios_eixo_cuiaba.csv` (+ GeoJSON). KPI na Simulação via `st_app/setores_ibge.py` (centróide do setor na mancha). População municipal permanece em `ibge_populacao_municipios_mt.csv` para o proxy C7 estadual. **Proxy ribeirinhos (dossiê por localidade):** `st_app/localidade.py` → `proxy_ribeirinhos_municipio` usa setores do eixo (com destaque a rurais) + exposição ≤5 km; **não** é cadastro de comunidade ribeirinha — municípios fora do eixo permanecem lacuna explícita |
 
 ### 2.5.7 Sisagua — captações de água (C4)
 

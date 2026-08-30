@@ -111,6 +111,118 @@ def vulneraveis_eixo_no_municipio(municipio: str) -> pd.DataFrame:
     return _filtra_por_municipio(vul, "municipio", municipio)
 
 
+def proxy_ribeirinhos_municipio(municipio: str) -> dict[str, Any]:
+    """Proxy operacional no eixo Manso–Cuiabá — não é cadastro ribeirinho.
+
+    Sem camada estadual oficial, o produto oferece população em setores
+    censitários do eixo hidrográfico (IBGE 2022) e elementos vulneráveis
+    a ≤5 km do eixo. Setores rurais são o sinal mais próximo de comunidades
+    de margem; a vigilância municipal deve cruzar com microáreas da APS.
+    """
+    mun = (municipio or "").strip()
+    vazio = {
+        "disponivel": False,
+        "tipo": "lacuna",
+        "n_setores_eixo": 0,
+        "populacao_eixo": 0,
+        "n_setores_rural_eixo": 0,
+        "populacao_rural_eixo": 0,
+        "n_elementos_proximos_5km": 0,
+        "elementos_proximos": pd.DataFrame(),
+        "mensagem": (
+            "Não há base estadual consolidada de comunidades ribeirinhas. "
+            "Este município também não entra no recorte de setores do eixo "
+            "Manso–Cuiabá — sem proxy quantitativo in-repo."
+        ),
+        "aviso": (
+            "Qualquer número apresentado como «população ribeirinha» sem "
+            "cadastro APS/Defesa Civil seria estimativa sem fonte."
+        ),
+        "fonte": "Lacuna — sem camada estadual; setores do eixo ausentes para o município",
+    }
+    if not mun:
+        return vazio
+
+    from st_app.setores_ibge import carregar_setores_eixo
+
+    setores = carregar_setores_eixo()
+    sub = pd.DataFrame()
+    if not setores.empty and "municipio" in setores.columns:
+        sub = setores[
+            setores["municipio"].apply(lambda m: nomes_equivalentes(mun, m))
+        ].copy()
+
+    eixo = vulneraveis_eixo_no_municipio(mun)
+    prox = pd.DataFrame()
+    if not eixo.empty:
+        cats = (
+            eixo["categoria"].fillna("").astype(str).str.lower()
+            if "categoria" in eixo.columns
+            else pd.Series([""] * len(eixo))
+        )
+        trad = eixo[~cats.str.contains("saúde|saude|estabelecimento")].copy()
+        if "distancia_eixo_km" in trad.columns:
+            dist = pd.to_numeric(trad["distancia_eixo_km"], errors="coerce")
+            prox = trad[dist.notna() & (dist <= 5.0)].copy()
+        elif "faixa" in trad.columns:
+            faixa = trad["faixa"].fillna("").astype(str).str.lower()
+            prox = trad[faixa.str.contains("2 km|5 km|até 2|ate 2|até 5|ate 5")].copy()
+        else:
+            prox = trad
+
+    if sub.empty and prox.empty:
+        return vazio
+
+    n_set = int(len(sub))
+    pop_eixo = int(sub["populacao"].sum()) if n_set and "populacao" in sub.columns else 0
+    rural = pd.DataFrame()
+    if n_set and "situacao" in sub.columns:
+        sit = sub["situacao"].fillna("").astype(str).str.lower()
+        rural = sub[sit.str.contains("rural")].copy()
+    n_rural = int(len(rural))
+    pop_rural = int(rural["populacao"].sum()) if n_rural and "populacao" in rural.columns else 0
+    n_prox = int(len(prox))
+
+    partes_msg: list[str] = []
+    if n_set:
+        partes_msg.append(
+            f"{n_set} setores do eixo Manso–Cuiabá "
+            f"({pop_eixo:,} hab.; {n_rural} rurais / {pop_rural:,} hab.)".replace(",", ".")
+        )
+    if n_prox:
+        partes_msg.append(
+            f"{n_prox} elemento(s) vulnerável(is) a ≤5 km do eixo "
+            "(aldeias, assentamentos, quilombos — não saúde)"
+        )
+    msg = (
+        "Proxy operacional (não cadastro ribeirinho): "
+        + "; ".join(partes_msg)
+        + ". Cruzar com microáreas da APS / Defesa Civil local."
+    )
+
+    return {
+        "disponivel": True,
+        "tipo": "proxy_setores_eixo",
+        "n_setores_eixo": n_set,
+        "populacao_eixo": pop_eixo,
+        "n_setores_rural_eixo": n_rural,
+        "populacao_rural_eixo": pop_rural,
+        "n_elementos_proximos_5km": n_prox,
+        "elementos_proximos": prox,
+        "mensagem": msg,
+        "aviso": (
+            "Não há delimitação oficial de população ribeirinha comparável a "
+            "FUNAI/INCRA. Os números abaixo são população em setores do eixo "
+            "hidrográfico e exposição próxima — alvo para busca ativa, não contagem "
+            "de comunidade ribeirinha."
+        ),
+        "fonte": (
+            "IBGE Censo 2022 (setores_censitarios_eixo_cuiaba.csv) + "
+            "exposicao_populacoes_eixo_cuiaba.csv (≤5 km)"
+        ),
+    }
+
+
 def montar_dossie_localidade(
     municipio: str,
     df_barragens: pd.DataFrame | None = None,
@@ -197,14 +309,7 @@ def montar_dossie_localidade(
         "n_cnes": len(cnes),
         "n_cnes_prioritarios": us_prio,
         "sedes_montante": sedes_montante,
-        "ribeirinhos": {
-            "disponivel": False,
-            "mensagem": (
-                "Não há base estadual consolidada de comunidades ribeirinhas no inventário. "
-                "Use FUNAI/INCRA/Palmares + exposição do eixo como proxy parcial; "
-                "complementar com SES/Defesa Civil local."
-            ),
-        },
+        "ribeirinhos": proxy_ribeirinhos_municipio(mun),
         "fontes": {
             "barragens": "SNISB/IDAP + Otto (sede ou jusante)",
             "populacao": "IBGE (ibge_populacao_municipios_mt.csv)",
@@ -212,7 +317,10 @@ def montar_dossie_localidade(
             "assentamentos": "INCRA assentamentos",
             "quilombolas": "Fundação Palmares + INCRA (quando houver)",
             "saude": "CNES estabelecimentos",
-            "ribeirinhos": "Lacuna — sem camada estadual",
+            "ribeirinhos": (
+                "Proxy setores do eixo Manso–Cuiabá (IBGE 2022) + exposição ≤5 km; "
+                "sem cadastro estadual de comunidade ribeirinha"
+            ),
         },
     }
 
