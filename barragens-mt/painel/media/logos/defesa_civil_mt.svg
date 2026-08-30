@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 64" role="img" aria-label="Defesa Civil Estadual de Mato Grosso">
   <title>Defesa Civil Estadual</title>
   <rect width="250" height="64" rx="4" fill="#e65c00"/>
-  <polygon points="28,14 42,42 14,42" fill="#ffd100" stroke="#fff" stroke-width="2"/>
+  <polygon points="28,14 42,42 14,42" fill="#ffd100" stroke="#ffffff" stroke-width="2"/>
   <circle cx="28" cy="34" r="3.2" fill="#1a1a1a"/>
-  <text x="54" y="28" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.3">DEFESA CIVIL</text>
+  <text x="54" y="28" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.3">DEFESA CIVIL</text>
   <text x="54" y="46" fill="#ffe8cc" font-family="Source Sans 3, Arial, sans-serif" font-size="9">Estado de Mato Grosso</text>
 </svg>

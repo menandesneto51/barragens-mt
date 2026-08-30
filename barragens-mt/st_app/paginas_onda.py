@@ -508,6 +508,42 @@ def pagina_municipio_360(
         else:
             st.info(ipapd.get("fonte") or "IPAPD indisponível neste recorte.")
 
+    # —— Contatos SES / CIEVS / Vigidesastres / Defesa Civil ——
+    cont = dossie.get("contatos") or {}
+    st.markdown("##### Contatos institucionais (alertabilidade)")
+    if cont.get("disponivel"):
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Cadastro", cont.get("n_total") or 0)
+        c2.metric("Com telefone", cont.get("n_com_telefone") or 0)
+        c3.metric("Com e-mail", cont.get("n_com_email") or 0)
+        c4.metric(
+            "Papéis críticos",
+            f"{cont.get('n_criticos_com_fone') or 0}/{cont.get('n_criticos') or 4}",
+            help="Gestor saúde, Vigilância, Defesa Civil e CIEVS com telefone",
+        )
+        tab = cont.get("tabela")
+        if isinstance(tab, pd.DataFrame) and not tab.empty:
+            st.dataframe(tab, width="stretch", hide_index=True, height=min(280, 48 + 36 * len(tab)))
+        faltam = cont.get("papeis_criticos_faltando") or []
+        if faltam:
+            st.caption(
+                "Lacunas de telefone nos papéis críticos: "
+                + ", ".join(str(p) for p in faltam)
+                + ". Validar em Alertabilidade / despacho."
+            )
+        elif cont.get("alertavel"):
+            st.caption("Município com papéis críticos telefonáveis e ao menos uma validação ≤90 dias.")
+        else:
+            st.caption(
+                f"Validados ≤90 dias: {cont.get('n_validados_90d') or 0}. "
+                "Fonte: contatos_institucionais_piloto.csv."
+            )
+    else:
+        st.info(
+            "Sem contatos deste município no piloto. Incluir SES, CIEVS, Vigilância "
+            "e Defesa Civil em `dados/tratados/contatos_institucionais_piloto.csv`."
+        )
+
     if incluir_sanitario and not bars.empty:
         bloco_sanitario_e_historico(bars, mun_ativo=municipio)
 

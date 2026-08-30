@@ -15,6 +15,7 @@ from st_app.localidade import (  # noqa: E402
     fila_acao_localidade,
     montar_dossie_localidade,
     pressao_assistencial_localidade,
+    resumo_contatos_municipio,
 )
 
 
@@ -26,7 +27,7 @@ def main() -> int:
         low_memory=False,
     )
     ok = 0
-    total = 6
+    total = 7
 
     ficha = carregar_ficha_municipio("Cuiabá")
     assert ficha is not None, "exemplo_cuiaba.json deve bater município"
@@ -62,9 +63,18 @@ def main() -> int:
     assert ip2.get("ficha", {}).get("encontrada"), "exemplo_manso.json"
     ok += 1
 
+    cont = d.get("contatos") or resumo_contatos_municipio("Cuiabá")
+    assert cont.get("disponivel"), "Cuiabá deve ter contatos no piloto"
+    assert cont.get("n_total", 0) >= 4
+    assert "Contatos" in " ".join(temas) or any("Contatos" in a["tema"] for a in fila) or (
+        cont.get("n_criticos_com_fone", 0) >= 3
+    )
+    ok += 1
+
     print(
         f"OK {ok}/{total} — Cuiabá IPAPD={ip.get('ipapd')} "
-        f"completude={ip.get('completude')} fila={len(fila)}"
+        f"completude={ip.get('completude')} fila={len(fila)} "
+        f"contatos={cont.get('n_criticos_com_fone')}/{cont.get('n_criticos')}"
     )
     return 0 if ok == total else 1
 

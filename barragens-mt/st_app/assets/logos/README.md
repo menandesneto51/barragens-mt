@@ -2,13 +2,15 @@
 
 Assinaturas usadas no cabeçalho do painel (Streamlit e HTML):
 
-| Arquivo | Instituição |
+| Stem (arquivo) | Instituição |
 | --- | --- |
-| `ses_mt.svg` | Secretaria de Estado de Saúde de Mato Grosso |
-| `cievs_mt.svg` | CIEVS-MT |
-| `vigidesastres.svg` | Vigidesastres |
-| `defesa_civil_mt.svg` | Defesa Civil Estadual |
+| `ses_mt` | Secretaria de Estado de Saúde de Mato Grosso |
+| `cievs_mt` | CIEVS-MT |
+| `vigidesastres` | Vigidesastres |
+| `defesa_civil_mt` | Defesa Civil Estadual |
 
-São **assinaturas do sistema** (SVG) alinhadas às cores institucionais SES (`#1b3281`)
-e Defesa Civil (laranja). Para produção com identidade oficial GCOM/SECOM, substitua
-estes arquivos pelos PNG/SVG homologados — o código lê pelo nome do arquivo.
+O código aceita, nesta ordem: **`.png` → `.jpg`/`.jpeg` → `.svg` → `.webp`**.
+
+Os SVG atuais são **assinaturas do sistema** (cores SES `#1b3281` e Defesa Civil laranja).
+Para produção com identidade oficial GCOM/SECOM, coloque os PNG/SVG homologados
+com o mesmo stem — sem mudar código.

@@ -223,6 +223,107 @@ def proxy_ribeirinhos_municipio(municipio: str) -> dict[str, Any]:
     }
 
 
+# Papéis mínimos para despacho institucional (SES / CIEVS / Vigidesastres / DC).
+PAPEIS_ALERTA_CRITICOS = (
+    "gestor_municipal_saude",
+    "vigilancia_saude",
+    "defesa_civil_municipal",
+    "cievs",
+)
+
+
+def resumo_contatos_municipio(municipio: str) -> dict[str, Any]:
+    """Cobertura de contatos SES/CIEVS/Defesa Civil no município (piloto)."""
+    from datetime import date, datetime
+
+    from st_app.indicadores import carregar_contatos
+
+    mun = (municipio or "").strip()
+    ct = carregar_contatos()
+    vazio = {
+        "disponivel": False,
+        "n_total": 0,
+        "n_com_telefone": 0,
+        "n_com_email": 0,
+        "n_validados_90d": 0,
+        "n_criticos": len(PAPEIS_ALERTA_CRITICOS),
+        "n_criticos_com_fone": 0,
+        "papeis_criticos_faltando": list(PAPEIS_ALERTA_CRITICOS),
+        "alertavel": False,
+        "tabela": pd.DataFrame(),
+        "fonte": "contatos_institucionais_piloto.csv",
+    }
+    if not mun or ct.empty or "municipio" not in ct.columns:
+        return vazio
+
+    hit = ct[ct["municipio"].apply(lambda m: nomes_equivalentes(mun, m))].copy()
+    if hit.empty:
+        return vazio
+
+    def _tem_fone(row: pd.Series) -> bool:
+        dig = "".join(
+            c
+            for c in f"{row.get('telefone') or ''}{row.get('celular') or ''}"
+            if c.isdigit()
+        )
+        return len(dig) >= 8
+
+    def _tem_email(row: pd.Series) -> bool:
+        return "@" in str(row.get("email") or "")
+
+    def _validado_90d(raw: object) -> bool:
+        s = str(raw or "").strip()[:10]
+        if len(s) < 10:
+            return False
+        try:
+            dt = datetime.strptime(s, "%Y-%m-%d").date()
+        except ValueError:
+            return False
+        return (date.today() - dt).days <= 90
+
+    hit["_fone"] = hit.apply(_tem_fone, axis=1)
+    hit["_email"] = hit.apply(_tem_email, axis=1)
+    hit["_val90"] = hit["data_validacao"].apply(_validado_90d) if "data_validacao" in hit.columns else False
+
+    crit = hit[hit["papel"].isin(PAPEIS_ALERTA_CRITICOS)] if "papel" in hit.columns else hit.iloc[0:0]
+    papeis_ok = set(crit.loc[crit["_fone"], "papel"].astype(str)) if not crit.empty else set()
+    faltando = [p for p in PAPEIS_ALERTA_CRITICOS if p not in papeis_ok]
+
+    cols_show = [
+        c
+        for c in (
+            "papel_rotulo",
+            "papel",
+            "nome",
+            "telefone",
+            "celular",
+            "email",
+            "data_validacao",
+            "fonte",
+        )
+        if c in hit.columns
+    ]
+    tab = hit[cols_show].copy() if cols_show else hit.copy()
+    if "papel" in tab.columns:
+        ordem = {p: i for i, p in enumerate(PAPEIS_ALERTA_CRITICOS)}
+        tab["_ord"] = tab["papel"].map(lambda p: ordem.get(str(p), 99))
+        tab = tab.sort_values("_ord").drop(columns=["_ord"])
+
+    return {
+        "disponivel": True,
+        "n_total": len(hit),
+        "n_com_telefone": int(hit["_fone"].sum()),
+        "n_com_email": int(hit["_email"].sum()),
+        "n_validados_90d": int(hit["_val90"].sum()),
+        "n_criticos": len(PAPEIS_ALERTA_CRITICOS),
+        "n_criticos_com_fone": len(papeis_ok),
+        "papeis_criticos_faltando": faltando,
+        "alertavel": len(faltando) == 0 and int(hit["_val90"].sum()) > 0,
+        "tabela": tab.reset_index(drop=True),
+        "fonte": "contatos_institucionais_piloto.csv",
+    }
+
+
 def montar_dossie_localidade(
     municipio: str,
     df_barragens: pd.DataFrame | None = None,
@@ -310,6 +411,7 @@ def montar_dossie_localidade(
         "n_cnes_prioritarios": us_prio,
         "sedes_montante": sedes_montante,
         "ribeirinhos": proxy_ribeirinhos_municipio(mun),
+        "contatos": resumo_contatos_municipio(mun),
         "fontes": {
             "barragens": "SNISB/IDAP + Otto (sede ou jusante)",
             "populacao": "IBGE (ibge_populacao_municipios_mt.csv)",
@@ -321,7 +423,14 @@ def montar_dossie_localidade(
                 "Proxy setores do eixo Manso–Cuiabá (IBGE 2022) + exposição ≤5 km; "
                 "sem cadastro estadual de comunidade ribeirinha"
             ),
-            "acao": "Fila gerada a partir de IDAP, PAE checklist, vulneráveis e ficha rápida",
+            "contatos": (
+                "Papéis SES/CIEVS/Vigilância/Defesa Civil em "
+                "contatos_institucionais_piloto.csv (validação ≤90 dias)"
+            ),
+            "acao": (
+                "Fila gerada a partir de IDAP, PAE checklist, vulneráveis, "
+                "ficha rápida e contatos"
+            ),
         },
     }
 
@@ -518,6 +627,53 @@ def fila_acao_localidade(dossie: dict[str, Any]) -> list[dict[str, str]]:
                 "acao": "Nenhuma US georreferenciada no recorte — validar município no CNES estadual.",
             }
         )
+
+    cont = dossie.get("contatos") or {}
+    if not cont.get("disponivel"):
+        acoes.append(
+            {
+                "prioridade": "2",
+                "tema": "Contatos / alertabilidade",
+                "acao": (
+                    f"Sem cadastro de contatos para {mun}. Incluir papéis SES, CIEVS, "
+                    "Vigilância e Defesa Civil em contatos_institucionais_piloto.csv."
+                ),
+            }
+        )
+    else:
+        faltam = cont.get("papeis_criticos_faltando") or []
+        n_ok = int(cont.get("n_criticos_com_fone") or 0)
+        n_crit = int(cont.get("n_criticos") or 4)
+        if faltam:
+            rotulos = {
+                "gestor_municipal_saude": "gestor saúde",
+                "vigilancia_saude": "vigilância",
+                "defesa_civil_municipal": "Defesa Civil",
+                "cievs": "CIEVS",
+            }
+            nomes = ", ".join(rotulos.get(p, p) for p in faltam)
+            acoes.append(
+                {
+                    "prioridade": "2",
+                    "tema": "Contatos / alertabilidade",
+                    "acao": (
+                        f"Papéis críticos com telefone: {n_ok}/{n_crit}. "
+                        f"Completar e validar: {nomes}. "
+                        "Abrir Alertabilidade / despacho."
+                    ),
+                }
+            )
+        elif int(cont.get("n_validados_90d") or 0) == 0:
+            acoes.append(
+                {
+                    "prioridade": "3",
+                    "tema": "Contatos / alertabilidade",
+                    "acao": (
+                        "Há telefones, mas nenhum contato validado nos últimos 90 dias. "
+                        "Revalidar SES/CIEVS/Defesa Civil."
+                    ),
+                }
+            )
 
     # Ordena por prioridade numérica
     acoes.sort(key=lambda a: int(a.get("prioridade") or 9))

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" role="img" aria-label="Vigidesastres Mato Grosso">
   <title>Vigidesastres</title>
   <rect width="240" height="64" rx="4" fill="#16305f"/>
-  <path d="M28 14l16 6v14c0 10-7 18-16 22-9-4-16-12-16-22V20l16-6z" fill="#fff"/>
+  <path d="M28 14l16 6v14c0 10-7 18-16 22-9-4-16-12-16-22V20l16-6z" fill="#ffffff"/>
   <path d="M28 22v18M21 31h14" stroke="#16305f" stroke-width="3.2" stroke-linecap="round"/>
-  <text x="54" y="28" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4">VIGIDESASTRES</text>
-  <text x="54" y="46" fill="#d7e0f5" font-family="Source Sans 3, Arial, sans-serif" font-size="9">Vigilância em Saúde ante Desastres</text>
+  <text x="54" y="28" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4">VIGIDESASTRES</text>
+  <text x="54" y="46" fill="#d7e0f5" font-family="Source Sans 3, Arial, sans-serif" font-size="9">Vigilancia em Saude ante Desastres</text>
 </svg>
