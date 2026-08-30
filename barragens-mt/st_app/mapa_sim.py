@@ -29,6 +29,8 @@ def html_mapa_simulacao(
     hand_poligonos: list[list[list[float]]] | None = None,
     hand_limiar_m: float | None = None,
     mostrar_hand: bool = False,
+    pae_poligonos: list[list[list[float]]] | None = None,
+    mostrar_pae: bool = False,
     vulneraveis: list[dict[str, Any]] | None = None,
     escolas: list[dict[str, Any]] | None = None,
     ativos: list[dict[str, Any]] | None = None,
@@ -44,6 +46,9 @@ def html_mapa_simulacao(
     hand_poly = list(hand_poligonos or [])
     if len(hand_poly) > 900:
         hand_poly = hand_poly[:900]
+    pae_poly = list(pae_poligonos or [])
+    if len(pae_poly) > 40:
+        pae_poly = pae_poly[:40]
     vulns = list(vulneraveis or [])[:400]
     esc = list(escolas or [])[:200]
     atv = list(ativos or [])[:200]
@@ -87,6 +92,8 @@ def html_mapa_simulacao(
         "showH": bool(mostrar_hand),
         "handPoly": hand_poly,
         "handLim": float(hand_limiar_m or 0),
+        "showP": bool(mostrar_pae),
+        "paePoly": pae_poly,
         "autoplay": autoplay,
     }
     dados = json.dumps(payload, ensure_ascii=False)
@@ -121,6 +128,7 @@ def html_mapa_simulacao(
     <div><i style="background:#dc2626"></i>Rodovia interrompida</div>
     <div><i style="background:#f59e0b"></i>Ponte atingida</div>
     <div><i style="background:#0e7490;height:10px;width:10px;opacity:.45"></i>Relevo HAND</div>
+    <div><i style="background:#7c2d12;height:10px;width:10px;opacity:.4"></i>Mancha PAE</div>
     <div>● US na mancha (afetada)</div>
     <div>○ US de apoio (fora — atendimento)</div>
     <div>● US isolada (sem rota)</div>
@@ -307,10 +315,14 @@ function desenhar(fPct){{
   if (S.showH) {{
     handLinha = `<br>HAND ≤ <b>${{S.handLim}}</b> m · ${{(S.handPoly||[]).length}} células`;
   }}
+  let paeLinha = '';
+  if (S.showP) {{
+    paeLinha = `<br>Mancha PAE · ${{(S.paePoly||[]).length}} polígono(s)`;
+  }}
   document.getElementById('hud').innerHTML =
     `<b>${{fPct}}%</b> liberado · área <b>${{area.toFixed(1)}}</b> km²` +
     (S.showC ? `<br>Raio circ. <b>${{raio.toFixed(2)}}</b> km` : '') +
-    trLinha + handLinha + '<br>' + isoLinha;
+    trLinha + handLinha + paeLinha + '<br>' + isoLinha;
 
   camadaM.clearLayers(); camadaT.clearLayers(); camadaH.clearLayers();
   camadaVuln.clearLayers(); camadaC5.clearLayers();
@@ -353,6 +365,22 @@ function desenhar(fPct){{
           `Não é mancha PAE / dam break.`
         ).addTo(camadaH);
       }}
+    }}
+  }}
+
+  if (S.showP && (S.paePoly||[]).length) {{
+    for (const ring of S.paePoly) {{
+      if (!ring || ring.length < 3) continue;
+      const poly = L.polygon(ring, {{
+        pane:'mancha', color:'#7c2d12', weight:2,
+        fillColor:'#c2410c', fillOpacity:0.30, opacity:0.9
+      }}).addTo(camadaM);
+      poly.bindPopup(
+        `<b>Mancha PAE / ZAS (oficial)</b><br>` +
+        `Geometria ingerida pela etapa 58.`
+      );
+      const pb = poly.getBounds();
+      bounds = bounds ? bounds.extend(pb) : pb;
     }}
   }}
 

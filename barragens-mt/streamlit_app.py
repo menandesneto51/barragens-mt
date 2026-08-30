@@ -144,6 +144,9 @@ def pagina_comando(df: pd.DataFrame) -> None:
     )
     bloco_guia_60s()
     bloco_idap_na_home()
+    from st_app.coletores_status import render_faixa_streamlit
+
+    render_faixa_streamlit()
     if df.empty:
         st.error("Base de alerta ausente. Rode `python executar.py 16 17` no projeto.")
         return
@@ -797,10 +800,12 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         resumo_hand,
     )
     from st_app.trajeto_hidraulico import construir_trajeto, ponto_no_corredor
+    from st_app.pae_manchas import carregar_mancha, tem_mancha_pae
 
-    # Pré-avalia trajeto / HAND para escolher geometria padrão
+    # Pré-avalia trajeto / HAND / PAE para escolher geometria padrão
     trajeto_probe: dict = {"ok": False}
     hand_ok = False
+    pae_ok = tem_mancha_pae(str(bid))
     if pd.notna(r.get("latitude")) and pd.notna(r.get("longitude")):
         trajeto_probe = construir_trajeto(
             lat=float(r["latitude"]),
@@ -834,21 +839,44 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "Só relevo (HAND)",
             "Circular + relevo (HAND)",
         ]
+    if pae_ok:
+        opcoes_geom = ["Mancha PAE (oficial)"] + opcoes_geom
     geom_modo = st.radio(
         "Geometria da mancha proxy",
         opcoes_geom,
         horizontal=True,
         help="Circular vale para qualquer barragem do MT. "
         "Trajeto = corredor jusante (eixo Manso–Cuiabá ou BHO) quando disponível. "
-        "Relevo (HAND) = células SRTM ≤ lâmina no eixo Manso–Cuiabá (etapa 35).",
+        "Relevo (HAND) = células SRTM ≤ lâmina no eixo Manso–Cuiabá (etapa 35). "
+        "Mancha PAE = geometria oficial quando ingerida pela etapa 58.",
     )
-    usar_hand = "relevo" in geom_modo.lower() or "HAND" in geom_modo
-    mostrar_circular = (
+    usar_pae = geom_modo.startswith("Mancha PAE")
+    pae_info: dict = {"ok": False}
+    if usar_pae:
+        pae_info = carregar_mancha(str(bid))
+        if not pae_info.get("ok"):
+            st.warning(pae_info.get("aviso") or "Mancha PAE indisponível — voltando ao circular.")
+            usar_pae = False
+            geom_modo = "Só circular (todas as barragens)"
+        else:
+            st.caption(
+                f"Mancha PAE oficial · área ~**{pae_info.get('area_km2')} km²** · "
+                f"`{pae_info.get('fonte')}` · `{pae_info.get('caminho')}`. "
+                "Proxies Circular/Trajeto/HAND permanecem disponíveis nas outras opções."
+            )
+            # KPIs usam geometria oficial
+            if float(pae_info.get("area_km2") or 0) > 0:
+                area = float(pae_info["area_km2"])
+                raio = math.sqrt(area / math.pi) if area > 0 else raio
+                raio_us = max(3.0, min(float(raio), 80.0))
+                raio_osm = max(8.0, min(float(raio) * 1.35 + 6.0, 45.0))
+    usar_hand = (not usar_pae) and ("relevo" in geom_modo.lower() or "HAND" in geom_modo)
+    mostrar_circular = (not usar_pae) and (
         "circular" in geom_modo.lower()
         or geom_modo.startswith("Ambos")
         or geom_modo.startswith("Circular +")
     )
-    mostrar_trajeto = (
+    mostrar_trajeto = (not usar_pae) and (
         (geom_modo.startswith("Ambos") or geom_modo.startswith("Só trajeto"))
         and not usar_hand
     )
@@ -2046,6 +2074,8 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             hand_poligonos=hand_info.get("poligonos") if usar_hand else None,
             hand_limiar_m=float(hand_limiar) if usar_hand and hand_limiar is not None else None,
             mostrar_hand=bool(usar_hand and hand_info.get("ok")),
+            pae_poligonos=pae_info.get("poligonos") if usar_pae else None,
+            mostrar_pae=bool(usar_pae and pae_info.get("ok")),
             vulneraveis=vul_mapa,
             escolas=escolas_mapa,
             ativos=ativos_mapa,
@@ -2380,6 +2410,9 @@ def pagina_ficha(df: pd.DataFrame) -> None:
     st.session_state["barragem_selecionada_id"] = bid
     r = df[df["id_snisb"] == bid].iloc[0]
     st.markdown(f"## {r['nome']}")
+    from st_app.coletores_status import render_faixa_streamlit
+
+    render_faixa_streamlit(id_snisb=str(bid))
     st.markdown(
         f"{_badge(r['nivel'])} &nbsp; IDAP **{_txt(r.get('idap'))}/100** · "
         f"completude {_txt(r.get('completude'))} · {_txt(r.get('confiabilidade'))}",

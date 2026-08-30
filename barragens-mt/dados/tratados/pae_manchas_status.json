@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "n_arquivos_brutos": 0,
+  "n_manchas_indexadas": 0,
+  "n_ids": 0,
+  "n_cobertura_atualizada": 0,
+  "avisos": [],
+  "pasta_brutos": "dados/brutos/pae_manchas",
+  "gerado_em": "2026-08-30T22:17:32.713697+00:00",
+  "nota": "Sem GeoJSON em dados/brutos/pae_manchas/ o índice fica vazio — estado esperado até SEMA/empreendedor entregar a mancha."
+}

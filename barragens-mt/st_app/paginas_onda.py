@@ -1419,13 +1419,35 @@ def pagina_alertabilidade_despacho() -> None:
                     f"Modo `{stats.get('modo')}` · e-mails: {stats.get('emails_aplicados', 0)} · "
                     f"campos: {stats.get('campos_atualizados', 0)} · "
                     f"novas: {stats.get('linhas_novas', 0)} · "
-                    f"ignoradas: {stats.get('linhas_ignoradas', 0)}. "
-                    "Depois: `python executar.py 19 16 18`."
+                    f"ignoradas: {stats.get('linhas_ignoradas', 0)}."
                 )
                 st.json(stats)
+                st.session_state["contatos_pos_import"] = True
                 st.cache_data.clear()
             finally:
                 tmp_path.unlink(missing_ok=True)
+
+    if st.session_state.get("contatos_pos_import"):
+        st.info(
+            "Após o import: repropague D8/alertável com **19 → 16 → 18** "
+            "(não inventa e-mails — só recalcula IDAP e fila do piloto)."
+        )
+        if st.button("Rodar 19 → 16 → 18 (repropagar D8)", type="primary"):
+            import subprocess
+            import sys
+
+            raiz = Path(__file__).resolve().parent.parent
+            cmd = [sys.executable, str(raiz / "executar.py"), "19", "16", "18"]
+            with st.spinner("Rodando etapas 19, 16 e 18…"):
+                proc = subprocess.run(cmd, cwd=raiz, capture_output=True, text=True)
+            if proc.returncode == 0:
+                st.success("Pipeline 19→16→18 concluído — D8/alertável atualizados.")
+                st.session_state["contatos_pos_import"] = False
+                st.cache_data.clear()
+            else:
+                st.error(f"Falha (código {proc.returncode}). Veja o log abaixo.")
+                st.code((proc.stdout or "")[-4000:] + "\n" + (proc.stderr or "")[-2000:])
+        st.caption("Ou no terminal: `python executar.py 19 16 18`")
 
     al = carregar_alertabilidade()
     if not al.empty:
@@ -1516,13 +1538,14 @@ def pagina_alertabilidade_despacho() -> None:
             hide_index=True,
         )
 
-    st.subheader("Ciclo de alerta (emissão → confirmação → escalonamento)")
+    st.subheader("Ciclo de alerta (emissão → supervisão → despacho → confirmação)")
     st.caption(
-        "Trilha auditável em `dados/tratados/confirmacoes/`. "
-        "Prazos: Amarelo 120 / Laranja 60 / Vermelho 20 / Roxo 10 min. "
-        "Payload Defesa Civil (§13.2) gerado a cada emissão."
+        "Trilha em `dados/tratados/confirmacoes/` + texto em `alertas/piloto/ciclo_*.txt`. "
+        "Vermelho/Roxo exigem supervisão antes do dry-run. "
+        "Prazos: Amarelo 120 / Laranja 60 / Vermelho 20 / Roxo 10 min."
     )
     from st_app.ciclo_alerta import (
+        autorizar_supervisao,
         carregar_alertas,
         emitir_alerta,
         payload_defesa_civil,
@@ -1532,11 +1555,12 @@ def pagina_alertabilidade_despacho() -> None:
     from st_app.data import carregar_idap
 
     cic = resumo_ciclo()
-    k1, k2, k3, k4 = st.columns(4)
+    k1, k2, k3, k4, k5 = st.columns(5)
     k1.metric("Emitidos", cic["n_emitidos"])
-    k2.metric("Aguardando", cic["n_aguardando"])
-    k3.metric("Escalonados", cic["n_escalonados"] + cic["n_escalonado_maximo"])
-    k4.metric("Confirmados", cic["n_confirmados"])
+    k2.metric("Aguard. supervisão", cic.get("n_aguardando_supervisao") or 0)
+    k3.metric("Aguard. confirmação", cic["n_aguardando"])
+    k4.metric("Escalonados", cic["n_escalonados"] + cic["n_escalonado_maximo"])
+    k5.metric("Confirmados", cic["n_confirmados"])
 
     idap_df = carregar_idap()
     cand = idap_df
@@ -1545,14 +1569,15 @@ def pagina_alertabilidade_despacho() -> None:
     labels = []
     if not cand.empty:
         for _, r in cand.head(80).iterrows():
-            labels.append(
-                f"{r.get('nome')} — {r.get('id_snisb')} ({r.get('nivel')})"
-            )
+            labels.append(f"{r.get('nome')} — {r.get('id_snisb')} ({r.get('nivel')})")
     if labels:
         escolha = st.selectbox("Barragem para emitir alerta de ciclo", labels)
         bid = escolha.split(" — ")[1].split(" ")[0]
         row_b = cand[cand["id_snisb"].astype(str) == bid].iloc[0]
-        if st.button("Emitir alerta no ciclo (sem envio de canal)", type="primary"):
+        b_em1, b_em2 = st.columns(2)
+        emitir_dry = b_em1.button("Emitir + dry-run despacho", type="primary")
+        emitir_so = b_em2.button("Só emitir no ciclo")
+        if emitir_dry or emitir_so:
             try:
                 emitido = emitir_alerta(
                     id_snisb=str(row_b.get("id_snisb")),
@@ -1566,7 +1591,29 @@ def pagina_alertabilidade_despacho() -> None:
                     lat=row_b.get("latitude") if "latitude" in row_b.index else None,
                     lon=row_b.get("longitude") if "longitude" in row_b.index else None,
                 )
-                st.success(f"Emitido `{emitido['id_alerta']}` · prazo até {emitido['prazo_limite']}")
+                st.success(
+                    f"Emitido `{emitido['id_alerta']}` · estado **{emitido['estado']}** · "
+                    f"txt `{emitido.get('arquivo_txt')}`"
+                )
+                if emitir_dry:
+                    import importlib.util
+                    import sys
+
+                    raiz = Path(__file__).resolve().parent.parent
+                    if str(raiz) not in sys.path:
+                        sys.path.insert(0, str(raiz))
+                    spec = importlib.util.spec_from_file_location(
+                        "desp29", raiz / "scripts" / "29_despacho_alertas.py"
+                    )
+                    if spec and spec.loader:
+                        mod29 = importlib.util.module_from_spec(spec)
+                        spec.loader.exec_module(mod29)
+                        n = mod29.despachar(
+                            dry_run=True,
+                            apenas_arquivo=emitido.get("arquivo_txt"),
+                            id_alerta=emitido["id_alerta"],
+                        )
+                        st.info(f"Despacho dry-run: {n} registro(s) no log (com id_alerta).")
                 st.code(
                     json.dumps(payload_defesa_civil(emitido), ensure_ascii=False, indent=2),
                     language="json",
@@ -1576,6 +1623,26 @@ def pagina_alertabilidade_despacho() -> None:
     else:
         st.caption("Sem barragens Em atenção+ na base IDAP para emissão.")
 
+    al_ciclo = carregar_alertas()
+    pend_sup = (
+        al_ciclo[al_ciclo["estado"].astype(str) == "AGUARDANDO_SUPERVISAO"]
+        if not al_ciclo.empty
+        else al_ciclo
+    )
+    if not pend_sup.empty:
+        st.markdown("##### Autorizar envio (Vermelho/Roxo)")
+        ids_sup = pend_sup["id_alerta"].astype(str).tolist()
+        id_sup = st.selectbox("Alerta aguardando supervisão", ids_sup)
+        supervisor = st.text_input("Nome/cargo do supervisor")
+        if st.button("Autorizar envio (sair de AGUARDANDO_SUPERVISAO)"):
+            try:
+                row_s = autorizar_supervisao(id_alerta=id_sup, supervisor=supervisor)
+                st.success(
+                    f"Autorizado por {row_s.get('supervisor')} → {row_s.get('estado')}"
+                )
+            except ValueError as exc:
+                st.warning(str(exc))
+
     c_esc1, c_esc2 = st.columns(2)
     if c_esc1.button("Processar escalonamentos vencidos"):
         ev = processar_escalonamentos()
@@ -1584,10 +1651,8 @@ def pagina_alertabilidade_despacho() -> None:
             st.dataframe(pd.DataFrame(ev), width="stretch", hide_index=True)
         else:
             st.info("Nenhum prazo vencido no momento.")
-    al_ciclo = carregar_alertas()
     if not al_ciclo.empty:
         st.dataframe(al_ciclo.tail(20), width="stretch", hide_index=True, height=220)
-        # Download último payload
         ultimo = al_ciclo.iloc[-1]
         st.download_button(
             "Baixar payload DC do último alerta",
@@ -1605,13 +1670,19 @@ def pagina_alertabilidade_despacho() -> None:
         lista_cobranca_contatos,
     )
 
-    kc = kpis_contatos_criticos()
-    x1, x2, x3, x4 = st.columns(4)
+    so_cievs = st.checkbox("Só papel CIEVS na cobrança", value=False)
+    kc = kpis_contatos_criticos(so_cievs=so_cievs)
+    x1, x2, x3, x4, x5 = st.columns(5)
     x1.metric("Críticos c/ telefone", f"{kc['n_com_fone']}/{kc['n_criticos']}")
     x2.metric("E-mail p/ despacho", kc["email_pronto_despacho"])
     x3.metric("Validados ≤90d", kc["n_validados_90d"])
     x4.metric("Itens cobrança", kc["n_cobranca"])
-    cob = lista_cobranca_contatos()
+    x5.metric(
+        "Municípios 100% críticos",
+        f"{kc.get('n_municipios_100') or 0}/{kc.get('n_municipios') or 0}",
+        help="Municípios com telefone e e-mail em todos os papéis do filtro.",
+    )
+    cob = lista_cobranca_contatos(so_cievs=so_cievs)
     if not cob.empty:
         st.dataframe(cob, width="stretch", hide_index=True, height=240)
         d1, d2, d3 = st.columns(3)

@@ -197,6 +197,18 @@ ETAPAS = [
         "Seed IndicaSUS municipal do eixo (termo O IPAPD)",
         False,
     ),
+    (
+        "57",
+        "57_exercicio_mesa_piloto.py",
+        "Exercício de mesa ponta a ponta (ciclo alerta piloto)",
+        False,
+    ),
+    (
+        "58",
+        "58_pae_manchas_carregar.py",
+        "Carga de manchas PAE/ZAS GeoJSON (gancho oficial)",
+        False,
+    ),
 ]
 
 

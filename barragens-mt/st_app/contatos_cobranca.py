@@ -49,6 +49,7 @@ def lista_cobranca_contatos(
     *,
     municipio: str | None = None,
     regiao: str | None = None,
+    so_cievs: bool = False,
 ) -> pd.DataFrame:
     """Linhas que precisam de telefone, e-mail ou revalidação (papéis críticos)."""
     from st_app.indicadores import carregar_contatos
@@ -56,7 +57,8 @@ def lista_cobranca_contatos(
     ct = contatos if contatos is not None else carregar_contatos()
     if ct.empty or "papel" not in ct.columns:
         return pd.DataFrame()
-    sub = ct[ct["papel"].isin(PAPEIS_ALERTA_CRITICOS)].copy()
+    papeis = ("cievs",) if so_cievs else PAPEIS_ALERTA_CRITICOS
+    sub = ct[ct["papel"].isin(papeis)].copy()
     if municipio and "municipio" in sub.columns:
         sub = sub[sub["municipio"].apply(lambda m: nomes_equivalentes(municipio, m))]
     if regiao and "regiao_saude" in sub.columns:
@@ -98,16 +100,51 @@ def lista_cobranca_contatos(
     return out.sort_values(["prioridade", "municipio", "papel"]).reset_index(drop=True)
 
 
+def municipios_criticos_completos(
+    contatos: pd.DataFrame | None = None,
+    *,
+    so_cievs: bool = False,
+) -> dict[str, Any]:
+    """Municípios com 100% dos papéis críticos cobertos (fone + e-mail)."""
+    from st_app.indicadores import carregar_contatos
+
+    ct = contatos if contatos is not None else carregar_contatos()
+    papeis = ("cievs",) if so_cievs else PAPEIS_ALERTA_CRITICOS
+    if ct.empty or "papel" not in ct.columns or "municipio" not in ct.columns:
+        return {"n_municipios": 0, "n_completos": 0, "municipios": []}
+    sub = ct[ct["papel"].isin(papeis)].copy()
+    if sub.empty:
+        return {"n_municipios": 0, "n_completos": 0, "municipios": []}
+    completos: list[str] = []
+    munis = sorted(sub["municipio"].dropna().astype(str).unique().tolist())
+    for mun in munis:
+        hit = sub[sub["municipio"].astype(str) == mun]
+        ok_papeis = set()
+        for _, r in hit.iterrows():
+            if _tem_fone(r) and _tem_email(r):
+                ok_papeis.add(str(r.get("papel") or ""))
+        if all(p in ok_papeis for p in papeis):
+            completos.append(mun)
+    return {
+        "n_municipios": len(munis),
+        "n_completos": len(completos),
+        "municipios": completos,
+    }
+
+
 def kpis_contatos_criticos(
     contatos: pd.DataFrame | None = None,
     *,
     municipio: str | None = None,
     regiao: str | None = None,
+    so_cievs: bool = False,
 ) -> dict[str, Any]:
     from st_app.indicadores import carregar_contatos
 
     ct = contatos if contatos is not None else carregar_contatos()
-    cob = lista_cobranca_contatos(ct, municipio=municipio, regiao=regiao)
+    cob = lista_cobranca_contatos(
+        ct, municipio=municipio, regiao=regiao, so_cievs=so_cievs
+    )
     if ct.empty:
         return {
             "n_criticos": 0,
@@ -116,8 +153,11 @@ def kpis_contatos_criticos(
             "n_validados_90d": 0,
             "n_cobranca": 0,
             "email_pronto_despacho": 0,
+            "n_municipios_100": 0,
+            "n_municipios": 0,
         }
-    sub = ct[ct["papel"].isin(PAPEIS_ALERTA_CRITICOS)].copy() if "papel" in ct.columns else ct
+    papeis = ("cievs",) if so_cievs else PAPEIS_ALERTA_CRITICOS
+    sub = ct[ct["papel"].isin(papeis)].copy() if "papel" in ct.columns else ct
     if municipio and "municipio" in sub.columns:
         sub = sub[sub["municipio"].apply(lambda m: nomes_equivalentes(municipio, m))]
     if regiao and "regiao_saude" in sub.columns:
@@ -129,6 +169,7 @@ def kpis_contatos_criticos(
         if not sub.empty and "data_validacao" in sub.columns
         else 0
     )
+    mun100 = municipios_criticos_completos(ct, so_cievs=so_cievs)
     return {
         "n_criticos": len(sub),
         "n_com_fone": n_fone,
@@ -136,6 +177,8 @@ def kpis_contatos_criticos(
         "n_validados_90d": n_val,
         "n_cobranca": len(cob),
         "email_pronto_despacho": n_email,
+        "n_municipios_100": mun100["n_completos"],
+        "n_municipios": mun100["n_municipios"],
     }
 
 

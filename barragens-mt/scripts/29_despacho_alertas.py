@@ -184,19 +184,70 @@ def emails_piloto(limite: int = 20) -> list[str]:
 
 def gravar_log(linhas: list[dict[str, Any]]) -> None:
     comum.DADOS_TRATADOS.mkdir(parents=True, exist_ok=True)
-    campos = ["instante", "arquivo", "canal", "status", "detalhe", "dry_run"]
+    campos = ["instante", "arquivo", "canal", "status", "detalhe", "dry_run", "id_alerta"]
     existe = LOG.exists()
+    # Se log legado sem id_alerta, ainda grava com extrasaction ignore via DictWriter campos fixos
     with LOG.open("a", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=campos, delimiter=";")
+        w = csv.DictWriter(f, fieldnames=campos, delimiter=";", extrasaction="ignore")
         if not existe:
             w.writeheader()
         for row in linhas:
             w.writerow({k: row.get(k, "") for k in campos})
 
 
-def despachar(*, dry_run: bool = True, limite: int = 30) -> int:
+def _id_alerta_do_arquivo(path: Path, texto: str) -> str:
+    # Nome ciclo_*_ALT-...txt ou linha "Identificador do alerta"
+    stem = path.stem
+    if "ALT-" in stem:
+        return "ALT-" + stem.split("ALT-", 1)[1]
+    for linha in texto.splitlines()[:20]:
+        if "Identificador do alerta" in linha and ":" in linha:
+            return linha.split(":", 1)[1].strip()
+    return ""
+
+
+def _bloquear_por_supervisao(id_alerta: str) -> str | None:
+    """Retorna motivo de bloqueio se alerta do ciclo ainda aguarda supervisão."""
+    if not id_alerta:
+        return None
+    try:
+        import sys
+
+        root = Path(__file__).resolve().parents[1]
+        if str(root) not in sys.path:
+            sys.path.insert(0, str(root))
+        from st_app.ciclo_alerta import carregar_alertas, pode_despachar
+
+        al = carregar_alertas()
+        if al.empty:
+            return None
+        hit = al[al["id_alerta"].astype(str) == id_alerta]
+        if hit.empty:
+            return None
+        ok, motivo = pode_despachar(hit.iloc[0])
+        if not ok:
+            return motivo
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
+def despachar(
+    *,
+    dry_run: bool = True,
+    limite: int = 30,
+    apenas_arquivo: str | None = None,
+    id_alerta: str | None = None,
+) -> int:
     agora = dt.datetime.now().isoformat(timespec="seconds")
-    arquivos = textos_fila()[:limite]
+    if apenas_arquivo:
+        path = FILA / apenas_arquivo
+        arquivos = [path] if path.is_file() else []
+    elif id_alerta:
+        arquivos = [p for p in textos_fila() if id_alerta in p.name or id_alerta in p.read_text(encoding="utf-8", errors="ignore")[:500]]
+        arquivos = arquivos[:limite]
+    else:
+        arquivos = textos_fila()[:limite]
     if not arquivos:
         print("nenhum texto em alertas/piloto/")
         return 0
@@ -204,7 +255,22 @@ def despachar(*, dry_run: bool = True, limite: int = 30) -> int:
     emails = emails_piloto()
     for path in arquivos:
         texto = path.read_text(encoding="utf-8", errors="ignore")
+        id_a = id_alerta or _id_alerta_do_arquivo(path, texto)
+        bloqueio = _bloquear_por_supervisao(id_a)
         assunto = f"[VIGIBARRAGENS] {path.stem}"
+        if bloqueio:
+            logs.append(
+                {
+                    "instante": agora,
+                    "arquivo": path.name,
+                    "canal": "—",
+                    "status": "bloqueado",
+                    "detalhe": bloqueio,
+                    "dry_run": "sim" if dry_run else "não",
+                    "id_alerta": id_a,
+                }
+            )
+            continue
         if dry_run:
             logs.append(
                 {
@@ -214,6 +280,7 @@ def despachar(*, dry_run: bool = True, limite: int = 30) -> int:
                     "status": "dry-run",
                     "detalhe": f"chars={len(texto)}; emails_piloto={len(emails)}",
                     "dry_run": "sim",
+                    "id_alerta": id_a,
                 }
             )
             continue
@@ -226,6 +293,7 @@ def despachar(*, dry_run: bool = True, limite: int = 30) -> int:
                 "status": "ok" if ok_tg else "falha",
                 "detalhe": det_tg,
                 "dry_run": "não",
+                "id_alerta": id_a,
             }
         )
         ok_em, det_em = enviar_email(assunto, texto, emails)
@@ -237,6 +305,7 @@ def despachar(*, dry_run: bool = True, limite: int = 30) -> int:
                 "status": "ok" if ok_em else "falha",
                 "detalhe": det_em,
                 "dry_run": "não",
+                "id_alerta": id_a,
             }
         )
     gravar_log(logs)
@@ -248,8 +317,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Despacho de alertas VIGIBARRAGENS")
     parser.add_argument("--enviar", action="store_true", help="Tenta envio real (requer env)")
     parser.add_argument("--limite", type=int, default=30)
+    parser.add_argument("--arquivo", type=str, default=None, help="Despacha só este .txt da fila")
+    parser.add_argument("--id-alerta", type=str, default=None, help="Filtra pelo id_alerta do ciclo")
     args = parser.parse_args()
-    despachar(dry_run=not args.enviar, limite=args.limite)
+    despachar(
+        dry_run=not args.enviar,
+        limite=args.limite,
+        apenas_arquivo=args.arquivo,
+        id_alerta=args.id_alerta,
+    )
 
 
 if __name__ == "__main__":
