@@ -49,6 +49,14 @@ def montar_csv_cenario(cenario: dict[str, Any]) -> str:
         ("irs_completude", "IRS completude"),
         ("pae_status", "PAE SNISB"),
         ("pae_lacunas", "Itens PAE lacuna/não"),
+        ("ana_n_estacoes", "Estações ANA"),
+        ("ana_n_com_cota", "ANA com cota"),
+        ("ana_n_acima_alerta", "ANA acima alerta"),
+        ("ana_a6_medido", "A6 cota medida"),
+        ("ana_fonte", "Fonte ANA"),
+        ("contatos_n", "Contatos cadastro"),
+        ("contatos_criticos", "Papéis críticos telefone"),
+        ("contatos_faltando", "Papéis críticos faltando"),
     ]
     buf = io.StringIO()
     w = csv.writer(buf, delimiter=";", lineterminator="\n")

@@ -67,6 +67,33 @@ class TestAnaFluvialSim(unittest.TestCase):
         app = (ROOT / "streamlit_app.py").read_text(encoding="utf-8")
         self.assertIn("Contexto fluvial", app)
         self.assertIn("ana_fluvial", app)
+        self.assertIn("estacoes_ana", app)
+        mapa = (ROOT / "st_app/mapa_sim.py").read_text(encoding="utf-8")
+        self.assertIn("estacoes_ana", mapa)
+        self.assertIn("S.ana", mapa)
+
+    def test_sitrep_cenario_fluvial_e_contatos(self) -> None:
+        from st_app.sitrep import montar_sitrep_cenario_md
+
+        md = montar_sitrep_cenario_md(
+            {
+                "barragem": "UHE Manso",
+                "municipio": "Chapada dos Guimarães",
+                "geometria": "circular",
+                "ana_n_estacoes": 2,
+                "ana_n_com_cota": 1,
+                "ana_n_acima_alerta": 0,
+                "ana_a6_medido": 1,
+                "ana_fonte": "sample",
+                "contatos_n": 8,
+                "contatos_criticos": "3/4",
+                "contatos_faltando": "cievs",
+            }
+        )
+        self.assertIn("Contexto fluvial", md)
+        self.assertIn("Contatos / alertabilidade", md)
+        self.assertIn("não** redimensionam a mancha", md)
+        self.assertIn("cievs", md)
 
 
 if __name__ == "__main__":

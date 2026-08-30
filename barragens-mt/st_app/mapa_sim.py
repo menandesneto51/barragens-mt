@@ -33,10 +33,11 @@ def html_mapa_simulacao(
     escolas: list[dict[str, Any]] | None = None,
     ativos: list[dict[str, Any]] | None = None,
     us_apoio: list[dict[str, Any]] | None = None,
+    estacoes_ana: list[dict[str, Any]] | None = None,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
-    """Mapa: mancha + US atingidas/apoio + vulneráveis + vias/pontes."""
+    """Mapa: mancha + US atingidas/apoio + vulneráveis + vias/pontes + ANA."""
     iso = isolamento or {}
     tr = trajeto or {}
     # Limita polígonos HAND no browser (células proxy)
@@ -47,6 +48,7 @@ def html_mapa_simulacao(
     esc = list(escolas or [])[:200]
     atv = list(ativos or [])[:200]
     apoio = list(us_apoio or [])[:80]
+    ana = list(estacoes_ana or [])[:12]
     payload = {
         "la": lat,
         "lo": lon,
@@ -62,6 +64,7 @@ def html_mapa_simulacao(
         "usAt": us_atingidas or iso.get("us_atingidas") or [],
         "usIso": us_isoladas or [],
         "usApoio": apoio,
+        "ana": ana,
         "munIso": municipios_isolados or iso.get("municipios_isolados") or [],
         "vuln": vulns,
         "escolas": esc,
@@ -125,6 +128,7 @@ def html_mapa_simulacao(
     <div>■ Sede mun. isolada (pop.)</div>
     <div>● Escola (C5)</div>
     <div>● Ativo essencial (ETA/ETE/energia/abrigo)</div>
+    <div>● Estação ANA (contexto fluvial)</div>
   </div>
   <div id="mapa"></div>
 </div>
@@ -142,6 +146,7 @@ mapa.createPane('trajeto'); mapa.getPane('trajeto').style.zIndex=360;
 mapa.createPane('hand'); mapa.getPane('hand').style.zIndex=355;
 mapa.getPane('hand').style.pointerEvents='none';
 mapa.createPane('us'); mapa.getPane('us').style.zIndex=450;
+mapa.createPane('ana'); mapa.getPane('ana').style.zIndex=455;
 mapa.createPane('vuln'); mapa.getPane('vuln').style.zIndex=440;
 mapa.createPane('c5'); mapa.getPane('c5').style.zIndex=435;
 mapa.createPane('barragem'); mapa.getPane('barragem').style.zIndex=460;
@@ -152,6 +157,7 @@ const camadaH = L.layerGroup().addTo(mapa);
 const camadaVuln = L.layerGroup().addTo(mapa);
 const camadaC5 = L.layerGroup().addTo(mapa);
 const camadaU = L.layerGroup().addTo(mapa);
+const camadaAna = L.layerGroup().addTo(mapa);
 const camadaB = L.layerGroup().addTo(mapa);
 const camadaI = L.layerGroup().addTo(mapa);
 let timer = null;
@@ -308,7 +314,8 @@ function desenhar(fPct){{
 
   camadaM.clearLayers(); camadaT.clearLayers(); camadaH.clearLayers();
   camadaVuln.clearLayers(); camadaC5.clearLayers();
-  camadaU.clearLayers(); camadaB.clearLayers(); camadaI.clearLayers();
+  camadaU.clearLayers(); camadaAna.clearLayers();
+  camadaB.clearLayers(); camadaI.clearLayers();
 
   let bounds = null;
   if (S.showC) {{
@@ -368,6 +375,24 @@ function desenhar(fPct){{
     pane:'barragem', radius:9, color:'#fff', weight:2,
     fillColor:'#ea580c', fillOpacity:1
   }}).bindPopup(`<b>${{S.no}}</b>`).addTo(camadaB);
+
+  for (const a of (S.ana||[])) {{
+    if (a.la==null || a.lo==null) continue;
+    const acima = a.razao != null && Number(a.razao) >= 1;
+    L.circleMarker([a.la,a.lo], {{
+      pane:'ana', radius:7, color:'#fff', weight:2,
+      fillColor: acima ? '#b91c1c' : '#0369a1', fillOpacity:0.95
+    }}).bindPopup(
+      `<b>Estação ANA ${{a.cod||''}}</b><br>${{a.no||''}}<br>${{a.rio||'—'}} · ${{a.rel||''}}` +
+      (a.dist!=null ? `<br>Dist. barragem: <b>${{Number(a.dist).toFixed(1)}} km</b>` : '') +
+      `<br>Cota ${{a.cota!=null ? Number(a.cota).toFixed(0)+' cm' : '—'}}` +
+      ` · Q ${{a.vazao!=null ? Number(a.vazao).toFixed(1)+' m³/s' : '—'}}` +
+      (a.alerta!=null ? `<br>Cota alerta: ${{Number(a.alerta).toFixed(0)}} cm` : '') +
+      `<br><small>Contexto fluvial — não define a mancha.</small>`
+    ).addTo(camadaAna);
+    if (bounds) bounds.extend([a.la,a.lo]);
+    else bounds = L.latLngBounds([[a.la,a.lo]]);
+  }}
 
   function corVuln(cat){{
     const c = (cat||'').toLowerCase();

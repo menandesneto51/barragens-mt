@@ -1665,8 +1665,12 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 )
 
             from st_app.mapbiomas import pressao_municipio as _mb_pressao
+            from st_app.localidade import resumo_contatos_municipio
 
             _mb = _mb_pressao(str(r.get("municipio") or ""))
+            _cont = resumo_contatos_municipio(
+                str(r.get("municipio_sede") or r.get("municipio") or "")
+            )
 
             def _num_or_dash(v: object) -> object:
                 if v is None or (isinstance(v, float) and pd.isna(v)):
@@ -1754,6 +1758,21 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     "",
                 ),
                 "pae_lacunas": chk_pae.get("n_lacunas", 0),
+                "ana_n_estacoes": flu.get("n_estacoes") or 0,
+                "ana_n_com_cota": flu.get("n_com_cota") or 0,
+                "ana_n_acima_alerta": flu.get("n_acima_alerta") or 0,
+                "ana_a6_medido": sum(
+                    1
+                    for it in (flu.get("itens") or [])
+                    if str(it.get("a6_fonte") or "") == "cota_medida"
+                ),
+                "ana_fonte": flu.get("fonte") or "—",
+                "contatos_n": _cont.get("n_total") or 0,
+                "contatos_criticos": (
+                    f"{_cont.get('n_criticos_com_fone') or 0}/{_cont.get('n_criticos') or 4}"
+                ),
+                "contatos_faltando": ", ".join(_cont.get("papeis_criticos_faltando") or [])
+                or "—",
             }
             sitrep_cen = montar_sitrep_cenario_md(payload_cen)
             d1, d2 = st.columns(2)
@@ -1949,6 +1968,23 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             for it in (ativos_kpi.get("itens") or [])
             if ativos_kpi.get("disponivel") and it.get("lat") is not None
         ]
+        ana_mapa = [
+            {
+                "la": it.get("lat"),
+                "lo": it.get("lon"),
+                "cod": it.get("codigo") or "",
+                "no": it.get("nome") or "",
+                "rio": it.get("rio") or "",
+                "rel": it.get("relacao") or "",
+                "dist": it.get("dist_km"),
+                "cota": it.get("cota_cm"),
+                "vazao": it.get("vazao_m3s"),
+                "alerta": it.get("cota_alerta_cm"),
+                "razao": it.get("razao"),
+            }
+            for it in (flu.get("itens") or [])
+            if it.get("lat") is not None and it.get("lon") is not None
+        ]
         html = html_mapa_simulacao(
             lat=float(r["latitude"]),
             lon=float(r["longitude"]),
@@ -1975,6 +2011,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             vulneraveis=vul_mapa,
             escolas=escolas_mapa,
             ativos=ativos_mapa,
+            estacoes_ana=ana_mapa,
             altura=560,
             autoplay=False,
         )
@@ -2390,10 +2427,43 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                 "Cemaden": _txt(r.get("alerta_cemaden")),
                 "Integrado SIS": _txt(r.get("nivel_alerta_integrado")),
                 "GloFAS m³/s": _txt(r.get("vazao_prevista_glofas_m3s")),
+                "Cota ANA (cm)": _txt(r.get("cota_cm")),
+                "Vazão ANA (m³/s)": _txt(r.get("vazao_m3s")),
+                "Cota alerta ANA": _txt(r.get("cota_alerta_cm")),
+                "Razão nível/alerta": _txt(r.get("razao_nivel_cota_alerta")),
+                "A6 fonte": _txt(r.get("a6_fonte")),
+                "Estação ANA ref.": _txt(r.get("codigo_estacao_ana_ref")),
                 "Alertável": rotulo_sim_nao(r.get("alertavel")),
                 "Regras disparadas": _txt(r.get("regras_disparadas")),
             }
         )
+        from st_app.ana_fluvial import contexto_fluvial_barragem
+
+        flu_f = contexto_fluvial_barragem(str(bid))
+        if flu_f.get("disponivel") and flu_f.get("itens"):
+            with st.expander("Contexto fluvial ANA (estações próximas)", expanded=False):
+                st.caption(flu_f.get("nota") or "")
+                st.dataframe(
+                    pd.DataFrame(
+                        [
+                            {
+                                "Código": it["codigo"],
+                                "Estação": it["nome"],
+                                "Rio": it["rio"],
+                                "Relação": it["relacao"],
+                                "Dist. km": it["dist_km"],
+                                "Cota cm": it["cota_cm"],
+                                "Vazão m³/s": it["vazao_m3s"],
+                                "Razão": it["razao"],
+                                "A6": it.get("a6_fonte") or "",
+                            }
+                            for it in flu_f["itens"]
+                        ]
+                    ),
+                    width="stretch",
+                    hide_index=True,
+                    height=180,
+                )
         if pd.notna(r.get("latitude")):
             m = folium.Map(location=[r["latitude"], r["longitude"]], zoom_start=10)
             folium.CircleMarker(
