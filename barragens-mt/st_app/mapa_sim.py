@@ -32,10 +32,11 @@ def html_mapa_simulacao(
     vulneraveis: list[dict[str, Any]] | None = None,
     escolas: list[dict[str, Any]] | None = None,
     ativos: list[dict[str, Any]] | None = None,
+    us_apoio: list[dict[str, Any]] | None = None,
     altura: int = 480,
     autoplay: bool = False,
 ) -> str:
-    """Mapa: mancha + US atingidas + vias/pontes + pessoas isoladas."""
+    """Mapa: mancha + US atingidas/apoio + vulneráveis + vias/pontes."""
     iso = isolamento or {}
     tr = trajeto or {}
     # Limita polígonos HAND no browser (células proxy)
@@ -45,6 +46,7 @@ def html_mapa_simulacao(
     vulns = list(vulneraveis or [])[:400]
     esc = list(escolas or [])[:200]
     atv = list(ativos or [])[:200]
+    apoio = list(us_apoio or [])[:80]
     payload = {
         "la": lat,
         "lo": lon,
@@ -59,6 +61,7 @@ def html_mapa_simulacao(
         "pontes": pontes or [],
         "usAt": us_atingidas or iso.get("us_atingidas") or [],
         "usIso": us_isoladas or [],
+        "usApoio": apoio,
         "munIso": municipios_isolados or iso.get("municipios_isolados") or [],
         "vuln": vulns,
         "escolas": esc,
@@ -101,7 +104,7 @@ def html_mapa_simulacao(
     border:1px solid #d0d8e0;padding:8px 10px;font-size:12px;line-height:1.35;max-width:230px}}
   .hud b{{font-variant-numeric:tabular-nums}}
   .leg{{position:absolute;z-index:1000;left:10px;bottom:10px;background:rgba(255,255,255,.9);
-    border:1px solid #d0d8e0;padding:6px 8px;font-size:11px;line-height:1.4}}
+    border:1px solid #d0d8e0;padding:6px 8px;font-size:11px;line-height:1.4;max-width:280px}}
   .leg i{{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle}}
 </style>
 </head><body>
@@ -115,7 +118,8 @@ def html_mapa_simulacao(
     <div><i style="background:#dc2626"></i>Rodovia interrompida</div>
     <div><i style="background:#f59e0b"></i>Ponte atingida</div>
     <div><i style="background:#0e7490;height:10px;width:10px;opacity:.45"></i>Relevo HAND</div>
-    <div>● US atingida (na mancha)</div>
+    <div>● US na mancha (afetada)</div>
+    <div>○ US de apoio (fora — atendimento)</div>
     <div>● US isolada (sem rota)</div>
     <div>● Aldeia / TI / quilombo / assentamento</div>
     <div>■ Sede mun. isolada (pop.)</div>
@@ -381,7 +385,7 @@ function desenhar(fPct){{
     }}).bindPopup(
       `<b>${{p.no||'Comunidade'}}</b><br>${{p.cat||''}}<br>${{p.mu||''}}` +
       (p.fam!=null ? `<br>Famílias: ${{p.fam}}` : '') +
-      (p.dist!=null ? `<br>${{Number(p.dist).toFixed(1)}} km` : '')
+      (p.dist!=null ? `<br>Dist. barragem: <b>${{Number(p.dist).toFixed(1)}} km</b>` : '')
     ).addTo(camadaVuln);
   }}
 
@@ -409,17 +413,32 @@ function desenhar(fPct){{
   // US reais atingidas (CNES na mancha do cenário — servidor).
   const usAt = S.usAt || [];
   for (const p of usAt) {{
+    const dTxt = (p.dist!=null) ? `<br>Dist. barragem: <b>${{Number(p.dist).toFixed(1)}} km</b>` : '';
     if (p.h || p.upa || p.ubs || p.prio) {{
       L.marker([p.la,p.lo], {{pane:'us', icon:iconeAtingida(p), zIndexOffset: p.h?350:200}})
-        .bindPopup(`<b>US ATINGIDA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}<br>${{p.mu||''}}<br>${{(p.dist||0).toFixed(1)}} km`)
+        .bindPopup(`<b>US NA MANCHA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}<br>${{p.mu||''}}${{dTxt}}`)
         .addTo(camadaU);
     }} else {{
       L.circleMarker([p.la,p.lo], {{
         pane:'us', radius:5, color:'#fff', weight:1,
         fillColor:'#2563eb', fillOpacity:0.9
-      }}).bindPopup(`<b>US ATINGIDA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}`)
+      }}).bindPopup(`<b>US NA MANCHA</b><br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}${{dTxt}}`)
         .addTo(camadaU);
     }}
+  }}
+
+  // US de apoio — fora da mancha (candidatas a atendimento).
+  for (const p of (S.usApoio||[])) {{
+    if (p.la==null || p.lo==null) continue;
+    const dTxt = (p.dist!=null) ? `<br>Dist. barragem: <b>${{Number(p.dist).toFixed(1)}} km</b>` : '';
+    const cor = p.h ? '#b91c1c' : (p.upa ? '#c2410c' : '#059669');
+    L.circleMarker([p.la,p.lo], {{
+      pane:'us', radius:6, color:cor, weight:2,
+      fillColor:'#fff', fillOpacity:0.85
+    }}).bindPopup(
+      `<b>US DE APOIO</b> (fora da mancha)<br>${{(p.tp||'US').toUpperCase()}} — ${{p.no||''}}` +
+      `<br>${{p.mu||''}}${{dTxt}}<br><small>Candidata a atendimento / evacuação</small>`
+    ).addTo(camadaU);
   }}
 
   // Fallback: se servidor não mandou usAt e há círculo, usa CNES no raio.
@@ -429,15 +448,16 @@ function desenhar(fPct){{
       if (d > raio) continue;
       if (p.h || p.upa || p.ubs || p.prio) {{
         L.marker([p.la,p.lo], {{pane:'us', icon:icone(p)}})
-          .bindPopup(`<b>US</b><br>${{p.no||''}}<br>${{d.toFixed(1)}} km`).addTo(camadaU);
+          .bindPopup(`<b>US</b><br>${{p.no||''}}<br>Dist. barragem: <b>${{d.toFixed(1)}} km</b>`).addTo(camadaU);
       }}
     }}
   }}
 
   if (Math.abs(fPct - Math.round((S.frac0||0.5)*100)) < 1 || !timer) {{
     for (const p of (S.usIso||[])) {{
+      const dTxt = (p.dist!=null) ? `<br>Dist. barragem: <b>${{Number(p.dist).toFixed(1)}} km</b>` : '';
       L.marker([p.la,p.lo], {{pane:'us', icon:iconeIso(p), zIndexOffset:400}})
-        .bindPopup(`<b>US ISOLADA</b><br>${{p.no||''}}<br>${{p.mu||''}}<br>Sem rota terrestre ao hub após corte de vias/pontes.`)
+        .bindPopup(`<b>US ISOLADA</b><br>${{p.no||''}}<br>${{p.mu||''}}${{dTxt}}<br>Sem rota terrestre ao hub após corte de vias/pontes.`)
         .addTo(camadaI);
     }}
     for (const m of (S.munIso||[])) {{

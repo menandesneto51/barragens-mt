@@ -1008,6 +1008,9 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         cnes_perto = [
             p for p in cnes_todos if _hav(lat0, lon0, p["la"], p["lo"]) <= raio_filtro
         ]
+        # Distância à barragem em cada ponto CNES (haversine).
+        for p in cnes_perto:
+            p["dist"] = round(_hav(lat0, lon0, p["la"], p["lo"]), 2)
         cnes_key = _json.dumps(cnes_perto, ensure_ascii=False)
         corredor_key = ""
         if mostrar_trajeto and trajeto.get("ok"):
@@ -1916,6 +1919,14 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                 )
             st.metric("Comunidades vulneráveis na mancha", len(vul_mapa))
 
+        from st_app.us_atendimento import classificar_rede_cnes, dataframe_linhas
+
+        rede = classificar_rede_cnes(
+            cnes_perto=cnes_perto,
+            us_atingidas=iso.get("us_atingidas") or [],
+            us_isoladas=iso.get("us_isoladas") or [],
+        )
+
         escolas_mapa = [
             {
                 "la": it["lat"],
@@ -1952,6 +1963,7 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             pontes=iso.get("pontes") or [],
             us_atingidas=iso.get("us_atingidas") or [],
             us_isoladas=iso.get("us_isoladas") or [],
+            us_apoio=rede.get("apoio") or [],
             municipios_isolados=iso.get("municipios_isolados") or [],
             isolamento=iso,
             trajeto=trajeto if trajeto.get("ok") else None,
@@ -1968,12 +1980,57 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
         )
         components.html(html, height=580, scrolling=False)
 
+        st.markdown("##### Rede CNES — geolocalização e distância à barragem")
+        u1, u2, u3, u4 = st.columns(4)
+        u1.metric("US no raio de busca", rede.get("n_perto") or 0)
+        u2.metric("Na mancha", rede.get("n_na_mancha") or 0)
+        u3.metric("Isoladas", rede.get("n_isoladas") or 0)
+        u4.metric(
+            "Apoio (fora)",
+            rede.get("n_apoio") or 0,
+            help=f"Hospitais: {rede.get('n_hosp_apoio') or 0} · UPA/PS: {rede.get('n_upa_apoio') or 0}",
+        )
+        st.caption(rede.get("nota") or "")
+        tab_at, tab_ap, tab_iso = st.tabs(
+            [
+                f"Na mancha ({rede.get('n_na_mancha') or 0})",
+                f"Apoio / atendimento ({rede.get('n_apoio') or 0})",
+                f"Isoladas ({rede.get('n_isoladas') or 0})",
+            ]
+        )
+        with tab_at:
+            linhas = dataframe_linhas(
+                [{**p, "situacao": "na_mancha"} for p in (rede.get("na_mancha") or [])]
+            )
+            if linhas:
+                st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True, height=240)
+            else:
+                st.caption("Nenhuma US CNES com coordenada dentro da mancha neste cenário.")
+        with tab_ap:
+            linhas = dataframe_linhas(rede.get("apoio") or [])
+            if linhas:
+                st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True, height=280)
+                st.caption(
+                    "Ordenadas para apoio: hospital → UPA/PS → UBS → demais, depois distância. "
+                    "Use para dimensionar atendimento fora da área inundada."
+                )
+            else:
+                st.caption("Sem US de apoio no raio de busca.")
+        with tab_iso:
+            linhas = dataframe_linhas(
+                [{**p, "situacao": "isolada"} for p in (rede.get("isoladas") or [])]
+            )
+            if linhas:
+                st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True, height=200)
+            else:
+                st.caption("Nenhuma US isolada (sem rota ao hub) neste cenário.")
+
         if mostrar_circular:
             st.subheader("Populações vulneráveis — círculo")
             if no_circ.empty:
                 st.caption(
                     "Nenhuma aldeia/TI/assentamento/quilombo do eixo no raio. "
-                    "Ribeirinhos ainda sem base espacial contínua."
+                    "Ribeirinhos: proxy setorial no dossiê municipal."
                 )
             else:
                 st.dataframe(
@@ -2019,11 +2076,32 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
                     hide_index=True,
                     height=200,
                 )
+        if usar_hand and hand_info.get("ok") and vul_mapa:
+            st.subheader("Populações vulneráveis — na mancha (inclui HAND)")
+            st.dataframe(
+                pd.DataFrame(
+                    [
+                        {
+                            "nome": v.get("no"),
+                            "categoria": v.get("cat"),
+                            "municipio": v.get("mu"),
+                            "dist_km": v.get("dist"),
+                            "familias": v.get("fam"),
+                        }
+                        for v in vul_mapa
+                    ]
+                ).head(40),
+                width="stretch",
+                hide_index=True,
+                height=200,
+            )
     else:
         st.warning("Barragem sem coordenada — mapa indisponível.")
+        rede = {"na_mancha": [], "apoio": [], "isoladas": []}
 
     us_at = list(iso.get("us_atingidas") or []) if iso else []
-    if us_at:
+    # Tabelas detalhadas já no bloco Rede CNES acima (quando há mapa).
+    if us_at and (not pd.notna(r.get("latitude")) or not pd.notna(r.get("longitude"))):
         st.subheader(f"US reais atingidas — CNES na mancha ({len(us_at)})")
         st.dataframe(
             pd.DataFrame(us_at).rename(
@@ -2054,45 +2132,39 @@ def pagina_simulacao(df: pd.DataFrame) -> None:
             "caminho terrestre ao hub após corte de vias/pontes. Ordem de grandeza."
         )
 
-    us_iso = list(iso.get("us_isoladas") or []) if iso else []
-    if us_iso:
-        st.subheader("US isoladas — fora da mancha, sem rota ao hub")
-        st.dataframe(
-            pd.DataFrame(us_iso).rename(
-                columns={
-                    "no": "nome",
-                    "mu": "municipio",
-                    "tp": "tipo",
-                    "dist": "dist_km",
-                }
-            )[["nome", "tipo", "municipio", "dist_km"]],
-            width="stretch",
-            hide_index=True,
-            height=200,
-        )
-
-    if us_tr_ids and mostrar_trajeto and trajeto.get("ok") and not us_at:
-        st.markdown(
-            f'<p class="lista-us-titulo">US prioritárias no corredor ({len(us_tr_ids)})</p>',
-            unsafe_allow_html=True,
-        )
-        st.dataframe(pd.DataFrame(us_tr_ids).head(60), width="stretch", hide_index=True, height=220)
-
-    if n_us and mostrar_circular and not us_at:
-        st.markdown(
-            f'<p class="lista-us-titulo">US prioritárias no círculo ({n_us})</p>',
-            unsafe_allow_html=True,
-        )
-        mostrar = us_buf[
-            ["nome", "tipo", "municipio", "dist_km", "hospitalar", "upa_ps", "ubs_esf"]
-        ].copy()
-        mostrar["dist_km"] = mostrar["dist_km"].round(2)
-        st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
+    # Fallback só sem mapa (sem coordenada): listas legadas
+    tem_mapa = pd.notna(r.get("latitude")) and pd.notna(r.get("longitude"))
+    if not tem_mapa:
+        us_iso = list(iso.get("us_isoladas") or []) if iso else []
+        if us_iso:
+            st.subheader("US isoladas — fora da mancha, sem rota ao hub")
+            st.dataframe(
+                pd.DataFrame(us_iso).rename(
+                    columns={
+                        "no": "nome",
+                        "mu": "municipio",
+                        "tp": "tipo",
+                        "dist": "dist_km",
+                    }
+                )[["nome", "tipo", "municipio", "dist_km"]],
+                width="stretch",
+                hide_index=True,
+                height=200,
+            )
+        if us_tr_ids and mostrar_trajeto and trajeto.get("ok") and not us_at:
+            st.dataframe(pd.DataFrame(us_tr_ids).head(60), width="stretch", hide_index=True, height=220)
+        if n_us and mostrar_circular and not us_at:
+            mostrar = us_buf[
+                ["nome", "tipo", "municipio", "dist_km", "hospitalar", "upa_ps", "ubs_esf"]
+            ].copy()
+            mostrar["dist_km"] = mostrar["dist_km"].round(2)
+            st.dataframe(mostrar.head(60), width="stretch", hide_index=True, height=280)
 
     st.caption(
         "Circular: área_km² = (hm³ × fração) / profundidade_m → raio = √(área/π). "
         "Trajeto: L ≈ área / (2×semi-largura) ao longo do eixo BHO Manso–Cuiabá. "
         "Relevo HAND: células SRTM com elevação − talvegue ≤ lâmina (piloto Manso–Cuiabá). "
+        "CNES: lat/lon do cadastro; distância à barragem = haversine (km). "
         "Vias/C7 usam a geometria ativa (círculo, corredor ou HAND). "
         "Não é mancha PAE, dam break nem tempo de chegada da onda."
     )
@@ -2146,9 +2218,10 @@ def pagina_interpretacao() -> None:
         ),
         (
             "US no buffer (CNES)",
-            "Estabelecimentos prioritários (hospital, UPA, UBS/ESF) com coordenada dentro do "
-            "raio equivalente da simulação. Indicam capacidade de resposta local sob risco de "
-            "interdição ou sobrecarga — não o município inteiro.",
+            "Estabelecimentos com lat/lon no cadastro CNES. Distância à barragem = "
+            "haversine (km). Na simulação: **na mancha** (afetada), **apoio** (fora — "
+            "candidata a atendimento) e **isolada** (fora, sem rota ao hub). "
+            "Ordenação de apoio: hospital → UPA/PS → UBS → demais.",
         ),
         (
             "Vias, pontes e isolamento (C7 proxy)",
