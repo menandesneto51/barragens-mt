@@ -62,6 +62,15 @@ Saídas: `auditoria_ana_sisclima.json`, `ana_estacoes_barragem.csv`; mescla em `
 
 **Fronteira de produto:** cota/vazão ANA alimentam o bloco “Contexto fluvial” na Simulação e o IDAP A6. **Não** redimensionam Circular / Trajeto / HAND — não são dam break nem mancha PAE.
 
+## 12.5bis IndicaSUS / leitos (termo O do IPAPD)
+
+Checklist de carga (capacidade assistencial):
+
+1. Extrato IndicaSUS/DW com leitos operacionais, ocupados e disponíveis por município (e, se possível, por CNES).
+2. Enquanto o DW não estiver disponível no ambiente, `python executar.py 56` popula o **eixo piloto** a partir de `dados/config/exemplos/indicasus_leitos.exemplo.csv` (`fonte=seed_exemplo_eixo`).
+3. Substituir os CSVs seed pelo extrato oficial e rodar a etapa `43` quando o conector DW estiver ativo.
+4. Status em `dados/tratados/indicasus_leitos_status.json` (visível na Simulação / DW status).
+
 ## 12.6 Próximo / fora de escopo
 
 - Agregação areal chuva/solo na BHO estadual completa

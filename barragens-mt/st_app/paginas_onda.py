@@ -544,6 +544,30 @@ def pagina_municipio_360(
             "e Defesa Civil em `dados/tratados/contatos_institucionais_piloto.csv`."
         )
 
+    from st_app.contatos_cobranca import (
+        exportar_cobranca_csv,
+        kpis_contatos_criticos,
+        lista_cobranca_contatos,
+    )
+
+    kc = kpis_contatos_criticos(municipio=municipio)
+    cob = lista_cobranca_contatos(municipio=municipio)
+    if kc.get("n_cobranca", 0) > 0:
+        st.caption(
+            f"Lista de cobrança: {kc['n_cobranca']} item(ns) "
+            f"(fone {kc['n_com_fone']}/{kc['n_criticos']}, "
+            f"e-mail {kc['email_pronto_despacho']}, validados {kc['n_validados_90d']})."
+        )
+        with st.expander("Lacunas a cobrar (papéis críticos)", expanded=False):
+            st.dataframe(cob, width="stretch", hide_index=True, height=200)
+            st.download_button(
+                "Baixar cobrança CSV",
+                data=exportar_cobranca_csv(cob),
+                file_name=f"cobranca_contatos_{(municipio or 'MT').replace(' ', '_')}.csv",
+                mime="text/csv",
+                key=f"cob_csv_{municipio}",
+            )
+
     if incluir_sanitario and not bars.empty:
         bloco_sanitario_e_historico(bars, mun_ativo=municipio)
 
@@ -1492,59 +1516,191 @@ def pagina_alertabilidade_despacho() -> None:
             hide_index=True,
         )
 
-    st.subheader("Payload Defesa Civil (exemplo)")
-    payload = {
-        "sistema": "VIGIBARRAGENS-MT",
-        "tipo": "alerta_prontidao_saude",
-        "nivel": "Amarelo",
-        "municipio": "Cuiabá",
-        "papel": "potencialmente_afetado_jusante",
-        "barragem_id_snisb": "EXEMPLO",
-        "coordenadas": {"lat": -15.6, "lon": -56.1},
-        "texto_resumo": "Prontidão sanitária — não é ordem de evacuação.",
-        "contato_ses": "CIEVS-MT",
-    }
-    st.code(json.dumps(payload, ensure_ascii=False, indent=2), language="json")
-    st.caption("Especificação em docs/13-defesa-civil-gancho.md")
+    st.subheader("Ciclo de alerta (emissão → confirmação → escalonamento)")
+    st.caption(
+        "Trilha auditável em `dados/tratados/confirmacoes/`. "
+        "Prazos: Amarelo 120 / Laranja 60 / Vermelho 20 / Roxo 10 min. "
+        "Payload Defesa Civil (§13.2) gerado a cada emissão."
+    )
+    from st_app.ciclo_alerta import (
+        carregar_alertas,
+        emitir_alerta,
+        payload_defesa_civil,
+        processar_escalonamentos,
+        resumo_ciclo,
+    )
+    from st_app.data import carregar_idap
+
+    cic = resumo_ciclo()
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Emitidos", cic["n_emitidos"])
+    k2.metric("Aguardando", cic["n_aguardando"])
+    k3.metric("Escalonados", cic["n_escalonados"] + cic["n_escalonado_maximo"])
+    k4.metric("Confirmados", cic["n_confirmados"])
+
+    idap_df = carregar_idap()
+    cand = idap_df
+    if not cand.empty and "nivel" in cand.columns:
+        cand = cand[cand["nivel"].isin(["Amarelo", "Laranja", "Vermelho", "Roxo"])]
+    labels = []
+    if not cand.empty:
+        for _, r in cand.head(80).iterrows():
+            labels.append(
+                f"{r.get('nome')} — {r.get('id_snisb')} ({r.get('nivel')})"
+            )
+    if labels:
+        escolha = st.selectbox("Barragem para emitir alerta de ciclo", labels)
+        bid = escolha.split(" — ")[1].split(" ")[0]
+        row_b = cand[cand["id_snisb"].astype(str) == bid].iloc[0]
+        if st.button("Emitir alerta no ciclo (sem envio de canal)", type="primary"):
+            try:
+                emitido = emitir_alerta(
+                    id_snisb=str(row_b.get("id_snisb")),
+                    nome=str(row_b.get("nome") or ""),
+                    municipio_sede=str(row_b.get("municipio_sede") or ""),
+                    nivel=str(row_b.get("nivel") or "Amarelo"),
+                    idap=row_b.get("idap"),
+                    municipios_afetados=str(
+                        row_b.get("municipios_potencialmente_afetados") or ""
+                    ),
+                    lat=row_b.get("latitude") if "latitude" in row_b.index else None,
+                    lon=row_b.get("longitude") if "longitude" in row_b.index else None,
+                )
+                st.success(f"Emitido `{emitido['id_alerta']}` · prazo até {emitido['prazo_limite']}")
+                st.code(
+                    json.dumps(payload_defesa_civil(emitido), ensure_ascii=False, indent=2),
+                    language="json",
+                )
+            except ValueError as exc:
+                st.warning(str(exc))
+    else:
+        st.caption("Sem barragens Em atenção+ na base IDAP para emissão.")
+
+    c_esc1, c_esc2 = st.columns(2)
+    if c_esc1.button("Processar escalonamentos vencidos"):
+        ev = processar_escalonamentos()
+        if ev:
+            st.warning(f"{len(ev)} alerta(s) escalonado(s).")
+            st.dataframe(pd.DataFrame(ev), width="stretch", hide_index=True)
+        else:
+            st.info("Nenhum prazo vencido no momento.")
+    al_ciclo = carregar_alertas()
+    if not al_ciclo.empty:
+        st.dataframe(al_ciclo.tail(20), width="stretch", hide_index=True, height=220)
+        # Download último payload
+        ultimo = al_ciclo.iloc[-1]
+        st.download_button(
+            "Baixar payload DC do último alerta",
+            data=json.dumps(payload_defesa_civil(ultimo), ensure_ascii=False, indent=2),
+            file_name=f"payload_dc_{ultimo.get('id_alerta')}.json",
+            mime="application/json",
+        )
+
+    st.subheader("Lista de cobrança — contatos críticos")
+    from st_app.contatos_cobranca import (
+        exportar_cobranca_csv,
+        exportar_cobranca_md,
+        gravar_cobranca_tratados,
+        kpis_contatos_criticos,
+        lista_cobranca_contatos,
+    )
+
+    kc = kpis_contatos_criticos()
+    x1, x2, x3, x4 = st.columns(4)
+    x1.metric("Críticos c/ telefone", f"{kc['n_com_fone']}/{kc['n_criticos']}")
+    x2.metric("E-mail p/ despacho", kc["email_pronto_despacho"])
+    x3.metric("Validados ≤90d", kc["n_validados_90d"])
+    x4.metric("Itens cobrança", kc["n_cobranca"])
+    cob = lista_cobranca_contatos()
+    if not cob.empty:
+        st.dataframe(cob, width="stretch", hide_index=True, height=240)
+        d1, d2, d3 = st.columns(3)
+        with d1:
+            st.download_button(
+                "Baixar cobrança CSV",
+                data=exportar_cobranca_csv(cob),
+                file_name="contatos_cobranca_criticos.csv",
+                mime="text/csv",
+            )
+        with d2:
+            st.download_button(
+                "Baixar cobrança Markdown",
+                data=exportar_cobranca_md(cob),
+                file_name="contatos_cobranca_criticos.md",
+                mime="text/markdown",
+            )
+        with d3:
+            if st.button("Gravar cobrança em tratados/"):
+                path = gravar_cobranca_tratados()
+                st.success(f"Gravado `{path.name}`")
+    else:
+        st.caption("Sem lacunas nos papéis críticos (ou cadastro vazio).")
+
+    st.subheader("Payload Defesa Civil (especificação)")
+    st.caption("Especificação em docs/13-defesa-civil-gancho.md — gerado automaticamente na emissão.")
 
 
 def pagina_confirmacao_persistente() -> None:
     st.markdown("# Confirmação de recebimento")
     st.markdown(
-        '<p class="nota">Registros gravados em dados/tratados/confirmacoes/ — '
-        "complementa o protótipo HTML (localStorage).</p>",
+        '<p class="nota">Registros em `dados/tratados/confirmacoes/` — '
+        "atualiza o estado do alerta no ciclo (CONFIRMADO).</p>",
         unsafe_allow_html=True,
     )
-    pasta = TRATADOS / "confirmacoes"
-    pasta.mkdir(parents=True, exist_ok=True)
+    from st_app.ciclo_alerta import (
+        carregar_alertas,
+        carregar_confirmacoes,
+        processar_escalonamentos,
+        registrar_confirmacao,
+        resumo_ciclo,
+    )
+
+    cic = resumo_ciclo()
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Aguardando", cic["n_aguardando"])
+    c2.metric("Escalonados", cic["n_escalonados"])
+    c3.metric("Confirmados", cic["n_confirmados"])
+    if st.button("Processar escalonamentos vencidos", key="conf_proc_esc"):
+        ev = processar_escalonamentos()
+        st.info(f"{len(ev)} evento(s) de escalonamento.")
+
+    al = carregar_alertas()
+    ids = []
+    if not al.empty:
+        pend = al[
+            al["estado"].isin(
+                ["AGUARDANDO_CONFIRMACAO", "ESCALONADO", "ESCALONADO_MAXIMO"]
+            )
+        ]
+        ids = pend["id_alerta"].astype(str).tolist()
     with st.form("conf_form"):
-        id_alerta = st.text_input("ID / SNISB ou nome do alerta")
+        if ids:
+            id_alerta = st.selectbox("Alerta pendente", ids)
+        else:
+            id_alerta = st.text_input("ID do alerta")
         responsavel = st.text_input("Responsável que confirmou")
-        canal = st.selectbox("Canal", ["telefone", "email", "telegram", "whatsapp", "presencial"])
+        canal = st.selectbox(
+            "Canal", ["telefone", "email", "telegram", "whatsapp", "presencial"]
+        )
         obs = st.text_area("Observação", "")
         ok = st.form_submit_button("Registrar confirmação")
     if ok and id_alerta and responsavel:
-        registro = {
-            "instante": dt.datetime.now().isoformat(timespec="seconds"),
-            "id_alerta": id_alerta,
-            "responsavel": responsavel,
-            "canal": canal,
-            "observacao": obs,
-        }
-        arq = pasta / "confirmacoes.csv"
-        df = pd.DataFrame([registro])
-        if arq.exists():
-            df.to_csv(arq, mode="a", header=False, sep=";", index=False, encoding="utf-8-sig")
-        else:
-            df.to_csv(arq, sep=";", index=False, encoding="utf-8-sig")
-        st.success("Confirmação gravada.")
-    arq = pasta / "confirmacoes.csv"
-    if arq.exists():
-        st.dataframe(
-            pd.read_csv(arq, sep=";", encoding="utf-8-sig"),
-            width="stretch",
-            hide_index=True,
-        )
+        try:
+            registrar_confirmacao(
+                id_alerta=str(id_alerta),
+                responsavel=responsavel,
+                canal=canal,
+                observacao=obs,
+            )
+            st.success("Confirmação gravada e alerta marcado CONFIRMADO.")
+        except ValueError as exc:
+            st.warning(str(exc))
+    conf = carregar_confirmacoes()
+    if not conf.empty:
+        st.dataframe(conf, width="stretch", hide_index=True)
+    if not al.empty:
+        with st.expander("Alertas do ciclo", expanded=False):
+            st.dataframe(al, width="stretch", hide_index=True, height=240)
     st.info("O painel HTML com timer permanece em Desenvolvimento / HTML offline.")
 
 
@@ -1598,6 +1754,20 @@ def pagina_regiao_saude() -> None:
     reg = st.selectbox("Região", sorted(ct["regiao_saude"].dropna().unique().tolist()))
     view = ct[ct["regiao_saude"] == reg]
     st.metric("Municípios/contatos na região", view["municipio"].nunique())
+
+    from st_app.contatos_cobranca import kpis_contatos_criticos, lista_cobranca_contatos
+
+    kc = kpis_contatos_criticos(regiao=reg)
+    a, b, c, d = st.columns(4)
+    a.metric("Críticos c/ fone", f"{kc['n_com_fone']}/{kc['n_criticos']}")
+    b.metric("E-mail despacho", kc["email_pronto_despacho"])
+    c.metric("Validados ≤90d", kc["n_validados_90d"])
+    d.metric("Cobrança", kc["n_cobranca"])
+    cob = lista_cobranca_contatos(regiao=reg)
+    if not cob.empty:
+        st.markdown("##### Lacunas a cobrar nesta região")
+        st.dataframe(cob, width="stretch", hide_index=True, height=220)
+
     st.dataframe(view, width="stretch", hide_index=True, height=400)
 
 

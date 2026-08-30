@@ -179,6 +179,24 @@ ETAPAS = [
         "Estações ANA por barragem + A6 cota medida",
         False,
     ),
+    (
+        "54",
+        "54_priorizacao_barragens.py",
+        "Priorização estadual de barragens (score 2.1)",
+        False,
+    ),
+    (
+        "55",
+        "55_ciclo_alerta_escalonamento.py",
+        "Ciclo alerta — processar escalonamentos vencidos",
+        False,
+    ),
+    (
+        "56",
+        "56_indicasus_seed_eixo.py",
+        "Seed IndicaSUS municipal do eixo (termo O IPAPD)",
+        False,
+    ),
 ]
 
 

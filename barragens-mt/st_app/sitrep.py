@@ -73,6 +73,101 @@ def montar_sitrep_md(
         f"- Rejeito/mineração em atenção: {san['rejeito_atencao']}",
         f"- Dano potencial alto sem canal de alerta: {san['dpa_alto_sem_alerta']}",
         f"- Impacto extraterritorial ativo: {san['extraterritorial_ativo']}",
+    ]
+
+    # —— ANA / fluvial ——
+    try:
+        from st_app.ana_fluvial import carregar_estacoes_barragem
+
+        ana = carregar_estacoes_barragem()
+        n_acima = 0
+        n_cota = 0
+        if not ana.empty:
+            ids = set()
+            if not df.empty and "id_snisb" in df.columns:
+                ids = set(df["id_snisb"].astype(str).str.strip())
+            sub = ana[ana["id_snisb"].astype(str).str.strip().isin(ids)] if ids else ana
+            if "cota_cm" in sub.columns:
+                n_cota = int(sub["cota_cm"].notna().sum())
+            if "razao_nivel_cota_alerta" in sub.columns:
+                raz = pd.to_numeric(sub["razao_nivel_cota_alerta"], errors="coerce")
+                n_acima = int((raz >= 1.0).sum())
+        linhas += [
+            "",
+            "## 5. Contexto fluvial (ANA)",
+            f"- Estações com cota no recorte: **{n_cota}**",
+            f"- Estações ≥ cota de alerta: **{n_acima}**",
+            "- Telemetria de rio **não** redefine a mancha proxy.",
+        ]
+    except Exception:  # noqa: BLE001
+        linhas += ["", "## 5. Contexto fluvial (ANA)", "- Indisponível neste ambiente."]
+
+    # —— Contatos ——
+    try:
+        from st_app.contatos_cobranca import kpis_contatos_criticos, lista_cobranca_contatos
+
+        k = kpis_contatos_criticos(municipio=municipio)
+        cob = lista_cobranca_contatos(municipio=municipio)
+        linhas += [
+            "",
+            "## 6. Contatos críticos",
+            f"- Papéis críticos com telefone: **{k['n_com_fone']}/{k['n_criticos']}**",
+            f"- E-mail pronto para despacho: **{k['email_pronto_despacho']}**",
+            f"- Validados ≤90 dias: **{k['n_validados_90d']}**",
+            f"- Itens na lista de cobrança: **{k['n_cobranca']}**",
+        ]
+        if not cob.empty:
+            for _, r in cob.head(8).iterrows():
+                linhas.append(
+                    f"  - {r.get('municipio')} · {r.get('papel_rotulo') or r.get('papel')}: "
+                    f"{r.get('motivos')}"
+                )
+    except Exception:  # noqa: BLE001
+        linhas += ["", "## 6. Contatos críticos", "- Cadastro indisponível."]
+
+    # —— PAE ——
+    try:
+        from st_app.data import ler_csv
+
+        pae = ler_csv("pae_checklist_lacunas.csv")
+        n_pae = 0
+        if not pae.empty and not df.empty and "id_snisb" in df.columns:
+            ids = set(df["id_snisb"].astype(str).str.strip())
+            sub = pae[pae["id_snisb"].astype(str).str.strip().isin(ids)]
+            col = "n_lacunas_criticas" if "n_lacunas_criticas" in sub.columns else "n_lacuna"
+            if col in sub.columns:
+                n_pae = int(pd.to_numeric(sub[col], errors="coerce").fillna(0).gt(0).sum())
+        linhas += [
+            "",
+            "## 7. PAE / documentação",
+            f"- Barragens do recorte com lacuna PAE: **{n_pae}**",
+        ]
+    except Exception:  # noqa: BLE001
+        linhas += ["", "## 7. PAE / documentação", "- Checklist indisponível."]
+
+    # —— Alertas sem confirmação ——
+    try:
+        from st_app.ciclo_alerta import resumo_ciclo
+
+        cic = resumo_ciclo()
+        linhas += [
+            "",
+            "## 8. Ciclo de alerta (confirmação)",
+            f"- Emitidos: **{cic['n_emitidos']}** · aguardando: **{cic['n_aguardando']}**",
+            f"- Confirmados: **{cic['n_confirmados']}** · escalonados: **{cic['n_escalonados']}** "
+            f"(máx: {cic['n_escalonado_maximo']})",
+        ]
+        pend = cic.get("sem_confirmacao")
+        if isinstance(pend, pd.DataFrame) and not pend.empty:
+            for _, r in pend.head(5).iterrows():
+                linhas.append(
+                    f"  - {r.get('id_alerta')} · {r.get('nome')} · {r.get('estado')} "
+                    f"(limite {r.get('prazo_limite')})"
+                )
+    except Exception:  # noqa: BLE001
+        linhas += ["", "## 8. Ciclo de alerta", "- Sem trilha de ciclo neste ambiente."]
+
+    linhas += [
         "",
         "---",
         "_Proxy geométrico e estimativas rotuladas — não substitui mancha PAE nem ordem de evacuação._",

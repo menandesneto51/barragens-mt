@@ -211,6 +211,44 @@ def pagina_comando(df: pd.DataFrame) -> None:
         else {"amarelo_mais": None, "amarelo": None, "verde": None}
     )
     piloto_n = int(base_kpi["piloto"].sum()) if "piloto" in base_kpi.columns else 0
+
+    # Priorização estadual (etapa 54)
+    from st_app.data import ler_csv as _ler_prio
+
+    prio = _ler_prio("barragens_prioritarias_mt.csv")
+    if not prio.empty:
+        if mun_ativo and "municipio_sede" in prio.columns:
+            from st_app.localidade import nomes_equivalentes
+
+            prio_v = prio[
+                prio["municipio_sede"].apply(lambda m: nomes_equivalentes(mun_ativo, m))
+            ]
+        else:
+            prio_v = prio
+        st.markdown("##### Priorização estadual (top do recorte)")
+        st.caption(
+            "Score 0–100: DPA alto, rejeito, nível IDAP, extraterritorial, lacunas PAE, "
+            "não alertável. Rode `python executar.py 54`."
+        )
+        cols_p = [
+            c
+            for c in (
+                "rank",
+                "score_prioridade",
+                "faixa",
+                "nome",
+                "municipio_sede",
+                "nivel",
+                "idap",
+            )
+            if c in prio_v.columns
+        ]
+        st.dataframe(
+            prio_v[cols_p].head(15),
+            width="stretch",
+            hide_index=True,
+            height=280,
+        )
     piloto_ama = (
         int(
             base_kpi.loc[
