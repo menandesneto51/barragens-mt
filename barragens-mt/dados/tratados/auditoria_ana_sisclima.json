@@ -1,9 +1,9 @@
 {
-  "gerado_em": "2026-08-06T18:13:42Z",
-  "db_sisclima": "/workspace/sisclima-repo/data/cloud/sis_cloud_seed.db",
+  "gerado_em": "2026-08-30T16:49:14Z",
+  "db_sisclima": null,
   "sqlite_tem_tabelas_ana": false,
-  "fonte_estacoes": "csv:/workspace/barragens-mt/dados/brutos/ana_estacoes_mt.csv",
-  "fonte_telemetria": "csv:/workspace/barragens-mt/dados/brutos/ana_telemetria.csv",
+  "fonte_estacoes": "csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv",
+  "fonte_telemetria": "csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv",
   "n_estacoes_mt": 5,
   "n_registros_telemetria": 13,
   "n_estacoes_com_cota": 3,

@@ -1,10 +1,10 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-08-06T18:13:42Z`
-- DB: `/workspace/sisclima-repo/data/cloud/sis_cloud_seed.db`
+- Gerado: `2026-08-30T16:49:14Z`
+- DB: `não encontrado`
 - SQLite com tabelas ANA: **False**
-- Estações: `csv:/workspace/barragens-mt/dados/brutos/ana_estacoes_mt.csv` (5 MT)
-- Telemetria: `csv:/workspace/barragens-mt/dados/brutos/ana_telemetria.csv` (13 registros)
+- Estações: `csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv` (5 MT)
+- Telemetria: `csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv` (13 registros)
 - Com cota / vazão / cota_alerta (última leitura): **3** / **3** / **2**
 - No corredor Manso–Cuiabá (≤25 km do eixo): **1**
 - Séries fluviométricas utilizáveis: **True**

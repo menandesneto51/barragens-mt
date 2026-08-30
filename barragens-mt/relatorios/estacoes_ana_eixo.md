@@ -1,7 +1,7 @@
 # Estações ANA por barragem
 
-- Fonte estações: `csv:/workspace/barragens-mt/dados/brutos/ana_estacoes_mt.csv`
-- Fonte telemetria: `csv:/workspace/barragens-mt/dados/brutos/ana_telemetria.csv`
+- Fonte estações: `csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv`
+- Fonte telemetria: `csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv`
 - Vínculos gerados: **245** (até 3 por barragem, ≤80 km)
 - No piloto Manso–Cuiabá: **44** linhas
 - Com cota na última leitura: **89**
