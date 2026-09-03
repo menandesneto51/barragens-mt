@@ -144,9 +144,9 @@ def html_mapa_simulacao(
 const S = {dados};
 const mapa = L.map('mapa', {{zoomControl:true}}).setView([S.la, S.lo], 10);
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{{z}}/{{y}}/{{x}}',
-  {{attribution:'Esri', maxZoom:18}}).addTo(mapa);
-L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_only_labels/{{z}}/{{x}}/{{y}}{{r}}.png',
-  {{opacity:0.85, maxZoom:18}}).addTo(mapa);
+  {{attribution:'Esri World Imagery', maxZoom:18}}).addTo(mapa);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{{z}}/{{y}}/{{x}}',
+  {{attribution:'Esri', opacity:0.9, maxZoom:16}}).addTo(mapa);
 mapa.createPane('vias'); mapa.getPane('vias').style.zIndex=340;
 mapa.createPane('mancha'); mapa.getPane('mancha').style.zIndex=350;
 mapa.getPane('mancha').style.pointerEvents='none';

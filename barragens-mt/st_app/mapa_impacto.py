@@ -275,10 +275,12 @@ def montar_mapa_impacto(
         if r.get("municipio")
     }
 
-    m = folium.Map(location=[-13.2, -55.8], zoom_start=5, tiles="CartoDB positron")
+    from st_app.cartobase import ATTR_ESRI, TILE_SAT, mapa_folium
+
+    m = mapa_folium([-13.2, -55.8], zoom_start=5)
     folium.TileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attr="Esri",
+        TILE_SAT,
+        attr=ATTR_ESRI,
         name="Satélite",
         overlay=False,
         control=True,

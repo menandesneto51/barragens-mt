@@ -190,8 +190,8 @@ const sat = L.tileLayer(
   {attribution: 'Tiles &copy; Esri', maxZoom: 18}
 ).addTo(mapa);
 const rotulos = L.tileLayer(
-  'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
-  {attribution: '&copy; OSM &copy; CARTO', pane: 'shadowPane', opacity: 0.85, maxZoom: 18}
+  'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+  {attribution: 'Esri', pane: 'shadowPane', opacity: 0.9, maxZoom: 16}
 ).addTo(mapa);
 
 mapa.createPane('mancha');

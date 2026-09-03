@@ -455,8 +455,8 @@ function desenharGraficos() {
 function desenharMapa() {
   if (!mapa) {
     mapa = L.map('mapa', {preferCanvas:true}).setView([-12.7,-55.9], 6);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:18
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution:'Tiles &copy; Esri — Source: Esri, TomTom, Garmin, FAO, NOAA, USGS', maxZoom:16
     }).addTo(mapa);
     L.geoJSON(MALHA, {style:{color:'#94a3b3',weight:.6,fill:false,interactive:false}}).addTo(mapa);
     document.getElementById('legenda-mapa').innerHTML = ORDEM_RISCO.map(v =>

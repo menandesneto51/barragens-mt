@@ -391,7 +391,9 @@ def pagina_comando(df: pd.DataFrame) -> None:
         if pts.empty:
             st.info("Sem coordenadas no recorte filtrado.")
         else:
-            m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
+            from st_app.cartobase import mapa_folium
+
+            m = mapa_folium([-13.0, -55.8], zoom_start=5)
             for _, r in pts.iterrows():
                 cor = CORES_NIVEL.get(r["nivel"], "#888")
                 critico = r["nivel"] != "Verde"
@@ -2626,7 +2628,9 @@ def pagina_tipologia(df: pd.DataFrame) -> None:
         default=list(cont.index),
     )
     view = base[base["tipologia"].isin(filtro)] if filtro else base
-    m = folium.Map(location=[-13.0, -55.8], zoom_start=6, tiles="CartoDB positron")
+    from st_app.cartobase import mapa_folium
+
+    m = mapa_folium([-13.0, -55.8], zoom_start=6)
     for r in view.itertuples():
         folium.CircleMarker(
             [r.latitude, r.longitude],

@@ -670,10 +670,11 @@ def pagina_municipio_360(
         else:
             pts = bars.dropna(subset=["latitude", "longitude"])
             if not pts.empty:
-                m = folium.Map(
-                    location=[pts["latitude"].mean(), pts["longitude"].mean()],
+                from st_app.cartobase import mapa_folium
+
+                m = mapa_folium(
+                    [float(pts["latitude"].mean()), float(pts["longitude"].mean())],
                     zoom_start=9,
-                    tiles="CartoDB positron",
                 )
                 for _, r in pts.iterrows():
                     folium.CircleMarker(
@@ -820,7 +821,9 @@ def bloco_tipologia(recorte: pd.DataFrame, estado: pd.DataFrame, *, rotulo_recor
         if pts.empty:
             st.info("Sem coordenadas no recorte para o mapa de tipologia.")
         else:
-            m = folium.Map(location=[-13.0, -55.8], zoom_start=5, tiles="CartoDB positron")
+            from st_app.cartobase import mapa_folium
+
+            m = mapa_folium([-13.0, -55.8], zoom_start=5)
             for r in pts.itertuples():
                 folium.CircleMarker(
                     [r.latitude, r.longitude],
@@ -1024,7 +1027,9 @@ def pagina_visao_territorial(df_barragens: pd.DataFrame) -> None:
         or cats_vul,
     )
 
-    m = folium.Map(location=[-13.0, -55.8], zoom_start=6, tiles="CartoDB positron")
+    from st_app.cartobase import mapa_folium
+
+    m = mapa_folium([-13.0, -55.8], zoom_start=6)
     if "Barragens" in camadas and not bars.empty:
         for r in ordenar_por_severidade(bars).itertuples():
             cor = CORES_NIVEL.get(str(getattr(r, "nivel", "") or ""), "#888")
@@ -1162,7 +1167,9 @@ def pagina_vulneraveis() -> None:
         view = view[view["categoria"].astype(str).isin(filtro_cat)]
     pts = view.dropna(subset=["latitude", "longitude"])
     if not pts.empty:
-        m = folium.Map(location=[-15.5, -56.0], zoom_start=8, tiles="CartoDB positron")
+        from st_app.cartobase import mapa_folium
+
+        m = mapa_folium([-15.5, -56.0], zoom_start=8)
         for _, r in pts.head(800).iterrows():
             cat = str(r.get("categoria") or "")
             popup = (
