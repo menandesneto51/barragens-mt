@@ -261,6 +261,135 @@ Em Mato Grosso, na estação chuvosa (novembro a março), há semanas em que nen
 | Monitoramento de rotina do reservatório | Ópticos em cadência mensal, com radar como reserva | Custo de processamento menor e série mais interpretável |
 | Detecção de ocupação nova na ZAS | Ópticos de alta resolução (CBERS-4A WPM) em cadência anual | Necessário distinguir edificação de vegetação |
 
+### 2.5.4 Modelo digital de elevação (MDE) — relevo para proxy de mancha
+
+Fonte **aberta e gratuita** para estimar, por relevo, quais terrenos perto da calha
+ficam abaixo de uma lâmina proxy (HAND — *Height Above Nearest Drainage*).
+**Não substitui** estudo de dam break / mancha PAE.
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| Produtos | **SRTM 30 m** (via OpenTopoData); **Copernicus DEM GLO-30**; **NASADEM**; **INPE Topodata** (derivado SRTM para o Brasil) |
+| Acesso amostragem | OpenTopoData: `https://api.opentopodata.org/v1/srtm30m?locations=lat,lon\|…` (até 100 pontos/requisição; cadência ~1 req/s) |
+| Acesso raster | Copernicus DEM / OpenTopography / Earthdata (NASA) — arquivos GeoTIFF regionais; Topodata INPE: `http://www.dsr.inpe.br/topodata/` |
+| Granularidade | ~30 m (SRTM/Copernicus GLO-30) |
+| Periodicidade | Estático (missão); não atualiza com o evento |
+| Latência | Imediata após download/amostragem |
+| Uso no projeto | Terceira geometria da simulação: células com HAND ≤ lâmina e ao longo do eixo jusante; cruzamento com CNES, vias OSM e população |
+| Limitações | Resolução vertical e vegetação/edificações; não modela velocidade nem tempo de chegada da onda; vale estreito pode ser subamostrado |
+| Implementado em | `scripts/35_mde_hand_piloto.py` → `dados/tratados/hand_piloto_manso_cuiaba.*`; consumo em `st_app/relevo_hand.py` |
+
+### 2.5.5 MapBiomas — uso e cobertura da terra
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Séries anuais de uso/cobertura (vegetação, agropecuária, área urbana, água) |
+| Acesso | Estatísticas públicas: `https://brasil.mapbiomas.org/estatisticas/`; módulo urbano Col. 10 (municípios) |
+| Uso pretendido | Pressão de ocupação na faixa de atenção a jusante; contexto de exposição (não entra no IDAP numérico nesta fase) |
+| Periodicidade | Anual |
+| Status no repositório | Implementado no eixo: `scripts/41_mapbiomas_eixo.py` → `mapbiomas_pressao_eixo_cuiaba.csv` (área urbana 2024, crescimento 10 anos, urbana em drenagem ≤3 m) |
+
+### 2.5.6 IBGE — setores censitários (Censo 2022)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Malha e população por setor censitário — granularidade abaixo do município |
+| Acesso | IBGE downloads / FTP de malhas e resultados do Censo |
+| Uso pretendido | População exposta e isolada na mancha proxy (C1 do IDAP com rigor) |
+| Status no repositório | Implementado no eixo Manso–Cuiabá: `scripts/37_ibge_setores_eixo.py` → `dados/tratados/setores_censitarios_eixo_cuiaba.csv` (+ GeoJSON). KPI na Simulação via `st_app/setores_ibge.py` (centróide do setor na mancha). População municipal permanece em `ibge_populacao_municipios_mt.csv` para o proxy C7 estadual. **Proxy ribeirinhos (dossiê por localidade):** `st_app/localidade.py` → `proxy_ribeirinhos_municipio` usa setores do eixo (com destaque a rurais) + exposição ≤5 km; **não** é cadastro de comunidade ribeirinha — municípios fora do eixo permanecem lacuna explícita |
+
+### 2.5.7 Sisagua — captações de água (C4)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Pontos de captação / sistemas de abastecimento na faixa do eixo |
+| Acesso | Cadastro oficial Dados Abertos SUS: `cadastro_pontos_captacao_csv.zip` (S3 CKAN); catálogo em `dadosabertos.saude.gov.br/dataset/sisagua-pontos-de-captacao`. Fallback espacial OSM (`waterway=intake`, `man_made=water_works`) se o zip falhar |
+| Uso pretendido | Contagem de captações na mancha proxy (KPI C4) |
+| Implementado em | `scripts/38_sisagua_captacoes.py` → `sisagua_captacoes_eixo.csv` + `sisagua_captacoes_mt.csv` (sedes com barragem); UI em `st_app/sisagua_captacoes.py`; proxies C4 na etapa `49` |
+
+### 2.5.8 Telemetria pontual — dimensão A do IDAP
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Chuva 24h/72h e previsão no **ponto da barragem** (não só centroide municipal) |
+| Fontes | INMET estações automáticas (API pública, se ≤80 km); Open-Meteo no ponto (proxy modelo/IMERG); alertas Cemaden/INMET/ANA do SisClima preservados |
+| Implementado em | `scripts/39_telemetria_hidro_a.py` → `telemetria_hidro_a.csv` + mescla em `hidro_barragens_mt.csv` (`aproximacao_espacial=ponto_barragem_telemetria`) |
+
+### 2.5.8b Telemetria fluviométrica ANA — rios (contexto / A6)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Estações fluviométricas próximas à barragem: **cota (cm)**, **vazão (m³/s)**, cota de alerta quando cadastrada |
+| Fonte | SisClima (`ana_estacoes` / `ana_telemetria` com `ANA_FETCH_SERIES=true`) ou CSV fallback em `dados/brutos/ana_*.csv` |
+| Uso | Bloco “Contexto fluvial” na Simulação; IDAP **A6** com `razao = cota/cota_alerta` quando ambos existem (`a6_fonte=cota_medida`) |
+| Fronteira | **Não** redefine a mancha Circular/Trajeto/HAND — telemetria de rio não é hidrodinâmica de ruptura |
+| Implementado em | `scripts/52_auditoria_ana_sisclima.py`, `scripts/53_estacoes_ana_eixo.py` → `ana_estacoes_barragem.csv`; UI `st_app/ana_fluvial.py` |
+
+### 2.5.9 Ativos essenciais OSM (C5 — ETA/ETE/energia/abrigos)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Pontos OSM de ETA (`water_works`), ETE (`wastewater_plant`), subestações, abrigos e bases de ambulância no eixo |
+| Acesso | OpenStreetMap / Overpass |
+| Uso pretendido | Ampliar C5 além de escolas/captações/pontes; proxy até haver cadastro oficial |
+| Implementado em | `scripts/46_ativos_essenciais_osm_eixo.py` → `ativos_essenciais_osm_eixo.csv`; UI `st_app/ativos_essenciais.py` + demanda `st_app/demanda_cenario.py` (internação 2%, água 15 L/p/dia) |
+
+### 2.5.10 Malha viária e desvio de rota (C7 / D7 proxy)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Arteriais e pontes OSM; km de rota sede→hub antes/depois do corte da mancha |
+| Acesso | OpenStreetMap / Overpass (já na Simulação); DNIT/Sinfra-MT ainda sem ETL oficial |
+| Uso pretendido | Isolamento e desvio de rota (roadmap 4.4); nível C7 proxy |
+| Implementado em | `st_app/vias_isolamento.py` — campos `desvios_rota`, `delta_km_medio_desvio`, `n_sedes_sem_rota`; fallback offline em `st_app/malha_offline.py` + etapa `51_rotas_alternativas_offline.py` |
+
+### 2.5.11 INEP — Censo Escolar (escolas na mancha, C5)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Escolas de educação básica com município e dependência; coordenadas **não** vêm nos microdados 2023/2024 (LGPD) |
+| Acesso | Microdados Censo Escolar: `https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_YYYY.zip` (download por faixas; TLS do host costuma exigir `verify=False`) |
+| Camada espacial | OpenStreetMap `amenity=school\|kindergarten\|college` no bbox do eixo — usada na Simulação |
+| Uso pretendido | Contagem de escolas na mancha proxy — serviço essencial não assistencial (C5), junto com captações e pontes |
+| Implementado em | `scripts/40_escolas_inep_eixo.py` → `escolas_eixo_cuiaba.csv` (OSM) + `escolas_inep_contagem_municipio.csv` (INEP); UI em `st_app/escolas_inep.py` |
+
+### 2.5.12 Malha BR/MT no eixo — proxy DNIT/SNV
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Trechos com `ref` BR-/MT- (e pontes) no bbox do eixo Manso–Cuiabá; km aproximado por ref |
+| Acesso preferido | SNV / portal DNIT (`dnitcloud`) — neste ambiente o download institucional costuma falhar (connection reset) |
+| Proxy aberto | Overpass: ways `highway` arterial com `ref` ~ `^(BR\|MT)-` + bridges com a mesma ref |
+| Uso pretendido | Contagem de refs federais/estaduais e pontes na mancha (complemento C7); substituir por SNV oficial quando disponível |
+| Implementado em | `scripts/42_malha_dnit_osm_eixo.py` → `malha_dnit_osm_eixo.csv` / `.geojson`; UI em `st_app/malha_dnit.py` |
+
+### 2.5.13 Capacidade assistencial CNES + IndicaSUS/DW (D6)
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| O que fornece | Tipologia hospital/UPA/UBS na mancha; **leitos operacionais, ocupados, disponíveis e taxa de ocupação** via IndicaSUS/DW; razão leitos/demanda (2% pop. exposta) |
+| CNES aberto | Estabelecimentos e tipificação espacial (API não expõe leitos) |
+| IndicaSUS / DW | Extrato institucional de leitos e ocupação — conector `scripts/dw_saude.py` + etapa `43` |
+| CNES LT | Leitos **cadastrados** (SAU-01) — etapa `45`; dump CSV/DBC/DW (FTP DATASUS costuma falhar aqui) |
+| Outros bancos DW | Etapa `44` + catálogo (`sih`, `sia`, `sisreg`, `sinan`) em `dados/config/dw_catalogo.json` |
+| Uso pretendido | D6 com ocupação IndicaSUS; SAU-01 com LT; tipológico como fallback |
+| Implementado em | `43`/`44`/`45`, `st_app/leitos_indicasus.py`, `st_app/dw_status.py`, `st_app/capacidade_cnes.py`, IDAP `razao_leitos_demanda`; docs `15-integracao-indicasus-dw.md` |
+
+### 2.5.14 Cobertura de PAE (SNISB) e IPAPD proxy
+
+| Aspecto | Conteúdo |
+| --- | --- |
+| PAE | `possui_pae` do inventário SNISB → `pae_manchas_cobertura.csv` (etapa `47`); mancha ZAS oficial continua pendente |
+| Checklist PAE | `st_app/pae_checklist.py` — SNISB + cobertura 47 + SIGBM (PAEBM/cópias) por barragem; CSV na Simulação e na ficha 360°; ranking estadual etapa `48` → `pae_checklist_lacunas.csv` |
+| IDAP C4/C5/C7 | Proxies do eixo Manso–Cuiabá (etapa `49` → `idap_proxies_eixo.csv`) consumidos por `16_idap_estadual.py`; buffer geométrico — não é mancha PAE |
+| VIGIPÓS O/E | Canal endêmico + razão O/E (`st_app/vigipos.py`, etapa `50`); reproduz §5.6.4; tela Streamlit «VIGIPÓS O/E»; série sintética até haver SINAN/DW |
+| IPAPD | Proxy na Simulação (`st_app/ipapd.py`): O (ocupação IndicaSUS), E (isolamento), S (essenciais na mancha); A/P/C lacuna até ficha rápida |
+| IRS | Proxy de recuperação (`st_app/irs.py`, §5.5.7): média das dimensões disponíveis (1 = recuperado); ficha + sinais da mancha |
+| Limite | IPAPD/IRS renormalizam pelos termos disponíveis — não preenchem lacuna com zero |
+| Ficha rápida | JSON em `dados/tratados/fichas_rapidas/` ou upload na Simulação → termos A/P/C e dimensões IRS |
+| SITREP cenário | Download Markdown na Simulação (`st_app/sitrep.py` · `montar_sitrep_cenario_md`) |
+| KPIs cenário | CSV (`st_app/cenario_export.py`) com exposição, C7, demanda, IPAPD, IRS e lacunas PAE |
+
 ---
 
 ## 2.6 Grupo E — Copernicus EMS (Emergency Management Service)

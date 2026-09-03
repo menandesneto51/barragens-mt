@@ -55,6 +55,13 @@ footer{color:var(--muted);font-size:12px;margin-top:20px}
 <article class="bloco"><h2>US no buffer (CNES)</h2><p>Estabelecimentos prioritários (hospital, UPA, UBS/ESF) com coordenada dentro do raio equivalente da simulação. Indicam capacidade de resposta local sob risco de interdição ou sobrecarga — não o município inteiro.</p></article>
 <article class="bloco"><h2>CRI e DPA</h2><p>CRI = probabilidade relativa de acidente (estado da estrutura). DPA = consequência de um eventual rompimento (volume, população, ambiente). São classificações oficiais do cadastro, não o IDAP.</p></article>
 <article class="bloco"><h2>Completude e confiabilidade</h2><p>Completude: % dos pontos do IDAP com dado disponível. Baixa completude exige cautela na leitura do número — o IDAP projetado mostra o pior caso compatível com as lacunas.</p></article>
+<article class="bloco"><h2>PAE declarado (SNISB)</h2><p>Contagem de barragens com possui_pae = Sim no inventário. Em MT a maior parte está em lacuna cadastral (campo vazio ≠ “não possui”). Mancha ZAS oficial ainda não ingerida — o proxy da simulação não substitui o PAE.</p></article>
+<article class="bloco"><h2>Checklist PAE / PAEBM</h2><p>Oito itens por barragem (PAE-01…08): PAE SNISB, plano de segurança, revisão periódica, mancha ZAS, canal de alerta e campos SIGBM de PAEBM/cópias. Status: ok / atenção / não / lacuna. CSV na Simulação e ficha 360°; ranking etapa 48.</p></article>
+<article class="bloco"><h2>IPAPD proxy</h2><p>Índice de Pressão Assistencial Pós-Desastre (proposta a validar). Combina O (ocupação), A (atendimentos), P (profissionais), E (acesso), C (autonomia) e S (serviços). Termos sem dado ficam lacuna — não entram como zero. A/P/C vêm da ficha rápida JSON.</p></article>
+<article class="bloco"><h2>IRS proxy</h2><p>Índice de Recuperação Sanitária (§5.5.7). Escala 0–1 onde 1 = recuperado. Média das dimensões disponíveis (APS, hospitalar, água, vias, equipes, abrigos, agravos, rede de frio, crônicos, saúde mental, ambiental). Critério proposto de encerramento: IRS ≥ 0,90 por 4 semanas.</p></article>
+<article class="bloco"><h2>VIGIPÓS O/E</h2><p>Razão observado/esperado e canal endêmico (§5.6). Exemplo normativo: leptospirose 12 vs 1,8 (limite 4) → O/E 6,7, sinal crítico. A IA explica o sinal; não o produz. Tela Streamlit «VIGIPÓS O/E»; etapa 50.</p></article>
+<article class="bloco"><h2>SITREP de cenário</h2><p>Markdown gerado na Simulação com exposição na mancha proxy, isolamento C7, demanda, IPAPD e status PAE. Há também CSV dos mesmos KPIs para planilha/COE.</p></article>
+<article class="bloco"><h2>HAND / relevo (simulação)</h2><p>Height Above Nearest Drainage — lâmina proxy a partir de MDE. Prioriza áreas baixas na mancha geométrica; não é estudo de dam break nem tempo de chegada da onda do PAE.</p></article>
 <details>
   <summary>Glossário completo (documentação)</summary>
   <pre># 10. Glossário
@@ -186,7 +193,7 @@ citada. Onde o termo é criação deste projeto, está indicado.
 | **Row Level Security** | Recurso do PostgreSQL que restringe, por perfil de usuário, quais linhas de uma tabela são visíveis. Mecanismo técnico de segregação do dado identificável |
 </pre>
 </details>
-<footer>Gerado em 30/07/2026 11:06 · VIGIBARRAGENS–MT / Saúde 360</footer>
+<footer>Gerado em 03/08/2026 11:59 · VIGIBARRAGENS–MT / Saúde 360</footer>
 </main>
 </body>
 </html>

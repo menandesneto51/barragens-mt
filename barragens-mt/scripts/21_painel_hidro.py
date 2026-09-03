@@ -200,12 +200,25 @@ desenhar();
 def main() -> None:
     painel07 = _carregar_07()
     munis = ler_hidro_munis()
+    import csv as _csv
+
+    nomes_ibge: dict[str, str] = {}
+    ibge_csv = comum.DADOS_TRATADOS / "ibge_municipios_mt.csv"
+    if ibge_csv.exists():
+        with ibge_csv.open(encoding="utf-8-sig", newline="") as f_ib:
+            for row in _csv.DictReader(f_ib, delimiter=";"):
+                cod = str(row.get("codigo_ibge") or "").strip().replace(".0", "")
+                mun = (row.get("municipio") or "").strip()
+                if cod and mun:
+                    nomes_ibge[cod] = mun
     compactos = []
     for r in munis:
+        cod = str(r.get("codigo_ibge") or "").strip().replace(".0", "")
+        nome = (r.get("municipio") or "").strip() or nomes_ibge.get(cod, "")
         compactos.append(
             {
-                "ibge": r.get("codigo_ibge") or "",
-                "nome": r.get("municipio") or "",
+                "ibge": cod,
+                "nome": nome,
                 "data": r.get("data_referencia") or "",
                 "c24": num(r.get("chuva_24h_mm")),
                 "c72": num(r.get("chuva_72h_mm")),

@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "motivo": "seed a partir do exemplo do eixo (substituir por extrato IndicaSUS/DW)",
+  "fonte": "dados/config/exemplos/indicasus_leitos.exemplo.csv",
+  "n_estabelecimentos": 5,
+  "n_municipio": 2,
+  "gerado_em": "2026-08-30T17:18:00Z",
+  "checklist": [
+    "Obter extrato IndicaSUS/DW com leitos operacionais e ocupados por município",
+    "Substituir CSVs seed (fonte=seed_exemplo_eixo) pelo extrato oficial",
+    "Rodar python executar.py 43 quando o conector DW estiver disponível"
+  ]
+}

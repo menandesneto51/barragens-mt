@@ -1,7 +1,9 @@
 {
-  "gerado": "2026-07-30T11:44:20",
+  "gerado": "2026-08-03T00:41:37",
   "pae_linhas": 50,
   "nota_pae": "Cobertura parcial já ajuda C1–C7; geometria oficial obrigatória.",
-  "sisagua": "esqueleto",
-  "vigipos": "esqueleto"
+  "sisagua": "real",
+  "vigipos": "real",
+  "sisagua_arquivo": "sisagua_captacoes_eixo.csv",
+  "vigipos_arquivo": "vigipos_linha_base.csv"
 }

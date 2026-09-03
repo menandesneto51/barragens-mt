@@ -417,6 +417,38 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     except Exception as exc:  # noqa: BLE001
         print(f"  sanitário pop/US não calculado: {exc}")
 
+    # Cobertura PAE (SNISB) — etapa 47
+    meta["pae"] = {
+        "ok": False,
+        "n_barragens": meta.get("total"),
+        "tem_pae_sim": None,
+        "tem_pae_nao": None,
+        "tem_pae_desconhecido": None,
+        "pct_sim": None,
+        "nota": "Rode scripts/47_pae_cobertura_snisb.py",
+    }
+    try:
+        pae_path = Path(__file__).resolve().parent.parent / "dados" / "tratados" / "pae_cobertura_status.json"
+        if pae_path.is_file():
+            import json as _json_pae
+
+            pj = _json_pae.loads(pae_path.read_text(encoding="utf-8"))
+            n_tot = int(pj.get("n_barragens") or meta.get("total") or 0)
+            n_sim = int(pj.get("tem_pae_sim") or 0)
+            pct = round(100.0 * n_sim / n_tot, 1) if n_tot else None
+            meta["pae"] = {
+                "ok": bool(pj.get("ok")),
+                "n_barragens": n_tot,
+                "tem_pae_sim": n_sim,
+                "tem_pae_nao": int(pj.get("tem_pae_nao") or 0),
+                "tem_pae_desconhecido": int(pj.get("tem_pae_desconhecido") or 0),
+                "pct_sim": pct,
+                "nota": pj.get("nota")
+                or "Mancha ZAS oficial ainda não ingerida — checklist na Simulação Streamlit.",
+            }
+    except Exception as exc:  # noqa: BLE001
+        print(f"  PAE cobertura não embutida: {exc}")
+
     for faixa in ("Roxo", "Vermelho", "Laranja", "Amarelo", "Verde"):
         if meta["niveis"].get(faixa, 0) > 0:
             meta["semaforo"] = faixa
@@ -455,6 +487,10 @@ text-transform:uppercase;letter-spacing:.14em}
 .barra-gov span{font-family:"Source Sans 3",sans-serif;font-weight:400;
 text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.85);margin-left:10px;
 padding-left:10px;border-left:1px solid rgba(255,255,255,.35)}
+.faixa-logos{display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+padding:8px 24px;background:#f4f6fa;border-bottom:1px solid var(--line)}
+.faixa-logos .logo-inst{height:40px;width:auto;max-width:170px;object-fit:contain;
+border-radius:4px;box-shadow:0 1px 2px rgba(15,39,79,.08)}
 header{padding:16px 24px 14px;border-bottom:3px solid var(--ses);background:var(--card);
 display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
 .marca{font-family:"Montserrat",sans-serif;font-size:clamp(1.2rem,2vw,1.5rem);
@@ -555,23 +591,29 @@ margin-bottom:5px;font-size:12.5px}
 </style>
 </head>
 <body>
-<div class="barra-gov">Governo de Mato Grosso<span>Secretaria de Estado de Saúde · CIEVS</span></div>
+<div class="barra-gov">Governo de Mato Grosso<span>SES-MT · CIEVS · Vigidesastres · Defesa Civil</span></div>
+<div class="faixa-logos" role="group" aria-label="Instituições: SES-MT, CIEVS-MT, Vigidesastres e Defesa Civil">
+  <img class="logo-inst" src="media/logos/ses_mt.svg" alt="SES-MT" title="Secretaria de Estado de Saúde" height="40" />
+  <img class="logo-inst" src="media/logos/cievs_mt.svg" alt="CIEVS-MT" title="Centro de Informações Estratégicas em Vigilância em Saúde" height="40" />
+  <img class="logo-inst" src="media/logos/vigidesastres.svg" alt="Vigidesastres" title="Vigilância em Saúde ante Desastres" height="40" />
+  <img class="logo-inst" src="media/logos/defesa_civil_mt.svg" alt="Defesa Civil" title="Defesa Civil do Estado de Mato Grosso" height="40" />
+</div>
 <header>
   <div>
     <h1 class="marca">VIGIBARRAGENS–MT</h1>
     <p>Comando estadual — como está Mato Grosso agora e onde olhar primeiro.
-    Jornada Situação → Território → Ação → Dados · __GERADO__</p>
+    Jornada Território → Situação → Ação → Dados · __GERADO__</p>
   </div>
   <nav>
-    <a href="hidro.html">Hidro municipal</a>
-    <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
     <a href="tipologia.html">Mapa por tipologia</a>
     <a href="barragem.html">Barragem 360°</a>
+    <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
+    <a href="hidro.html">Hidro municipal</a>
+    <a href="simulacao.html" style="font-weight:700;background:#1b3281;color:#fff;padding:6px 10px;border-radius:4px">Simulação</a>
     <a href="alertas.html">Fila de alertas</a>
-    <a href="simulacao.html">Simulação</a>
-    <a href="glossario.html">Interpretação</a>
     <a href="ficha_rapida.html">Ficha rápida</a>
     <a href="confirmacao_alerta.html">Confirmação</a>
+    <a href="glossario.html">Interpretação</a>
     <a href="inventario.html">Inventário</a>
   </nav>
 </header>
@@ -877,12 +919,19 @@ document.getElementById('kpiHelp').innerHTML =
     ['Completude média do índice', S.completude_media==null?'—':(S.completude_media+'%'),
       (S.completude_media!=null && S.completude_media>=70)?'sev-ok':((S.completude_media||0)>=40?'sev-atencao':'sev-alto')],
   ];
+  const PAE = META.pae || {};
+  const paeTxt = (PAE.tem_pae_sim!=null && PAE.n_barragens)
+    ? `${PAE.tem_pae_sim}/${PAE.n_barragens}${PAE.pct_sim!=null?` (${Math.round(PAE.pct_sim)}%)`:''}`
+    : '—';
+  const paeSev = (PAE.pct_sim==null) ? 'sev-neutro'
+    : (PAE.pct_sim>=50 ? 'sev-ok' : 'sev-atencao');
   const extras = [
     ['US prioritárias (hosp/UPA/UBS)', fmtN(S.us_prioritarias), S.us_prioritarias?'sev-atencao':'sev-ok'],
     ['Rejeito em atenção+', S.rejeito_atencao, S.rejeito_atencao?'sev-alto':'sev-ok'],
     ['Dano potencial alto sem canal', S.dpa_alto_sem_alerta, S.dpa_alto_sem_alerta?'sev-critico':'sev-ok'],
     ['Impacto extraterritorial ativo', S.extraterritorial_ativo, S.extraterritorial_ativo?'sev-atencao':'sev-ok'],
     ['Quase atenção (vigília)', S.quase_atencao, S.quase_atencao?'sev-atencao':'sev-ok'],
+    ['PAE declarado (SNISB)', paeTxt, paeSev],
   ];
   const fill = (node, itens) => {
     if (!node) return;
@@ -897,7 +946,11 @@ document.getElementById('kpiHelp').innerHTML =
   fill(el, principais);
   fill(document.getElementById('sanKpisExtra'), extras);
   const nota = document.getElementById('sanNota');
-  if (nota) nota.textContent = S.nota || '';
+  if (nota) {
+    const base = S.nota || '';
+    const paeN = PAE.nota ? ` PAE: ${PAE.nota}` : '';
+    nota.textContent = base + paeN;
+  }
   const tb = document.getElementById('quaseLista');
   if (!tb) return;
   const lista = S.quase_lista || [];

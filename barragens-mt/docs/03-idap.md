@@ -74,6 +74,7 @@ romper e a plataforma não tem autoridade para dizer que não vai.
 | Agregação espacial | Média ponderada por área dos pixels/estações da bacia contribuinte da barragem |
 | Recálculo | A cada 30 min (satélite) ou a cada hora (estações) |
 | Dado ausente | Se nenhuma das três fontes tiver dado na janela, o indicador é lacuna: 0 ponto e redução da completude. **Não** se assume "não chuveu" |
+| Implementação atual | Etapa 39 (`telemetria_hidro_a`) preenche A1–A4 no ponto da barragem (INMET próximo ou Open-Meteo); etapa 17 mantém SisClima municipal + alertas. Ver `docs/02-fontes-de-dados.md` §2.5.8 |
 
 Faixas de pontuação (**proposta a validar**):
 
@@ -182,6 +183,7 @@ Faixas (**proposta a validar**):
 | Por que existe | Um rio já em cota de alerta amplifica qualquer contribuição adicional da barragem, e reduz o tempo disponível para evacuação por via terrestre |
 | Recálculo | A cada leitura, 15 min a 1 h |
 | Dado ausente | Lacuna. Depende de haver estação a jusante com cota de alerta cadastrada — pendência mapeada em `docs/02-fontes-de-dados.md`, §2.11 |
+| Implementação atual | Preferência: razão **medida** `cota_cm / cota_alerta_cm` via etapa `53` (`a6_fonte=cota_medida` em `hidro_barragens_mt.csv`). Sem cota de alerta oficial, permanece o proxy de estágio SisClima do script `17` ou lacuna. Telemetria de rio **não** entra na geometria da mancha de simulação |
 
 Faixas (**proposta a validar**):
 
@@ -428,6 +430,10 @@ relevante para a resposta é de ordem de grandeza, não linear.
 Regra de precedência: **criticidade acima de quantidade**. Perder o único hospital do
 município é pior que perder quatro unidades básicas.
 
+**Implementação atual (`16_idap_estadual.py`):** C3 usa o CNES **estadual**
+(`cnes_estabelecimentos_mt.csv`), agregado por município afetado via Otto (proxy de
+mancha). Ainda não cruza vias de acesso nem geometria de ZAS oficial.
+
 ### 3.5.5 C4 — Captações de água ameaçadas (0–3)
 
 | Aspecto | Definição |
@@ -649,6 +655,10 @@ urgência e emergência.
 | >= 1,00 | 0 |
 | 0,50 a < 1,00 | 1 |
 | < 0,50 | 2 |
+
+**Implementação atual:** quando IndicaSUS/SISREG não têm carga, D6 usa proxy tipológico
+`hospitais_CNES × 40 leitos` / (2% da pop. dos municípios afetados), rotulado
+`cnes_tipologico_proxy` — a calibrar com a SES.
 
 ### 3.6.8 D7 — Ausência de rotas alternativas (0–1)
 

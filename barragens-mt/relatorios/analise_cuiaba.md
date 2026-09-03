@@ -1,6 +1,6 @@
 # Exposição de Cuiabá a rompimento de barragens
 
-Análise territorial da unidade de análise Cuiabá, elaborada em 29/07/2026 a partir do inventário consolidado de barragens de Mato Grosso e da Base Hidrográfica Ottocodificada da Agência Nacional de Águas e Saneamento Básico.
+Análise territorial da unidade de análise Cuiabá, elaborada em 02/08/2026 a partir do inventário consolidado de barragens de Mato Grosso e da Base Hidrográfica Ottocodificada da Agência Nacional de Águas e Saneamento Básico.
 
 ## 1. Por que o recorte deixou de ser municipal
 

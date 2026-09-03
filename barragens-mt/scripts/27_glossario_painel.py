@@ -69,6 +69,49 @@ BLOCOS = [
         "Baixa completude exige cautela na leitura do número — o IDAP projetado mostra o "
         "pior caso compatível com as lacunas.",
     ),
+    (
+        "PAE declarado (SNISB)",
+        "Contagem de barragens com possui_pae = Sim no inventário. Em MT a maior parte "
+        "está em lacuna cadastral (campo vazio ≠ “não possui”). Mancha ZAS oficial ainda "
+        "não ingerida — o proxy da simulação não substitui o PAE.",
+    ),
+    (
+        "Checklist PAE / PAEBM",
+        "Oito itens por barragem (PAE-01…08): PAE SNISB, plano de segurança, revisão "
+        "periódica, mancha ZAS, canal de alerta e campos SIGBM de PAEBM/cópias. "
+        "Status: ok / atenção / não / lacuna. CSV na Simulação e ficha 360°; ranking etapa 48.",
+    ),
+    (
+        "IPAPD proxy",
+        "Índice de Pressão Assistencial Pós-Desastre (proposta a validar). Combina O "
+        "(ocupação), A (atendimentos), P (profissionais), E (acesso), C (autonomia) e S "
+        "(serviços). Termos sem dado ficam lacuna — não entram como zero. "
+        "A/P/C vêm da ficha rápida JSON.",
+    ),
+    (
+        "IRS proxy",
+        "Índice de Recuperação Sanitária (§5.5.7). Escala 0–1 onde 1 = recuperado. "
+        "Média das dimensões disponíveis (APS, hospitalar, água, vias, equipes, abrigos, "
+        "agravos, rede de frio, crônicos, saúde mental, ambiental). "
+        "Critério proposto de encerramento: IRS ≥ 0,90 por 4 semanas.",
+    ),
+    (
+        "VIGIPÓS O/E",
+        "Razão observado/esperado e canal endêmico (§5.6). Exemplo normativo: leptospirose "
+        "12 vs 1,8 (limite 4) → O/E 6,7, sinal crítico. A IA explica o sinal; não o produz. "
+        "Tela Streamlit «VIGIPÓS O/E»; etapa 50.",
+    ),
+    (
+        "SITREP de cenário",
+        "Markdown gerado na Simulação com exposição na mancha proxy, isolamento C7, "
+        "demanda, IPAPD e status PAE. Há também CSV dos mesmos KPIs para planilha/COE.",
+    ),
+    (
+        "HAND / relevo (simulação)",
+        "Height Above Nearest Drainage — lâmina proxy a partir de MDE. Prioriza áreas "
+        "baixas na mancha geométrica; não é estudo de dam break nem tempo de chegada "
+        "da onda do PAE.",
+    ),
 ]
 
 

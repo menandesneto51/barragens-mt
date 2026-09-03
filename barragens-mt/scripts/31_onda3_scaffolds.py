@@ -116,12 +116,19 @@ def main() -> None:
         ],
     )
 
+    sisagua_real = comum.DADOS_TRATADOS / "sisagua_captacoes_eixo.csv"
+    vigipos_real = comum.DADOS_TRATADOS / "vigipos_linha_base.csv"
+    sisagua_status = "real" if sisagua_real.is_file() and sisagua_real.stat().st_size > 80 else "esqueleto"
+    vigipos_status = "real" if vigipos_real.is_file() and vigipos_real.stat().st_size > 80 else "esqueleto"
+
     status = {
         "gerado": AGORA,
         "pae_linhas": len(rows_pae),
         "nota_pae": "Cobertura parcial já ajuda C1–C7; geometria oficial obrigatória.",
-        "sisagua": "esqueleto",
-        "vigipos": "esqueleto",
+        "sisagua": sisagua_status,
+        "vigipos": vigipos_status,
+        "sisagua_arquivo": sisagua_real.name if sisagua_status == "real" else "sisagua_captacoes_eixo_esqueleto.csv",
+        "vigipos_arquivo": vigipos_real.name if vigipos_status == "real" else "vigipos_linha_base_esqueleto.csv",
     }
     (comum.DADOS_TRATADOS / "onda3_dados_status.json").write_text(
         json.dumps(status, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -138,17 +145,22 @@ def main() -> None:
                 "- Não inventar geometria: só registrar o que a SEMA/empreendedor entregar.",
                 "",
                 "## Sisagua / captações",
-                "- Arquivo: `dados/tratados/sisagua_captacoes_eixo_esqueleto.csv`",
+                f"- Status: **{sisagua_status}**",
+                f"- Arquivo: `dados/tratados/{status['sisagua_arquivo']}`",
+                "- Esqueleto residual: `sisagua_captacoes_eixo_esqueleto.csv` (fallback).",
                 "",
                 "## VIGIPÓS (SINAN/SIM)",
-                "- Arquivo: `dados/tratados/vigipos_linha_base_esqueleto.csv`",
+                f"- Status: **{vigipos_status}**",
+                f"- Arquivo: `dados/tratados/{status['vigipos_arquivo']}`",
                 "- Ver também `docs/05-vigipos-barragens.md`.",
                 "",
             ]
         ),
         encoding="utf-8",
     )
-    print(f"PAE={len(rows_pae)} linhas; Sisagua/VIGIPÓS esqueletos OK")
+    print(
+        f"PAE={len(rows_pae)} linhas; Sisagua={sisagua_status}; VIGIPÓS={vigipos_status}"
+    )
 
 
 if __name__ == "__main__":

@@ -319,5 +319,135 @@ details[data-testid="stExpander"] summary {
 /* ---- Tabelas e abas ---- */
 div[data-testid="stDataFrame"] { border: 1px solid var(--line); }
 button[data-baseweb="tab"] { font-weight: 600; }
+
+/* ---- Faixa de logos institucionais ---- */
+.faixa-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f4f6fa;
+  border-bottom: 1px solid var(--line);
+}
+.faixa-logos .logo-inst {
+  height: 42px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(15, 39, 79, 0.08);
+}
+.faixa-logos-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+}
+.faixa-logos-sidebar .logo-inst {
+  height: 34px;
+  width: auto;
+  max-width: 48%;
+  border-radius: 3px;
+  background: #fff;
+}
+
+/* ---- Cabeçalho institucional (área principal) ---- */
+.cab-inst {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ses-azul);
+  padding: 0;
+  margin: 0 0 10px;
+}
+.cab-inst-topo {
+  background: var(--ses-azul);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+}
+.cab-inst-linha {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px 10px;
+  align-items: flex-start;
+}
+.cab-inst-nome {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ses-azul);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.cab-inst-tag {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 2px;
+  max-width: 36rem;
+  line-height: 1.35;
+}
+.cab-inst-meta {
+  text-align: right;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.cab-inst-sit {
+  display: inline-block;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-left: 4px;
+}
+.barra-ctx {
+  background: var(--ses-azul-claro);
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  color: #35405a;
+  margin: 0 0 12px;
+}
+.tut-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ses-azul);
+  padding: 14px 16px;
+  margin: 0 0 12px;
+}
+.tut-box .tut-passo {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ses-azul);
+  margin-bottom: 4px;
+}
+.tut-box h3 {
+  margin: 0 0 6px !important;
+  font-size: 1.05rem !important;
+  color: var(--ink) !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.tut-box p { margin: 0; color: #334155; line-height: 1.45; }
+.motivo-box {
+  background: #fff8e8;
+  border: 1px solid #f0e0b8;
+  border-left: 4px solid var(--sev-atencao);
+  padding: 12px 14px;
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
 </style>
 """

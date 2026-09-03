@@ -1,6 +1,6 @@
 # Diagnóstico do inventário de barragens — Mato Grosso
 
-Extração dos dados: **29/07/2026**
+Extração dos dados: **02/08/2026**
 
 Consolidação do SNISB (ANA), do SIGBM (ANM) e da base territorial do IBGE. Cobre todas as barragens cadastradas no estado, independentemente do órgão fiscalizador e de estarem ou não sujeitas à Lei Federal 12.334/2010.
 
@@ -110,23 +110,23 @@ O SIGBM registra **183 barragens de mineração** em Mato Grosso. **18 estão co
 
 | Barragem | Município | Empreendedor | Nível | Alteamento | Situação |
 | --- | --- | --- | --- | --- | --- |
-| T G de Souza | NOSSA SENHORA DO LIVRAMENTO | ANTONIO CAROLINO DE SOUZA | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
-| Barragem de Rejeito Estrela | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento a jusante | Ativa |
-| Barragem de Rejeito Estrela 02 | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento a jusante | Inativa |
-| Barragem de Rejeito Estrela 03 | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
-| BARRAGEM MANAH 1 | NOSSA SENHORA DO LIVRAMENTO | APARECIDO FRANCISCO DA SILVA | Emergência Nivel 1 | Desconhecido | Ativa |
-| Barragem de Rejeito 01 | NOSSA SENHORA DO LIVRAMENTO | A R WEBER | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
-| Barragem do Serginho | NOSSA SENHORA DO LIVRAMENTO | SERGIO DA SILVA | Emergência Nivel 1 | Alteamento a jusante | Ativa |
-| BR SANTA 01 | NOSSA SENHORA DO LIVRAMENTO | SANTA FELICIDADE MINERACAO SPE LTD | Nível de Alerta | Alteamento a jusante | Inativa |
 | BR BRASÃO | NOSSA SENHORA DO LIVRAMENTO | JOSE MARIA OTAVIO MARTINS DUARTE | Emergência Nivel 1 | Etapa única | Inativa |
-| Santa Maria | NOSSA SENHORA DO LIVRAMENTO | JOSE MARIA OTAVIO MARTINS DUARTE | Emergência Nivel 1 | Alteamento por linha de centro | Ativa |
-| Barragem de Rejeitos Bom Futuro | NOSSA SENHORA DO LIVRAMENTO | A C S MINERACAO | Emergência Nivel 1 | Alteamento a jusante | Ativa |
+| Barragem de Rejeito 01 | NOSSA SENHORA DO LIVRAMENTO | A R WEBER | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
 | Bacia de Rejeitos | NOSSA SENHORA DO LIVRAMENTO | R L DE ALMEIDA FERREIRA | Emergência Nivel 1 | Alteamento a jusante | Inativa |
+| Barragem de Rejeitos Bom Futuro | NOSSA SENHORA DO LIVRAMENTO | A C S MINERACAO | Emergência Nivel 1 | Alteamento a jusante | Ativa |
 | JABURU | NOSSA SENHORA DO LIVRAMENTO | Joaquim Aderaldo de Souza Neto | Emergência Nivel 1 | Alteamento por linha de centro | Ativa |
+| Barragem de Rejeito Estrela | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento a jusante | Ativa |
+| BARRAGEM MANAH 1 | NOSSA SENHORA DO LIVRAMENTO | APARECIDO FRANCISCO DA SILVA | Emergência Nivel 1 | Desconhecido | Ativa |
+| T G de Souza | NOSSA SENHORA DO LIVRAMENTO | ANTONIO CAROLINO DE SOUZA | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
+| BR SANTA 01 | NOSSA SENHORA DO LIVRAMENTO | SANTA FELICIDADE MINERACAO SPE LTD | Nível de Alerta | Alteamento a jusante | Inativa |
+| Santa Maria | NOSSA SENHORA DO LIVRAMENTO | JOSE MARIA OTAVIO MARTINS DUARTE | Emergência Nivel 1 | Alteamento por linha de centro | Ativa |
+| Barragem de Rejeito Estrela 03 | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento por linha de centro | Inativa |
+| Barragem de Rejeito Estrela 02 | NOSSA SENHORA DO LIVRAMENTO | HEUREKA MINERACAO LTDA | Emergência Nivel 1 | Alteamento a jusante | Inativa |
 | Neta | NOSSA SENHORA DO LIVRAMENTO | Diego Sérgio de oliveira Almeida | Emergência Nivel 1 | Desconhecido | Ativa |
+| Barragem do Serginho | NOSSA SENHORA DO LIVRAMENTO | SERGIO DA SILVA | Emergência Nivel 1 | Alteamento a jusante | Ativa |
 | Barragem de Rejeitos SB 02 | POCONÉ | ROSEMEIRE BENEDETTI ALVES | Emergência Nivel 1 | Alteamento a jusante | Ativa |
-| BACIA DE REJEITOS SÃO BENTO | POCONÉ | ROSEMEIRE BENEDETTI ALVES | Emergência Nivel 1 | Alteamento a jusante | Inativa |
 | Isa | POCONÉ | ISA MARIA DORILEO FERREIRA DE ASSI | Nível de Alerta | Etapa única | Inativa |
+| BACIA DE REJEITOS SÃO BENTO | POCONÉ | ROSEMEIRE BENEDETTI ALVES | Emergência Nivel 1 | Alteamento a jusante | Inativa |
 | Fortuna | PONTES E LACERDA | MARCOS JOSE MARTINS FERNANDES | Emergência Nivel 1 | Alteamento por linha de centro | Ativa |
 
 Alteamento a montante — método proibido pela Resolução ANM nº 95/2022: **0 barragens**. Com população permanente a jusante: **9 barragens**.

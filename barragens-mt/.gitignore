@@ -5,6 +5,9 @@ __pycache__/
 # Respostas cruas das APIs: sao regeneraveis e somam dezenas de MB.
 dados/brutos/
 
+# Cache Overpass (malha viária da simulação) — regenerável.
+dados/tratados/cache_osm_vias/
+
 # Segredos de despacho (nunca versionar)
 .streamlit/secrets.toml
 dados/tratados/despacho_secrets.env

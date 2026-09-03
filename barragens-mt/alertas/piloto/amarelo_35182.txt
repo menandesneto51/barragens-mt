@@ -1,28 +1,27 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-35182
+Identificador do alerta : ALERTA-20260803-1151-35182
 Barragem                : Barramento 5 (código 35182)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : São Benedito Urbanismo LTDA
 Uso principal           : Paisagismo
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
+IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 22)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 83,70 de percentil — acima do percentil 75 (2 de 4 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 5/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 3/30 (completude 17%)
    - C. Impacto sanitário potencial: 5/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
