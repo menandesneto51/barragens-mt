@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0711-26538
+Identificador do alerta : ALERTA-20260907-0807-26538
 Barragem                : Sitio Pirapora (código 26538)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : BENEDITO NORBERTO DE BARROS
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
 IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 30)
@@ -17,8 +17,8 @@ Versão dos pesos        : 0.1.0-metodologica
 1. MOTIVOS
    - [B1] Categoria de Risco (CRI) oficial: Alto (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 76,10 de percentil — acima do percentil 75 (2 de 4 pontos)
+   - [A5] Saturação antecedente do solo na bacia: 0,66 de índice (0 a 1) — solo úmido (2 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 27 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 

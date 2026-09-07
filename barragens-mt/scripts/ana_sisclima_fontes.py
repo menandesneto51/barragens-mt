@@ -22,8 +22,10 @@ CANDIDATOS_DB = [
     Path(os.environ["VIGIBARRAGENS_SISCLIMA_DB"])
     if os.environ.get("VIGIBARRAGENS_SISCLIMA_DB")
     else None,
+    comum.DADOS_BRUTOS / "sisclima" / "sis_cloud_seed.db",
     comum.RAIZ.parent / "sisclima-repo" / "data" / "cloud" / "sis_cloud_seed.db",
     comum.RAIZ.parent / "sisclima-repo" / "data" / "output" / "sis_integrado.db",
+    comum.DADOS_BRUTOS / "sisclima" / "sis_integrado.db",
     Path(
         r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
         r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\cloud\sis_cloud_seed.db"
@@ -31,11 +33,35 @@ CANDIDATOS_DB = [
 ]
 
 
+def _score_db(caminho: Path) -> int:
+    try:
+        con = sqlite3.connect(str(caminho))
+        nomes = {
+            r[0]
+            for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        }
+        con.close()
+        score = 0
+        if "ana_estacoes" in nomes:
+            score += 5
+        if "ana_telemetria" in nomes:
+            score += 5
+        if "solo_saturacao_municipal" in nomes:
+            score += 1
+        return score
+    except Exception:  # noqa: BLE001
+        return 0
+
+
 def resolver_db() -> Path | None:
-    for caminho in CANDIDATOS_DB:
-        if caminho is not None and caminho.exists() and caminho.stat().st_size > 0:
-            return caminho
-    return None
+    existentes = [
+        c
+        for c in CANDIDATOS_DB
+        if c is not None and c.exists() and c.stat().st_size > 0
+    ]
+    if not existentes:
+        return None
+    return sorted(existentes, key=_score_db, reverse=True)[0]
 
 
 def _ler_csv_qualquer(path: Path) -> list[dict[str, str]]:

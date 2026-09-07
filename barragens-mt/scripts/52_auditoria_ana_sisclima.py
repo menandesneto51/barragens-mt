@@ -163,10 +163,11 @@ def main() -> None:
         "n_estacoes_no_corredor": no_corredor,
         "series_fluviometricas_disponiveis": series_habilitadas,
         "checklist_sisclima": {
-            "USE_ANA": "true no .env SisClima para popular ana_estacoes",
-            "ANA_FETCH_SERIES": "true para baixar cota/vazão (default false só traz metadados)",
-            "ANA_HIDROWEB_TOKEN": "obrigatório para API HidroWeb v3",
+            "USE_ANA": "true no .env SisClima para popular ana_estacoes (ou etapa 59 SOAP)",
+            "ANA_FETCH_SERIES": "true para baixar cota/vazão (etapa 59 grava ana_telemetria)",
+            "ANA_HIDROWEB_TOKEN": "opcional HidroWeb v3; SOAP público cobre telemetria recente",
             "fallback_local": "dados/brutos/ana_*.csv quando SQLite sem tabelas ANA",
+            "seed_local": "python executar.py 59 → dados/brutos/sisclima/sis_cloud_seed.db",
         },
         "fronteira_produto": (
             "Cota/vazão ANA alimentam contexto fluvial e IDAP A6; "

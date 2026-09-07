@@ -32,13 +32,19 @@ Chuva e solo do **município-sede** da barragem são proxy insuficiente. O colet
 
 ## 12.4 Entregável (implementado)
 
-`scripts/17_hidro_sisclima_titan.py`:
+`scripts/59_sisclima_cloud_seed.py` + `scripts/17_hidro_sisclima_titan.py`:
 
-- resolve o banco via `VIGIBARRAGENS_SISCLIMA_DB` ou, na ordem, `sis_cloud_seed.db`
-  (preferido — tem `precipitacao_mm`) e `sis_integrado.db` (ex.: clone em
-  `../sisclima-repo/data/output/`);
+- o clone público do SisClima só tem `sis_integrado.db` sanitizado (sem solo TITAN,
+  sem `inmet_alertas`/`cemaden_alertas`, sem `ana_*`). Solo TITAN institucional,
+  alertas e séries ANA reais exigem `sis_cloud_seed.db` com `USE_ANA=true` +
+  `ANA_FETCH_SERIES=true` no ETL SisClima (CIEVS/OneDrive) **ou** a etapa `59`, que
+  monta `dados/brutos/sisclima/sis_cloud_seed.db` com o mesmo contrato via fontes
+  públicas (INMET, Cemaden `wsAlertas2`, ANA SOAP, solo Open-Meteo proxy);
+- a etapa 17 resolve o banco via `VIGIBARRAGENS_SISCLIMA_DB` ou, na ordem,
+  `dados/brutos/sisclima/sis_cloud_seed.db`, `../sisclima-repo/data/cloud/…`, e
+  `sis_integrado.db`;
 - lê `met_biometeo`, `solo_saturacao_municipal`, `hidro_risco_municipal` /
-  `ana_risco_municipal`;
+  `ana_risco_municipal`, `inmet_alertas`, `cemaden_alertas`;
 - se `met_biometeo` existir **sem** coluna de chuva (caso comum do `sis_integrado.db`
   sanitizado), complementa precipitação observada com **Open-Meteo** nas coordenadas
   municipais do próprio banco (`fonte=openmeteo_sisclima_fallback`) e segue o ETL;

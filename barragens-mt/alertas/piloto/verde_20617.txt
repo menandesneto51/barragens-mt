@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0726-20617
+Identificador do alerta : ALERTA-20260907-0807-20617
 Barragem                : PCH Casca III - Casca III (código 20617)
 Município da estrutura  : Chapada dos Guimarães — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
 Empreendedor            : APIACAS ENERGIA S.A.
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 07:26 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
 IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 45% (confiabilidade parcial; IDAP projetado 22,20)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 18,90)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -22,7 +22,7 @@ Versão dos pesos        : 0.1.0-metodologica
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 0/30 (completude 73%)
+   - A. Pressão hidroclimática: 0/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 3/15 (completude 27%)
@@ -89,9 +89,10 @@ Versão dos pesos        : 0.1.0-metodologica
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
    - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
-   - Sanar as lacunas de dado que subestimam o índice: A5, A6, B2, B3, B4, B5, B6, C4, C5, C6, C7, D2, D3, D4, D5, D6, D7.
+   - Sanar as lacunas de dado que subestimam o índice: B2, B3, B4, B5, B6, C4, C5, C6, C7, D2, D3, D4, D5, D6, D7.
 
 8. FONTES DOS DADOS
+   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
    - CNES cruzado com a mancha de inundação e com as vias de acesso
    - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
    - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
@@ -102,6 +103,7 @@ Versão dos pesos        : 0.1.0-metodologica
    - SNISB (POSSUI_PAE), SIGBM (PAEBM e entrega às prefeituras), Defesa Civil estadual
    - SNISB/ANA (campo CATEGORIA_RISCO) e SIGBM/ANM (Categoria de Risco - CRI)
    - cadastro de contatos institucionais da plataforma
+   - índice de precipitação antecedente derivado de IMERG/Cemaden; umidade de solo quando disponível
    - Perfil sanitário: scripts/idap/impacto_sanitario.py (água vs rejeito)
 
 9. RESSALVAS
@@ -112,6 +114,6 @@ Versão dos pesos        : 0.1.0-metodologica
    instrumentação da própria barragem.
    Área/população por lâmina equivalente e agravos listados são hipóteses
    de vigilância na ausência de mancha oficial — não são diagnóstico.
-   Cálculo com completude 45%: o IDAP está subestimado e não deve
+   Cálculo com completude 53%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

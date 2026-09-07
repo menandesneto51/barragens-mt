@@ -40,6 +40,13 @@ ETAPAS = [
     ("13", "13_exposicao_populacoes.py", "Exposição de populações e da rede ao eixo", True),
     ("14", "14_mapas_cuiaba.py", "Mapas de Cuiabá, Manso e entorno", True),
     ("15", "15_relatorio_produto04.py", "Relatório Produto 04 (.docx ABNT)", True),
+    # Seed hidro (solo/alertas/ANA) antes da etapa 17 quando o CIEVS seed não está no path.
+    (
+        "59",
+        "59_sisclima_cloud_seed.py",
+        "Monta sis_cloud_seed.db (INMET/Cemaden/solo/ANA SOAP)",
+        True,
+    ),
     # Hidro antes do IDAP: a dimensão A consome hidro_barragens_mt.csv.
     ("17", "17_hidro_sisclima_titan.py", "Hidro SisClima/TITAN → IDAP dimensão A", True),
     # Contatos antes do IDAP: alimenta D8 e a flag alertável do piloto.

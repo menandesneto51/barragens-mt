@@ -1,6 +1,6 @@
 # Telemetria pontual — dimensão A (IDAP)
 
-- Extração: 2026-09-07T11:26:55+00:00
+- Extração: 2026-09-07T12:05:40+00:00
 - Overlay: `dados/tratados/telemetria_hidro_a.csv` (152 barragens)
 - Mesclados em hidro: **152**
 - Com série INMET próxima: **0**

@@ -1,11 +1,11 @@
 # Estações ANA por barragem
 
-- Fonte estações: `csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv`
-- Fonte telemetria: `csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv`
-- Vínculos gerados: **249** (até 3 por barragem, ≤80 km)
-- No piloto Manso–Cuiabá: **45** linhas
-- Com cota na última leitura: **90**
-- A6 com razão medida (cota/cota_alerta) mesclada no hidro: **16** barragens
+- Fonte estações: `sqlite:sis_cloud_seed.db:ana_estacoes`
+- Fonte telemetria: `sqlite:sis_cloud_seed.db:ana_telemetria`
+- Vínculos gerados: **3382** (até 3 por barragem, ≤80 km)
+- No piloto Manso–Cuiabá: **336** linhas
+- Com cota na última leitura: **342**
+- A6 com razão medida (cota/cota_alerta) mesclada no hidro: **69** barragens
 
 ## Fronteira
 

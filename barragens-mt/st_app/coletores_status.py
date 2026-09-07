@@ -17,6 +17,7 @@ TRATADOS = RAIZ / "dados" / "tratados"
 
 AUDITORIA_ANA = TRATADOS / "auditoria_ana_sisclima.json"
 INDICASUS_STATUS = TRATADOS / "indicasus_leitos_status.json"
+SEED_STATUS = TRATADOS / "sisclima_cloud_seed_status.json"
 HIDRO_BARRAGENS = TRATADOS / "hidro_barragens_mt.csv"
 HIDRO_MUNICIPIOS = TRATADOS / "hidro_municipios_mt.csv"
 
@@ -94,6 +95,47 @@ def status_coletores(*, id_snisb: str | None = None) -> dict[str, Any]:
                     "fonte": "IndicaSUS",
                     "severidade": "atencao",
                     "mensagem": "fonte seed/exemplo — substituir por extrato IndicaSUS/DW oficial",
+                }
+            )
+
+    seed = _ler_json(SEED_STATUS)
+    if seed:
+        if int(seed.get("n_solo_saturacao") or 0) <= 0:
+            lacunas.append(
+                {
+                    "fonte": "Solo TITAN / seed",
+                    "severidade": "atencao",
+                    "mensagem": (
+                        "sis_cloud_seed sem saturação — rode etapa 59 ou use seed CIEVS"
+                    ),
+                }
+            )
+        elif "openmeteo" in str(seed.get("fonte_solo") or "").casefold():
+            lacunas.append(
+                {
+                    "fonte": "Solo TITAN / seed",
+                    "severidade": "atencao",
+                    "mensagem": (
+                        "saturação via Open-Meteo proxy — não é índice TITAN institucional"
+                    ),
+                }
+            )
+        if int(seed.get("n_inmet_alertas") or 0) + int(seed.get("n_cemaden_alertas") or 0) <= 0:
+            lacunas.append(
+                {
+                    "fonte": "Alertas INMET/Cemaden",
+                    "severidade": "atencao",
+                    "mensagem": "nenhum alerta MT no seed — confirme APIs ou seed CIEVS",
+                }
+            )
+        if int(seed.get("n_ana_estacoes_com_serie") or 0) <= 0:
+            lacunas.append(
+                {
+                    "fonte": "ANA / SisClima",
+                    "severidade": "alto",
+                    "mensagem": (
+                        "seed sem séries ANA — USE_ANA+ANA_FETCH_SERIES ou etapa 59/SOAP"
+                    ),
                 }
             )
 

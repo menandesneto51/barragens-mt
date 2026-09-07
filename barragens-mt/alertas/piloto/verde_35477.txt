@@ -1,28 +1,28 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0711-35477
+Identificador do alerta : ALERTA-20260907-0807-35477
 Barragem                : Barramento III - Fazenda São José I (código 35477)
 Município da estrutura  : Rosário Oeste — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : GILBERTO EGLAIR POSSAMAI
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
-IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
+IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 22)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 20)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 0,90 x a cota de alerta — aproximando-se da cota de alerta (2 de 4 pontos)
+   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 0,73 x a cota de alerta — nível em elevação (1 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 3 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 2/30 (completude 100%)
+   - A. Pressão hidroclimática: 1/30 (completude 100%)
    - B. Condição da barragem: 3/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)

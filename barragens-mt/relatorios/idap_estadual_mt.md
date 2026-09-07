@@ -25,8 +25,8 @@ A dimensão **A** (pressão hidroclimática) fica vazia de propósito: será pre
 | Roxo | 0 |
 | Vermelho | 0 |
 | Laranja | 0 |
-| Amarelo | 67 |
-| Verde | 1213 |
+| Amarelo | 127 |
+| Verde | 1153 |
 
 ## Impacto extraterritorial
 
@@ -39,31 +39,31 @@ A seção de controle por município é provisória (código Otto mais específi
 
 | IDAP | Nível | Completude | Sede | Nome | Municípios afetados (n) |
 | ---: | --- | ---: | --- | --- | ---: |
-| 36 | Amarelo | 0,660 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
-| 36 | Amarelo | 0,630 | Nossa Senhora do Livramento | T G de Souza | 1 |
-| 34 | Amarelo | 0,660 | Nossa Senhora do Livramento | Santa Maria | 3 |
-| 32 | Amarelo | 0,660 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
-| 32 | Amarelo | 0,630 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
-| 31 | Amarelo | 0,610 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
-| 31 | Amarelo | 0,610 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
-| 30 | Amarelo | 0,580 | Pontes e Lacerda | Fortuna | 3 |
-| 29 | Amarelo | 0,660 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
-| 27 | Amarelo | 0,660 | Nossa Senhora do Livramento | BR BOSCO | 3 |
-| 27 | Amarelo | 0,660 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
-| 27 | Amarelo | 0,660 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
-| 25 | Amarelo | 0,640 | Cuiabá | Barragem Serrinha | 2 |
-| 24 | Amarelo | 0,610 | Cuiabá | BARRAGEM JVR | 3 |
-| 24 | Amarelo | 0,630 | Cuiabá | Barragem TB | 3 |
-| 24 | Amarelo | 0,600 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
-| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | 3 |
-| 24 | Amarelo | 0,600 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
-| 24 | Amarelo | 0,600 | Nossa Senhora do Livramento | BR03 | 1 |
-| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem GMX | 3 |
-| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem JL | 3 |
-| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | MULTI 1 | 3 |
-| 24 | Amarelo | 0,600 | Poconé | Barragem Barba 02 | 1 |
-| 24 | Amarelo | 0,600 | Poconé | TARUMÃ II | 1 |
-| 23 | Amarelo | 0,630 | Nossa Senhora do Livramento | BR02 | 1 |
+| 38 | Amarelo | 0,740 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
+| 38 | Amarelo | 0,710 | Nossa Senhora do Livramento | T G de Souza | 1 |
+| 36 | Amarelo | 0,740 | Nossa Senhora do Livramento | Santa Maria | 3 |
+| 34 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
+| 34 | Amarelo | 0,710 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
+| 34 | Amarelo | 0,620 | Pontes e Lacerda | Fortuna | 3 |
+| 33 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
+| 33 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
+| 31 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR BOSCO | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
+| 27 | Amarelo | 0,720 | Cuiabá | Barragem Serrinha | 2 |
+| 26 | Amarelo | 0,680 | Carlinda | LIPINISKY | 1 |
+| 26 | Amarelo | 0,690 | Cuiabá | BARRAGEM JVR | 3 |
+| 26 | Amarelo | 0,710 | Cuiabá | Barragem TB | 3 |
+| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | 3 |
+| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
+| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR03 | 1 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | Barragem GMX | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | Barragem JL | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | MULTI 1 | 3 |
+| 25 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR02 | 1 |
+| 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
 
 ## Pressão hidroclimática (dimensão A)
 

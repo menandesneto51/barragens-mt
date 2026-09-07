@@ -1,28 +1,29 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0726-35000
+Identificador do alerta : ALERTA-20260907-0807-35000
 Barragem                : Barragem 01 - Fazenda 3 Irmãos (código 35000)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Dorismar Rodrigues dos Santos
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 07:26 (horário de Cuiabá, UTC-4)
-IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
+IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 42% (confiabilidade parcial; IDAP projetado 26,20)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 26)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
    - [A4] Percentil climatológico do acumulado observado: 76,10 de percentil — acima do percentil 75 (2 de 4 pontos)
+   - [A5] Saturação antecedente do solo na bacia: 0,66 de índice (0 a 1) — solo úmido (2 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 1 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 2/30 (completude 73%)
+   - A. Pressão hidroclimática: 4/30 (completude 100%)
    - B. Condição da barragem: 3/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
@@ -85,9 +86,10 @@ Versão dos pesos        : 0.1.0-metodologica
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
    - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
-   - Sanar as lacunas de dado que subestimam o índice: A5, A6, B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
+   - Sanar as lacunas de dado que subestimam o índice: B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
 
 8. FONTES DOS DADOS
+   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
    - CNES cruzado com a mancha de inundação e com as vias de acesso
    - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
    - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
@@ -97,6 +99,7 @@ Versão dos pesos        : 0.1.0-metodologica
    - SIGBM/ANM — minério principal, produtos químicos, cianeto, classe do resíduo (NBR 10004)
    - SNISB/ANA (campo CATEGORIA_RISCO) e SIGBM/ANM (Categoria de Risco - CRI)
    - cadastro de contatos institucionais da plataforma
+   - índice de precipitação antecedente derivado de IMERG/Cemaden; umidade de solo quando disponível
    - Perfil sanitário: scripts/idap/impacto_sanitario.py (água vs rejeito)
 
 9. RESSALVAS
@@ -107,6 +110,6 @@ Versão dos pesos        : 0.1.0-metodologica
    instrumentação da própria barragem.
    Área/população por lâmina equivalente e agravos listados são hipóteses
    de vigilância na ausência de mancha oficial — não são diagnóstico.
-   Cálculo com completude 42%: o IDAP está subestimado e não deve
+   Cálculo com completude 50%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

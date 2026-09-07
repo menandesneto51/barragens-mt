@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0711-5603
+Identificador do alerta : ALERTA-20260907-0807-5603
 Barragem                : Barragem de Rejeitos Bom Futuro (código 5603)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : A C S MINERACAO
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
 IDAP                    : 29 de 100 pontos (faixa Amarelo: atenção)
 Nível final             : Amarelo
 Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 42,60)
@@ -18,11 +18,11 @@ Versão dos pesos        : 0.1.0-metodologica
    - [B2] Nível oficial de emergência declarado: Emergência Nivel 1 — Emergência Nível 1 (7 de 10 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Alto (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
    - [B3] Ausência de estabilidade declarada: - (3 de 5 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 76,10 de percentil — acima do percentil 75 (2 de 4 pontos)
+   - [A5] Saturação antecedente do solo na bacia: 0,66 de índice (0 a 1) — solo úmido (2 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 51 habitantes — 50 a 199 residentes (2 de 5 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 

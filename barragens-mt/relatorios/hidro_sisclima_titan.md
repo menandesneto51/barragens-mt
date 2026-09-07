@@ -1,14 +1,14 @@
 # Hidrometeorologia — SIS Clima Saúde / TITAN
 
-Fonte: `/workspace/sisclima-repo/data/output/sis_integrado.db`
-Extração: 2026-09-07T11:26:07
+Fonte: `/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db`
+Extração: 2026-09-07T12:07:30
 
 ## Cobertura
 
 - Municípios com série de precipitação: **142**
 - Destes, com chuva > 0 mm na data de referência: **135**
-- Com saturação do solo (TITAN): **0**
-- Com estágio hidrológico ANA/TITAN: **0**
+- Com saturação do solo (TITAN): **142**
+- Com estágio hidrológico ANA/TITAN: **14**
 - Barragens no inventário com linha hidro: **1280**
 
 ## Mapeamento → IDAP
