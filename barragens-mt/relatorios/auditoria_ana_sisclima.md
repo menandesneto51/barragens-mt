@@ -1,7 +1,7 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-09-07T11:11:22Z`
-- DB: `não encontrado`
+- Gerado: `2026-09-07T11:26:55Z`
+- DB: `/workspace/sisclima-repo/data/output/sis_integrado.db`
 - SQLite com tabelas ANA: **False**
 - Estações: `csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv` (5 MT)
 - Telemetria: `csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv` (13 registros)

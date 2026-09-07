@@ -309,6 +309,34 @@ def coords_municipais(met: list[dict[str, Any]], con: sqlite3.Connection) -> dic
     return coords
 
 
+def met_from_openmeteo(
+    coords: dict[str, tuple[float, float]],
+    *,
+    past_days: int = 3,
+) -> list[dict[str, Any]]:
+    """Monta série municipal de precip via Open-Meteo quando SisClima não tem chuva."""
+    from previsao_copernicus import precip_observada_lote
+
+    pontos = [(cod, la, lo) for cod, (la, lo) in sorted(coords.items())]
+    print(f"  fallback precip Open-Meteo para {len(pontos)} municípios (past_days={past_days})…")
+    bruto = precip_observada_lote(pontos, past_days=past_days)
+    linhas: list[dict[str, Any]] = []
+    for cod, serie in bruto.items():
+        for item in serie:
+            linhas.append(
+                {
+                    "data": item["data"],
+                    "cod_ibge": cod,
+                    "municipio": "",
+                    "precip_mm": float(item["precip_mm"]),
+                    "indice_saturacao_solo": None,
+                    "fonte": item.get("fonte") or "openmeteo_sisclima_fallback",
+                }
+            )
+    print(f"  precip Open-Meteo: {len(linhas)} linhas / {len(bruto)} municípios")
+    return linhas
+
+
 def _percentil(valor: float, amostra: list[float]) -> float | None:
     if not amostra:
         return None
@@ -806,10 +834,21 @@ def main() -> None:
     print(f"  coords municipais: {len(coords)}")
 
     if not met:
-        raise SystemExit(
-            "met_biometeo sem coluna de precipitação no banco escolhido. "
-            "Use o sis_cloud_seed.db (tem precipitacao_mm)."
+        if not coords:
+            raise SystemExit(
+                "met_biometeo sem precipitação e sem coordenadas no banco SisClima. "
+                "Use sis_cloud_seed.db (precipitacao_mm) ou rode a etapa 39."
+            )
+        print(
+            "  aviso: SisClima sem coluna precipitacao_mm/chuva_mm — "
+            "complementando com Open-Meteo (fallback operacional)."
         )
+        met = met_from_openmeteo(coords, past_days=3)
+        if not met:
+            raise SystemExit(
+                "falha no fallback Open-Meteo de precipitação. "
+                "Verifique rede ou rode `python executar.py 39`."
+            )
 
     # Previsão ECMWF (Copernicus/C3S) + amostra GloFAS
     from previsao_copernicus import previsao_chuva_lote, risco_cheias_glofas

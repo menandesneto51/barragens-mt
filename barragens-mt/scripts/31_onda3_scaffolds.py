@@ -30,7 +30,8 @@ def main() -> None:
     rel = comum.RAIZ / "relatorios"
     rel.mkdir(parents=True, exist_ok=True)
 
-    # PAE / ZAS — inventário de cobertura (vazio até SEMA/empreendedor entregar)
+    # PAE / ZAS — inventário de cobertura (vazio até SEMA/empreendedor entregar).
+    # Não sobrescreve cobertura plena da etapa 47 (todas as barragens SNISB).
     pae_campos = [
         "id_snisb",
         "nome",
@@ -42,25 +43,46 @@ def main() -> None:
         "observacao",
     ]
     inv = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
-    rows_pae: list[dict] = []
+    cob_pae = comum.DADOS_TRATADOS / "pae_manchas_cobertura.csv"
+    n_inv = 0
     if inv.exists():
         with inv.open(encoding="utf-8-sig", newline="") as f:
-            for i, r in enumerate(csv.DictReader(f, delimiter=";")):
-                if i >= 50:
-                    break
-                rows_pae.append(
-                    {
-                        "id_snisb": r.get("id_snisb") or "",
-                        "nome": r.get("nome") or "",
-                        "municipio_sede": r.get("municipio") or "",
-                        "tem_pae": "desconhecido",
-                        "tem_mancha_zas": "não",
-                        "fonte_geometria": "",
-                        "caminho_geojson": "",
-                        "observacao": "Aguardando mancha oficial — não usar proxy sem rótulo",
-                    }
-                )
-    escrever_csv(comum.DADOS_TRATADOS / "pae_manchas_cobertura.csv", pae_campos, rows_pae)
+            n_inv = sum(1 for _ in csv.DictReader(f, delimiter=";"))
+    n_cob = 0
+    if cob_pae.is_file():
+        with cob_pae.open(encoding="utf-8-sig", newline="") as f:
+            n_cob = sum(1 for _ in csv.DictReader(f, delimiter=";"))
+    if n_cob >= max(100, n_inv // 2) and n_cob > 50:
+        print(
+            f"  mantido {cob_pae.relative_to(comum.RAIZ)} ({n_cob} linhas) — "
+            "já preenchido pela etapa 47; use `python executar.py 47` / `58` para atualizar"
+        )
+        n_pae_linhas = n_cob
+    else:
+        rows_pae: list[dict] = []
+        if inv.exists():
+            with inv.open(encoding="utf-8-sig", newline="") as f:
+                for i, r in enumerate(csv.DictReader(f, delimiter=";")):
+                    if i >= 50:
+                        break
+                    rows_pae.append(
+                        {
+                            "id_snisb": r.get("id_snisb") or "",
+                            "nome": r.get("nome") or "",
+                            "municipio_sede": r.get("municipio") or "",
+                            "tem_pae": "desconhecido",
+                            "tem_mancha_zas": "não",
+                            "fonte_geometria": "",
+                            "caminho_geojson": "",
+                            "observacao": "Aguardando mancha oficial — não usar proxy sem rótulo",
+                        }
+                    )
+        escrever_csv(cob_pae, pae_campos, rows_pae)
+        n_pae_linhas = len(rows_pae)
+        print(
+            f"  scaffold PAE ({n_pae_linhas} linhas) — rode `python executar.py 47` "
+            "para cobertura estadual SNISB"
+        )
 
     # Sisagua — captações / sistemas (esqueleto)
     sisagua_campos = [
@@ -123,7 +145,7 @@ def main() -> None:
 
     status = {
         "gerado": AGORA,
-        "pae_linhas": len(rows_pae),
+        "pae_linhas": n_pae_linhas,
         "nota_pae": "Cobertura parcial já ajuda C1–C7; geometria oficial obrigatória.",
         "sisagua": sisagua_status,
         "vigipos": vigipos_status,
@@ -159,7 +181,7 @@ def main() -> None:
         encoding="utf-8",
     )
     print(
-        f"PAE={len(rows_pae)} linhas; Sisagua={sisagua_status}; VIGIPÓS={vigipos_status}"
+        f"PAE={n_pae_linhas} linhas; Sisagua={sisagua_status}; VIGIPÓS={vigipos_status}"
     )
 
 

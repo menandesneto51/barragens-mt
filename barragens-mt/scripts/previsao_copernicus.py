@@ -79,6 +79,61 @@ def previsao_chuva_lote(
     return saida
 
 
+def precip_observada_lote(
+    pontos: list[tuple[str, float, float]],
+    *,
+    past_days: int = 3,
+) -> dict[str, list[dict[str, Any]]]:
+    """Chuva observada recente (Open-Meteo) por IBGE — fallback quando SisClima sem precip.
+
+    Retorna `{cod_ibge: [{data, precip_mm, fonte}, ...]}` (dias mais antigos → recentes).
+    """
+    if not pontos:
+        return {}
+    saida: dict[str, list[dict[str, Any]]] = {}
+    for i in range(0, len(pontos), 40):
+        lote = pontos[i : i + 40]
+        lats = ",".join(f"{p[1]:.4f}" for p in lote)
+        lons = ",".join(f"{p[2]:.4f}" for p in lote)
+        q = {
+            "latitude": lats,
+            "longitude": lons,
+            "daily": "precipitation_sum",
+            "past_days": str(past_days),
+            "forecast_days": "1",
+            "timezone": "America/Cuiaba",
+        }
+        url = f"https://api.open-meteo.com/v1/forecast?{urllib.parse.urlencode(q)}"
+        try:
+            raw = _get_json(url)
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+            print(f"  aviso Open-Meteo precip observada: {exc}")
+            continue
+        itens = raw if isinstance(raw, list) else [raw]
+        for ponto, item in zip(lote, itens):
+            if item.get("error"):
+                continue
+            daily = item.get("daily") or {}
+            precip = daily.get("precipitation_sum") or []
+            datas = daily.get("time") or []
+            if not precip or not datas:
+                continue
+            # past_days + 1 forecast day — usa só os past_days primeiros (observados/modelo)
+            n = min(past_days, len(precip), len(datas))
+            linhas: list[dict[str, Any]] = []
+            for j in range(n):
+                linhas.append(
+                    {
+                        "data": str(datas[j])[:10],
+                        "precip_mm": float(precip[j] or 0),
+                        "fonte": "openmeteo_sisclima_fallback",
+                    }
+                )
+            if linhas:
+                saida[ponto[0]] = linhas
+    return saida
+
+
 def risco_cheias_glofas(
     pontos: list[tuple[str, float, float]],
 ) -> dict[str, dict[str, Any]]:

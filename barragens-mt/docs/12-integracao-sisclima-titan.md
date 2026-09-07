@@ -35,13 +35,19 @@ Chuva e solo do **município-sede** da barragem são proxy insuficiente. O colet
 `scripts/17_hidro_sisclima_titan.py`:
 
 - resolve o banco via `VIGIBARRAGENS_SISCLIMA_DB` ou, na ordem, `sis_cloud_seed.db`
-  (preferido — tem `precipitacao_mm`) e `sis_integrado.db`;
+  (preferido — tem `precipitacao_mm`) e `sis_integrado.db` (ex.: clone em
+  `../sisclima-repo/data/output/`);
 - lê `met_biometeo`, `solo_saturacao_municipal`, `hidro_risco_municipal` /
   `ana_risco_municipal`;
+- se `met_biometeo` existir **sem** coluna de chuva (caso comum do `sis_integrado.db`
+  sanitizado), complementa precipitação observada com **Open-Meteo** nas coordenadas
+  municipais do próprio banco (`fonte=openmeteo_sisclima_fallback`) e segue o ETL;
 - grava `hidro_municipios_mt.csv` e `hidro_barragens_mt.csv` (A1, A2, A5, A6 proxy, A7);
-- A3 (previsão) e A4 (percentil) ficam vazios no contrato atual;
+- A3 (previsão) vem do Open-Meteo ECMWF; A4 (percentil) é estimado na série espacial;
 - `16_idap_estadual.py` preenche `PressaoHidroclimatica` a partir de `hidro_barragens_mt.csv`.
 
+Telemetria pontual no eixo (etapa `39`) continua disponível como overlay no ponto da
+barragem quando se quer reforçar A1–A4 sem depender do SQLite municipal.
 Aproximação espacial atual: **máximo entre município-sede e municípios a montante**
 (Otto), rotulado `sede_mais_montante_max`. Agregação areal na BHO estadual completa
 permanece pendente (§12.3).

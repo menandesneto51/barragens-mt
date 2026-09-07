@@ -1,6 +1,6 @@
 {
-  "gerado_em": "2026-09-07T11:11:22Z",
-  "db_sisclima": null,
+  "gerado_em": "2026-09-07T11:26:55Z",
+  "db_sisclima": "/workspace/sisclima-repo/data/output/sis_integrado.db",
   "sqlite_tem_tabelas_ana": false,
   "fonte_estacoes": "csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv",
   "fonte_telemetria": "csv:/workspace/barragens-mt/dados/tratados/ana_telemetria_sample.csv",
