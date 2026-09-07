@@ -5,12 +5,12 @@ Roteiro operacional para CIEVS repetir o ciclo em 30–45 min.
 ## Automatizado (script 57)
 
 - Barragem: **Barragem de Rejeitos Bom Futuro** (`5603`) — Amarelo
-- `id_alerta`: `ALT-5603-20260830100000-930af2`
-- Texto: `alertas/piloto/ciclo_amarelo_5603_ALT-5603-20260830100000-930af2.txt`
-- Payload DC: `ok` → `dados/tratados/confirmacoes/payloads_defesa_civil/ALT-5603-20260830100000-930af2.json`
+- `id_alerta`: `ALT-5603-20260830100000-039466`
+- Texto: `alertas/piloto/ciclo_amarelo_5603_ALT-5603-20260830100000-039466.txt`
+- Payload DC: `ok` → `dados/tratados/confirmacoes/payloads_defesa_civil/ALT-5603-20260830100000-039466.json`
 - Escalonamento forçado: **1** evento(s)
 - Confirmação: **Plantão CIEVS (exercício de mesa)**
-- Resumo ciclo: emitidos=1 confirmados=1
+- Resumo ciclo: emitidos=2 confirmados=2
 
 ## Passos manuais (complemento)
 
@@ -28,4 +28,4 @@ Roteiro operacional para CIEVS repetir o ciclo em 30–45 min.
 - Artefatos em `dados/tratados/confirmacoes/`.
 - Este markdown atualizado em `relatorios/exercicio_mesa_piloto.md`.
 
-Gerado por `scripts/57_exercicio_mesa_piloto.py` em 2026-08-30T22:17:25.
+Gerado por `scripts/57_exercicio_mesa_piloto.py` em 2026-09-07T14:04:07.

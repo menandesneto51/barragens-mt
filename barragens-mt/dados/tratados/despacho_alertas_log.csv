@@ -182,3 +182,6 @@
 2026-09-07T13:48:37;verde_26131.txt;telegram+email;dry-run;"chars=7562; emails_piloto=0";sim;ALERTA-20260907-0948-26131
 2026-09-07T13:48:37;verde_26138.txt;telegram+email;dry-run;"chars=7686; emails_piloto=0";sim;ALERTA-20260907-0948-26138
 2026-09-07T13:48:37;verde_26146.txt;telegram+email;dry-run;"chars=7561; emails_piloto=0";sim;ALERTA-20260907-0948-26146
+2026-09-07T14:04:45;ciclo_amarelo_999001_ALT-999001-20260907120000-c83fb6.txt;telegram+email;dry-run;"chars=1095; emails_piloto=0";sim;ALT-999001-20260907120000-c83fb6
+2026-09-07T14:04:45;ciclo_roxo_999002_ALT-999002-20260907120500-040c13.txt;—;bloqueado;aguardando supervisão humana (Vermelho/Roxo);sim;ALT-999002-20260907120500-040c13
+2026-09-07T14:04:45;ciclo_roxo_999002_ALT-999002-20260907120500-040c13.txt;telegram+email;dry-run;"chars=1081; emails_piloto=0";sim;ALT-999002-20260907120500-040c13

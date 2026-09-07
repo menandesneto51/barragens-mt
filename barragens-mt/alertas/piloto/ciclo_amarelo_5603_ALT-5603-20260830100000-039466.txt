@@ -1,0 +1,28 @@
+==============================================================================
+ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO
+==============================================================================
+Identificador do alerta : ALT-5603-20260830100000-039466
+Barragem                : Barragem de Rejeitos Bom Futuro (código 5603)
+Município da estrutura  : Nossa Senhora do Livramento — MT
+Data e hora da emissão  : 2026-08-30T10:00:00-04:00
+IDAP                    : 28
+Nível final             : Amarelo
+Estado do ciclo         : AGUARDANDO_CONFIRMACAO
+Prazo confirmação até   : 2026-08-30T12:00:00-04:00 (120 min)
+
+1. RESUMO
+   Exercício de mesa — prontidão Amarelo Barragem de Rejeitos Bom Futuro (Nossa Senhora do Livramento). Não é ordem de evacuação.
+
+2. MUNICÍPIOS POTENCIALMENTE AFETADOS
+   Cuiabá | Nossa Senhora do Livramento | Várzea Grande
+
+3. RESSALVA OBRIGATÓRIA
+   Este alerta NÃO constitui ordem de evacuação.
+   Evacuação é exclusividade da Defesa Civil.
+
+4. CONFIRMAÇÃO
+   Confirmar recebimento com nome e cargo na tela
+   Alertabilidade / Confirmação (ciclo auditável).
+
+Arquivo gerado pelo ciclo · fonte=exercicio_mesa_57
+==============================================================================
