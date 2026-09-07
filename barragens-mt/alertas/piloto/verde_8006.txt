@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-8006
+Identificador do alerta : ALERTA-20260907-0711-8006
 Barragem                : VALE DOURADO (código 8006)
 Município da estrutura  : Rosário Oeste — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : Marcir Norberto Weber
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
 IDAP                    : 17 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 65% (confiabilidade parcial; IDAP projetado 26,20)
@@ -35,8 +35,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Rejeito não inerte ou perigoso.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3158.
-   Unidades com internação ou urgência: 58.
+   Unidades sem internação na mancha ou sem via de acesso: 3173.
+   Unidades com internação ou urgência: 59.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS

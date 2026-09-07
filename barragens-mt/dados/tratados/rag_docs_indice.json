@@ -1,5 +1,5 @@
 {
-  "gerado": "2026-08-02T22:05:47",
+  "gerado": "2026-09-07T11:06:56",
   "modo": "lexical",
   "n_docs": 16,
   "docs": [
@@ -17,14 +17,14 @@
     },
     {
       "arquivo": "02-fontes-de-dados.md",
-      "bytes": 42301,
-      "n_palavras_unicas": 1445,
+      "bytes": 43538,
+      "n_palavras_unicas": 1472,
       "titulo": "2. Catálogo de fontes de dados"
     },
     {
       "arquivo": "03-idap.md",
-      "bytes": 47485,
-      "n_palavras_unicas": 1268,
+      "bytes": 48264,
+      "n_palavras_unicas": 1287,
       "titulo": "3. IDAP-Barragens — Índice Dinâmico de Alerta e Prontidão"
     },
     {
@@ -59,8 +59,8 @@
     },
     {
       "arquivo": "09-dicionario-de-dados.md",
-      "bytes": 36048,
-      "n_palavras_unicas": 1045,
+      "bytes": 36134,
+      "n_palavras_unicas": 1051,
       "titulo": "9. Dicionário de dados"
     },
     {
@@ -77,8 +77,8 @@
     },
     {
       "arquivo": "12-integracao-sisclima-titan.md",
-      "bytes": 2952,
-      "n_palavras_unicas": 162,
+      "bytes": 4698,
+      "n_palavras_unicas": 248,
       "titulo": "12. Integração hidrometeorológica — SIS Clima Saúde e TITAN"
     },
     {

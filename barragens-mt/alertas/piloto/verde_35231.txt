@@ -1,28 +1,29 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-35231
+Identificador do alerta : ALERTA-20260907-0711-35231
 Barragem                : Fazenda Jangada Agropastoril - Barragem a montante (código 35231)
 Município da estrutura  : Jangada — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Jangada Agropastoril Ltda.
 Uso principal           : Recreação
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
-IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+IDAP                    : 11 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 20)
+Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 22)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C1] População residente na Zona de Autossalvamento: 1 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 3/30 (completude 100%)
+   - A. Pressão hidroclimática: 4/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
@@ -33,8 +34,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3140.
-   Unidades com internação ou urgência: 56.
+   Unidades sem internação na mancha ou sem via de acesso: 3155.
+   Unidades com internação ou urgência: 57.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS

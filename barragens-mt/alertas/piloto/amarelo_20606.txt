@@ -1,29 +1,29 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-20606
+Identificador do alerta : ALERTA-20260907-0711-20606
 Barragem                : UHE Manso - Dique 7 (código 20606)
 Município da estrutura  : Chapada dos Guimarães — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
-Empreendedor            : PRODUTORES ENERGETICOS DE MANSO S/A - PROMAN
+Empreendedor            : AXIA ENERGIA S.A.
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
-IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+IDAP                    : 14 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 28,30)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 26,40)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C1] População residente na Zona de Autossalvamento: 147.657 habitantes — 5.000 residentes ou mais (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
+   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 0,90 x a cota de alerta — aproximando-se da cota de alerta (2 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 3/30 (completude 100%)
+   - A. Pressão hidroclimática: 2/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 10/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
@@ -34,8 +34,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3198.
-   Unidades com internação ou urgência: 60.
+   Unidades sem internação na mancha ou sem via de acesso: 3217.
+   Unidades com internação ou urgência: 61.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS

@@ -1,6 +1,6 @@
 # IDAP estadual — Mato Grosso
 
-Cálculo em lote das **1248** barragens do inventário consolidado, com pesos `0.1.0-metodologica`.
+Cálculo em lote das **1280** barragens do inventário consolidado, com pesos `0.1.0-metodologica`.
 
 > proposta metodológica — pendente de validação por painel de especialistas em engenharia de barragens, hidrologia, meteorologia, epidemiologia, saúde ambiental, assistência, Defesa Civil e geoprocessamento
 
@@ -24,14 +24,14 @@ A dimensão **A** (pressão hidroclimática) fica vazia de propósito: será pre
 | --- | ---: |
 | Roxo | 0 |
 | Vermelho | 0 |
-| Laranja | 1 |
-| Amarelo | 183 |
-| Verde | 1064 |
+| Laranja | 0 |
+| Amarelo | 157 |
+| Verde | 1123 |
 
 ## Impacto extraterritorial
 
-- Barragens com ao menos um município afetado diferente da sede: **493**
-- Vínculos sede → município afetado: **1624** (arquivo `impacto_extraterritorial_mt.csv`)
+- Barragens com ao menos um município afetado diferente da sede: **509**
+- Vínculos sede → município afetado: **1667** (arquivo `impacto_extraterritorial_mt.csv`)
 
 A seção de controle por município é provisória (código Otto mais específico entre as barragens daquele município; Cuiabá usa a seção `896573` validada). Códigos grosseiros demais para decidir (relação Otto `contem`) saem na coluna `municipios_posicao_indeterminada`, exceto o complexo de Manso, forçado ao vínculo com Cuiabá/Várzea Grande pela geometria do reservatório. A BHO estadual completa e a mancha de inundação oficial substituirão este proxy.
 
@@ -39,31 +39,31 @@ A seção de controle por município é provisória (código Otto mais específi
 
 | IDAP | Nível | Completude | Sede | Nome | Municípios afetados (n) |
 | ---: | --- | ---: | --- | --- | ---: |
-| 41 | Laranja | 0,730 | Nossa Senhora do Livramento | T G de Souza | 1 |
-| 37 | Amarelo | 0,730 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
-| 37 | Amarelo | 0,740 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
-| 35 | Amarelo | 0,740 | Nossa Senhora do Livramento | Santa Maria | 3 |
-| 35 | Amarelo | 0,640 | Pontes e Lacerda | Fortuna | 3 |
-| 33 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
-| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | 3 |
-| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
-| 32 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
-| 31 | Amarelo | 0,640 | Nossa Senhora do Livramento | Barragem de Rejeito 01 | 0 |
-| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
-| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
-| 29 | Amarelo | 0,700 | Nossa Senhora do Livramento | BR03 | 1 |
-| 28 | Amarelo | 0,740 | Cuiabá | Barragem Serrinha | 2 |
-| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR BOSCO | 3 |
-| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
-| 28 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
-| 28 | Amarelo | 0,730 | Nossa Senhora do Livramento | BR02 | 1 |
-| 28 | Amarelo | 0,700 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
-| 28 | Amarelo | 0,660 | Poconé | Barragem Barba 02 | 1 |
-| 28 | Amarelo | 0,660 | Poconé | TARUMÃ II | 1 |
-| 27 | Amarelo | 0,640 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
-| 27 | Amarelo | 0,700 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
-| 27 | Amarelo | 0,690 | Poconé | GONÇA | 1 |
-| 27 | Amarelo | 0,690 | Poconé | JOAO PAULO | 1 |
+| 39 | Amarelo | 0,710 | Nossa Senhora do Livramento | T G de Souza | 1 |
+| 38 | Amarelo | 0,740 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | 3 |
+| 36 | Amarelo | 0,740 | Nossa Senhora do Livramento | Santa Maria | 3 |
+| 35 | Amarelo | 0,710 | Nossa Senhora do Livramento | Bacia de Rejeitos | 1 |
+| 34 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA 01 | 3 |
+| 33 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | 3 |
+| 33 | Amarelo | 0,690 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | 3 |
+| 33 | Amarelo | 0,620 | Pontes e Lacerda | Fortuna | 3 |
+| 31 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR BOSCO | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR PIRÂMIDE | 3 |
+| 29 | Amarelo | 0,740 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | 3 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BACIA DE REJEITO MINERGOLD | 1 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR ÁGUA DE COCO | 1 |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR03 | 1 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | BR02 | 1 |
+| 26 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem Fazenda Aguassu | 1 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | Barragem GMX | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | Barragem JL | 3 |
+| 26 | Amarelo | 0,710 | Nossa Senhora do Livramento | MULTI 1 | 3 |
+| 26 | Amarelo | 0,640 | Poconé | Barragem Barba 02 | 1 |
+| 26 | Amarelo | 0,640 | Poconé | TARUMÃ II | 1 |
+| 25 | Amarelo | 0,620 | Nossa Senhora do Livramento | Barragem do Serginho | 0 |
+| 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | Mineração Livramento | 1 |
 
 ## Pressão hidroclimática (dimensão A)
 

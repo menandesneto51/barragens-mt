@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-20177
+Identificador do alerta : ALERTA-20260907-0711-20177
 Barragem                : Faz. Carvalho (código 20177)
 Município da estrutura  : Nobres — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : ANTONIO SILVA DE CARVALHO
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
 IDAP                    : 8 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 46% (confiabilidade parcial; IDAP projetado 17,40)
@@ -32,8 +32,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3198.
-   Unidades com internação ou urgência: 60.
+   Unidades sem internação na mancha ou sem via de acesso: 3217.
+   Unidades com internação ou urgência: 61.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS

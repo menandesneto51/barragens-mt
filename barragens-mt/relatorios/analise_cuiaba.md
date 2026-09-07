@@ -1,20 +1,20 @@
 # Exposição de Cuiabá a rompimento de barragens
 
-Análise territorial da unidade de análise Cuiabá, elaborada em 02/08/2026 a partir do inventário consolidado de barragens de Mato Grosso e da Base Hidrográfica Ottocodificada da Agência Nacional de Águas e Saneamento Básico.
+Análise territorial da unidade de análise Cuiabá, elaborada em 07/09/2026 a partir do inventário consolidado de barragens de Mato Grosso e da Base Hidrográfica Ottocodificada da Agência Nacional de Águas e Saneamento Básico.
 
 ## 1. Por que o recorte deixou de ser municipal
 
 A primeira versão desta análise selecionava as barragens pelo município de localização. O critério é inadequado para risco de rompimento, porque a onda de ruptura se propaga pela calha do rio e ignora limites administrativos. Uma barragem situada em Chapada dos Guimarães pode ameaçar Cuiabá mais do que qualquer estrutura cadastrada dentro do município da capital, desde que esteja a montante na mesma bacia.
 
-O recorte passou a ser feito por topologia de drenagem. O cadastro do SNISB informa, para cada barragem, o código do trecho de curso d'água na codificação de Otto Pfafstetter adotada pela ANA — campo preenchido em todos os 1.248 registros de Mato Grosso. Nessa codificação, os dígitos ímpares identificam as interbacias da calha principal, numeradas da foz para a nascente, e os pares identificam as quatro maiores bacias tributárias de cada nível. Uma barragem está a montante de um ponto quando, no primeiro dígito em que os códigos divergem, seu dígito é maior e o dígito do ponto de referência é ímpar.
+O recorte passou a ser feito por topologia de drenagem. O cadastro do SNISB informa, para cada barragem, o código do trecho de curso d'água na codificação de Otto Pfafstetter adotada pela ANA — campo preenchido em todos os 1.280 registros de Mato Grosso. Nessa codificação, os dígitos ímpares identificam as interbacias da calha principal, numeradas da foz para a nascente, e os pares identificam as quatro maiores bacias tributárias de cada nível. Uma barragem está a montante de um ponto quando, no primeiro dígito em que os códigos divergem, seu dígito é maior e o dígito do ponto de referência é ímpar.
 
 A seção de controle adotada é o trecho do rio Cuiabá mais próximo da mancha urbana central da capital, de código `896573`, que drena 23.615 km² a montante.
 
 A troca de critério muda o conjunto analisado nas duas direções, e por isso importa:
 
-- das 43 barragens cadastradas no município de Cuiabá, 29 drenam para a seção de controle e 14 não drenam, por estarem a jusante dela ou em ramo distinto da rede;
-- 70 barragens situadas fora do município drenam para a seção de controle e antes ficavam invisíveis à análise;
-- o conjunto relevante passa a ter 99 estruturas, distribuídas em 7 municípios.
+- das 44 barragens cadastradas no município de Cuiabá, 30 drenam para a seção de controle e 14 não drenam, por estarem a jusante dela ou em ramo distinto da rede;
+- 76 barragens situadas fora do município drenam para a seção de controle e antes ficavam invisíveis à análise;
+- o conjunto relevante passa a ter 106 estruturas, distribuídas em 7 municípios.
 
 A verificação em sentido contrário confirma que o critério não é apenas mais amplo, mas mais seletivo: as 60 barragens de Poconé, que um recorte por proximidade incluiria, drenam pelo rio Bento Gomes direto para o Pantanal e não passam pela capital. Nenhuma delas entra no conjunto.
 
@@ -22,11 +22,11 @@ Distribuição das estruturas que drenam para a seção de controle:
 
 | Município | Barragens |
 | --- | --- |
-| Nossa Senhora do Livramento | 36 |
-| Cuiabá | 29 |
+| Nossa Senhora do Livramento | 41 |
+| Cuiabá | 30 |
 | Rosário Oeste | 11 |
 | Chapada dos Guimarães | 10 |
-| Várzea Grande | 9 |
+| Várzea Grande | 10 |
 | Jangada | 3 |
 | Nobres | 1 |
 
@@ -40,7 +40,7 @@ Atributos do registro de maior altura, tomado como estrutura principal:
 | --- | --- |
 | Nome | UHE Manso - Barragem de Terra do Leito do Rio |
 | Município | Chapada dos Guimarães |
-| Empreendedor | PRODUTORES ENERGETICOS DE MANSO S/A - PROMAN |
+| Empreendedor | AXIA ENERGIA S.A. |
 | Órgão fiscalizador | Agência Nacional de Energia Elétrica - ANEEL |
 | Curso d'água | Rio Manso |
 | Região hidrográfica | Região Hidrográfica do PARAGUAI |
@@ -121,7 +121,7 @@ São 23 estruturas de mineração no conjunto que drena para a capital. As de ca
 | Estrutura | Município | Curso d'água | CRI | DPA | Capacidade (hm³) |
 | --- | --- | --- | --- | --- | --- |
 | Barragem de Rejeitos Bom Futuro | Nossa Senhora do Livramento | Rio Pari | Alto | Médio | 1.32 |
-| Barragem de Rejeito Estrela | Nossa Senhora do Livramento | Córrego Pirapora | Alto | Alto | 1.02 |
+| Barragem de Rejeito Estrela | Nossa Senhora do Livramento | Córrego Pirapora | Médio | Alto | 1.02 |
 | Barragem de Rejeito Estrela 03 | Nossa Senhora do Livramento | Córrego Pirapora | Alto | Alto | 0.69 |
 | BARRAGEM JVR | Cuiabá | Ribeirão da Ponte ou Olipa | Médio | Alto | 0.41 |
 | Santa Maria | Nossa Senhora do Livramento | Córrego Pirapora | Alto | Médio | 0.35 |
@@ -131,7 +131,7 @@ A prioridade deste nível não vem do volume, que é pequeno, mas da natureza do
 
 ### Terceiro nível — barragens internas ao município de Cuiabá
 
-São 43 estruturas cadastradas no município, das quais 29 drenam para a seção de controle urbana. Somam 52,3 hm³, ordem de grandeza cerca de 140 vezes menor que o Manso isolado. Predominam pequenos barramentos em córregos urbanos e periurbanos — rio Bandeira, ribeirão Dois Córregos, córrego Aricazinho, córrego do Ouro. **Prioridade sanitária média**, com uma ressalva importante: são as estruturas de maior probabilidade de incidente, por porte pequeno, fiscalização difusa e proximidade imediata de população, e as de menor severidade por evento. Concentram risco de eventos frequentes e localizados, que é o que a rede municipal efetivamente atende no dia a dia.
+São 44 estruturas cadastradas no município, das quais 30 drenam para a seção de controle urbana. Somam 42,6 hm³, ordem de grandeza cerca de 172 vezes menor que o Manso isolado. Predominam pequenos barramentos em córregos urbanos e periurbanos — rio Bandeira, ribeirão Dois Córregos, córrego Aricazinho, córrego do Ouro. **Prioridade sanitária média**, com uma ressalva importante: são as estruturas de maior probabilidade de incidente, por porte pequeno, fiscalização difusa e proximidade imediata de população, e as de menor severidade por evento. Concentram risco de eventos frequentes e localizados, que é o que a rede municipal efetivamente atende no dia a dia.
 
 Registre-se que 14 das barragens do município não drenam para a seção de controle adotada, por estarem a jusante dela ou em ramo distinto. Elas não deixam de ser objeto da vigilância municipal, mas não compõem a exposição da mancha urbana central a montante.
 
@@ -153,7 +153,7 @@ A aplicação do critério de posição na bacia a todo o cadastro estadual, e n
 | UHE Manso - Dique 7 | Chapada dos Guimarães | Baixo | Alto | 7.337,00 | Córrego Grande |
 | Lago Recreativo Cuiabá | Cuiabá | Não Classificado | Alto | 6,66 | Córrego do Ouro |
 | Barragem de Rejeitos Bom Futuro | Nossa Senhora do Livramento | Alto | Médio | 1,32 | Rio Pari |
-| Barragem de Rejeito Estrela | Nossa Senhora do Livramento | Alto | Alto | 1,02 | Córrego Pirapora |
+| Barragem de Rejeito Estrela | Nossa Senhora do Livramento | Médio | Alto | 1,02 | Córrego Pirapora |
 | Barragem de Rejeito Estrela 03 | Nossa Senhora do Livramento | Alto | Alto | 0,69 | Córrego Pirapora |
 | Sitio Pirapora | Nossa Senhora do Livramento | Alto | Baixo | 0,68 | Rio Pari |
 | BARRAGEM JVR | Cuiabá | Médio | Alto | 0,41 | Ribeirão da Ponte ou Olipa |

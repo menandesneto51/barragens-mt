@@ -1,8 +1,8 @@
 # Priorização estadual de barragens
 
-- Total ranqueado: **1248**
+- Total ranqueado: **1280**
 - Faixa crítica (score ≥70): **1**
-- Faixa alta (45–69): **62**
+- Faixa alta (45–69): **57**
 
 ## Pesos
 
@@ -24,13 +24,13 @@
 | 5 | 61 | Barragem de Rejeito Estrela | Nossa Senhora do Livramento | Amarelo |
 | 6 | 61 | Barragem de Rejeito Estrela 02 | Nossa Senhora do Livramento | Amarelo |
 | 7 | 61 | Barragem de Rejeito Estrela 03 | Nossa Senhora do Livramento | Amarelo |
-| 8 | 61 | Dique de Finos | Vila Bela da Santíssima Trindade | Amarelo |
-| 9 | 60 | LOTES 79 E 80 | Sinop | Amarelo |
-| 10 | 60 | Neta | Nossa Senhora do Livramento | Amarelo |
-| 11 | 60 | PCH Nova Guaporé - Nova Guaporé | Vale de São Domingos | Amarelo |
-| 12 | 60 | UHE Guaporé - Guaporé | Vale de São Domingos | Amarelo |
-| 13 | 60 | UHE Manso - Dique 2 | Chapada dos Guimarães | Amarelo |
-| 14 | 60 | UHE Manso - Dique 3 | Chapada dos Guimarães | Amarelo |
-| 15 | 60 | UHE Manso - Dique 4 | Chapada dos Guimarães | Amarelo |
+| 8 | 60 | UHE Guaporé - Guaporé | Vale de São Domingos | Amarelo |
+| 9 | 60 | UHE Manso - Dique 2 | Chapada dos Guimarães | Amarelo |
+| 10 | 60 | UHE Manso - Dique 3 | Chapada dos Guimarães | Amarelo |
+| 11 | 60 | UHE Manso - Dique 4 | Chapada dos Guimarães | Amarelo |
+| 12 | 60 | UHE Manso - Dique 5 | Chapada dos Guimarães | Amarelo |
+| 13 | 60 | UHE Manso - Dique 6 | Chapada dos Guimarães | Amarelo |
+| 14 | 60 | UHE Manso - Dique 7 | Chapada dos Guimarães | Amarelo |
+| 15 | 59 | Barragem EPP | Pontes e Lacerda | Verde |
 
 Arquivo: `barragens_prioritarias_mt.csv`

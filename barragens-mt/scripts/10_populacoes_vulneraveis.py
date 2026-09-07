@@ -199,8 +199,22 @@ def baixar_palmares() -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------- utilidades
 
 
-def gravar(nome: str, colecao: dict[str, Any], colunas: Iterable[str] | None = None) -> None:
-    comum.salvar_json(comum.DADOS_TRATADOS / f"{nome}.geojson", colecao)
+def gravar(
+    nome: str,
+    colecao: dict[str, Any],
+    colunas: Iterable[str] | None = None,
+    *,
+    preservar_se_vazio: bool = False,
+) -> None:
+    destino = comum.DADOS_TRATADOS / f"{nome}.geojson"
+    n = len(colecao.get("features") or [])
+    if preservar_se_vazio and n == 0 and destino.is_file() and destino.stat().st_size > 50:
+        print(
+            f"  mantido {destino.relative_to(comum.RAIZ)} "
+            "(fonte indisponível — não sobrescreve com coleção vazia)"
+        )
+        return
+    comum.salvar_json(destino, colecao)
     registros = [f.get("properties", {}) for f in colecao["features"]]
     if not registros:
         return
@@ -232,22 +246,24 @@ def main() -> None:
 
     print("\nFUNAI — terras indigenas")
     # Terras indigenas podem abranger mais de uma UF; o LIKE mantem as que tocam MT.
-    terras = tentar(
+    terras_ok = tentar(
         "FUNAI terras indigenas",
         lambda: baixar_funai("Funai:tis_poligonais", "uf_sigla LIKE '%MT%'"),
         indisponiveis,
-    ) or VAZIA
-    gravar("funai_terras_indigenas_mt", terras)
+    )
+    terras = terras_ok or VAZIA
+    gravar("funai_terras_indigenas_mt", terras, preservar_se_vazio=terras_ok is None)
 
     print("\nFUNAI — aldeias")
     # A requisicao nacional sem filtro devolve 403, e o filtro por nome de UF nao casa
     # porque a camada grava 'Mato Grosso' em caixa mista. O prefixo 51 do codigo do IBGE
     # identifica Mato Grosso sem ambiguidade e e resolvido no servidor.
-    aldeias = tentar(
+    aldeias_ok = tentar(
         "FUNAI aldeias",
         lambda: baixar_funai("Funai:aldeias_pontos", "cod_municipio LIKE '51%'"),
         indisponiveis,
-    ) or VAZIA
+    )
+    aldeias = aldeias_ok or VAZIA
     fora = [
         f
         for f in aldeias["features"]
@@ -255,17 +271,19 @@ def main() -> None:
     ]
     if fora:
         print(f"  atencao: {len(fora)} aldeias com UF divergente do codigo municipal")
-    gravar("funai_aldeias_mt", aldeias)
+    gravar("funai_aldeias_mt", aldeias, preservar_se_vazio=aldeias_ok is None)
 
     print("\nINCRA — assentamentos e territorios quilombolas")
-    assentamentos = tentar(
+    assent_ok = tentar(
         "INCRA assentamentos", lambda: baixar_incra("assentamentos_mt"), indisponiveis
-    ) or VAZIA
-    gravar("incra_assentamentos_mt", assentamentos)
-    quilombolas = tentar(
+    )
+    assentamentos = assent_ok or VAZIA
+    gravar("incra_assentamentos_mt", assentamentos, preservar_se_vazio=assent_ok is None)
+    quil_ok = tentar(
         "INCRA quilombolas", lambda: baixar_incra("quilombolas_mt"), indisponiveis
-    ) or VAZIA
-    gravar("incra_quilombolas_mt", quilombolas)
+    )
+    quilombolas = quil_ok or VAZIA
+    gravar("incra_quilombolas_mt", quilombolas, preservar_se_vazio=quil_ok is None)
 
     print("\nFundacao Cultural Palmares — comunidades certificadas")
     certificadas = tentar("Palmares", baixar_palmares, indisponiveis) or []
@@ -276,16 +294,30 @@ def main() -> None:
             list(certificadas[0].keys()),
         )
 
+    # Contagens efetivas nos arquivos (após preservar legado se fonte caiu)
+    def _n(nome: str, fallback: dict[str, Any]) -> int:
+        path = comum.DADOS_TRATADOS / f"{nome}.geojson"
+        if path.is_file():
+            try:
+                import json
+
+                return len(json.loads(path.read_text(encoding="utf-8")).get("features") or [])
+            except (OSError, ValueError):
+                pass
+        return len(fallback.get("features") or [])
+
+    n_assent = _n("incra_assentamentos_mt", assentamentos)
+    n_quil = _n("incra_quilombolas_mt", quilombolas)
     familias = sum(
         int(float((f["properties"].get("num_familias") or 0)))
         for f in assentamentos["features"]
         if (f["properties"].get("num_familias") or "").replace(".", "").isdigit()
     )
     print("\nResumo")
-    print(f"  terras indigenas que tocam MT: {len(terras['features'])}")
-    print(f"  aldeias em MT: {len(aldeias['features'])}")
-    print(f"  assentamentos em MT: {len(assentamentos['features'])} ({familias} familias)")
-    print(f"  territorios quilombolas (INCRA) em MT: {len(quilombolas['features'])}")
+    print(f"  terras indigenas que tocam MT: {_n('funai_terras_indigenas_mt', terras)}")
+    print(f"  aldeias em MT: {_n('funai_aldeias_mt', aldeias)}")
+    print(f"  assentamentos em MT: {n_assent} ({familias} familias)")
+    print(f"  territorios quilombolas (INCRA) em MT: {n_quil}")
     print(f"  comunidades quilombolas certificadas (Palmares) em MT: {len(certificadas)}")
     if indisponiveis:
         print(f"\n  fontes indisponiveis nesta execucao: {', '.join(indisponiveis)}")

@@ -1,6 +1,6 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-08-30T16:49:14Z`
+- Gerado: `2026-09-07T11:11:22Z`
 - DB: `não encontrado`
 - SQLite com tabelas ANA: **False**
 - Estações: `csv:/workspace/barragens-mt/dados/tratados/ana_estacoes_mt_sample.csv` (5 MT)

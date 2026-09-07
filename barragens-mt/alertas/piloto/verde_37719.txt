@@ -1,43 +1,39 @@
 ==============================================================================
-ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
+ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-5560
-Barragem                : Barragem de Rejeito Estrela (código 5560)
+Identificador do alerta : ALERTA-20260907-0711-37719
+Barragem                : Fazenda São Rafael Barragem III (código 37719)
 Município da estrutura  : Nossa Senhora do Livramento — MT
-Órgão fiscalizador      : Agência Nacional de Mineração - ANM
-Empreendedor            : HEUREKA MINERACAO LTDA
-Uso principal           : Contenção de rejeitos de mineração
+Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
+Empreendedor            : SILMAR DE SOUZA GONÇALVEZ
+Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
-IDAP                    : 24 de 100 pontos (faixa Amarelo: atenção)
-Nível final             : Amarelo
-Completude do cálculo   : 63% (confiabilidade parcial; IDAP projetado 38,10)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+IDAP                    : 9 de 100 pontos (faixa Verde: normalidade)
+Nível final             : Verde
+Completude do cálculo   : 20% (confiabilidade insuficiente; IDAP projetado 45)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
-   - [B2] Nível oficial de emergência declarado: Emergência Nivel 1 — Emergência Nível 1 (7 de 10 pontos)
-   - [B1] Categoria de Risco (CRI) oficial: Alto (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
-   - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
-   - [C1] População residente na Zona de Autossalvamento: 40 habitantes — até 49 residentes (1 de 5 pontos)
+   - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
+   - [C1] População residente na Zona de Autossalvamento: 4 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
-   - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 3/30 (completude 100%)
-   - B. Condição da barragem: 12/30 (completude 50%)
-   - C. Impacto sanitário potencial: 8/25 (completude 56%)
-   - D. Déficit de capacidade de resposta: 1/15 (completude 27%)
+   - A. Pressão hidroclimática: 0/30 (completude 0%)
+   - B. Condição da barragem: 3/30 (completude 17%)
+   - C. Impacto sanitário potencial: 6/25 (completude 56%)
+   - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
 
 2. POPULAÇÃO POTENCIALMENTE EXPOSTA
-   População residente estimada na ZAS: 40 pessoas.
-   Em grupos prioritários: cerca de 6 pessoas (15%).
-   Material predominante no reservatório: Rejeito não inerte ou perigoso.
+   População residente estimada na ZAS: 4 pessoas.
+   Em grupos prioritários: cerca de 1 pessoas (15%).
+   Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3123.
-   Unidades com internação ou urgência: 56.
+   Unidades sem internação na mancha ou sem via de acesso: 3138.
+   Unidades com internação ou urgência: 57.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS
@@ -48,8 +44,8 @@ Versão dos pesos        : 0.1.0-metodologica
 5. IMPACTO SANITÁRIO POR TIPO DE ESTRUTURA
    Perfil de estrutura: Barragem de rejeitos / mineração
    Material considerado: Rejeito não inerte ou perigoso (cadastro / ANM)
-   População potencialmente exposta (estimativa): 40 pessoas [método: area_x_densidade]
-   Área equivalente de lâmina (proxy, não mancha oficial): 0.26 km²
+   População potencialmente exposta (estimativa): 4 pessoas [método: area_x_densidade]
+   Área equivalente de lâmina (proxy, não mancha oficial): 0.02 km²
    Proxy geométrico: área equivalente × densidade média (155.3 hab/km²) dos municípios do vínculo Otto/sede. Cenário de referência do alerta: 50% do volume / lâmina 2 m.
    Efeitos imediatos a considerar:
    - Trauma e soterramento por lama de rejeito (alta densidade)
@@ -79,32 +75,24 @@ Versão dos pesos        : 0.1.0-metodologica
    Ressalva: estimativas de área/população são proxies na ausência de mancha oficial; agravos listados são hipóteses de vigilância, não diagnóstico.
 
 6. REGRAS DETERMINÍSTICAS DISPARADAS
-   - Nenhuma.
+   - [R06] Falha simultânea de sensores críticos ou cadastro insuficiente — não altera a faixa; ação: emitir alerta técnico ao empreendedor e ao órgão fiscalizador; registrar que o IDAP está subestimado e não pode ser lido como normalidade
 
 7. AÇÕES RECOMENDADAS
-   - Acompanhar a evolução da chuva e do nível a jusante nas próximas 24 h.
-   - Confirmar com o empreendedor a condição da estrutura e da instrumentação.
-   - Verificar a vigência do plano de emergência e a lista de contatos dos municípios da ZAS.
+   - Manter a rotina de monitoramento e a atualização cadastral da barragem.
+   - Revalidar os contatos institucionais da ZAS a cada 90 dias.
    - [perfil rejeito] Acionar Vigiagua + vigilância em saúde ambiental com painel laboratorial ampliado
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
    - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
-   - Sanar as lacunas de dado que subestimam o índice: B3, B4, B5, B6, C4, C5, C6, C7, D2, D3, D4, D5, D6, D7.
+   - Sanar as lacunas de dado que subestimam o índice: A1, A2, A3, A4, A5, A6, A7, B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
 
 8. FONTES DOS DADOS
-   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
    - CNES cruzado com a mancha de inundação e com as vias de acesso
    - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
    - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
-   - INMET (estações automáticas), Cemaden (pluviômetros) e NASA GPM-IMERG
-   - INMET (normais climatológicas) e série histórica das estações da bacia
-   - INMET, Cemaden (risco geo-hidrológico) e GloFAS como contexto regional
-   - SIGBM/ANM (Nível de Emergência), SNISB (NIVEL_PERIGO) e comunicação do empreendedor
    - SIGBM/ANM — minério principal, produtos químicos, cianeto, classe do resíduo (NBR 10004)
-   - SNISB (POSSUI_PAE), SIGBM (PAEBM e entrega às prefeituras), Defesa Civil estadual
    - SNISB/ANA (campo CATEGORIA_RISCO) e SIGBM/ANM (Categoria de Risco - CRI)
    - cadastro de contatos institucionais da plataforma
-   - índice de precipitação antecedente derivado de IMERG/Cemaden; umidade de solo quando disponível
    - Perfil sanitário: scripts/idap/impacto_sanitario.py (água vs rejeito)
 
 9. RESSALVAS
@@ -115,8 +103,6 @@ Versão dos pesos        : 0.1.0-metodologica
    instrumentação da própria barragem.
    Área/população por lâmina equivalente e agravos listados são hipóteses
    de vigilância na ausência de mancha oficial — não são diagnóstico.
-   Confirmação de recebimento obrigatória em até 120 min, com identificação
-   do responsável; a ausência de confirmação escalona o alerta (regra R09).
-   Cálculo com completude 63%: o IDAP está subestimado e não deve
+   Cálculo com completude 20%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

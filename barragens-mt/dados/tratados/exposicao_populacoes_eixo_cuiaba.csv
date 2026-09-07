@@ -1112,6 +1112,7 @@ estabelecimento de saúde;ESPACO SAUDE;Rosário Oeste;0.72;até 2 km;manso_capit
 estabelecimento de saúde;UNIDADE DE COLETA DE SANGUE;Várzea Grande;0.72;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.113212;-15.630975
 estabelecimento de saúde;INSTITUTO DO SONO DE MATO GROSSO;Cuiabá;0.73;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.118099;-15.616969
 estabelecimento de saúde;UNIDADE DE SAUDE DA FAMILIA BAUXI;Rosário Oeste;0.73;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.428206;-14.835915
+estabelecimento de saúde;DROGARIAS MAXI POPULAR;Santo Antônio de Leverger;0.73;até 2 km;jusante_capital;;;sem atendimento hospitalar;-56.079356;-15.863303
 estabelecimento de saúde;CONSULTORIO NA RUA LUZ;Cuiabá;0.74;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.098546;-15.613585
 estabelecimento de saúde;ROSIN CLINICA DE PSICOLOGIA;Cuiabá;0.74;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.129265;-15.617483
 estabelecimento de saúde;CONSULTORIO NA RUA NOVO AMANHECER;Cuiabá;0.74;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.098548;-15.613588
@@ -1129,6 +1130,7 @@ estabelecimento de saúde;FERNANDO WALLACE SERVIO RONDON CIA LTDA;Cuiabá;0.79;a
 estabelecimento de saúde;CAPS AD ADOLESCER;Cuiabá;0.79;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.089046;-15.620984
 estabelecimento de saúde;POSTO DE SAUDE BARREIRINHO;Santo Antônio de Leverger;0.79;até 2 km;jusante_capital;;Não;sem atendimento hospitalar;-56.076729;-15.864343
 estabelecimento de saúde;CLINICA SPECIALI;Cuiabá;0.81;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.105316;-15.60987
+estabelecimento de saúde;NOVA DOGRARIA LEVERGER;Santo Antônio de Leverger;0.81;até 2 km;jusante_capital;;;sem atendimento hospitalar;-56.077139;-15.863889
 estabelecimento de saúde;HOSPITAL GERAL E MATERNIDADE DE CUIABA;Cuiabá;0.82;até 2 km;manso_capital;;Sim;atendimento hospitalar;-56.105346;-15.609857
 estabelecimento de saúde;ULTRACLIN;Cuiabá;0.83;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.113228;-15.611846
 estabelecimento de saúde;INTER CLINICA DE PSICOLOGIA E NEUROPSICOLOGIA INTEGRADA;Várzea Grande;0.83;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.114849;-15.633831
@@ -1138,6 +1140,7 @@ estabelecimento de saúde;ASSOCIACAO PESTALOZZI DE CUIABA;Cuiabá;0.84;até 2 km
 estabelecimento de saúde;RONEY CAMPOS GRANJEIRO;Cuiabá;0.85;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.113459;-15.632899
 estabelecimento de saúde;SECRETARIA MUNICIPAL DE SANTO ANTONIO DO LEVERGER;Santo Antônio de Leverger;0.85;até 2 km;jusante_capital;;Não;sem atendimento hospitalar;-56.08144;-15.86073
 estabelecimento de saúde;HOSPITAL UNIMED CUIABA;Cuiabá;0.87;até 2 km;jusante_capital;;Sim;atendimento hospitalar;-56.074339;-15.86521
+estabelecimento de saúde;SG GINECOLOGIA E SAUDE LTDA;Cuiabá;0.88;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.083411;-15.623141
 estabelecimento de saúde;ONCOMED;Cuiabá;0.88;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.113744;-15.611666
 estabelecimento de saúde;GLAUCE LINS BARBOSA MORAES;Cuiabá;0.89;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.085501;-15.622037
 estabelecimento de saúde;INSTITUTO DA VISAO CUIABA;Cuiabá;0.89;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.111605;-15.610173
@@ -1205,6 +1208,7 @@ estabelecimento de saúde;BEM VIVER;Cuiabá;1.07;até 2 km;manso_capital;;Não;s
 estabelecimento de saúde;CENTRO DE REFERENCIA DE ROSARIO OESTE;Rosário Oeste;1.07;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.428506;-14.832244
 estabelecimento de saúde;F C R D A C UNIDADE DR HORLLANDO SOUZA CAMPOS;Rosário Oeste;1.07;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.428592;-14.832347
 estabelecimento de saúde;CENTRO DE ESPECIALIDADES MEDICAS DE ROSARIO OESTE;Rosário Oeste;1.07;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.428592;-14.832285
+estabelecimento de saúde;FARMA NOVA POPULAR;Santo Antônio de Leverger;1.08;até 2 km;jusante_capital;;;sem atendimento hospitalar;-56.079861;-15.859257
 estabelecimento de saúde;MICHELE HANNA JORGE;Cuiabá;1.09;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.12648;-15.615585
 estabelecimento de saúde;MADY CLIN;Cuiabá;1.09;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.126291;-15.616069
 estabelecimento de saúde;PSICOEQUIDADE PSICOLOGIA E EQUIDADE;Cuiabá;1.09;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.075899;-15.626198
@@ -1239,6 +1243,7 @@ estabelecimento de saúde;ODONTO GUIMARAES;Várzea Grande;1.17;até 2 km;manso_c
 estabelecimento de saúde;TATIANA CASTRILLON GUARESQUI BEXIGA;Cuiabá;1.18;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.123605;-15.586978
 estabelecimento de saúde;RITA DE CASSIA OLIVA SCHOMMER;Cuiabá;1.19;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.07502;-15.625807
 estabelecimento de saúde;IMUNE VITA CENTRO DE VACINAS;Cuiabá;1.19;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.126257;-15.613822
+estabelecimento de saúde;DROGARIA SAUDE POPULAR;Santo Antônio de Leverger;1.19;até 2 km;jusante_capital;;;sem atendimento hospitalar;-56.07009;-15.86482
 estabelecimento de saúde;GRAZIELA NEVES DE OLIVEIRA;Cuiabá;1.2;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.08295;-15.6201
 estabelecimento de saúde;CENTRO DE TRATAMENTO ESPERANCA;Várzea Grande;1.2;até 2 km;jusante_capital;;Não;sem atendimento hospitalar;-56.11176;-15.680789
 estabelecimento de saúde;NTO CUIABA;Cuiabá;1.21;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.106235;-15.606241
@@ -1269,6 +1274,7 @@ estabelecimento de saúde;L P C LABORATORIO DE PATOLOGIA CLINICA;Cuiabá;1.26;at
 estabelecimento de saúde;VANESSA SALLES CORREA;Cuiabá;1.26;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.085095;-15.618429
 estabelecimento de saúde;ECCOR EQUIPE DE CIRURGIA CARDIOVASCULAR;Cuiabá;1.26;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.102189;-15.606323
 estabelecimento de saúde;M M PRESTADORA DE SERVICOS MEDICOS;Cuiabá;1.27;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.122266;-15.585876
+estabelecimento de saúde;BENEDITA FORTUNATA DA SILVA ROSA;Cuiabá;1.27;até 2 km;jusante_capital;;;sem atendimento hospitalar;-56.0963;-15.7001
 estabelecimento de saúde;MEDCLIN;Cuiabá;1.27;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.429286;-14.830528
 estabelecimento de saúde;LIFE PILATES E FISIOTERAPIA ESPECIALIZADA;Cuiabá;1.28;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.115802;-15.608698
 estabelecimento de saúde;SUE ELLEN FERREIRA MODESTO;Cuiabá;1.28;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.122223;-15.586269
@@ -1549,6 +1555,7 @@ estabelecimento de saúde;CLINEST;Cuiabá;1.78;até 2 km;manso_capital;;Não;sem
 estabelecimento de saúde;CLAUDIA PARENTE CHERIN;Cuiabá;1.78;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.09195;-15.606629
 estabelecimento de saúde;CLINICA DO TORAX;Cuiabá;1.78;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.103542;-15.60132
 estabelecimento de saúde;CENTRO OFTALMOLOGICO DR EDSON BUSSIKI;Cuiabá;1.79;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.116839;-15.583523
+estabelecimento de saúde;K L SERVICOS DE DERMATOLOGIA E ESTETICA;Cuiabá;1.79;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.117552;-15.587243
 estabelecimento de saúde;AMANDA CAROLINA RIZENTAL PINTO;Cuiabá;1.79;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.103546;-15.601211
 estabelecimento de saúde;MARTINS CLINICA DE PSICOLOGIA;Cuiabá;1.79;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.122047;-15.594544
 estabelecimento de saúde;LUISA MOREIRA GOMES MONTEIRO;Cuiabá;1.8;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.067702;-15.626262
@@ -1560,8 +1567,10 @@ estabelecimento de saúde;MANOEL ROMULO RIZENTAL PINTO;Cuiabá;1.8;até 2 km;man
 estabelecimento de saúde;DANIELA MARIA ROSSETTO;Cuiabá;1.8;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.103589;-15.601176
 estabelecimento de saúde;CONSULTORIO ODONTOLOGICO BERNAR MONTEIRO BENITES;Cuiabá;1.8;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.103707;-15.601124
 estabelecimento de saúde;POSTO DE SAUDE DE VILA RECREIO;Barão de Melgaço;1.81;até 2 km;jusante_capital;;Não;sem atendimento hospitalar;-55.948305;-16.194008
+estabelecimento de saúde;TJ SERVICOS MEDICOS;Cuiabá;1.81;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.117792;-15.588415
 estabelecimento de saúde;IMATI;Cuiabá;1.81;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.09434;-15.646372
 estabelecimento de saúde;SECRETARIA MUNICIPAL DE SAUDE DE CUIABA;Cuiabá;1.81;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.118164;-15.589202
+estabelecimento de saúde;FISIOCENTRO;Cuiabá;1.81;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.085415;-15.611754
 estabelecimento de saúde;CENTRO REGIONAL DE REFERENCIA EM SAUDE DO TRABALHADOR;Cuiabá;1.81;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.108395;-15.600988
 estabelecimento de saúde;PROJETO CATARATA;Cuiabá;1.82;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.106586;-15.600725
 estabelecimento de saúde;SONICARDIO;Cuiabá;1.82;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.097749;-15.602539
@@ -1689,7 +1698,6 @@ estabelecimento de saúde;HOSPITAL ESTADUAL SANTA CASA;Cuiabá;1.95;até 2 km;ma
 estabelecimento de saúde;FARMACIA NATURALIS;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.119956;-15.594477
 estabelecimento de saúde;GABINETE DA PRESIDENCIA;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.101472;-15.600103
 estabelecimento de saúde;CUIABA HOME CARE ASSISTENCIA MEDICA DOMICILIAR;Cuiabá;1.95;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.09979;-15.600522
-estabelecimento de saúde;CLINICA DE FISIOTERAPIA RONALDO MOLINA;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.098895;-15.600869
 estabelecimento de saúde;CLINICA MULTIPROFISSIONAL NEURO SAUDE;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.114494;-15.601024
 estabelecimento de saúde;ALZICLEIDE FLORENCIO PINHEIRO;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.09438;-15.602982
 estabelecimento de saúde;HANI HAMED FARES;Cuiabá;1.95;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.075291;-15.616747
@@ -1738,7 +1746,7 @@ estabelecimento de saúde;JULIANA DA COSTA MARQUES;Cuiabá;1.98;até 2 km;manso_
 estabelecimento de saúde;CEDILAB JARDIM CUIABA;Cuiabá;1.98;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.119794;-15.594703
 estabelecimento de saúde;COMPLEXO REGULADOR ESTADUAL;Cuiabá;1.98;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.10235;-15.599663
 estabelecimento de saúde;VALLE MEDICAL;Cuiabá;1.98;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.119657;-15.594487
-estabelecimento de saúde;CLINICA ABC;Várzea Grande;1.98;até 2 km;manso_capital;;;sem atendimento hospitalar;-56.135459;-15.646676
+estabelecimento de saúde;CLINICA ABC;Várzea Grande;1.98;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.135459;-15.646676
 estabelecimento de saúde;OI MAMAE;Várzea Grande;1.98;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.13312;-15.647379
 estabelecimento de saúde;VIDA ENDOSCOPIA;Várzea Grande;1.98;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.137884;-15.645622
 estabelecimento de saúde;CLINICA EMANA AMOR;Cuiabá;1.99;até 2 km;manso_capital;;Não;sem atendimento hospitalar;-56.115463;-15.5865
@@ -1943,6 +1951,7 @@ estabelecimento de saúde;CLINICA BORDA DO CAMPO;Cuiabá;2.15;até 5 km;manso_ca
 estabelecimento de saúde;CLINICA DE CIRURGIA PLASTICA DR HENRIQUE LABOISSIERE;Cuiabá;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.118052;-15.595008
 estabelecimento de saúde;ARY LEITE DE CAMPOS SOBRINHO;Cuiabá;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.117554;-15.594267
 estabelecimento de saúde;INTEGRATUM SAUDE E VIDA;Várzea Grande;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.13951;-15.646593
+estabelecimento de saúde;ESSENZIA HUMANA;Várzea Grande;2.15;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.137047;-15.647792
 estabelecimento de saúde;CARLA DE MATOS;Várzea Grande;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.139482;-15.646593
 estabelecimento de saúde;SERVICO DE NEUROLOGIA E NEUROCIRURGIA CUIABA LTDA;Várzea Grande;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.13951;-15.646593
 estabelecimento de saúde;MARIA ENIR FRANCISCA COELHO;Várzea Grande;2.15;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.13951;-15.646593
@@ -2065,6 +2074,7 @@ estabelecimento de saúde;MGSR SAUDE;Cuiabá;2.25;até 5 km;manso_capital;;Não;
 estabelecimento de saúde;R S B DORES CIA LTDA;Cuiabá;2.25;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.060602;-15.627576
 estabelecimento de saúde;BARRETO SERVICOS MEDICOS;Cuiabá;2.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116632;-15.59457
 estabelecimento de saúde;IMOC INTEGRATIVA;Cuiabá;2.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.091175;-15.601778
+estabelecimento de saúde;CLINICA SANTA CLARA;Cuiabá;2.25;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.11676;-15.594694
 estabelecimento de saúde;ESPACO ALINE FRANCIA;Cuiabá;2.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116648;-15.594642
 estabelecimento de saúde;WAGNER MARQUES PEREIRA MALHEIROS;Cuiabá;2.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116653;-15.594632
 estabelecimento de saúde;INSTITUTO DE CARDIOLOGIA DE MT;Cuiabá;2.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116849;-15.594953
@@ -2080,6 +2090,8 @@ estabelecimento de saúde;ALAOR SANTOS FILHO;Cuiabá;2.26;até 5 km;manso_capita
 estabelecimento de saúde;CLINICA REABILITY SAUDE;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092703;-15.600631
 estabelecimento de saúde;ODONTOLOGIA CAPOROSSI;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116809;-15.594968
 estabelecimento de saúde;ANNA VAZ PSICOLOGIA;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116524;-15.59457
+estabelecimento de saúde;ESPACO SYNAPSE;Cuiabá;2.26;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.09096;-15.601799
+estabelecimento de saúde;VITALITY HEALTHCARE;Cuiabá;2.26;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.116524;-15.594652
 estabelecimento de saúde;VITAL DOR E REGENERACAO;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116629;-15.594805
 estabelecimento de saúde;L G DIAGNOSTICOS;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116858;-15.595122
 estabelecimento de saúde;DROGARIA SAO PAULO 2286 CUIABAII;Cuiabá;2.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.11661;-15.594652
@@ -2180,6 +2192,7 @@ estabelecimento de saúde;DANIELA ODORISSIO MARTIN;Cuiabá;2.32;até 5 km;manso_
 estabelecimento de saúde;UNICA PSICOLOGIA E INTERVENCAO ABA;Várzea Grande;2.32;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.135804;-15.649826
 estabelecimento de saúde;EQUILIBRIO AVALIACAO PSICOLOGICA;Várzea Grande;2.32;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.135804;-15.649826
 estabelecimento de saúde;MEDICS SERVICOS MEDICOS;Cuiabá;2.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.111751;-15.582461
+estabelecimento de saúde;BIOCARDIOS;Cuiabá;2.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.111751;-15.582461
 estabelecimento de saúde;USF PARQUE CUIABA;Cuiabá;2.33;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.04891;-15.660019
 estabelecimento de saúde;ELMER SALVIANO CLINICA OFTALMOLOGICA;Cuiabá;2.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.110491;-15.596524
 estabelecimento de saúde;MEZZA CLIN;Cuiabá;2.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.111027;-15.596692
@@ -2206,8 +2219,8 @@ estabelecimento de saúde;DORISMAR RODRIGUES DOS SANTOS;Cuiabá;2.35;até 5 km;m
 estabelecimento de saúde;GILMAR FERREIRA DO ESPIRITO SANTO;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.100133;-15.596714
 estabelecimento de saúde;MARCELO BENEDITO MANSUI BUNILAI;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.100141;-15.596661
 estabelecimento de saúde;INSTITURO OLIVEIRA DE FISIOTERAPIA INTEGRADA;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116217;-15.595527
-estabelecimento de saúde;ALVES FONOAUDIOLOGIA;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092007;-15.600171
 estabelecimento de saúde;TAMIRES PIRES DE MENDONCA;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.115908;-15.595132
+estabelecimento de saúde;ALVES FONOAUDIOLOGIA;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092007;-15.600171
 estabelecimento de saúde;GASTRO CENTRO;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092029;-15.600109
 estabelecimento de saúde;CLINICA RENASCER;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.091986;-15.600151
 estabelecimento de saúde;G M Z MAGALHAES PSICOLOGIA LTDA;Cuiabá;2.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.100062;-15.596757
@@ -2284,7 +2297,7 @@ estabelecimento de saúde;FISIONOVA FISIOTERAPIA LTDA;Cuiabá;2.4;até 5 km;mans
 estabelecimento de saúde;HIPERBARICA SANTA ROSA;Cuiabá;2.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.111211;-15.57933
 estabelecimento de saúde;TECNOVIDA;Cuiabá;2.4;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.11512;-15.594741
 estabelecimento de saúde;INERVA SERVICOS MEDICOS;Cuiabá;2.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.11118;-15.579106
-estabelecimento de saúde;CANAVARROS SERRA;Cuiabá;2.4;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.114038;-15.593015
+estabelecimento de saúde;CANAVARROS SERRA;Cuiabá;2.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.114038;-15.593015
 estabelecimento de saúde;HOSPITAL SANTA ROSA;Cuiabá;2.4;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.111168;-15.579139
 estabelecimento de saúde;LABORATORIO SANTA ROSA;Cuiabá;2.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.111148;-15.579116
 estabelecimento de saúde;UNIDADE DA PESSOA;Cuiabá;2.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.116083;-15.596247
@@ -2410,7 +2423,6 @@ estabelecimento de saúde;UP VISION;Cuiabá;2.49;até 5 km;manso_capital;;Não;s
 estabelecimento de saúde;DIAGNOSTICOS LABORATORIO SANTA ROSA TOWER;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.11034;-15.579183
 estabelecimento de saúde;BONE MEDICINA;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.110351;-15.579418
 estabelecimento de saúde;ODONTO IMAGEM;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.104802;-15.594823
-estabelecimento de saúde;K L SERVICOS DE DERMATOLOGIA E ESTETICA;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.114203;-15.594965
 estabelecimento de saúde;ADOP SERVICOS MEDICOS;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.1103;-15.579299
 estabelecimento de saúde;SAO MIGUEL PREV;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.090322;-15.599658
 estabelecimento de saúde;SORAYA FISIOTERAPIA LTDA;Cuiabá;2.49;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.113607;-15.595679
@@ -2560,7 +2572,6 @@ estabelecimento de saúde;PROCLIN;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem
 estabelecimento de saúde;CENTRO DE GENETICA SAO THOME;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097;-15.596
 estabelecimento de saúde;CLIMAGEM CLINICA DE DIAGNOSTICO POR IMAGEM DE CUIABA;Cuiabá;2.52;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.097;-15.596
 estabelecimento de saúde;LEONARDO NERY RIBEIRO GUIMARAES;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097;-15.596
-estabelecimento de saúde;BIOCARDIOS;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.110099;-15.579211
 estabelecimento de saúde;ANA PAULA ZANETTI FEUSER;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097;-15.596
 estabelecimento de saúde;CLINICA DR FERNANDO;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097;-15.596
 estabelecimento de saúde;SOMIC;Cuiabá;2.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097;-15.596
@@ -2658,7 +2669,7 @@ estabelecimento de saúde;SORRICENTER;Cuiabá;2.54;até 5 km;manso_capital;;Não
 estabelecimento de saúde;JAQUELINE DOS SANTOS JAVORSKI;Cuiabá;2.54;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.113821;-15.595223
 estabelecimento de saúde;JESSIKA VIEIRA DE CASTRO;Cuiabá;2.54;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.113435;-15.595167
 estabelecimento de saúde;MUNDO NOVO;Várzea Grande;2.54;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.124493;-15.652679
-estabelecimento de saúde;ZENILDO PACHECO SAMPAIO;Cuiabá;2.55;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.110135;-15.586504
+estabelecimento de saúde;ZENILDO PACHECO SAMPAIO;Cuiabá;2.55;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.110135;-15.586504
 estabelecimento de saúde;CLINICA ODONTOLOGICA JARDIM VITORIA;Cuiabá;2.55;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.046264;-15.647087
 estabelecimento de saúde;LIBERTAR DESENVOLVIMENTO INFANTIL;Cuiabá;2.55;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096829;-15.59584
 estabelecimento de saúde;ANTONIO AUGUSTO SARDINHA NETO;Cuiabá;2.55;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.112444;-15.594883
@@ -2796,7 +2807,8 @@ estabelecimento de saúde;CLINICA OFTALMOLOGICA SANTA RITA;Várzea Grande;2.76;a
 estabelecimento de saúde;ANTONIETA COSTA CLINICA DE ESPECIALIDADES EM PSICOTERAPIAS;Várzea Grande;2.76;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.140823;-15.65209
 estabelecimento de saúde;HOSPITAL SANTA RITA;Várzea Grande;2.76;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.141479;-15.651815
 estabelecimento de saúde;SIMONE FINKE CAVATONI;Cuiabá;2.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.074804;-15.608265
-estabelecimento de saúde;ALGODAO DOCE PEDIATRIA ESPECIALIZADA;Cuiabá;2.77;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.074761;-15.608306
+estabelecimento de saúde;ALGODAO DOCE PEDIATRIA ESPECIALIZADA;Cuiabá;2.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.074761;-15.608306
+estabelecimento de saúde;MEDSERVICE SERVICOS MEDICOS;Cuiabá;2.77;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.07474;-15.608348
 estabelecimento de saúde;ROMA MEDICAL CARE;Cuiabá;2.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.108849;-15.589727
 estabelecimento de saúde;DAVITA;Cuiabá;2.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.108518;-15.592315
 estabelecimento de saúde;MARIANA SOUBIHE HASEGAWA;Cuiabá;2.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.108662;-15.589289
@@ -2810,6 +2822,7 @@ estabelecimento de saúde;DROGASIL DS0884;Cuiabá;2.78;até 5 km;manso_capital;;
 estabelecimento de saúde;INSTITUTO DE MEDICINA OCUPACIONAL DE C;Cuiabá;2.78;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.104925;-15.592185
 estabelecimento de saúde;ODONTO SAUDE;Cuiabá;2.78;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.09692;-15.593554
 estabelecimento de saúde;CLINICA PASSINHOS DO SABER MULTIDICIPLINAR;Santo Antônio de Leverger;2.78;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.077904;-15.843019
+estabelecimento de saúde;ANNE DEBORA DE CAMPOS SILVA MOREIRA LTDA;Várzea Grande;2.78;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.131597;-15.654858
 estabelecimento de saúde;FABRICIO MARTINS DE ARAUJO;Várzea Grande;2.78;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.138635;-15.653267
 estabelecimento de saúde;INSTITUTO PATRIS;Cuiabá;2.79;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.075063;-15.607938
 estabelecimento de saúde;INSTITUTO TERRA SAUDE E ODONTOLOGIA;Cuiabá;2.79;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096792;-15.593497
@@ -2841,7 +2854,7 @@ estabelecimento de saúde;SIMAO BARGAS DA COSTA;Cuiabá;2.83;até 5 km;manso_cap
 estabelecimento de saúde;ODERLINO RODRIGUES DE GODOY;Cuiabá;2.83;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.105392;-15.591671
 estabelecimento de saúde;CLINICA ODONTOLOGICA;Cuiabá;2.83;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.10456;-15.59174
 estabelecimento de saúde;USF NOSSA SENHORA DA GUIA;Várzea Grande;2.83;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.129864;-15.675295
-estabelecimento de saúde;CEICO I;Várzea Grande;2.83;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.141971;-15.652269
+estabelecimento de saúde;CEICO I;Várzea Grande;2.83;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.141971;-15.652269
 estabelecimento de saúde;DENSIMAGEM VG;Várzea Grande;2.83;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.147241;-15.648911
 estabelecimento de saúde;ASA;Cuiabá;2.84;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.088937;-15.596837
 estabelecimento de saúde;G M S SERVICOS FONOAUDIOLOGICOS;Cuiabá;2.84;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.073167;-15.608548
@@ -2887,6 +2900,7 @@ estabelecimento de saúde;YUITI IANAE;Cuiabá;2.91;até 5 km;manso_capital;;Não
 estabelecimento de saúde;CAROLINA MALUF PEREIRA;Cuiabá;2.91;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092469;-15.594111
 estabelecimento de saúde;MARCOS ANTONIO BERTIN;Cuiabá;2.91;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.107391;-15.589495
 estabelecimento de saúde;QUALYVIDA ATENDIMENTO DOMICILIAR EM SAUDE;Cuiabá;2.92;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.079255;-15.603558
+estabelecimento de saúde;DROGARIA ULTRAPOPULAR;Cuiabá;2.92;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.092296;-15.594136
 estabelecimento de saúde;HOSPITALLAR SAUDE;Cuiabá;2.92;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.07497;-15.606646
 estabelecimento de saúde;FRANCISCO RICARDO BOTTER;Cuiabá;2.92;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103864;-15.590985
 estabelecimento de saúde;CLINICA LIRIO SAUDE;Cuiabá;2.92;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.072852;-15.607836
@@ -2943,7 +2957,6 @@ estabelecimento de saúde;ERNESTO FARIA DE FIGUEIREDO JUNIOR;Cuiabá;3.02;até 5
 estabelecimento de saúde;J R CONCEITO ODONTOLOGIA;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097065;-15.591153
 estabelecimento de saúde;DR DANILO SOUZA REABILITACAO ORAL E IMPLANTES;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084773;-15.597769
 estabelecimento de saúde;FELIPE STEFANES SANTAMARIA;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.098676;-15.590773
-estabelecimento de saúde;ALESSANDRA DOMINGUES MENDONCA;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084766;-15.597738
 estabelecimento de saúde;RENATO ABDALLA PRATA;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.0848;-15.597789
 estabelecimento de saúde;CLINICA ODONTOLOGICA PRATA;Cuiabá;3.03;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084802;-15.597749
 estabelecimento de saúde;DROGASIL DS2239;Várzea Grande;3.03;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.154041;-15.644362
@@ -3028,6 +3041,7 @@ estabelecimento de saúde;SORRISUS ODONTOLOGIA;Cuiabá;3.17;até 5 km;manso_capi
 estabelecimento de saúde;ZIAD HAMAOUI;Cuiabá;3.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.089971;-15.59276
 estabelecimento de saúde;FISIOTERAPIA E PILATES KHALIL;Nobres;3.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.328149;-14.719727
 estabelecimento de saúde;JB BRITO;Nobres;3.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.328213;-14.719748
+estabelecimento de saúde;ODONTOCOMPANY NOBRES;Nobres;3.17;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.329651;-14.720121
 estabelecimento de saúde;FARMA POPULAR;Nobres;3.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.311626;-14.720474
 estabelecimento de saúde;CLINICA LUMI;Várzea Grande;3.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.138055;-15.657193
 estabelecimento de saúde;PRIMUS SERVICOS MEDICOS;Cuiabá;3.18;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.095286;-15.59028
@@ -3068,6 +3082,7 @@ estabelecimento de saúde;AMEDYFONO;Cuiabá;3.19;até 5 km;manso_capital;;Não;s
 estabelecimento de saúde;HOLANDO JUNIOR;Cuiabá;3.19;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.089875;-15.592592
 estabelecimento de saúde;IMAGENS;Cuiabá;3.19;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.089899;-15.592572
 estabelecimento de saúde;PRIMAMED SERVICOS;Cuiabá;3.2;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.095296;-15.590084
+estabelecimento de saúde;J V SILVA MAGALHAES CIA LTDA;Cuiabá;3.2;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.104322;-15.588383
 estabelecimento de saúde;LABORATORIO CARLOS CHAGAS UNIDADE FEMINA II;Cuiabá;3.2;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.089866;-15.592494
 estabelecimento de saúde;VENESSE ODONTOLOGIA E ESTETICA;Cuiabá;3.2;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103881;-15.585702
 estabelecimento de saúde;ESTRUTURAR CLINICA INTERDISCIPLINAR;Cuiabá;3.2;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.067622;-15.608236
@@ -3116,6 +3131,7 @@ estabelecimento de saúde;KELLY MORAES;Cuiabá;3.22;até 5 km;manso_capital;;Nã
 estabelecimento de saúde;BEM ESTAR CLINICA;Várzea Grande;3.22;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.122627;-15.658701
 estabelecimento de saúde;DROGARIA AMERICA PARQUE;Cuiabá;3.23;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.040943;-15.665316
 estabelecimento de saúde;USF ELDORADO;Cuiabá;3.23;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.040851;-15.664354
+estabelecimento de saúde;ALESSANDRA BUZELLE ODONTOLOGIA;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.083215;-15.596687
 estabelecimento de saúde;MARQUES ODONTOLOGIA;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084869;-15.595345
 estabelecimento de saúde;ESPACO FONOTERAPIA;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.070932;-15.605763
 estabelecimento de saúde;LUZIA DE CARVALHO LTDA;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103553;-15.585361
@@ -3123,6 +3139,7 @@ estabelecimento de saúde;DENISE APARECIDA DE ALMEIDA BOTTI;Cuiabá;3.23;até 5 
 estabelecimento de saúde;CONSULTORIO ODONTOLOGICO DRA ALESSANDRA G O FERNANDES;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.098502;-15.588918
 estabelecimento de saúde;GREICY COUTINHO LESSA;Cuiabá;3.23;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.098511;-15.588918
 estabelecimento de saúde;CARLOS AUGUSTO COSTA MARQUES;Cuiabá;3.24;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103823;-15.574902
+estabelecimento de saúde;SERION;Cuiabá;3.24;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.068038;-15.607442
 estabelecimento de saúde;CLINICA PETTERLE;Cuiabá;3.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.101018;-15.588313
 estabelecimento de saúde;FONO MT;Cuiabá;3.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096564;-15.589289
 estabelecimento de saúde;SENAP MT;Cuiabá;3.25;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103628;-15.587488
@@ -3130,7 +3147,7 @@ estabelecimento de saúde;LABOR ZAN;Várzea Grande;3.25;até 5 km;manso_capital;
 estabelecimento de saúde;CENTER MED;Cuiabá;3.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.091016;-15.59133
 estabelecimento de saúde;ALS SERVICOS;Nobres;3.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.314394;-14.719063
 estabelecimento de saúde;LABORATORIO MUNICIPAL DE NOBRES MT;Nobres;3.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.327827;-14.718834
-estabelecimento de saúde;CARDIUM INSTITUTO;Várzea Grande;3.26;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.139665;-15.657462
+estabelecimento de saúde;CARDIUM INSTITUTO;Várzea Grande;3.26;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.139665;-15.657462
 estabelecimento de saúde;DROGASIL DS0748;Cuiabá;3.27;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.089887;-15.591787
 estabelecimento de saúde;ODONTOMED ODONTOLOGIA INTEGRADA;Cuiabá;3.27;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.08674;-15.593577
 estabelecimento de saúde;ORTOCLIN;Nobres;3.27;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.33371;-14.720501
@@ -3138,6 +3155,7 @@ estabelecimento de saúde;UDR UNIDADE DESCENTRALIZADA DE REABILITACAO DE NOBRES;
 estabelecimento de saúde;PRUDENCIO LACERDA CARE;Cuiabá;3.28;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.093018;-15.590244
 estabelecimento de saúde;SEDARE;Cuiabá;3.28;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.091435;-15.590967
 estabelecimento de saúde;ANA GISELA ARRUDA SANTOS;Cuiabá;3.28;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.091455;-15.590946
+estabelecimento de saúde;AFIP;Várzea Grande;3.28;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.136446;-15.658639
 estabelecimento de saúde;VBHS SERVICOS MEDICOS S S LTDA;Cuiabá;3.29;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.103389;-15.574941
 estabelecimento de saúde;CLINICA ODONTOLOGICA HANEL;Nobres;3.29;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.336764;-14.721698
 estabelecimento de saúde;ODONTO ART;Nobres;3.29;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.327848;-14.718544
@@ -3152,17 +3170,18 @@ estabelecimento de saúde;OTOS CLINICA ARCLINIC MEDICINA AEROESPACIAL;Cuiabá;3.
 estabelecimento de saúde;HOSPITAL MUNICIPAL DE CUIABA E P S DR LEONY PALMA CARVALHO;Cuiabá;3.32;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.106755;-15.561809
 estabelecimento de saúde;CLINICA ANGEL;Cuiabá;3.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.092295;-15.590067
 estabelecimento de saúde;LABORATORIO GERSIN;Cuiabá;3.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097243;-15.588289
+estabelecimento de saúde;DAYANY AZAMBUJA;Várzea Grande;3.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.144557;-15.655974
 estabelecimento de saúde;TOTALITY ODONTO;Várzea Grande;3.33;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.172323;-15.612869
 estabelecimento de saúde;DRA GIOVANNA MARCHEZINE;Cuiabá;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085085;-15.593912
 estabelecimento de saúde;ELYSSA PSICOLOGIA E PSICANALISE;Cuiabá;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.061543;-15.611462
 estabelecimento de saúde;JOAO BOSCO DE ALMEIDA DUARTE;Cuiabá;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097385;-15.588147
 estabelecimento de saúde;RENE DIAZ RODRIGUEZ;Cuiabá;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.093466;-15.589421
 estabelecimento de saúde;CIPE CIRURGIA PEDIATRICA;Cuiabá;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.088755;-15.5916
-estabelecimento de saúde;UOM UNIDADE ODONTOLOGICA MOVEL;Nobres;3.34;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.330488;-14.71871
+estabelecimento de saúde;UOM UNIDADE ODONTOLOGICA MOVEL;Nobres;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.330488;-14.71871
 estabelecimento de saúde;ESF CENTRAL;Nobres;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.328878;-14.718316
 estabelecimento de saúde;TOXIDNA DIAGNOSTICOS LABORATORIAIS;Várzea Grande;3.34;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.123346;-15.659858
 estabelecimento de saúde;RODRIGO FONSECA CAETANO;Cuiabá;3.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097113;-15.58821
-estabelecimento de saúde;CEICO;Cuiabá;3.35;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.093769;-15.589266
+estabelecimento de saúde;CEICO;Cuiabá;3.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.093769;-15.589266
 estabelecimento de saúde;DROGARIA SAO PAULO;Cuiabá;3.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097092;-15.588179
 estabelecimento de saúde;CB ODONTOLOGIA;Cuiabá;3.35;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.099175;-15.587738
 estabelecimento de saúde;HOSPITAL OTORRINO;Cuiabá;3.35;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.093769;-15.589266
@@ -3202,6 +3221,7 @@ estabelecimento de saúde;JOAO FELIX DIAS;Cuiabá;3.39;até 5 km;manso_capital;;
 estabelecimento de saúde;CASSIANO ROJAS MAIA;Cuiabá;3.39;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.088217;-15.591366
 estabelecimento de saúde;ROSANE MARIA WOJCIK DE MACEDO;Cuiabá;3.39;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.088266;-15.591354
 estabelecimento de saúde;DROGARIA ULTRA POPULAR;Nobres;3.39;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.331432;-14.718544
+estabelecimento de saúde;SERRANO DATSCH SERVICOS MEDICOS;Nobres;3.39;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.331389;-14.718502
 estabelecimento de saúde;LAR E SAUDE ASSISTENCIA DOMICILIAR;Várzea Grande;3.39;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.12949;-15.660404
 estabelecimento de saúde;IVAN PANTALEAO DOS SANTOS;Cuiabá;3.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.090371;-15.590226
 estabelecimento de saúde;4M SAUDE E BEM ESTAR;Cuiabá;3.4;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.08983;-15.590487
@@ -3231,7 +3251,7 @@ estabelecimento de saúde;SANDOVAL CARNEIRO FILHO;Cuiabá;3.43;até 5 km;manso_c
 estabelecimento de saúde;CLINICA DE DIAGNOSTICO POR IMAGEM HAFATH;Nobres;3.43;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.331561;-14.718233
 estabelecimento de saúde;CELSO JOSE HOFFMANN;Cuiabá;3.44;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.08851;-15.590734
 estabelecimento de saúde;RONIE RODRIGUES DOS SANTOS;Cuiabá;3.44;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.090392;-15.589843
-estabelecimento de saúde;HOSPITAL MUNICIPAL LAURA DE VICUNA;Nobres;3.44;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.33038;-14.717735
+estabelecimento de saúde;HOSPITAL MUNICIPAL LAURA DE VICUNA;Nobres;3.44;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.33038;-14.717735
 estabelecimento de saúde;LABORATORIO DE ANALISES CLINICAS S BENTO;Nobres;3.44;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.330681;-14.717838
 estabelecimento de saúde;DROGARIA POLO CENTRO;Nobres;3.44;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.333127;-14.718606
 estabelecimento de saúde;ARRUDA SERVICOS HOSPITALARES LTDA;Várzea Grande;3.44;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.146908;-15.655775
@@ -3239,7 +3259,6 @@ estabelecimento de saúde;LEAL FISIO;Cuiabá;3.45;até 5 km;manso_capital;;Não;
 estabelecimento de saúde;UTI PED;Cuiabá;3.45;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.101479;-15.585424
 estabelecimento de saúde;ULTRAMATER ULTRASSONOGRAFIA INTEGRADA;Cuiabá;3.45;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.088281;-15.590764
 estabelecimento de saúde;LABOCENTER EXAMES LABORATORIAIS;Cuiabá;3.45;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.101287;-15.582278
-estabelecimento de saúde;SERRANO DATSCH SERVICOS MEDICOS;Nobres;3.45;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.331367;-14.717942
 estabelecimento de saúde;USF AGUA LIMPA LAURENTINO PAULO DE CERQUEIRA;Várzea Grande;3.45;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.128936;-15.661057
 estabelecimento de saúde;C A M;Cuiabá;3.46;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.096877;-15.587167
 estabelecimento de saúde;DROGASIL CB GETULIO VARGAS;Cuiabá;3.46;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.126399;-15.66111
@@ -3270,7 +3289,7 @@ estabelecimento de saúde;CLINICA DE FISIOTERAPIA SANTA RITA;Várzea Grande;3.51
 estabelecimento de saúde;MATERNIDADE DR FRANCISCO LUSTOSA DE FIGUEIREDO;Várzea Grande;3.51;até 5 km;jusante_capital;;Sim;atendimento hospitalar;-56.146273;-15.690273
 estabelecimento de saúde;JAQUELINE ROCHA PSICOLOGA;Cuiabá;3.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.067891;-15.604561
 estabelecimento de saúde;FARMACIA DE MANIPULACAO;Cuiabá;3.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.08747;-15.590502
-estabelecimento de saúde;VICTORIA MENDES SERVICOS DE PSICOLOGIA;Cuiabá;3.52;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.067881;-15.604468
+estabelecimento de saúde;VICTORIA MENDES SERVICOS DE PSICOLOGIA;Cuiabá;3.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.067881;-15.604468
 estabelecimento de saúde;CENTRO DIAGNOSTICO;Cuiabá;3.52;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.087392;-15.590503
 estabelecimento de saúde;ARQUIMEDIO ANTONIO DE OLIVEIRA;Cuiabá;3.52;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.087376;-15.590518
 estabelecimento de saúde;MARCO AURELIO SILVA RIBEIRO;Cuiabá;3.52;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.049326;-15.621783
@@ -3326,6 +3345,7 @@ estabelecimento de saúde;CEDILAB AME;Cuiabá;3.56;até 5 km;manso_capital;;Não
 estabelecimento de saúde;LABORATORIO LPC;Cuiabá;3.57;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.086699;-15.590384
 estabelecimento de saúde;CLINICA DR EUGENIO PROCOPIO;Cuiabá;3.57;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.088009;-15.589651
 estabelecimento de saúde;VISAO OFTALMOLOGIA;Cuiabá;3.57;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.088166;-15.589598
+estabelecimento de saúde;CLARTE DERMATO E NUTRICAO;Cuiabá;3.57;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.099045;-15.585666
 estabelecimento de saúde;HEMOCOR;Cuiabá;3.58;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.087388;-15.589901
 estabelecimento de saúde;JOSEMAR HONORIO BARRETO;Cuiabá;3.58;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.086893;-15.590181
 estabelecimento de saúde;PRIME CLINICA ORTOPEDICA;Cuiabá;3.58;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.095716;-15.58637
@@ -3343,7 +3363,7 @@ estabelecimento de saúde;KEILA MARIA BATISTA;Cuiabá;3.61;até 5 km;manso_capit
 estabelecimento de saúde;FEMINA CENTRO DE ESPECIALIDADES MEDICAS;Cuiabá;3.61;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.088715;-15.91317
 estabelecimento de saúde;VIVARE FISIOTERAPIA PILATES;Cuiabá;3.61;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.0991;-15.585297
 estabelecimento de saúde;CFC DORADO;Várzea Grande;3.61;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.145501;-15.65835
-estabelecimento de saúde;FACIL ODONTO;Várzea Grande;3.61;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.151037;-15.654858
+estabelecimento de saúde;FACIL ODONTO;Várzea Grande;3.61;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.151037;-15.654858
 estabelecimento de saúde;HOSPITAL DE OLHOS DE VARZEA GRANDE;Várzea Grande;3.61;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.132263;-15.662296
 estabelecimento de saúde;PATRICIA KATZ PSICOLOGA;Cuiabá;3.62;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.099035;-15.585235
 estabelecimento de saúde;FENIX NEUROREABILITACAO;Cuiabá;3.62;até 5 km;jusante_capital;;Não;sem atendimento hospitalar;-56.053254;-15.617476
@@ -3366,6 +3386,7 @@ estabelecimento de saúde;AMBULATORIO CENTRAL DA POLICIA MILITAR;Cuiabá;3.65;at
 estabelecimento de saúde;COMUNICARE FONOAUDIOLOGIA;Cuiabá;3.66;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.099756;-15.5758
 estabelecimento de saúde;ODONTOLOGIA SANTA ROSA;Cuiabá;3.66;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.099764;-15.575958
 estabelecimento de saúde;FARMACIAS PAGUE MENOS S A;Cuiabá;3.66;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085798;-15.590012
+estabelecimento de saúde;ILUMINAR ESPACO TERAPEUTICO PARA MULHERES;Cuiabá;3.66;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.088954;-15.588294
 estabelecimento de saúde;FARMACIA PAGUE MENOS;Cuiabá;3.66;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.078069;-15.595739
 estabelecimento de saúde;DROGARIA ATIVA;Cuiabá;3.67;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.098326;-15.584883
 estabelecimento de saúde;VERIDIANA SILVIA FAVERO COMETTI DONATTI;Cuiabá;3.67;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085944;-15.589833
@@ -3395,7 +3416,6 @@ estabelecimento de saúde;CAROLINA SOSSAI FISIOTERAPIA DE COLUNA;Cuiabá;3.75;at
 estabelecimento de saúde;CLAUDIA MARCIA DE ALMEIDA NEVES;Cuiabá;3.75;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085665;-15.58915
 estabelecimento de saúde;ESPACO ADMON KADMON;Cuiabá;3.75;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.097939;-15.584237
 estabelecimento de saúde;CLINICA RAYNA;Cuiabá;3.75;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.081764;-15.591749
-estabelecimento de saúde;IDEN INSTITUTO DERMATOLOGIA E NUTRICAO;Cuiabá;3.75;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.081764;-15.591749
 estabelecimento de saúde;ORTOCEO;Cuiabá;3.76;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085432;-15.589164
 estabelecimento de saúde;DIAG X DIGITAL DIAGNOSTICOS RADIOLOGICOS;Cuiabá;3.77;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.093819;-15.585235
 estabelecimento de saúde;SANTA HELENA IMAGEM;Cuiabá;3.79;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.094775;-15.584698
@@ -3434,9 +3454,8 @@ estabelecimento de saúde;ANESTESIO CENTRO;Cuiabá;3.93;até 5 km;manso_capital;
 estabelecimento de saúde;IHEMCO;Cuiabá;3.93;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096454;-15.582917
 estabelecimento de saúde;CLINICA AVANCAR;Cuiabá;3.93;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085994;-15.5871
 estabelecimento de saúde;CM FISIOTERAPIA ESPECIALIZADA LTDA;Cuiabá;3.93;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.085985;-15.587103
-estabelecimento de saúde;RENASCER HOME CARE;Várzea Grande;3.93;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.1396;-15.663825
+estabelecimento de saúde;RENASCER HOME CARE;Várzea Grande;3.93;até 5 km;manso_capital;;Sim;atendimento hospitalar;-56.1396;-15.663825
 estabelecimento de saúde;IMEDI INSTITUTO MEDICO DE DIAGNOSTICO POR IMAGEM;Várzea Grande;3.93;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.083331;-15.588676
-estabelecimento de saúde;ESPACO VEM SER SAUDE E BEM ESTAR;Cuiabá;3.94;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.056185;-15.608993
 estabelecimento de saúde;PRO MENTE SERVICOS DE SAUDE LTDA;Cuiabá;3.94;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084394;-15.587837
 estabelecimento de saúde;FONOAUDIOLOGA RAYNARA SILVA;Cuiabá;3.94;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.075446;-15.594566
 estabelecimento de saúde;JORGE LUIZ RIZZARDI;Cuiabá;3.95;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.084474;-15.587692
@@ -3504,8 +3523,8 @@ estabelecimento de saúde;CLINICA BOTTURA RESTAURACAO CAPILAR;Cuiabá;4.16;até 
 estabelecimento de saúde;JUNOT RUELA PEREIRA;Cuiabá;4.16;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.079433;-15.588869
 estabelecimento de saúde;DOM DIAGNOSTICOS E TERAPIAS MEDICAS;Cuiabá;4.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.078559;-15.589367
 estabelecimento de saúde;CONSULTORIO DR PEDRO BALATA;Cuiabá;4.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.078537;-15.589387
-estabelecimento de saúde;NATHALIA BIGAI FERREIRA NUNES;Cuiabá;4.17;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.096389;-15.568472
-estabelecimento de saúde;NATHALIA BIGAI FERREIRA NUNES;Cuiabá;4.17;até 5 km;manso_capital;;;sem atendimento hospitalar;-56.096389;-15.568472
+estabelecimento de saúde;NATHALIA BIGAI FERREIRA NUNES;Cuiabá;4.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096389;-15.568472
+estabelecimento de saúde;NATHALIA BIGAI FERREIRA NUNES;Cuiabá;4.17;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.096389;-15.568472
 estabelecimento de saúde;CENTRO DE CIRURGIA E IMPLANTODONTIA DE CUIABA;Cuiabá;4.18;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.079409;-15.588616
 estabelecimento de saúde;GJ CLINICA ODONTOLOGICA LTDA;Cuiabá;4.18;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.052468;-15.609787
 estabelecimento de saúde;CLINICA INFINITY ESPECIALIDADES CURSOS E CONSULTORIA;Cuiabá;4.18;até 5 km;manso_capital;;Não;sem atendimento hospitalar;-56.078537;-15.589367
@@ -3784,7 +3803,7 @@ estabelecimento de saúde;ANJOS DA VIDA MAIS SAUDE;Cuiabá;5.14;até 10 km;manso
 estabelecimento de saúde;USF SANTA ISABEL NEUZALINA FIGUEIREDO DE FREITAS;Várzea Grande;5.15;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.173018;-15.650806
 estabelecimento de saúde;DR VITOR CANDIDO ARAUJO GUIMARAES;Cuiabá;5.16;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.067335;-15.586794
 estabelecimento de saúde;SPAZZIO CORPUS;Cuiabá;5.17;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.070961;-15.583791
-estabelecimento de saúde;VCQ SERVICOS MEDICOS;Cuiabá;5.18;até 10 km;manso_capital;;;sem atendimento hospitalar;-56.077215;-15.57906
+estabelecimento de saúde;VCQ SERVICOS MEDICOS;Cuiabá;5.18;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.077215;-15.57906
 estabelecimento de saúde;CASAI CUIABA;Cuiabá;5.21;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.058975;-15.74029
 estabelecimento de saúde;RENATO BONAFIM;Cuiabá;5.22;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.068526;-15.585085
 estabelecimento de saúde;USF JARDIM MARAJOARA DRA ARMINDA GUIMARAES SATO;Várzea Grande;5.24;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.16889;-15.658433
@@ -3804,6 +3823,7 @@ estabelecimento de saúde;CENTRO HIPICO RANCHO DOURADO;Cuiabá;5.33;até 10 km;m
 estabelecimento de saúde;VEDANA FISIOTERAPIA;Cuiabá;5.36;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.019908;-15.650708
 estabelecimento de saúde;CLINICA NEXUS PSICOLOGIA;Cuiabá;5.36;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.03376;-15.613192
 estabelecimento de saúde;FISIO EAN;Cuiabá;5.38;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.021215;-15.635834
+estabelecimento de saúde;ESPACO VEM SER SAUDE E BEM ESTAR;Cuiabá;5.39;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.046712;-15.599714
 estabelecimento de saúde;J C IMAGENS LTDA;Cuiabá;5.4;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.023438;-15.628184
 estabelecimento de saúde;ESPACO VEM SER POLO 02;Cuiabá;5.41;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.045802;-15.600312
 estabelecimento de saúde;JOANA MULLER AFFI;Cuiabá;5.42;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.036034;-15.610359
@@ -3848,6 +3868,7 @@ estabelecimento de saúde;DROGARIA ECONOMICA;Cuiabá;5.95;até 10 km;jusante_cap
 estabelecimento de saúde;CREAP CUIABA;Cuiabá;5.98;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.014789;-15.640118
 estabelecimento de saúde;PRIME MED CARE;Cuiabá;5.99;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.058746;-15.583875
 estabelecimento de saúde;FARMACIA PAGUE MENOS;Cuiabá;6.0;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.063266;-15.580238
+estabelecimento de saúde;LABORATORIO BIOLAC LTDA;Cuiabá;6.01;até 10 km;jusante_capital;;;sem atendimento hospitalar;-56.026266;-15.612683
 estabelecimento de saúde;NABILA HANI FARES;Cuiabá;6.01;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.02895;-15.609609
 estabelecimento de saúde;VIVENTI HOME CARE;Cuiabá;6.03;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.080515;-15.560532
 estabelecimento de saúde;CLINICAS UNIMED CUIABA;Cuiabá;6.07;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.014038;-15.638993
@@ -3917,7 +3938,7 @@ estabelecimento de saúde;USF JARDIM UNIAO;Cuiabá;6.62;até 10 km;manso_capital
 estabelecimento de saúde;USF JARDIM FLORIANOPOLIS;Cuiabá;6.63;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.080479;-15.545883
 estabelecimento de saúde;SAMIR CHAAR EL HUSNY FILHO;Cuiabá;6.67;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.066973;-15.569588
 estabelecimento de saúde;DROGARIA NOVA AMERICA;Cuiabá;6.69;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.074611;-15.558707
-estabelecimento de saúde;LABORATORIO LPC;Cuiabá;6.69;até 10 km;manso_capital;;;sem atendimento hospitalar;-56.068789;-15.568154
+estabelecimento de saúde;L P C LABORATORIO DE PATOLOGIA CLINICA;Cuiabá;6.69;até 10 km;manso_capital;;;sem atendimento hospitalar;-56.068789;-15.568154
 estabelecimento de saúde;FAMILY MEDICINA E SAUDE;Cuiabá;6.7;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.074535;-15.558598
 estabelecimento de saúde;FPM FISIOTERAPIA;Cuiabá;6.72;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.063663;-15.571527
 estabelecimento de saúde;DE CORPORE FISIOTERAPIA E PILATES;Cuiabá;6.74;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.061896;-15.572754
@@ -3972,7 +3993,7 @@ estabelecimento de saúde;CLINICA REABILITANDO;Cuiabá;7.72;até 10 km;manso_cap
 estabelecimento de saúde;MM RESGATE;Cuiabá;7.73;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.048423;-15.571577
 estabelecimento de saúde;USF VEREADOR JOAO AVELINO BULHOES SAO MATHEUS II;Várzea Grande;7.74;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.186068;-15.673659
 estabelecimento de saúde;INFINITY MAIS SAUDE;Cuiabá;7.75;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.998176;-15.639808
-estabelecimento de saúde;ESSENCIALIZE CLINICA INTEGRADA;Cuiabá;7.76;até 10 km;manso_capital;;;sem atendimento hospitalar;-56.041843;-15.575607
+estabelecimento de saúde;ESSENCIALIZE CLINICA INTEGRADA;Cuiabá;7.76;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.041843;-15.575607
 estabelecimento de saúde;EVOLVERE CENTRO DE CUIDADO A PESSOA;Cuiabá;7.76;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.074024;-15.536523
 estabelecimento de saúde;EQUIPE EVOLUIR DESENVOLVIMENTO HUMANO;Cuiabá;7.82;até 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.04468;-15.572944
 estabelecimento de saúde;UNIDADE DE SAUDE DA FAMILIA DE JOSELANDIA PSF RURAL;Barão de Melgaço;7.88;até 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.161938;-16.547025
@@ -4211,6 +4232,7 @@ estabelecimento de saúde;BEM POPUPAR BRASIL;Poconé;37.6;acima de 10 km;jusante
 estabelecimento de saúde;ODONTO CLINICA;Poconé;37.74;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.627717;-16.265151
 estabelecimento de saúde;EXCELENCIA FISIOTERAPIA;Poconé;37.89;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.624168;-16.260513
 estabelecimento de saúde;ODONTO POCONE CONSULTORIO ODONTOLOGICO;Poconé;37.89;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.623975;-16.2604
+estabelecimento de saúde;DROGARIA PRO SAUDE;Poconé;37.91;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628588;-16.263858
 estabelecimento de saúde;CLINICA ASSIS ODONTOLOGICA ESPECIALIZADA;Poconé;37.94;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.627837;-16.262944
 estabelecimento de saúde;ESF AGROVILA;Santo Antônio de Leverger;38.07;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.539198;-15.965718
 estabelecimento de saúde;CENTRO DE DESENVOLVIMENTO SOCIAL SESC POCONE;Poconé;38.13;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.626239;-16.259422
@@ -4238,11 +4260,13 @@ estabelecimento de saúde;CEDIC JARDIM CUIABA;Cuiabá;38.74;acima de 10 km;jusan
 estabelecimento de saúde;CEDILAB INEC;Cuiabá;38.74;acima de 10 km;jusante_capital;;;sem atendimento hospitalar;-56.619446;-16.247092
 estabelecimento de saúde;W M CORREA EXAMES NEUROLOGICOS;Cuiabá;38.74;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.619446;-16.247092
 estabelecimento de saúde;PSF BOM PASTOR;Poconé;38.87;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.630818;-16.254432
+estabelecimento de saúde;ECONOMOZZE FARMA;Poconé;38.98;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.629613;-16.25216
 estabelecimento de saúde;ANALISIS LABORATORIO CLINICO;Poconé;39.24;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628149;-16.24803
+estabelecimento de saúde;LABORATORIO DE ANALISES CLINICAS DE POCONE;Poconé;39.24;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628149;-16.247947
 estabelecimento de saúde;UPA UNIDADE DE PRONTO ATENDIMENTO DE POCONE;Poconé;39.32;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628739;-16.247535
 estabelecimento de saúde;PSF SANTA TEREZA;Poconé;39.41;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628658;-16.246465
 estabelecimento de saúde;EMULTI COMPLEMENTAR POCONE;Poconé;39.47;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.628588;-16.245692
-estabelecimento de saúde;GRANJIMMY CENTRO DE TRATAMENTO;Chapada dos Guimarães;39.48;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.771108;-15.43912
+estabelecimento de saúde;GRANJIMMY HOSPITAL PSIQUIATRICO;Chapada dos Guimarães;39.48;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.771108;-15.43912
 estabelecimento de saúde;CLINICA HOMEOPED;Chapada dos Guimarães;39.83;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.752096;-15.461001
 estabelecimento de saúde;CADEIA PUBLICA DE CHAPADA DOS GUIMARAES;Chapada dos Guimarães;39.88;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.750608;-15.46253
 estabelecimento de saúde;CLINICA FRATARI;Chapada dos Guimarães;39.98;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.749915;-15.461875
@@ -4278,8 +4302,8 @@ estabelecimento de saúde;FARMACIA BASICA DE CHAPADA DOS GUIMARAES;Chapada dos G
 estabelecimento de saúde;SAMU 192 CHAPADA DOS GUIMARAES USB B6;Chapada dos Guimarães;41.02;acima de 10 km;jusante_capital;;;sem atendimento hospitalar;-55.737092;-15.464577
 estabelecimento de saúde;HOSPITAL DOM OSVALDO;Chapada dos Guimarães;41.03;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.73724;-15.464202
 estabelecimento de saúde;SECRETARIA MUNICIPAL DE CHAPADA DOS GUIMARAES;Chapada dos Guimarães;41.04;acima de 10 km;jusante_capital;;;sem atendimento hospitalar;-55.737158;-15.464069
-estabelecimento de saúde;UNICA CLINICA MEDICA E TERAPIAS PARA SAUDE HUMANA;Chapada dos Guimarães;41.05;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.73531;-15.467055
 estabelecimento de saúde;ROSA DE SARON CENTRO DE TRATAMENTO FEMININO;Chapada dos Guimarães;41.05;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.739307;-15.460381
+estabelecimento de saúde;UNICA CLINICA MEDICA E TERAPIAS PARA SAUDE HUMANA;Chapada dos Guimarães;41.05;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.73531;-15.467055
 estabelecimento de saúde;COMPLEXO DE ATENDIMENTO AO COVID 19;Chapada dos Guimarães;41.11;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.737638;-15.462103
 estabelecimento de saúde;DROGARIA DO POVO;Chapada dos Guimarães;41.19;acima de 10 km;jusante_capital;;;sem atendimento hospitalar;-55.733772;-15.46726
 estabelecimento de saúde;ESPACO POTENCIALIZE;Chapada dos Guimarães;41.29;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-55.735745;-15.461932
@@ -4289,7 +4313,6 @@ estabelecimento de saúde;ESPACO SAUDE;Poconé;50.94;acima de 10 km;jusante_capi
 estabelecimento de saúde;PSF DO DISTRITO DE CANGAS;Poconé;51.04;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.568349;-16.079048
 estabelecimento de saúde;ESF OLHO DAGUA;Santo Antônio de Leverger;59.85;acima de 10 km;manso_capital;;Não;sem atendimento hospitalar;-56.743311;-15.704481
 estabelecimento de saúde;UNIDADE DE SAUDE PRAIA RICA;Chapada dos Guimarães;61.22;acima de 10 km;manso_capital;;Não;sem atendimento hospitalar;-55.410802;-14.45072
-estabelecimento de saúde;LABORATORIO DE ANALISES CLINICAS DE POCONE;Poconé;62.91;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.722155;-16.048309
 estabelecimento de saúde;PSF DO DISTRITO DO CHUMBO;Poconé;63.09;acima de 10 km;jusante_capital;;Não;sem atendimento hospitalar;-56.724721;-16.048259
 estabelecimento de saúde;CENTRO DE SAUDE MATA GRANDE;Chapada dos Guimarães;65.42;acima de 10 km;manso_capital;;Não;sem atendimento hospitalar;-55.272999;-15.213533
 estabelecimento de saúde;POSTO DE SAUDE RIO DA CASCA;Chapada dos Guimarães;66.01;acima de 10 km;manso_capital;;Não;sem atendimento hospitalar;-55.272205;-15.221557
@@ -4301,9 +4324,9 @@ estabelecimento de saúde;POSTO DE SAUDE INDIGENA ALDEIA PIEBAGA;Santo Antônio 
 estabelecimento de saúde;CITODIAGNOSTICO;Cuiabá;126.4;acima de 10 km;manso_capital;;Não;sem atendimento hospitalar;-57.51747;-14.605871
 terra indígena;Baía dos Guató;Barão de Melgaço,Poconé;6.73;até 10 km;jusante_capital;;;"etnia Guató ; fase Homologada";-56.543205;-16.971799
 terra indígena;Perigara;Barão de Melgaço;36.59;acima de 10 km;jusante_capital;;;"etnia Boróro ; fase Regularizada";-56.171668;-16.885161
-terra indígena;Umutina;Barra do Bugres;65.98;acima de 10 km;manso_capital;;;"etnia Umutina; fase Regularizada";-57.079878;-15.024601
+terra indígena;Umutina;Barra do Bugres;66.62;acima de 10 km;manso_capital;;;"etnia Umutina; fase Regularizada";-57.084747;-15.006718
 terra indígena;Santana;Nobres;79.83;acima de 10 km;manso_capital;;;"etnia Bakairí; fase Regularizada";-55.489421;-14.197689
-terra indígena;Tereza Cristina;Santo Antônio do Leverger;89.95;acima de 10 km;jusante_capital;;;"etnia Boróro ; fase Regularizada";-55.116967;-16.544142
+terra indígena;Tereza Cristina;Santo Antônio do Leverger;89.95;acima de 10 km;jusante_capital;;;"etnia Boróro ; fase Regularizada";-55.116968;-16.544141
 terra indígena;Estação Parecis;Diamantino;92.59;acima de 10 km;manso_capital;;;"etnia Paresí; fase Homologada";-56.914007;-14.141158
 terra indígena;Bakairi;Planalto da Serra,Paranatinga;134.36;acima de 10 km;manso_capital;;;"etnia Bakairí; fase Regularizada";-54.652362;-14.343804
 terra indígena;Tadarimana;Rondonópolis;153.01;acima de 10 km;jusante_capital;;;"etnia Boróro ; fase Regularizada";-54.5175;-16.538205
@@ -4336,9 +4359,9 @@ terra indígena;Batelão;Nova Canaã do Norte,Juara,Tabaporã;396.51;acima de 10
 terra indígena;Nambikwara;Comodoro;398.84;acima de 10 km;manso_capital;;;"etnia Nambikwára; fase Regularizada";-59.506401;-12.880397
 terra indígena;Paukalirajausu;Conquista D´Oeste,Vila Bela da Santíssima Trindade,Nova Lacerda;399.17;acima de 10 km;jusante_capital;;;"etnia Nambikwára; fase Delimitada";-59.641055;-14.775667
 terra indígena;Enawenê-Nawê;Comodoro,Sapezal,Juína;400.21;acima de 10 km;manso_capital;;;"etnia Enawenê-Nawê; fase Regularizada";-59.123614;-12.384263
-terra indígena;Parque do Xingu;Feliz Natal,Gaúcha do Norte,Querência,Canarana,São Félix do Araguaia,Nova Ubiratã,Marcelândia,Paranatinga,São Félix do Xingu;402.46;acima de 10 km;manso_capital;;;"etnia Wauja, Trumái, Yawalapití, Mehináku, Aweti, Yudjá, Kisêdjê, Ikpeng, Matipú, Kuikuro, Nahukuá, Tapayuna, Kaiabi, Kamayrurá, Kalapalo; fase Regularizada";-53.801894;-11.806268
 terra indígena;Areões;Água Boa;404.71;acima de 10 km;manso_capital;;;"etnia Xavante; fase Regularizada";-52.043961;-14.418727
 terra indígena;Vale do Guaporé;Comodoro e Nova Lacerda;405.51;acima de 10 km;manso_capital;;;"etnia Nambikwára; fase Regularizada";-59.980556;-13.669404
+terra indígena;Parque do Xingu;Feliz Natal,Gaúcha do Norte,Querência,Canarana,São Félix do Araguaia,Nova Ubiratã,Marcelândia,Paranatinga,São Félix do Xingu;411.9;acima de 10 km;manso_capital;;;"etnia Wauja, Trumái, Yawalapití, Mehináku, Aweti, Yudjá, Kisêdjê, Ikpeng, Matipú, Kuikuro, Nahukuá, Tapayuna, Kaiabi, Kamayrurá, Kalapalo; fase Regularizada";-53.803585;-11.704904
 terra indígena;Lagoa dos Brincos;Comodoro;443.47;acima de 10 km;manso_capital;;;"etnia Negarotê; fase Regularizada";-60.184162;-13.252035
 terra indígena;Pirineus de Souza;Comodoro;443.47;acima de 10 km;manso_capital;;;"etnia Nambikwára; fase Regularizada";-59.902495;-12.742383
 terra indígena;Apiaka/Kayabi;Juara;446.84;acima de 10 km;manso_capital;;;"etnia Apiaká,Kaiabi; fase Regularizada";-57.397477;-10.83867
@@ -4346,6 +4369,7 @@ terra indígena;Erikpatsá;Brasnorte;449.14;acima de 10 km;manso_capital;;;"etni
 terra indígena;Pimentel Barbosa;Canarana,Ribeirão Cascalheira;468.19;acima de 10 km;manso_capital;;;"etnia Xavante; fase Regularizada";-51.657317;-13.5616
 terra indígena;Pequizal;Nova Lacerda;471.05;acima de 10 km;jusante_capital;;;"etnia Nambikwára; fase Regularizada";-59.814779;-14.264748
 terra indígena;Wawi;Querência;474.09;acima de 10 km;manso_capital;;;"etnia Kisêdjê; fase Regularizada";-52.967915;-11.614981
+terra indígena;Sabanê;Juína;478.72;acima de 10 km;manso_capital;;;"etnia Nambikwára e Sabanê; fase Encaminhada RI";-59.873791;-12.160671
 terra indígena;Japuira;Juara;483.3;acima de 10 km;manso_capital;;;"etnia Rikbaktsa; fase Regularizada";-58.13513;-10.763715
 terra indígena;Karajá de Aruanã II;Cocalinho;502.73;acima de 10 km;manso_capital;;;"etnia Karajá; fase Regularizada";-51.093674;-14.908324
 terra indígena;Wedezé;Cocalinho;510.59;acima de 10 km;manso_capital;;;"etnia Xavante; fase Delimitada";-51.239061;-13.583815
@@ -4370,7 +4394,7 @@ terra indígena;Kayabi;Apiacás,Jacareacanga;693.17;acima de 10 km;manso_capital
 terra indígena;Kapôt Nhinore;Santa Cruz do Xingu e São Félix do Xingu e Vila Rica;704.2;acima de 10 km;manso_capital;;;"etnia Kayapó; fase Delimitada";-52.277479;-9.556514
 terra indígena;Apiaká do Pontal e Isolados;Apiacás;713.84;acima de 10 km;manso_capital;;;"etnia Isolados,Apiaká; fase Declarada";-58.173659;-8.564537
 terra indígena;Menkragnoti;Matupá,Peixoto de Azevedo,Altamira,São Félix do Xingu;715.5;acima de 10 km;manso_capital;;;"etnia Kayapó; fase Regularizada";-53.935735;-8.679544
-terra indígena;Tapirapé/Karajá;Luciara,Santa Terezinha;734.82;acima de 10 km;manso_capital;;;"etnia Tapirapé,Karajá; fase Regularizada";-50.584744;-10.670613
+terra indígena;Tapirapé/Karajá;Luciara e Santa Terezinha;734.82;acima de 10 km;manso_capital;;;"etnia Karajá e Tapirapé; fase Regularizada";-50.584744;-10.670613
 terra indígena;Kawahiva do Rio Pardo;Colniza;740.9;acima de 10 km;manso_capital;;;"etnia Isolados; fase Declarada";-59.775808;-9.014879
 terra indígena;Piripkura ( restrição de uso );Colniza,Rondolândia;767.52;acima de 10 km;manso_capital;;;"etnia Isolados; fase Em Estudo";-61.097245;-9.689338
 território quilombola;;;31.77;acima de 10 km;jusante_capital;;;;-56.431796;-15.854125

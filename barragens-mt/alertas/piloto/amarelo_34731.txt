@@ -1,28 +1,28 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260803-1151-34731
+Identificador do alerta : ALERTA-20260907-0711-34731
 Barragem                : Barragem 2  Principal (código 34731)
 Município da estrutura  : Cuiabá — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : Cidade Jardim Incorporações de Empreendimentos Imobiliários Ltda.
 Uso principal           : Paisagismo
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 03/08/2026 11:51 (horário de Cuiabá, UTC-4)
-IDAP                    : 12 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 07:11 (horário de Cuiabá, UTC-4)
+IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Amarelo — elevado por regra determinística
-Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 24)
+Completude do cálculo   : 46% (confiabilidade parcial; IDAP projetado 21,70)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A6] Nível ou vazão do rio a jusante frente à cota de alerta: 1,05 x a cota de alerta — acima da cota de alerta (3 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Médio (3 de 5 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 5 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 3/30 (completude 100%)
+   - A. Pressão hidroclimática: 1/30 (completude 87%)
    - B. Condição da barragem: 3/30 (completude 17%)
    - C. Impacto sanitário potencial: 6/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)
@@ -33,8 +33,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 3123.
-   Unidades com internação ou urgência: 56.
+   Unidades sem internação na mancha ou sem via de acesso: 3138.
+   Unidades com internação ou urgência: 57.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS
@@ -88,10 +88,9 @@ Versão dos pesos        : 0.1.0-metodologica
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
    - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
-   - Sanar as lacunas de dado que subestimam o índice: B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
+   - Sanar as lacunas de dado que subestimam o índice: A6, B2, B3, B4, B5, B6, C4, C5, C6, C7, D1, D2, D3, D4, D5, D6, D7.
 
 8. FONTES DOS DADOS
-   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
    - CNES cruzado com a mancha de inundação e com as vias de acesso
    - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
    - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
@@ -114,6 +113,6 @@ Versão dos pesos        : 0.1.0-metodologica
    de vigilância na ausência de mancha oficial — não são diagnóstico.
    Confirmação de recebimento obrigatória em até 120 min, com identificação
    do responsável; a ausência de confirmação escalona o alerta (regra R09).
-   Cálculo com completude 50%: o IDAP está subestimado e não deve
+   Cálculo com completude 46%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

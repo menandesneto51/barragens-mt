@@ -1,10 +1,10 @@
 # Telemetria pontual — dimensão A (IDAP)
 
-- Extração: 2026-08-03T01:52:39+00:00
-- Overlay: `dados/tratados/telemetria_hidro_a.csv` (145 barragens)
+- Extração: 2026-09-07T11:11:07+00:00
+- Overlay: `dados/tratados/telemetria_hidro_a.csv` (152 barragens)
 - Mesclados em hidro: **145**
 - Com série INMET próxima: **0**
-- Com Open-Meteo no ponto: **145**
+- Com Open-Meteo no ponto: **152**
 
 Prioridade: estação INMET ≤80 km → senão Open-Meteo no ponto da barragem.
 Alertas Cemaden/INMET/ANA do SisClima municipal são preservados.

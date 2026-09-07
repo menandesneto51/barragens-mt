@@ -9,30 +9,30 @@ Cruzamento das bases de territórios e populações vulneráveis e da rede de es
 | Categoria | Total na base | Até 2 km | Até 5 km | Até 10 km |
 | --- | --- | --- | --- | --- |
 | Aldeia indígena | 659 | 2 | 2 | 2 |
-| Terra indígena | 74 | 0 | 0 | 1 |
+| Terra indígena | 75 | 0 | 0 | 1 |
 | Assentamento rural | 372 | 2 | 4 | 7 |
 | Território quilombola | 4 | 0 | 0 | 0 |
-| Estabelecimento de saúde | 3269 | 743 | 2732 | 3084 |
+| Estabelecimento de saúde | 3292 | 751 | 2751 | 3105 |
 
 Nos assentamentos rurais a até 10 km do eixo o INCRA registra 777 famílias assentadas, das quais 625 em assentamentos a até 5 km. O número de famílias é o cadastrado na criação do projeto de assentamento, e não uma contagem populacional atual.
 
 ## 2. Rede de saúde na faixa de proximidade
 
-O CNES registra 3441 estabelecimentos nos municípios do recorte. Destes, 3269 têm coordenada válida e entram na medida de distância; os 172 sem coordenada ficam fora do cruzamento, e essa é uma lacuna do cadastro, não uma ausência de serviço. Entre os georreferenciados, 55 têm atendimento hospitalar, e 46 deles estão a até 5 km do eixo. A retaguarda hospitalar da região está, portanto, majoritariamente instalada na própria planície do rio Cuiabá: a rede que precisaria responder ao evento é, em boa parte, exposta a ele.
+O CNES registra 3464 estabelecimentos nos municípios do recorte. Destes, 3292 têm coordenada válida e entram na medida de distância; os 172 sem coordenada ficam fora do cruzamento, e essa é uma lacuna do cadastro, não uma ausência de serviço. Entre os georreferenciados, 57 têm atendimento hospitalar, e 48 deles estão a até 5 km do eixo. A retaguarda hospitalar da região está, portanto, majoritariamente instalada na própria planície do rio Cuiabá: a rede que precisaria responder ao evento é, em boa parte, exposta a ele.
 
 | Município | Estabelecimentos | Com atendimento hospitalar | Hospitalares até 5 km do eixo |
 | --- | --- | --- | --- |
 | Acorizal | 13 | 0 | 0 |
 | Barão de Melgaço | 18 | 1 | 1 |
 | Chapada dos Guimarães | 45 | 0 | 0 |
-| Cuiabá | 2640 | 36 | 29 |
+| Cuiabá | 2652 | 36 | 29 |
 | Jangada | 17 | 0 | 0 |
-| Nobres | 56 | 1 | 1 |
+| Nobres | 57 | 2 | 2 |
 | Nossa Senhora do Livramento | 12 | 1 | 0 |
-| Poconé | 43 | 1 | 0 |
+| Poconé | 45 | 1 | 0 |
 | Rosário Oeste | 34 | 2 | 2 |
-| Santo Antônio de Leverger | 22 | 2 | 2 |
-| Várzea Grande | 369 | 11 | 11 |
+| Santo Antônio de Leverger | 26 | 2 | 2 |
+| Várzea Grande | 373 | 12 | 12 |
 
 **Achado de capacidade de resposta.** Não há estabelecimento com atendimento hospitalar em Acorizal, Chapada dos Guimarães e Jangada. Chapada dos Guimarães, sede do Aproveitamento Múltiplo de Manso, está entre eles. O município que abriga a maior estrutura de dano potencial da bacia depende de retaguarda hospitalar externa, e a retaguarda disponível é a da capital — que é, no cenário de ruptura, o território atingido a jusante. A dependência é circular e precisa estar resolvida no plano de resposta antes do evento, com pactuação de referência para fora do eixo do rio Cuiabá.
 
@@ -112,4 +112,4 @@ Não há base oficial de delimitação de população ribeirinha comparável às
 | assentamento rural | PA RAIZAMA | ROSARIO OESTE | 3,05 | 82 famílias |
 | assentamento rural | PA FORQUILHA DO RIO MANSO | ROSARIO OESTE | 3,54 | 367 famílias |
 
-Barragens que drenam para a seção de controle da capital: 99. A relação completa está em `dados/tratados/barragens_montante_cuiaba.csv` e a análise por hierarquia de ameaça em `relatorios/analise_cuiaba.md`.
+Barragens que drenam para a seção de controle da capital: 106. A relação completa está em `dados/tratados/barragens_montante_cuiaba.csv` e a análise por hierarquia de ameaça em `relatorios/analise_cuiaba.md`.

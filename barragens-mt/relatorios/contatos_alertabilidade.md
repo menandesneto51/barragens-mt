@@ -1,6 +1,6 @@
 # Contatos institucionais e alertabilidade — piloto Manso–Cuiabá
 
-Gerado em 2026-08-02T22:05:45.
+Gerado em 2026-09-07T11:11:17.
 
 ## Cadastro
 
@@ -11,8 +11,8 @@ Gerado em 2026-08-02T22:05:45.
 
 ## Alertabilidade das barragens do piloto
 
-- Barragens avaliadas: **105**
-- Alertáveis (vínculo completo validado): **104**
+- Barragens avaliadas: **112**
+- Alertáveis (vínculo completo validado): **111**
 
 Enquanto `alertavel=não`, o alerta textual continua sendo gerado para treino/simulado, mas a barragem fica marcada como **não alertável** na operação (docs/04 §4.1–4.2).
 
