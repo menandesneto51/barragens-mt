@@ -1,6 +1,6 @@
 # Plano CNES estadual — VIGIBARRAGENS–MT
 
-Gerado em 2026-09-07T11:06:55.
+Gerado em 2026-09-07T13:48:38.
 
 - Municípios com barragem no inventário: **115**
 - Com código IBGE resolvido: **115**

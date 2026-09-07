@@ -1,31 +1,31 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0807-34856
+Identificador do alerta : ALERTA-20260907-0953-34856
 Barragem                : Barragem GMX (código 34856)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : MAX JOEL RUSSI
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
-IDAP                    : 16 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 09:53 (horário de Cuiabá, UTC-4)
+IDAP                    : 15 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 65% (confiabilidade parcial; IDAP projetado 24,60)
+Completude do cálculo   : 65% (confiabilidade parcial; IDAP projetado 23,10)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [B3] Ausência de estabilidade declarada: - (3 de 5 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 76,10 de percentil — acima do percentil 75 (2 de 4 pontos)
-   - [A5] Saturação antecedente do solo na bacia: 0,66 de índice (0 a 1) — solo úmido (2 de 4 pontos)
+   - [A5] Saturação antecedente do solo na bacia: 0,63 de índice (0 a 1) — solo úmido (2 de 4 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C1] População residente na Zona de Autossalvamento: 35 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 4/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 4/30 (completude 67%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 0/15 (completude 7%)

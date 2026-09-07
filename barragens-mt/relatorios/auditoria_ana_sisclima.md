@@ -1,11 +1,11 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-09-07T12:08:43Z`
+- Gerado: `2026-09-07T13:53:03Z`
 - DB: `/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db`
 - SQLite com tabelas ANA: **True**
 - Estações: `sqlite:sis_cloud_seed.db:ana_estacoes` (526 MT)
-- Telemetria: `sqlite:sis_cloud_seed.db:ana_telemetria` (18580 registros)
-- Com cota / vazão / cota_alerta (última leitura): **26** / **17** / **5**
+- Telemetria: `sqlite:sis_cloud_seed.db:ana_telemetria` (19462 registros)
+- Com cota / vazão / cota_alerta (última leitura): **30** / **19** / **5**
 - No corredor Manso–Cuiabá (≤25 km do eixo): **14**
 - Séries fluviométricas utilizáveis: **True**
 

@@ -4,7 +4,7 @@
 - Fonte telemetria: `sqlite:sis_cloud_seed.db:ana_telemetria`
 - Vínculos gerados: **3382** (até 3 por barragem, ≤80 km)
 - No piloto Manso–Cuiabá: **336** linhas
-- Com cota na última leitura: **342**
+- Com cota na última leitura: **389**
 - A6 com razão medida (cota/cota_alerta) mesclada no hidro: **69** barragens
 
 ## Fronteira

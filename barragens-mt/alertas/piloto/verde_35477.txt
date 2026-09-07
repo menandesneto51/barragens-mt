@@ -1,14 +1,14 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0807-35477
+Identificador do alerta : ALERTA-20260907-0953-35477
 Barragem                : Barramento III - Fazenda São José I (código 35477)
 Município da estrutura  : Rosário Oeste — MT
 Órgão fiscalizador      : MT - Secretaria de Estado do Meio Ambiente - SEMA
 Empreendedor            : GILBERTO EGLAIR POSSAMAI
 Uso principal           : Aquicultura
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
+Data e hora da emissão  : 07/09/2026 09:53 (horário de Cuiabá, UTC-4)
 IDAP                    : 10 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
 Completude do cálculo   : 50% (confiabilidade parcial; IDAP projetado 20)

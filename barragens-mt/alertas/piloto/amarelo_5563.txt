@@ -1,17 +1,17 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL AMARELO (ATENÇÃO)
 ==============================================================================
-Identificador do alerta : ALERTA-20260907-0807-5563
+Identificador do alerta : ALERTA-20260907-0953-5563
 Barragem                : Santa Maria (código 5563)
 Município da estrutura  : Nossa Senhora do Livramento — MT
 Órgão fiscalizador      : Agência Nacional de Mineração - ANM
 Empreendedor            : JOSE MARIA OTAVIO MARTINS DUARTE
 Uso principal           : Contenção de rejeitos de mineração
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 07/09/2026 08:07 (horário de Cuiabá, UTC-4)
-IDAP                    : 28 de 100 pontos (faixa Amarelo: atenção)
+Data e hora da emissão  : 07/09/2026 09:53 (horário de Cuiabá, UTC-4)
+IDAP                    : 27 de 100 pontos (faixa Amarelo: atenção)
 Nível final             : Amarelo
-Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 41,20)
+Completude do cálculo   : 68% (confiabilidade parcial; IDAP projetado 39,70)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
@@ -19,15 +19,15 @@ Versão dos pesos        : 0.1.0-metodologica
    - [B1] Categoria de Risco (CRI) oficial: Alto (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
    - [B3] Ausência de estabilidade declarada: - (3 de 5 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 76,10 de percentil — acima do percentil 75 (2 de 4 pontos)
-   - [A5] Saturação antecedente do solo na bacia: 0,66 de índice (0 a 1) — solo úmido (2 de 4 pontos)
+   - [A5] Saturação antecedente do solo na bacia: 0,63 de índice (0 a 1) — solo úmido (2 de 4 pontos)
    - [C8] Presença de contaminantes ou rejeitos no reservatório: Rejeito não inerte ou perigoso (2 de 2 pontos)
+   - [A4] Percentil climatológico do acumulado observado: 55 de percentil — acima da mediana (1 de 4 pontos)
    - [C1] População residente na Zona de Autossalvamento: 14 habitantes — até 49 residentes (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 4/30 (completude 100%)
+   - A. Pressão hidroclimática: 3/30 (completude 100%)
    - B. Condição da barragem: 15/30 (completude 67%)
    - C. Impacto sanitário potencial: 8/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 1/15 (completude 27%)

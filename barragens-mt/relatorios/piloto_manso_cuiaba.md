@@ -1,7 +1,7 @@
 # Piloto operacional — eixo Manso–Cuiabá
 
 Ciclo: **dado (SisClima/TITAN) → IDAP → alerta → ficha (esqueleto)**.
-Emissão: 07/09/2026 08:07 (horário de Cuiabá).
+Emissão: 07/09/2026 09:53 (horário de Cuiabá).
 Seção de controle: `896573`.
 Região de saúde do piloto: **Baixada Cuiabana**.
 
@@ -15,8 +15,8 @@ Região de saúde do piloto: **Baixada Cuiabana**.
 | Roxo | 0 |
 | Vermelho | 0 |
 | Laranja | 0 |
-| Amarelo | 7 |
-| Verde | 105 |
+| Amarelo | 6 |
+| Verde | 106 |
 
 ## Complexo UHE Manso
 
@@ -37,26 +37,26 @@ Região de saúde do piloto: **Baixada Cuiabana**.
 
 | IDAP | Nível | Completude | Sede | Nome | Arquivo alerta |
 | ---: | --- | ---: | --- | --- | --- |
-| 29 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | `alertas/piloto/amarelo_5603.txt` |
-| 28 | Amarelo | 0,680 | Nossa Senhora do Livramento | Santa Maria | `alertas/piloto/amarelo_5563.txt` |
-| 25 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA 01 | `alertas/piloto/amarelo_5573.txt` |
-| 25 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | `alertas/piloto/amarelo_5562.txt` |
-| 25 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | `alertas/piloto/amarelo_5559.txt` |
-| 21 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | `alertas/piloto/amarelo_22009.txt` |
-| 20 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR BOSCO | `alertas/piloto/amarelo_586.txt` |
-| 19 | Verde | 0,680 | Nossa Senhora do Livramento | BR PIRÂMIDE | `alertas/piloto/verde_21940.txt` |
-| 19 | Verde | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | `alertas/piloto/verde_588.txt` |
-| 19 | Verde | 0,680 | Cuiabá | Barragem Serrinha | `alertas/piloto/verde_26138.txt` |
-| 17 | Verde | 0,650 | Cuiabá | Barragem TB | `alertas/piloto/verde_26146.txt` |
-| 16 | Verde | 0,630 | Cuiabá | BARRAGEM JVR | `alertas/piloto/verde_26131.txt` |
-| 16 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem GMX | `alertas/piloto/verde_34856.txt` |
-| 16 | Verde | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | `alertas/piloto/verde_5560.txt` |
-| 16 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem_Valdenir2 | `alertas/piloto/verde_27624.txt` |
-| 16 | Verde | 0,650 | Nossa Senhora do Livramento | MULTI 1 | `alertas/piloto/verde_26171.txt` |
-| 15 | Verde | 0,650 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | `alertas/piloto/verde_29384.txt` |
-| 15 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem - Valdenir | `alertas/piloto/verde_27626.txt` |
-| 15 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem JL | `alertas/piloto/verde_26156.txt` |
-| 15 | Verde | 0,500 | Nossa Senhora do Livramento | Sitio Pirapora | `alertas/piloto/verde_26538.txt` |
+| 28 | Amarelo | 0,680 | Nossa Senhora do Livramento | Barragem de Rejeitos Bom Futuro | `alertas/piloto/amarelo_5603.txt` |
+| 27 | Amarelo | 0,680 | Nossa Senhora do Livramento | Santa Maria | `alertas/piloto/amarelo_5563.txt` |
+| 24 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA 01 | `alertas/piloto/amarelo_5573.txt` |
+| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 02 | `alertas/piloto/amarelo_5562.txt` |
+| 24 | Amarelo | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela 03 | `alertas/piloto/amarelo_5559.txt` |
+| 20 | Amarelo | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 02 | `alertas/piloto/amarelo_22009.txt` |
+| 19 | Verde | 0,680 | Nossa Senhora do Livramento | BR BOSCO | `alertas/piloto/verde_586.txt` |
+| 18 | Verde | 0,680 | Nossa Senhora do Livramento | BR PIRÂMIDE | `alertas/piloto/verde_21940.txt` |
+| 18 | Verde | 0,680 | Nossa Senhora do Livramento | BR SANTA FELICIDADE | `alertas/piloto/verde_588.txt` |
+| 18 | Verde | 0,680 | Cuiabá | Barragem Serrinha | `alertas/piloto/verde_26138.txt` |
+| 16 | Verde | 0,650 | Cuiabá | Barragem TB | `alertas/piloto/verde_26146.txt` |
+| 15 | Verde | 0,630 | Cuiabá | BARRAGEM JVR | `alertas/piloto/verde_26131.txt` |
+| 15 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem GMX | `alertas/piloto/verde_34856.txt` |
+| 15 | Verde | 0,630 | Nossa Senhora do Livramento | Barragem de Rejeito Estrela | `alertas/piloto/verde_5560.txt` |
+| 15 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem_Valdenir2 | `alertas/piloto/verde_27624.txt` |
+| 15 | Verde | 0,650 | Nossa Senhora do Livramento | MULTI 1 | `alertas/piloto/verde_26171.txt` |
+| 14 | Verde | 0,650 | Nossa Senhora do Livramento | BR SANTA FELICIDADE 04 | `alertas/piloto/verde_29384.txt` |
+| 14 | Verde | 0,500 | Nossa Senhora do Livramento | Barragem - Valdenir | `alertas/piloto/verde_27626.txt` |
+| 14 | Verde | 0,650 | Nossa Senhora do Livramento | Barragem JL | `alertas/piloto/verde_26156.txt` |
+| 14 | Verde | 0,500 | Nossa Senhora do Livramento | Sitio Pirapora | `alertas/piloto/verde_26538.txt` |
 
 ## Ficha rápida (esqueleto operacional)
 

@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-07T12:08:43Z",
+  "gerado_em": "2026-09-07T13:48:21Z",
   "db": "/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db",
   "n_municipios": 142,
   "n_met_biometeo_com_precip": 426,
@@ -8,9 +8,8 @@
   "n_inmet_alertas": 295,
   "n_cemaden_alertas": 0,
   "n_ana_estacoes": 526,
-  "n_ana_telemetria": 18580,
-  "n_ana_estacoes_com_serie": 31,
-  "n_hidro_risco_municipal": 19,
+  "n_ana_telemetria": 19462,
+  "n_ana_estacoes_com_serie": 32,
   "equivalente_sisclima": {
     "USE_ANA": true,
     "ANA_FETCH_SERIES": true,
