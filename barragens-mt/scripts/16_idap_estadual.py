@@ -71,11 +71,22 @@ def ler_hidro_por_barragem() -> dict[str, dict[str, Any]]:
         }
 
 
+# Proxy tipológico D6 quando IndicaSUS / CNES-LT não têm série de ocupação.
+# Ordem de grandeza de hospital geral municipal — parâmetro a calibrar com SES.
+LEITOS_TIPOL_POR_HOSPITAL = 40.0
+
+
 def ler_cnes_por_municipio() -> dict[str, dict[str, int]]:
-    """Contagens CNES do eixo — prioriza UBS/ESF/UPA/hospital (C3 proxy)."""
+    """Contagens CNES por município — prioriza UBS/ESF/UPA/hospital (C3 proxy).
+
+    Prefere o cadastro estadual (`cnes_estabelecimentos_mt.csv`); cai para o
+    recorte do eixo Cuiabá se o estadual ainda não existir.
+    """
     from cnes_tipos import classificar_estabelecimento
 
-    caminho = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    estadual = comum.DADOS_TRATADOS / "cnes_estabelecimentos_mt.csv"
+    eixo = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    caminho = estadual if estadual.exists() else eixo
     if not caminho.exists():
         return {}
     contagem: dict[str, dict[str, int]] = defaultdict(
@@ -114,6 +125,21 @@ def ler_cnes_por_municipio() -> dict[str, dict[str, int]]:
     return dict(contagem)
 
 
+def ler_leitos_para_d6(
+    cnes_por_mun: dict[str, dict[str, int]],
+) -> tuple[dict[str, dict[str, float]], str]:
+    """Leitos por município para D6: IndicaSUS se houver; senão proxy tipológico CNES."""
+    indicasus = ler_leitos_indicasus_por_municipio()
+    if indicasus:
+        return indicasus, "indicasus"
+    out: dict[str, dict[str, float]] = {}
+    for mun, dados in cnes_por_mun.items():
+        n_h = int(dados.get("com_internacao") or 0)
+        leitos = float(n_h) * LEITOS_TIPOL_POR_HOSPITAL
+        out[mun.casefold()] = {"disponiveis": leitos, "operacionais": leitos}
+    return out, "cnes_tipologico_proxy"
+
+
 def ler_populacao_por_municipio() -> dict[str, int]:
     caminho = comum.DADOS_TRATADOS / "ibge_populacao_municipios_mt.csv"
     if not caminho.exists():
@@ -131,13 +157,42 @@ def ler_populacao_por_municipio() -> dict[str, int]:
     return out
 
 
+def ler_proxies_eixo_c45c7() -> dict[str, dict[str, Any]]:
+    """C4/C5/C7 pré-calculados (etapa 49) para o eixo Manso–Cuiabá."""
+    caminho = comum.DADOS_TRATADOS / "idap_proxies_eixo.csv"
+    if not caminho.exists():
+        return {}
+    out: dict[str, dict[str, Any]] = {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            sid = (r.get("id_snisb") or "").strip()
+            if not sid:
+                continue
+            try:
+                n_serv = int(float(r.get("servicos_essenciais_ameacados") or 0))
+            except ValueError:
+                n_serv = 0
+            out[sid] = {
+                "captacao_ameacada": (r.get("captacao_ameacada") or "").strip() or None,
+                "servicos_essenciais_ameacados": n_serv,
+                "isolamento_rodoviario": (r.get("isolamento_rodoviario") or "").strip()
+                or None,
+            }
+    return out
+
+
 def exposicao_proxy(
     contaminante_txt: str | None,
     municipios_afetados: list[str],
     cnes: dict[str, dict[str, int]],
     populacao: dict[str, int] | None = None,
+    *,
+    proxy_c45c7: dict[str, Any] | None = None,
 ) -> ExposicaoSanitaria:
-    """C8 do cadastro + C3 por CNES prioritário + pop IBGE nos afetados (proxy)."""
+    """C8 do cadastro + C3 por CNES prioritário + pop IBGE nos afetados (proxy).
+
+    C4/C5/C7 vêm do arquivo da etapa 49 quando a barragem está no eixo.
+    """
     com = 0
     sem = 0
     ref = False
@@ -163,7 +218,11 @@ def exposicao_proxy(
             # Proxy: fração da pop municipal potencialmente na mancha ainda não existe;
             # registramos a soma dos municípios afetados como teto de exposição.
             pop_zas = total
-    if not tem_cnes and pop_zas is None:
+    px = proxy_c45c7 or {}
+    captacao = px.get("captacao_ameacada")
+    n_serv = px.get("servicos_essenciais_ameacados")
+    isolamento = px.get("isolamento_rodoviario")
+    if not tem_cnes and pop_zas is None and not captacao and n_serv is None and not isolamento:
         return ExposicaoSanitaria(contaminante_predominante=contaminante_txt)
     return ExposicaoSanitaria(
         contaminante_predominante=contaminante_txt,
@@ -180,6 +239,9 @@ def exposicao_proxy(
             if pop_zas
             else None
         ),
+        captacao_ameacada=captacao,
+        servicos_essenciais_ameacados=n_serv if n_serv is not None else None,
+        isolamento_rodoviario=isolamento,
     )
 
 
@@ -304,6 +366,54 @@ def nivel_emergencia(registro: dict[str, Any]) -> str | None:
     return texto(registro.get("nivel_de_perigo"))
 
 
+def ler_leitos_indicasus_por_municipio() -> dict[str, dict[str, float]]:
+    """Leitos disponíveis/operacionais por nome de município (etapa 43 / IndicaSUS)."""
+    caminho = comum.DADOS_TRATADOS / "indicasus_leitos_municipio.csv"
+    if not caminho.exists():
+        return {}
+    out: dict[str, dict[str, float]] = {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            nome = texto(r.get("municipio"))
+            if not nome:
+                continue
+            try:
+                disp = float(str(r.get("leitos_disponiveis") or "0").replace(",", "."))
+                op = float(str(r.get("leitos_operacionais") or "0").replace(",", "."))
+            except ValueError:
+                continue
+            chave = nome.casefold()
+            slot = out.setdefault(chave, {"disponiveis": 0.0, "operacionais": 0.0})
+            slot["disponiveis"] += disp
+            slot["operacionais"] += op
+    return out
+
+
+def razao_leitos_demanda_zas(
+    municipios_zas: tuple[str, ...] | list[str],
+    pop_por_mun: dict[str, int],
+    leitos_por_mun: dict[str, dict[str, float]],
+) -> float | None:
+    """D6: leitos disponíveis na ZAS / (2% da pop. dos municípios afetados)."""
+    if not leitos_por_mun or not municipios_zas:
+        return None
+    disp = 0.0
+    pop = 0
+    algum = False
+    for mun in municipios_zas:
+        lit = leitos_por_mun.get(mun.casefold())
+        if lit:
+            algum = True
+            disp += float(lit.get("disponiveis") or 0)
+        pop += int(pop_por_mun.get(mun, 0) or 0)
+    if not algum or pop <= 0:
+        return None
+    demanda = 0.02 * pop
+    if demanda <= 0:
+        return None
+    return round(disp / demanda, 4)
+
+
 def estado_de_registro(
     registro: dict[str, Any],
     instante: datetime,
@@ -312,6 +422,7 @@ def estado_de_registro(
     exposicao: ExposicaoSanitaria | None = None,
     contatos_validados_90d: bool | None = None,
     municipios_zas: tuple[str, ...] = (),
+    razao_leitos_demanda: float | None = None,
 ) -> EstadoBarragem:
     return EstadoBarragem(
         id_barragem=texto(registro.get("id_snisb")) or "sem-id",
@@ -334,6 +445,7 @@ def estado_de_registro(
         capacidade=CapacidadeResposta(
             situacao_plano_emergencia=situacao_pae(registro),
             contatos_validados_90d=contatos_validados_90d,
+            razao_leitos_demanda=razao_leitos_demanda,
         ),
         sinais=sinais_de_hidro(hidro),
     )
@@ -414,13 +526,34 @@ def main() -> None:
     hidro_por_id = ler_hidro_por_barragem()
     cnes_por_mun = ler_cnes_por_municipio()
     pop_por_mun = ler_populacao_por_municipio()
+    leitos_por_mun, fonte_leitos_d6 = ler_leitos_para_d6(cnes_por_mun)
     alertab_por_id = ler_alertabilidade()
+    proxies_c45c7 = ler_proxies_eixo_c45c7()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
     print(f"  {STATUS_VERSAO_PESOS}")
-    print(f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens")
-    print(f"  CNES eixo (proxy C3): {len(cnes_por_mun)} municípios")
+    n_tel = sum(
+        1
+        for h in hidro_por_id.values()
+        if (h.get("aproximacao_espacial") or "") == "ponto_barragem_telemetria"
+        or bool(h.get("fonte_telemetria_a"))
+        or str(h.get("fonte_precip") or "").startswith(("inmet_", "openmeteo_ponto"))
+    )
+    print(
+        f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens "
+        f"({n_tel} com telemetria pontual etapa 39)"
+    )
+    print(f"  CNES estadual (proxy C3): {len(cnes_por_mun)} municípios")
     print(f"  população IBGE: {len(pop_por_mun)} municípios")
+    print(
+        f"  leitos D6 ({fonte_leitos_d6}): {len(leitos_por_mun)} municípios"
+        + (
+            f" · {LEITOS_TIPOL_POR_HOSPITAL:.0f} leitos/hospital"
+            if fonte_leitos_d6 == "cnes_tipologico_proxy"
+            else ""
+        )
+    )
     print(f"  alertabilidade: {len(alertab_por_id)} barragens")
+    print(f"  proxies C4/C5/C7 (eixo+prioritárias): {len(proxies_c45c7)} barragens")
 
     secoes = secoes_controle_por_municipio(inventario)
     print(f"  seções de controle provisórias: {len(secoes)} municípios")
@@ -460,15 +593,22 @@ def main() -> None:
 
         hidro = hidro_por_id.get(id_snisb)
         exposicao = exposicao_proxy(
-            contaminante(registro), afetados, cnes_por_mun, pop_por_mun
+            contaminante(registro),
+            afetados,
+            cnes_por_mun,
+            pop_por_mun,
+            proxy_c45c7=proxies_c45c7.get(id_snisb),
         )
+        mun_zas = tuple(afetados) if afetados else (mun_sede,)
+        razao_leitos = razao_leitos_demanda_zas(mun_zas, pop_por_mun, leitos_por_mun)
         estado = estado_de_registro(
             registro,
             instante,
             hidro,
             exposicao=exposicao,
             contatos_validados_90d=contatos_ok,
-            municipios_zas=tuple(afetados),
+            municipios_zas=mun_zas,
+            razao_leitos_demanda=razao_leitos,
         )
         resultado = calcular_idap(estado)
         final = aplicar_regras(estado, resultado)
@@ -688,13 +828,14 @@ def escrever_relatorio(
         "",
         f"- Barragens com linha SisClima/TITAN: **{n_hidro}** "
         f"(`hidro_barragens_mt.csv`, etapa 17).",
-        "- Aproximação espacial atual: município-sede (não bacia contribuinte).",
-        "- A3 (previsão) e A4 (percentil) ainda vazios no contrato atual.",
+        "- Onde a etapa 39 rodou: chuva A1–A4 no **ponto da barragem** "
+        "(INMET ≤80 km ou Open-Meteo pontual); demais usam município-sede/montante.",
+        "- Alertas Cemaden/INMET/ANA do contrato municipal são preservados na mescla.",
         "",
         "## Próximos passos",
         "",
         "1. Expandir BHO além da bacia do Cuiabá e agregar chuva/solo na drenagem.",
-        "2. Montar o piloto operacional do eixo Manso–Cuiabá.",
+        "2. Preferir série INMET/ANA HidroWeb quando a API diária estiver estável.",
         "",
     ]
     destino = comum.RELATORIOS / "idap_estadual_mt.md"

@@ -1,15 +1,15 @@
 # Hidrometeorologia — SIS Clima Saúde / TITAN
 
-Fonte: `C:\Users\Menandesneto\OneDrive\CIEVS MT\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\cloud\sis_cloud_seed.db`
-Extração: 2026-07-30T09:58:08
+Fonte: `/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db`
+Extração: 2026-09-07T13:48:25
 
 ## Cobertura
 
-- Municípios com série de precipitação: **141**
-- Destes, com chuva > 0 mm na data de referência: **79**
-- Com saturação do solo (TITAN): **141**
-- Com estágio hidrológico ANA/TITAN: **3**
-- Barragens no inventário com linha hidro: **1248**
+- Municípios com série de precipitação: **142**
+- Destes, com chuva > 0 mm na data de referência: **135**
+- Com saturação do solo (TITAN): **142**
+- Com estágio hidrológico ANA/TITAN: **18**
+- Barragens no inventário com linha hidro: **1280**
 
 ## Mapeamento → IDAP
 
@@ -33,7 +33,7 @@ Extração: 2026-07-30T09:58:08
 
 ## Aproximação espacial
 
-- Barragens com agregação **sede + municípios a montante** (máximo): **384**
-- Apenas município-sede: **864**
+- Barragens com agregação **sede + municípios a montante** (máximo): **401**
+- Apenas município-sede: **879**
 
 A métrica agregada é o **máximo** entre os municípios contribuintes (pior pressão), não a soma. A agregação areal sobre a BHO estadual completa substitui este proxy.

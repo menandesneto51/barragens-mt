@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "motivo": "nenhuma fonte (CSV LT / DW / DBC local)",
+  "n_linhas": 0,
+  "orientacao": "Exporte LT MT (DATASUS) para CSV em dados/brutos/cnes_leitos_lt_mt.csv ou defina VIGIBARRAGENS_CNES_LT_CSV. Layout em dados/config/exemplos/cnes_leitos_lt_mt.exemplo.csv. FTP DATASUS costuma falhar aqui; IndicaSUS (43) cobre ocupação.",
+  "gerado_em": "2026-08-02T20:46:30.466274+00:00"
+}

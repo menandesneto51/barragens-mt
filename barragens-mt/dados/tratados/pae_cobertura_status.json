@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "n_barragens": 1280,
+  "tem_pae_sim": 131,
+  "tem_pae_nao": 23,
+  "tem_pae_desconhecido": 1126,
+  "tem_mancha_zas": 0,
+  "fonte": "SNISB possui_pae via inventario_barragens_mt.csv",
+  "gerado_em": "2026-09-07T14:05:00.923365+00:00",
+  "nota": "Manchas oficiais permanecem pendentes (SEMA/empreendedor/ANM)."
+}

@@ -1,0 +1,149 @@
+{
+  "descricao": "Catálogo de extratos do DW / sistemas institucionais da SES-MT. Cada entrada pode ser lida via CSV dump, SQLite ou SQL (VIGIBARRAGENS_DW_URL).",
+  "versao": 2,
+  "conexao": {
+    "env_url": "VIGIBARRAGENS_DW_URL",
+    "env_sqlite": "VIGIBARRAGENS_DW_SQLITE",
+    "env_csv_dir": "VIGIBARRAGENS_DW_CSV_DIR",
+    "nota": "Credenciais ficam só em env/secrets — nunca no repositório."
+  },
+  "extratos": {
+    "indicasus_leitos": {
+      "titulo": "IndicaSUS — leitos e ocupação",
+      "prioridade": "P1",
+      "uso": ["D6", "SAU-01", "SAU-07", "IPAPD-O"],
+      "chave_join": "codigo_cnes",
+      "csv_dump": "indicasus_leitos.csv",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_INDICASUS_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_INDICASUS_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "indicasus_leitos",
+      "pipeline": "43",
+      "aliases": {
+        "codigo_cnes": ["codigo_cnes", "cnes", "co_cnes", "cod_cnes", "CNES"],
+        "nome_estabelecimento": ["nome_estabelecimento", "nome_fantasia", "estabelecimento", "no_fantasia"],
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge", "co_municipio", "codigo_municipio"],
+        "municipio": ["municipio", "no_municipio", "nome_municipio"],
+        "tipo_leito": ["tipo_leito", "tipo", "ds_leito", "especialidade"],
+        "leitos_cadastrados": ["leitos_cadastrados", "cadastrados", "qt_cadastrado", "leitos_cnes"],
+        "leitos_operacionais": ["leitos_operacionais", "operacionais", "qt_operacional", "leitos"],
+        "leitos_ocupados": ["leitos_ocupados", "ocupados", "qt_ocupado", "ocupacao"],
+        "leitos_disponiveis": ["leitos_disponiveis", "disponiveis", "qt_disponivel", "vagos"],
+        "taxa_ocupacao": ["taxa_ocupacao", "tx_ocupacao", "ocupacao_pct", "percentual_ocupacao"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao", "dt_atualizacao", "referencia", "competencia"]
+      },
+      "saida": "indicasus_leitos_mt.csv"
+    },
+    "cnes_leitos_cadastrados": {
+      "titulo": "CNES LT — leitos cadastrados (DATASUS)",
+      "prioridade": "P1",
+      "uso": ["SAU-01", "D6 fallback cadastrado"],
+      "chave_join": "codigo_cnes",
+      "csv_dump": "cnes_leitos_lt_mt.csv",
+      "pipeline": "45",
+      "nota": "Capacidade cadastrada mensal — não é ocupação operacional (preferir IndicaSUS).",
+      "aliases": {
+        "codigo_cnes": ["codigo_cnes", "cnes", "CNES", "co_cnes"],
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "codufmun", "CODUFMUN", "co_municipio", "codigo_municipio"],
+        "tipo_leito": ["tipo_leito", "tp_leito", "TP_LEITO", "codleito", "CODLEITO"],
+        "leitos_cadastrados": ["leitos_cadastrados", "qt_exist", "QT_EXIST", "qt_existente", "quantidade"],
+        "leitos_sus": ["leitos_sus", "qt_sus", "QT_SUS"],
+        "competencia": ["competencia", "competen", "COMPETEN", "ano_mes"]
+      },
+      "saida": "cnes_leitos_cadastrados_mt.csv"
+    },
+    "sih_internacoes": {
+      "titulo": "SIH/SUS — internações (DW)",
+      "prioridade": "P2",
+      "uso": ["SAU-06", "POS-06"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sih_internacoes.csv",
+      "pipeline": "44",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_SIH_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_SIH_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "sih_internacoes",
+      "aliases": {
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge", "munic_res", "co_municipio"],
+        "municipio": ["municipio", "no_municipio", "nome_municipio"],
+        "codigo_cnes": ["codigo_cnes", "cnes", "CNES"],
+        "n_internacoes": ["n_internacoes", "internacoes", "quantidade", "qt", "aih"],
+        "cid_grupo": ["cid_grupo", "cid", "diagnostico", "causa"],
+        "competencia": ["competencia", "ano_mes", "periodo", "mes"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao", "dt_carga"]
+      },
+      "saida": "sih_internacoes_mt.csv"
+    },
+    "sia_ambulatorial": {
+      "titulo": "SIA/SUS — produção ambulatorial (DW)",
+      "prioridade": "P2",
+      "uso": ["SAU-05"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sia_ambulatorial.csv",
+      "pipeline": "44",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_SIA_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_SIA_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "sia_ambulatorial",
+      "aliases": {
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge", "co_municipio"],
+        "municipio": ["municipio", "no_municipio"],
+        "codigo_cnes": ["codigo_cnes", "cnes", "CNES"],
+        "n_procedimentos": ["n_procedimentos", "procedimentos", "quantidade", "qt", "pa_qtdproc"],
+        "grupo_procedimento": ["grupo_procedimento", "grupo", "procedimento"],
+        "competencia": ["competencia", "ano_mes", "periodo"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao"]
+      },
+      "saida": "sia_ambulatorial_mt.csv"
+    },
+    "sisreg_leitos": {
+      "titulo": "SISREG / regulação — filas e autorizações",
+      "prioridade": "P2",
+      "uso": ["SAU-07", "D6"],
+      "chave_join": "codigo_cnes",
+      "csv_dump": "sisreg_leitos.csv",
+      "pipeline": "44",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_SISREG_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_SISREG_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "sisreg_leitos",
+      "nota": "Preferir IndicaSUS para ocupação operacional; SISREG complementa filas.",
+      "aliases": {
+        "codigo_cnes": ["codigo_cnes", "cnes", "CNES"],
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge"],
+        "municipio": ["municipio", "no_municipio"],
+        "fila_leitos": ["fila_leitos", "fila", "solicitacoes_abertas", "n_fila"],
+        "autorizacoes_24h": ["autorizacoes_24h", "autorizacoes", "n_autorizadas"],
+        "leitos_regulados": ["leitos_regulados", "oferta_regulada"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao", "referencia"]
+      },
+      "saida": "sisreg_leitos_mt.csv"
+    },
+    "sinan_notificacoes": {
+      "titulo": "SINAN — notificações (DW)",
+      "prioridade": "P2",
+      "uso": ["sinais epidemiológicos"],
+      "chave_join": "codigo_municipio_ibge",
+      "csv_dump": "sinan_notificacoes.csv",
+      "pipeline": "44",
+      "sql": "SELECT * FROM {schema}.{tabela}",
+      "schema_env": "VIGIBARRAGENS_SINAN_SCHEMA",
+      "tabela_env": "VIGIBARRAGENS_SINAN_TABELA",
+      "schema_default": "dbo",
+      "tabela_default": "sinan_notificacoes",
+      "aliases": {
+        "codigo_municipio_ibge": ["codigo_municipio_ibge", "cod_ibge", "ibge", "id_municip"],
+        "municipio": ["municipio", "no_municipio"],
+        "agravo": ["agravo", "doenca", "cid", "nu_notific"],
+        "n_notificacoes": ["n_notificacoes", "notificacoes", "quantidade", "qt", "casos"],
+        "semana_epidemiologica": ["semana_epidemiologica", "sem_epi", "nu_ano"],
+        "atualizado_em": ["atualizado_em", "data_atualizacao", "dt_notific"]
+      },
+      "saida": "sinan_notificacoes_mt.csv"
+    }
+  }
+}

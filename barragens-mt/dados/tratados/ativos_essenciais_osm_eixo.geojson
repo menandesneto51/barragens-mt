@@ -1,0 +1,3261 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.949248,
+     -15.678758
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "A",
+    "municipio": "",
+    "latitude": "-15.678758",
+    "longitude": "-55.949248",
+    "osm_tipo": "node",
+    "osm_id": "12700690301",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.182522,
+     -15.064716
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "AEROFITO COM IMPORTAÇÃO E EXP LTDA, barra do bugres",
+    "municipio": "",
+    "latitude": "-15.064716",
+    "longitude": "-57.182522",
+    "osm_tipo": "node",
+    "osm_id": "12702613601",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.925372,
+     -15.613618
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-15.613618",
+    "longitude": "-55.925372",
+    "osm_tipo": "node",
+    "osm_id": "5345867523",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.002092,
+     -15.801789
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-15.801789",
+    "longitude": "-57.002092",
+    "osm_tipo": "node",
+    "osm_id": "6179130887",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.237121,
+     -15.402525
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-15.402525",
+    "longitude": "-56.237121",
+    "osm_tipo": "node",
+    "osm_id": "6815456887",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.231825,
+     -15.415486
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-15.415486",
+    "longitude": "-56.231825",
+    "osm_tipo": "node",
+    "osm_id": "6843891185",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.404913,
+     -16.549558
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-16.549558",
+    "longitude": "-56.404913",
+    "osm_tipo": "node",
+    "osm_id": "7295503185",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.935373,
+     -15.349907
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-15.349907",
+    "longitude": "-55.935373",
+    "osm_tipo": "node",
+    "osm_id": "7769072485",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.906249,
+     -14.80458
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Abrigo",
+    "municipio": "",
+    "latitude": "-14.804580",
+    "longitude": "-56.906249",
+    "osm_tipo": "node",
+    "osm_id": "11277069369",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.006795,
+     -15.130285
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Entrada Pcheidt agrop santa fé",
+    "municipio": "",
+    "latitude": "-15.130285",
+    "longitude": "-57.006795",
+    "osm_tipo": "node",
+    "osm_id": "13031826201",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.978563,
+     -15.660605
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Lava jato em frente a madalena",
+    "municipio": "",
+    "latitude": "-15.660605",
+    "longitude": "-55.978563",
+    "osm_tipo": "node",
+    "osm_id": "12700496302",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.966387,
+     -15.664302
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Lavador caminhões bravo 2025",
+    "municipio": "",
+    "latitude": "-15.664302",
+    "longitude": "-55.966387",
+    "osm_tipo": "node",
+    "osm_id": "12616265303",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.434177,
+     -14.836625
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "Restaurante petro furt",
+    "municipio": "",
+    "latitude": "-14.836625",
+    "longitude": "-56.434177",
+    "osm_tipo": "node",
+    "osm_id": "12417548601",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.195569,
+     -15.649651
+    ]
+   },
+   "properties": {
+    "categoria": "abrigo",
+    "nome": "trevo do lagarto várzea grande-mt",
+    "municipio": "",
+    "latitude": "-15.649651",
+    "longitude": "-56.195569",
+    "osm_tipo": "node",
+    "osm_id": "11277068883",
+    "tags_resumo": "amenity=shelter",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.160419,
+     -15.738589
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Caixa D'Água",
+    "municipio": "",
+    "latitude": "-15.738589",
+    "longitude": "-56.160419",
+    "osm_tipo": "way",
+    "osm_id": "546893410",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.028736,
+     -15.631016
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "ETA Altos do Coxipó",
+    "municipio": "",
+    "latitude": "-15.631016",
+    "longitude": "-56.028736",
+    "osm_tipo": "way",
+    "osm_id": "839984347",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.23393,
+     -15.351027
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "ETA Nossa Senhora da Guia",
+    "municipio": "",
+    "latitude": "-15.351027",
+    "longitude": "-56.233930",
+    "osm_tipo": "way",
+    "osm_id": "1058018110",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.057082,
+     -15.654715
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "ETA Sul",
+    "municipio": "Cuiabá",
+    "latitude": "-15.654715",
+    "longitude": "-56.057082",
+    "osm_tipo": "way",
+    "osm_id": "1060549087",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.009969,
+     -15.612912
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "ETA Tijucal",
+    "municipio": "",
+    "latitude": "-15.612912",
+    "longitude": "-56.009969",
+    "osm_tipo": "way",
+    "osm_id": "169238693",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.129016,
+     -15.642354
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "ETA Ulisses Pompeu de Campos",
+    "municipio": "Várzea Grande",
+    "latitude": "-15.642354",
+    "longitude": "-56.129016",
+    "osm_tipo": "way",
+    "osm_id": "1006768970",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.984593,
+     -15.628716
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Estação de tratamento de água - Aguas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.628716",
+    "longitude": "-55.984593",
+    "osm_tipo": "way",
+    "osm_id": "1087627279",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.983563,
+     -15.652327
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.652327",
+    "longitude": "-55.983563",
+    "osm_tipo": "node",
+    "osm_id": "4834297681",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.984011,
+     -15.651737
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.651737",
+    "longitude": "-55.984011",
+    "osm_tipo": "node",
+    "osm_id": "4834297682",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.986812,
+     -15.653223
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.653223",
+    "longitude": "-55.986812",
+    "osm_tipo": "node",
+    "osm_id": "4834297683",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.985899,
+     -15.652817
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.652817",
+    "longitude": "-55.985899",
+    "osm_tipo": "node",
+    "osm_id": "4834297684",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.984284,
+     -15.652623
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.652623",
+    "longitude": "-55.984284",
+    "osm_tipo": "node",
+    "osm_id": "4834297685",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.9849,
+     -15.652022
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.652022",
+    "longitude": "-55.984900",
+    "osm_tipo": "node",
+    "osm_id": "4834297686",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.104998,
+     -15.606931
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.606931",
+    "longitude": "-56.104998",
+    "osm_tipo": "node",
+    "osm_id": "4837908431",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.160419,
+     -15.738588
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.738588",
+    "longitude": "-56.160419",
+    "osm_tipo": "node",
+    "osm_id": "5284486860",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.026196,
+     -16.71036
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-16.710360",
+    "longitude": "-56.026196",
+    "osm_tipo": "node",
+    "osm_id": "5303523554",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.098616,
+     -15.623037
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.623037",
+    "longitude": "-56.098616",
+    "osm_tipo": "node",
+    "osm_id": "6233225993",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.098562,
+     -15.622998
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.622998",
+    "longitude": "-56.098562",
+    "osm_tipo": "node",
+    "osm_id": "6233225994",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.058776,
+     -15.57604
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.576040",
+    "longitude": "-56.058776",
+    "osm_tipo": "node",
+    "osm_id": "6341679495",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.058359,
+     -15.576313
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.576313",
+    "longitude": "-56.058359",
+    "osm_tipo": "node",
+    "osm_id": "6341679659",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.29147,
+     -14.782964
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-14.782964",
+    "longitude": "-57.291470",
+    "osm_tipo": "node",
+    "osm_id": "6384117148",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.941755,
+     -15.634071
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.634071",
+    "longitude": "-55.941755",
+    "osm_tipo": "node",
+    "osm_id": "7593197387",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.054497,
+     -15.597968
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.597968",
+    "longitude": "-56.054497",
+    "osm_tipo": "node",
+    "osm_id": "9692173978",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.632205,
+     -16.269354
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-16.269354",
+    "longitude": "-56.632205",
+    "osm_tipo": "node",
+    "osm_id": "9958172284",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.632187,
+     -16.264253
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-16.264253",
+    "longitude": "-56.632187",
+    "osm_tipo": "node",
+    "osm_id": "9958355133",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.110289,
+     -15.577792
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.577792",
+    "longitude": "-56.110289",
+    "osm_tipo": "node",
+    "osm_id": "10012565796",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.077327,
+     -15.545112
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.545112",
+    "longitude": "-56.077327",
+    "osm_tipo": "node",
+    "osm_id": "10116564056",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.887899,
+     -14.975708
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-14.975708",
+    "longitude": "-55.887899",
+    "osm_tipo": "node",
+    "osm_id": "11455672427",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.724495,
+     -16.04789
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-16.047890",
+    "longitude": "-56.724495",
+    "osm_tipo": "node",
+    "osm_id": "12113294371",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.724348,
+     -16.047943
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-16.047943",
+    "longitude": "-56.724348",
+    "osm_tipo": "node",
+    "osm_id": "12113294372",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.08909,
+     -15.580202
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.580202",
+    "longitude": "-56.089090",
+    "osm_tipo": "way",
+    "osm_id": "167637780",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.179664,
+     -15.067596
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.067596",
+    "longitude": "-57.179664",
+    "osm_tipo": "way",
+    "osm_id": "306284577",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.121203,
+     -15.651873
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.651873",
+    "longitude": "-56.121203",
+    "osm_tipo": "way",
+    "osm_id": "451993809",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.12116,
+     -15.651955
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.651955",
+    "longitude": "-56.121160",
+    "osm_tipo": "way",
+    "osm_id": "451993810",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.071169,
+     -15.614931
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.614931",
+    "longitude": "-56.071169",
+    "osm_tipo": "way",
+    "osm_id": "457225213",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.106375,
+     -15.566253
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.566253",
+    "longitude": "-56.106375",
+    "osm_tipo": "way",
+    "osm_id": "457648392",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.73818,
+     -15.46433
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.464330",
+    "longitude": "-55.738180",
+    "osm_tipo": "way",
+    "osm_id": "608128550",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.05576,
+     -15.553586
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.553586",
+    "longitude": "-56.055760",
+    "osm_tipo": "way",
+    "osm_id": "623151748",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.063938,
+     -15.56431
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.564310",
+    "longitude": "-56.063938",
+    "osm_tipo": "way",
+    "osm_id": "629572534",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.752859,
+     -15.464757
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.464757",
+    "longitude": "-55.752859",
+    "osm_tipo": "way",
+    "osm_id": "682551481",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.706925,
+     -15.468187
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.468187",
+    "longitude": "-55.706925",
+    "osm_tipo": "way",
+    "osm_id": "683628310",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.034906,
+     -15.612187
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.612187",
+    "longitude": "-56.034906",
+    "osm_tipo": "way",
+    "osm_id": "722630559",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.034897,
+     -15.61247
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.612470",
+    "longitude": "-56.034897",
+    "osm_tipo": "way",
+    "osm_id": "722630567",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.073077,
+     -15.573245
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.573245",
+    "longitude": "-56.073077",
+    "osm_tipo": "way",
+    "osm_id": "744981015",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.037979,
+     -15.608438
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608438",
+    "longitude": "-56.037979",
+    "osm_tipo": "way",
+    "osm_id": "760930548",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.117594,
+     -15.658706
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.658706",
+    "longitude": "-56.117594",
+    "osm_tipo": "way",
+    "osm_id": "766500822",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.121608,
+     -15.590606
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.590606",
+    "longitude": "-56.121608",
+    "osm_tipo": "way",
+    "osm_id": "784077757",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.022279,
+     -15.614791
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.614791",
+    "longitude": "-56.022279",
+    "osm_tipo": "way",
+    "osm_id": "785630800",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.04053,
+     -15.578312
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.578312",
+    "longitude": "-56.040530",
+    "osm_tipo": "way",
+    "osm_id": "807574161",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.131668,
+     -15.652272
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.652272",
+    "longitude": "-56.131668",
+    "osm_tipo": "way",
+    "osm_id": "810513971",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.131612,
+     -15.650886
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.650886",
+    "longitude": "-56.131612",
+    "osm_tipo": "way",
+    "osm_id": "810513986",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.143026,
+     -15.658988
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.658988",
+    "longitude": "-56.143026",
+    "osm_tipo": "way",
+    "osm_id": "810530087",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.143535,
+     -15.657082
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.657082",
+    "longitude": "-56.143535",
+    "osm_tipo": "way",
+    "osm_id": "810530088",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.14449,
+     -15.657678
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.657678",
+    "longitude": "-56.144490",
+    "osm_tipo": "way",
+    "osm_id": "810530089",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.955352,
+     -15.635412
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.635412",
+    "longitude": "-55.955352",
+    "osm_tipo": "way",
+    "osm_id": "812927063",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.06795,
+     -15.668572
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.668572",
+    "longitude": "-56.067950",
+    "osm_tipo": "way",
+    "osm_id": "813519642",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.154486,
+     -15.608305
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608305",
+    "longitude": "-56.154486",
+    "osm_tipo": "way",
+    "osm_id": "839756178",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.154808,
+     -15.608835
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608835",
+    "longitude": "-56.154808",
+    "osm_tipo": "way",
+    "osm_id": "839756188",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.154799,
+     -15.608871
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608871",
+    "longitude": "-56.154799",
+    "osm_tipo": "way",
+    "osm_id": "839756189",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.154789,
+     -15.608901
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608901",
+    "longitude": "-56.154789",
+    "osm_tipo": "way",
+    "osm_id": "839756190",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.15478,
+     -15.608938
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608938",
+    "longitude": "-56.154780",
+    "osm_tipo": "way",
+    "osm_id": "839756191",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.154662,
+     -15.608711
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.608711",
+    "longitude": "-56.154662",
+    "osm_tipo": "way",
+    "osm_id": "839756192",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.036992,
+     -15.621535
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.621535",
+    "longitude": "-56.036992",
+    "osm_tipo": "way",
+    "osm_id": "840000408",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.192879,
+     -15.624814
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.624814",
+    "longitude": "-56.192879",
+    "osm_tipo": "way",
+    "osm_id": "858757345",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.101225,
+     -15.641648
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.641648",
+    "longitude": "-56.101225",
+    "osm_tipo": "way",
+    "osm_id": "962412741",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.297828,
+     -15.230523
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.230523",
+    "longitude": "-56.297828",
+    "osm_tipo": "way",
+    "osm_id": "963492018",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.961675,
+     -15.676614
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.676614",
+    "longitude": "-55.961675",
+    "osm_tipo": "way",
+    "osm_id": "1101914647",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.367057,
+     -15.199721
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.199721",
+    "longitude": "-56.367057",
+    "osm_tipo": "way",
+    "osm_id": "1135288107",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.975586,
+     -15.644322
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.644322",
+    "longitude": "-55.975586",
+    "osm_tipo": "way",
+    "osm_id": "1196831325",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.291182,
+     -14.782992
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-14.782992",
+    "longitude": "-57.291182",
+    "osm_tipo": "way",
+    "osm_id": "1329507475",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.080701,
+     -15.67082
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.670820",
+    "longitude": "-56.080701",
+    "osm_tipo": "way",
+    "osm_id": "1381176627",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.069874,
+     -15.555252
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.555252",
+    "longitude": "-56.069874",
+    "osm_tipo": "way",
+    "osm_id": "1383574851",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.988146,
+     -15.638014
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.638014",
+    "longitude": "-55.988146",
+    "osm_tipo": "way",
+    "osm_id": "1385779830",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.048996,
+     -15.592858
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Eta Agua",
+    "municipio": "",
+    "latitude": "-15.592858",
+    "longitude": "-56.048996",
+    "osm_tipo": "way",
+    "osm_id": "1390839447",
+    "tags_resumo": "man_made=water_tower",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.10912,
+     -15.615101
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "RAP - Porto",
+    "municipio": "Cuiabá",
+    "latitude": "-15.615101",
+    "longitude": "-56.109120",
+    "osm_tipo": "way",
+    "osm_id": "1079640055",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.129065,
+     -15.577129
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.577129",
+    "longitude": "-56.129065",
+    "osm_tipo": "way",
+    "osm_id": "479193245",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.051021,
+     -15.546851
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.546851",
+    "longitude": "-56.051021",
+    "osm_tipo": "way",
+    "osm_id": "1115264294",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.081623,
+     -15.540425
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.540425",
+    "longitude": "-56.081623",
+    "osm_tipo": "way",
+    "osm_id": "1144537061",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.090354,
+     -15.573546
+    ]
+   },
+   "properties": {
+    "categoria": "eta_agua",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.573546",
+    "longitude": "-56.090354",
+    "osm_tipo": "way",
+    "osm_id": "1167647876",
+    "tags_resumo": "man_made=water_works",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.179686,
+     -15.067642
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Departamento de Água e Esgoto - DAE",
+    "municipio": "",
+    "latitude": "-15.067642",
+    "longitude": "-57.179686",
+    "osm_tipo": "way",
+    "osm_id": "306283926",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.102961,
+     -15.615747
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETA Prainha",
+    "municipio": "",
+    "latitude": "-15.615747",
+    "longitude": "-56.102961",
+    "osm_tipo": "way",
+    "osm_id": "724199232",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.10057,
+     -15.590234
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETA São Sebastião",
+    "municipio": "",
+    "latitude": "-15.590234",
+    "longitude": "-56.100570",
+    "osm_tipo": "way",
+    "osm_id": "166973321",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.145585,
+     -15.590385
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETA Várzea Grande",
+    "municipio": "",
+    "latitude": "-15.590385",
+    "longitude": "-56.145585",
+    "osm_tipo": "way",
+    "osm_id": "1191330178",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.14502,
+     -15.55358
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Condomínio Village Bordeaux",
+    "municipio": "",
+    "latitude": "-15.553580",
+    "longitude": "-56.145020",
+    "osm_tipo": "way",
+    "osm_id": "1510509512",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.173649,
+     -15.061674
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Departamento de Água e Esgoto - DAE",
+    "municipio": "",
+    "latitude": "-15.061674",
+    "longitude": "-57.173649",
+    "osm_tipo": "way",
+    "osm_id": "306294520",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.095543,
+     -15.617217
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Dom Aquino",
+    "municipio": "Cuiabá",
+    "latitude": "-15.617217",
+    "longitude": "-56.095543",
+    "osm_tipo": "way",
+    "osm_id": "1060384874",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.033426,
+     -15.66548
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Lotufo",
+    "municipio": "",
+    "latitude": "-15.665480",
+    "longitude": "-56.033426",
+    "osm_tipo": "way",
+    "osm_id": "1088631348",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.007834,
+     -15.617125
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Novo Milênio",
+    "municipio": "",
+    "latitude": "-15.617125",
+    "longitude": "-56.007834",
+    "osm_tipo": "way",
+    "osm_id": "1087810459",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.167727,
+     -15.613699
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Porto das Pedras",
+    "municipio": "Várzea Grande",
+    "latitude": "-15.613699",
+    "longitude": "-56.167727",
+    "osm_tipo": "way",
+    "osm_id": "1068982325",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.015752,
+     -15.609743
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Rios de Cuiabá",
+    "municipio": "Cuiabá",
+    "latitude": "-15.609743",
+    "longitude": "-56.015752",
+    "osm_tipo": "way",
+    "osm_id": "785630817",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.115498,
+     -15.685842
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Santa Maria",
+    "municipio": "",
+    "latitude": "-15.685842",
+    "longitude": "-56.115498",
+    "osm_tipo": "way",
+    "osm_id": "1085455700",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.045954,
+     -15.588295
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE São Carlos",
+    "municipio": "Cuiabá",
+    "latitude": "-15.588295",
+    "longitude": "-56.045954",
+    "osm_tipo": "way",
+    "osm_id": "1063762549",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.006156,
+     -15.625295
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Tijucal",
+    "municipio": "Cuiabá",
+    "latitude": "-15.625295",
+    "longitude": "-56.006156",
+    "osm_tipo": "way",
+    "osm_id": "1072481233",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.096773,
+     -15.563239
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "ETE Vila Real",
+    "municipio": "",
+    "latitude": "-15.563239",
+    "longitude": "-56.096773",
+    "osm_tipo": "way",
+    "osm_id": "1088631327",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.14445,
+     -15.660736
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Ete Esgoto",
+    "municipio": "",
+    "latitude": "-15.660736",
+    "longitude": "-56.144450",
+    "osm_tipo": "way",
+    "osm_id": "810530090",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.175694,
+     -15.653586
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Ete Esgoto",
+    "municipio": "",
+    "latitude": "-15.653586",
+    "longitude": "-56.175694",
+    "osm_tipo": "way",
+    "osm_id": "810547887",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.059284,
+     -15.649748
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Ete Esgoto",
+    "municipio": "",
+    "latitude": "-15.649748",
+    "longitude": "-56.059284",
+    "osm_tipo": "way",
+    "osm_id": "1060549092",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.110763,
+     -15.629489
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Ete Esgoto",
+    "municipio": "",
+    "latitude": "-15.629489",
+    "longitude": "-56.110763",
+    "osm_tipo": "way",
+    "osm_id": "1071095018",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.038854,
+     -15.592836
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Águas Cuiabá",
+    "municipio": "Cuiabá",
+    "latitude": "-15.592836",
+    "longitude": "-56.038854",
+    "osm_tipo": "way",
+    "osm_id": "1064730851",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.067359,
+     -15.60216
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.602160",
+    "longitude": "-56.067359",
+    "osm_tipo": "way",
+    "osm_id": "1067945481",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.016779,
+     -15.61899
+    ]
+   },
+   "properties": {
+    "categoria": "ete_esgoto",
+    "nome": "Águas Cuiabá",
+    "municipio": "",
+    "latitude": "-15.618990",
+    "longitude": "-56.016779",
+    "osm_tipo": "way",
+    "osm_id": "1091390408",
+    "tags_resumo": "man_made=wastewater_plant",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.20087,
+     -14.764426
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "EB04",
+    "municipio": "",
+    "latitude": "-14.764426",
+    "longitude": "-57.200870",
+    "osm_tipo": "way",
+    "osm_id": "1327179995",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.194627,
+     -14.767884
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestacao Energia",
+    "municipio": "",
+    "latitude": "-14.767884",
+    "longitude": "-57.194627",
+    "osm_tipo": "way",
+    "osm_id": "1315848447",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.859568,
+     -15.532357
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação ARICF",
+    "municipio": "",
+    "latitude": "-15.532357",
+    "longitude": "-55.859568",
+    "osm_tipo": "way",
+    "osm_id": "1307257239",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.181151,
+     -15.043614
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Barra do Bugres",
+    "municipio": "",
+    "latitude": "-15.043614",
+    "longitude": "-57.181151",
+    "osm_tipo": "way",
+    "osm_id": "306308598",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.076069,
+     -15.593907
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Barro Duro",
+    "municipio": "",
+    "latitude": "-15.593907",
+    "longitude": "-56.076069",
+    "osm_tipo": "way",
+    "osm_id": "80445018",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.948945,
+     -16.188533
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Barão de Melgaço",
+    "municipio": "",
+    "latitude": "-16.188533",
+    "longitude": "-55.948945",
+    "osm_tipo": "way",
+    "osm_id": "565640808",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.127623,
+     -15.610544
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Beira Rio",
+    "municipio": "",
+    "latitude": "-15.610544",
+    "longitude": "-56.127623",
+    "osm_tipo": "way",
+    "osm_id": "566465488",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.043255,
+     -15.551731
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação CPA",
+    "municipio": "",
+    "latitude": "-15.551731",
+    "longitude": "-56.043255",
+    "osm_tipo": "way",
+    "osm_id": "167892676",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.566094,
+     -16.081903
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Cangas",
+    "municipio": "",
+    "latitude": "-16.081903",
+    "longitude": "-56.566094",
+    "osm_tipo": "way",
+    "osm_id": "565640810",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.708255,
+     -15.47953
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Chapada",
+    "municipio": "",
+    "latitude": "-15.479530",
+    "longitude": "-55.708255",
+    "osm_tipo": "way",
+    "osm_id": "167892665",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.132651,
+     -15.593626
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Cidade Alta",
+    "municipio": "",
+    "latitude": "-15.593626",
+    "longitude": "-56.132651",
+    "osm_tipo": "way",
+    "osm_id": "34141983",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.266112,
+     -14.642633
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Cimag",
+    "municipio": "",
+    "latitude": "-14.642633",
+    "longitude": "-56.266112",
+    "osm_tipo": "way",
+    "osm_id": "566488167",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.101594,
+     -15.630827
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Cristo-Rei",
+    "municipio": "",
+    "latitude": "-15.630827",
+    "longitude": "-56.101594",
+    "osm_tipo": "way",
+    "osm_id": "176682224",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.854546,
+     -15.685579
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Cuiabá",
+    "municipio": "",
+    "latitude": "-15.685579",
+    "longitude": "-55.854546",
+    "osm_tipo": "way",
+    "osm_id": "168664395",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.052996,
+     -14.740331
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Denise",
+    "municipio": "",
+    "latitude": "-14.740331",
+    "longitude": "-57.052996",
+    "osm_tipo": "way",
+    "osm_id": "566480374",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.004256,
+     -15.659468
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Distrito Cuiabá",
+    "municipio": "",
+    "latitude": "-15.659468",
+    "longitude": "-56.004256",
+    "osm_tipo": "way",
+    "osm_id": "169060323",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.998528,
+     -15.664203
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Distrito Industrial",
+    "municipio": "",
+    "latitude": "-15.664203",
+    "longitude": "-55.998528",
+    "osm_tipo": "way",
+    "osm_id": "170296513",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.498329,
+     -15.229455
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Jangada",
+    "municipio": "",
+    "latitude": "-15.229455",
+    "longitude": "-56.498329",
+    "osm_tipo": "way",
+    "osm_id": "566479188",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.594125,
+     -15.766862
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Lavandeira",
+    "municipio": "",
+    "latitude": "-15.766862",
+    "longitude": "-56.594125",
+    "osm_tipo": "way",
+    "osm_id": "565640809",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.336988,
+     -14.742468
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Nobres",
+    "municipio": "",
+    "latitude": "-14.742468",
+    "longitude": "-56.336988",
+    "osm_tipo": "way",
+    "osm_id": "168946071",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.297357,
+     -14.72516
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Nobres",
+    "municipio": "",
+    "latitude": "-14.725160",
+    "longitude": "-56.297357",
+    "osm_tipo": "way",
+    "osm_id": "171063374",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.285061,
+     -14.781188
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Nova Olímpia",
+    "municipio": "",
+    "latitude": "-14.781188",
+    "longitude": "-57.285061",
+    "osm_tipo": "way",
+    "osm_id": "400693630",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.635503,
+     -16.24326
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Poconé",
+    "municipio": "",
+    "latitude": "-16.243260",
+    "longitude": "-56.635503",
+    "osm_tipo": "way",
+    "osm_id": "565640807",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.081921,
+     -15.565701
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Rodoviária",
+    "municipio": "",
+    "latitude": "-15.565701",
+    "longitude": "-56.081921",
+    "osm_tipo": "way",
+    "osm_id": "169845345",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.075456,
+     -15.83803
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Santo Antônio",
+    "municipio": "",
+    "latitude": "-15.838030",
+    "longitude": "-56.075456",
+    "osm_tipo": "way",
+    "osm_id": "494918921",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.098916,
+     -15.632133
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Seara",
+    "municipio": "",
+    "latitude": "-15.632133",
+    "longitude": "-56.098916",
+    "osm_tipo": "way",
+    "osm_id": "1234287432",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.195522,
+     -15.64524
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Trevo do Lagarto",
+    "municipio": "",
+    "latitude": "-15.645240",
+    "longitude": "-56.195522",
+    "osm_tipo": "way",
+    "osm_id": "169406381",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.788938,
+     -14.877104
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação UHE Manso",
+    "municipio": "",
+    "latitude": "-14.877104",
+    "longitude": "-55.788938",
+    "osm_tipo": "way",
+    "osm_id": "491051197",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.788997,
+     -14.87278
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação UHE Manso",
+    "municipio": "",
+    "latitude": "-14.872780",
+    "longitude": "-55.788997",
+    "osm_tipo": "way",
+    "osm_id": "491051209",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.194743,
+     -14.75113
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação UISA",
+    "municipio": "",
+    "latitude": "-14.751130",
+    "longitude": "-57.194743",
+    "osm_tipo": "way",
+    "osm_id": "1314148064",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.0211,
+     -15.677732
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação UTE Cuiabá",
+    "municipio": "",
+    "latitude": "-15.677732",
+    "longitude": "-56.021100",
+    "osm_tipo": "way",
+    "osm_id": "167284528",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.136807,
+     -15.332109
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Votorantim",
+    "municipio": "",
+    "latitude": "-15.332109",
+    "longitude": "-56.136807",
+    "osm_tipo": "way",
+    "osm_id": "566467226",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.186254,
+     -15.712139
+    ]
+   },
+   "properties": {
+    "categoria": "subestacao_energia",
+    "nome": "Subestação Várzea Grande 2",
+    "municipio": "",
+    "latitude": "-15.712139",
+    "longitude": "-56.186254",
+    "osm_tipo": "way",
+    "osm_id": "320803017",
+    "tags_resumo": "power=substation",
+    "fonte": "OSM",
+    "observacao": "Proxy espacial C5 — preferir cadastros oficiais SES/Defesa Civil/concessionárias"
+   }
+  }
+ ]
+}

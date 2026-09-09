@@ -431,7 +431,7 @@ Sugestão: declarar o que já está em uso, para que o ambiente seja reproduzív
 | 2 | `netCDF4` ou `h5py` | Formato nativo dos produtos do IMERG | Não há |
 | 3 | `statsmodels` | Regressão de Poisson e binomial negativa para detecção de excesso | Implementação própria: viável, mas propensa a erro |
 | 3 | `scipy` | Distribuições e testes estatísticos | Parcialmente supríveis com `statistics` |
-| 4 | `networkx` | Cálculo de rotas alternativas sobre a malha viária | Não há |
+| 4 | `networkx` | Cálculo de rotas alternativas sobre a malha viária | Dijkstra/`heapq` em `st_app/vias_isolamento.py` (+ fallback offline `st_app/malha_offline.py`) |
 | 4 | `pydantic` | Validação de esquema da ficha rápida | `dataclasses` com validação manual |
 
 Observação sobre `pandas` e `geopandas`: **não estão instalados e não são necessários**. Todo o

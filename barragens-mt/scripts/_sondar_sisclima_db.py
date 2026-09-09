@@ -6,13 +6,19 @@ import sqlite3
 from pathlib import Path
 
 DBS = [
-    Path(
-        r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
-        r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\output\sis_integrado.db"
-    ),
+    Path(__file__).resolve().parents[1] / "dados" / "brutos" / "sisclima" / "sis_cloud_seed.db",
+    Path(__file__).resolve().parents[2]
+    / "sisclima-repo"
+    / "data"
+    / "cloud"
+    / "sis_cloud_seed.db",
     Path(
         r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
         r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\cloud\sis_cloud_seed.db"
+    ),
+    Path(
+        r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
+        r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\output\sis_integrado.db"
     ),
 ]
 

@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "n_fichas": 2,
+  "n_com_termos_ipapd": 2,
+  "municipios": [
+    "Chapada dos Guimarães",
+    "Cuiabá"
+  ],
+  "pasta": "dados/tratados/fichas_rapidas",
+  "gerado_em": "2026-09-09T12:07:45Z",
+  "nota": "Exporte JSON em painel/ficha_rapida.html para dados/tratados/fichas_rapidas/ — exemplos Manso/Cuiabá já inclusos."
+}

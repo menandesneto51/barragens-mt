@@ -101,18 +101,36 @@ def carregar_idap() -> pd.DataFrame:
                 "municipio",
                 "uso_principal",
                 "orgao_fiscalizador",
+                "empreendedor",
+                "tipo_empreendedor",
+                "fase_de_vida",
+                "classe",
+                "tipo_material",
+                "possui_pae",
+                "regulada_pelo_pnsb",
+                "indicador_regulada",
+                "data_ultima_inspecao",
+                "sigbm_status_dce",
+                "sigbm_tipo_alteamento",
+                "sigbm_minerio",
                 "sigbm_populacao_jusante",
                 "sigbm_pessoas_afetadas",
             )
             if c in inv.columns and (c == "id_snisb" or c not in idap.columns)
         ]
-        # Sempre trazer coordenadas e SIGBM do inventário.
+        # Sempre trazer coordenadas, engenharia e SIGBM do inventário.
         for obrig in (
             "id_snisb",
             "latitude",
             "longitude",
             "capacidade_hm3",
             "altura_m",
+            "empreendedor",
+            "fase_de_vida",
+            "classe",
+            "possui_pae",
+            "regulada_pelo_pnsb",
+            "indicador_regulada",
             "sigbm_populacao_jusante",
             "sigbm_pessoas_afetadas",
         ):
@@ -182,16 +200,94 @@ def carregar_hidro_mun() -> pd.DataFrame:
     df = ler_csv("hidro_municipios_mt.csv")
     if df.empty:
         return df
+    # Open-Meteo muitas vezes grava só codigo_ibge — completa o nome via IBGE.
+    if "codigo_ibge" in df.columns:
+        df["codigo_ibge"] = (
+            df["codigo_ibge"].astype(str).str.replace(r"\.0$", "", regex=True).str.strip()
+        )
+    ibge = ler_csv("ibge_municipios_mt.csv")
+    if not ibge.empty and "codigo_ibge" in ibge.columns and "municipio" in ibge.columns:
+        ibge = ibge.copy()
+        ibge["codigo_ibge"] = (
+            ibge["codigo_ibge"].astype(str).str.replace(r"\.0$", "", regex=True).str.strip()
+        )
+        mapa = (
+            ibge.drop_duplicates("codigo_ibge")
+            .set_index("codigo_ibge")["municipio"]
+            .astype(str)
+            .to_dict()
+        )
+        if "municipio" not in df.columns:
+            df["municipio"] = ""
+        vazio = df["municipio"].fillna("").astype(str).str.strip().isin(("", "nan", "None"))
+        df.loc[vazio, "municipio"] = df.loc[vazio, "codigo_ibge"].map(mapa).fillna("")
+    if "populacao" not in df.columns:
+        pop = ler_csv("ibge_populacao_municipios_mt.csv")
+        if not pop.empty and "codigo_ibge" in pop.columns:
+            pop = pop.copy()
+            pop["codigo_ibge"] = (
+                pop["codigo_ibge"].astype(str).str.replace(r"\.0$", "", regex=True).str.strip()
+            )
+            cols_pop = [
+                c
+                for c in ("codigo_ibge", "populacao", "densidade_hab_km2", "area_km2")
+                if c in pop.columns
+            ]
+            if len(cols_pop) > 1:
+                df = df.merge(pop[cols_pop].drop_duplicates("codigo_ibge"), on="codigo_ibge", how="left")
     for c in (
         "chuva_24h_mm",
         "chuva_72h_mm",
         "chuva_prevista_24_72h_mm",
         "percentil_climatologico",
         "indice_saturacao_solo",
+        "populacao",
+        "densidade_hab_km2",
+        "area_km2",
     ):
         if c in df.columns:
             df[c] = _num(df[c])
     return df
+
+
+def rotulo_regulada(valor: object, texto_pnsb: object = None) -> str:
+    """Normaliza indicador_regulada (1/2/3) e texto SNISB para leitura humana."""
+    txt = str(texto_pnsb or "").strip()
+    if txt and txt.lower() not in ("nan", "none", ""):
+        return txt
+    try:
+        n = int(float(str(valor).replace(",", ".")))
+    except (TypeError, ValueError):
+        return "—" if valor in (None, "", "nan") else str(valor)
+    return {1: "Sim (regulada PNSB)", 2: "Não regulada PNSB", 3: "Não classificada"}.get(
+        n, str(valor)
+    )
+
+
+def rotulo_sim_nao(valor: object) -> str:
+    s = str(valor or "").strip()
+    if not s or s.lower() in ("nan", "none", "-"):
+        return "—"
+    if s in ("1", "1.0", "Sim", "sim", "True", "true"):
+        return "Sim"
+    if s in ("0", "0.0", "2", "2.0", "Não", "Nao", "não", "nao", "False", "false"):
+        return "Não"
+    return s
+
+
+ORDEM_NIVEL = {"Roxo": 0, "Vermelho": 1, "Laranja": 2, "Amarelo": 3, "Verde": 4}
+
+
+def ordenar_por_severidade(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty or "nivel" not in df.columns:
+        return df
+    out = df.copy()
+    out["_ord"] = out["nivel"].map(ORDEM_NIVEL).fillna(9)
+    cols = ["_ord"]
+    if "idap_n" in out.columns:
+        cols.append("idap_n")
+        return out.sort_values(cols, ascending=[True, False]).drop(columns=["_ord"])
+    return out.sort_values("_ord").drop(columns=["_ord"])
 
 
 @st.cache_data(show_spinner=False)
@@ -248,8 +344,14 @@ def carregar_cnes_pontos(so_prioritarios: bool = False) -> pd.DataFrame:
         if chave in vistos:
             continue
         vistos.add(chave)
+        cod_cnes = str(props.get("codigo_cnes") or "").strip()
+        cod_cnes = "".join(c for c in cod_cnes if c.isdigit())[:7]
+        cod_mun = str(props.get("codigo_municipio") or "").strip()
+        cod_mun = "".join(c for c in cod_mun if c.isdigit())[:7]
         linhas.append(
             {
+                "codigo_cnes": cod_cnes,
+                "codigo_municipio": cod_mun,
                 "latitude": round(lat, 5),
                 "longitude": round(lon, 5),
                 "nome": nome[:80],

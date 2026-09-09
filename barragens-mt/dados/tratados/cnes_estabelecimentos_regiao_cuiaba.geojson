@@ -1132,7 +1132,7 @@
    },
    "properties": {
     "codigo_cnes": 552283,
-    "nome_fantasia": "GRANJIMMY CENTRO DE TRATAMENTO",
+    "nome_fantasia": "GRANJIMMY HOSPITAL PSIQUIATRICO",
     "nome_razao_social": "GRANJIMMY UNIDADE DE PRONTO ATENDIMENTO EM SAUDE MENTAL LTDA",
     "codigo_municipio": 510300,
     "municipio": "Chapada dos Guimarães",
@@ -1143,10 +1143,10 @@
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTO CONTINUO DE 24 HORAS/DIA (PLANTAO:INCLUI SABADOS, DOMINGOS E FERIADOS)",
-    "codigo_tipo_unidade": 21,
+    "codigo_tipo_unidade": 7,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 96885508",
-    "data_atualizacao": "2026-07-21",
+    "data_atualizacao": "2026-08-08",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Sim",
     "ambulatorial_sus": "NAO",
@@ -1224,41 +1224,6 @@
     "centro_obstetrico": "Não",
     "centro_neonatal": "Não",
     "servico_apoio": "Sim"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -55.7353103,
-     -15.4670552
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 4570561,
-    "nome_fantasia": "UNICA CLINICA MEDICA E TERAPIAS PARA SAUDE HUMANA",
-    "nome_razao_social": "UNICA CLINICA INTERDISCIPLINAR E INTERVECAO ABA LTDA",
-    "codigo_municipio": 510300,
-    "municipio": "Chapada dos Guimarães",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Não",
-    "bairro_estabelecimento": "SAO SEBASTIAO",
-    "endereco_estabelecimento": "R RUA DAS PALMEIRAS",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "(65) 9645-9023",
-    "data_atualizacao": "2025-09-11",
-    "atendimento_hospitalar": "Não",
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": "Não",
-    "centro_obstetrico": "Não",
-    "centro_neonatal": "Não",
-    "servico_apoio": "Não"
    }
   },
   {
@@ -1532,6 +1497,41 @@
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 92511124",
     "data_atualizacao": "2026-07-23",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -55.7353103,
+     -15.4670552
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 4570561,
+    "nome_fantasia": "UNICA CLINICA MEDICA E TERAPIAS PARA SAUDE HUMANA",
+    "nome_razao_social": "UNICA CLINICA INTERDISCIPLINAR E INTERVECAO ABA LTDA",
+    "codigo_municipio": 510300,
+    "municipio": "Chapada dos Guimarães",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Não",
+    "bairro_estabelecimento": "SAO SEBASTIAO",
+    "endereco_estabelecimento": "R RUA DAS PALMEIRAS",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "(65) 9645-9023",
+    "data_atualizacao": "2026-08-08",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -6516,27 +6516,27 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.056184580731745,
-     -15.608992986710112
+     -56.04671186206804,
+     -15.599713532377903
     ]
    },
    "properties": {
     "codigo_cnes": 9893083,
     "nome_fantasia": "ESPACO VEM SER SAUDE E BEM ESTAR",
-    "nome_razao_social": "R C LUZ KALIL DA SILVA EIRELI",
+    "nome_razao_social": "ESPACO VEM SER SAUDE E BEM ESTAR POLO 01 LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
     "no_eixo_jusante": "Sim",
     "bairro_estabelecimento": "BOA ESPERANCA",
-    "endereco_estabelecimento": "VINTE E SEIS",
+    "endereco_estabelecimento": "QUARENTA E TRES",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 98080058",
-    "data_atualizacao": "2025-11-27",
+    "numero_telefone_estabelecimento": "65 99710011",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -11856,7 +11856,7 @@
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "53 84114851",
-    "data_atualizacao": "2026-05-14",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -14165,8 +14165,8 @@
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 30463400",
-    "data_atualizacao": "2025-11-04",
+    "numero_telefone_estabelecimento": "65 30474242",
+    "data_atualizacao": "2026-08-12",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -21916,41 +21916,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.0937694,
-     -15.5892663
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8396671,
-    "nome_fantasia": "CEICO",
-    "nome_razao_social": "CENTRO DE IMAGEM DO CENTRO OESTE LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "ARAES",
-    "endereco_estabelecimento": "TENENTE EULALIO GUERRA",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 30262878",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.07930943720468,
      -15.609038225374851
     ]
@@ -22049,76 +22014,6 @@
     "centro_obstetrico": "Não",
     "centro_neonatal": "Não",
     "servico_apoio": "Sim"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.07721517079805,
-     -15.579060191831562
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8434891,
-    "nome_fantasia": "VCQ SERVICOS MEDICOS",
-    "nome_razao_social": "VCQ SERVICOS MEDICOS LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "BOSQUE DA SAUDE",
-    "endereco_estabelecimento": "HISTORIADOR RUBENS DE MENDONCA",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 36231000",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.114038017830005,
-     -15.593014605130636
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8434921,
-    "nome_fantasia": "CANAVARROS SERRA",
-    "nome_razao_social": "C S SERVICOS MEDICOS LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "JARDIM CUIABA",
-    "endereco_estabelecimento": "GENERAL RAMIRO DE NORONHA",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 98028815",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
    }
   },
   {
@@ -22336,41 +22231,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.11013548726549,
-     -15.586503802120026
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8441790,
-    "nome_fantasia": "ZENILDO PACHECO SAMPAIO",
-    "nome_razao_social": "ZENILDO PACHECO SAMPAIO",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "DUQUE DE CAXIAS",
-    "endereco_estabelecimento": "RUA MARECHAL FLORIANO PEIXOTO",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65992883008",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.0761219,
      -15.6074769
     ]
@@ -22441,76 +22301,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.096389,
-     -15.568472
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 1164716,
-    "nome_fantasia": "NATHALIA BIGAI FERREIRA NUNES",
-    "nome_razao_social": "NATHALIA BIGAI FERREIRA NUNES",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "DESPRAIADO",
-    "endereco_estabelecimento": "RUA DOUTOR SANTO SCARAVELLI",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 99219-1866",
-    "data_atualizacao": "2026-07-25",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.096389,
-     -15.568472
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 1164724,
-    "nome_fantasia": "NATHALIA BIGAI FERREIRA NUNES",
-    "nome_razao_social": "NATHALIA BIGAI FERREIRA NUNES",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "DESPRAIADO",
-    "endereco_estabelecimento": "RUA DOUTOR SANTO SCARAVELLI",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "6 99219-1866",
-    "data_atualizacao": "2026-07-25",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.08301838689257,
      -15.585826693453392
     ]
@@ -22546,6 +22336,181 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -56.11175130877967,
+     -15.582460853821816
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 6017215,
+    "nome_fantasia": "BIOCARDIOS",
+    "nome_razao_social": "CENTRO DE CARDIOLOGIA APLICADA LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "RIBEIRAO DA PONTE",
+    "endereco_estabelecimento": "MIGUEL SUTIL",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 36262990",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "SIM",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.1159083,
+     -15.5951321
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 2912252,
+    "nome_fantasia": "TAMIRES PIRES DE MENDONCA",
+    "nome_razao_social": "TAMIRES PIRES DE MENDONCA LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM CUIABA",
+    "endereco_estabelecimento": "DAS FLORES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 30287325",
+    "data_atualizacao": "2026-08-12",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.096389,
+     -15.568472
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 1164716,
+    "nome_fantasia": "NATHALIA BIGAI FERREIRA NUNES",
+    "nome_razao_social": "NATHALIA BIGAI FERREIRA NUNES",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "DESPRAIADO",
+    "endereco_estabelecimento": "RUA DOUTOR SANTO SCARAVELLI",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99219-1866",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.096389,
+     -15.568472
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 1164724,
+    "nome_fantasia": "NATHALIA BIGAI FERREIRA NUNES",
+    "nome_razao_social": "NATHALIA BIGAI FERREIRA NUNES",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "DESPRAIADO",
+    "endereco_estabelecimento": "RUA DOUTOR SANTO SCARAVELLI",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "6 99219-1866",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.0937694,
+     -15.5892663
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8396671,
+    "nome_fantasia": "CEICO",
+    "nome_razao_social": "CENTRO DE IMAGEM DO CENTRO OESTE LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "ARAES",
+    "endereco_estabelecimento": "TENENTE EULALIO GUERRA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 30262878",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Sim"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -56.04184256458002,
      -15.575607458837256
     ]
@@ -22566,13 +22531,118 @@
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 93466398",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.07721517079805,
+     -15.579060191831562
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8434891,
+    "nome_fantasia": "VCQ SERVICOS MEDICOS",
+    "nome_razao_social": "VCQ SERVICOS MEDICOS LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "BOSQUE DA SAUDE",
+    "endereco_estabelecimento": "HISTORIADOR RUBENS DE MENDONCA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 36231000",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.114038017830005,
+     -15.593014605130636
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8434921,
+    "nome_fantasia": "CANAVARROS SERRA",
+    "nome_razao_social": "C S SERVICOS MEDICOS LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM CUIABA",
+    "endereco_estabelecimento": "GENERAL RAMIRO DE NORONHA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 98028815",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Sim"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.11013548726549,
+     -15.586503802120026
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8441790,
+    "nome_fantasia": "ZENILDO PACHECO SAMPAIO",
+    "nome_razao_social": "ZENILDO PACHECO SAMPAIO",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "DUQUE DE CAXIAS",
+    "endereco_estabelecimento": "RUA MARECHAL FLORIANO PEIXOTO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65992883008",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
     "servico_apoio": "Não"
    }
   },
@@ -22601,13 +22671,13 @@
     "codigo_tipo_unidade": 2,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "66 35665967",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
     "servico_apoio": "Não"
    }
   },
@@ -22636,13 +22706,13 @@
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 98105564",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
     "servico_apoio": "Não"
    }
   },
@@ -22888,6 +22958,426 @@
     "centro_cirurgico": "Não",
     "centro_obstetrico": "Não",
     "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.07473974546546,
+     -15.60834782623924
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8460280,
+    "nome_fantasia": "MEDSERVICE SERVICOS MEDICOS",
+    "nome_razao_social": "MEDSERVICE SERVICOS MEDICOS LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM DAS AMERICAS",
+    "endereco_estabelecimento": "BUENOS AIRES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99111885",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.090960026425,
+     -15.60179881453482
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8467161,
+    "nome_fantasia": "ESPACO SYNAPSE",
+    "nome_razao_social": "MRRS CLINICA INTEGRADA DE NEURODESENVOLVIMENTO INFANTIL LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "BANDEIRANTES",
+    "endereco_estabelecimento": "GENERAL VALE",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 92850434",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.088953902956796,
+     -15.588293911740289
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8473595,
+    "nome_fantasia": "ILUMINAR ESPACO TERAPEUTICO PARA MULHERES",
+    "nome_razao_social": "PATRICIA RAMOS DE SIQUEIRA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "ARAES",
+    "endereco_estabelecimento": "RUA OSORIO DUQUE ESTRADA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": null,
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.11676028373773,
+     -15.5946937125328
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8474826,
+    "nome_fantasia": "CLINICA SANTA CLARA",
+    "nome_razao_social": "M A SERVICOS MEDICOS LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM CUIABA",
+    "endereco_estabelecimento": "DAS FLORES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 30287328",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.026265918670724,
+     -15.612683241914027
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8474834,
+    "nome_fantasia": "LABORATORIO BIOLAC LTDA",
+    "nome_razao_social": "LABORATORIO BIOLAC LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM IMPERIAL",
+    "endereco_estabelecimento": "DOIS MIL E OITOCENTOS",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 93252754",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.09229601982215,
+     -15.59413624873457
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8474842,
+    "nome_fantasia": "DROGARIA ULTRAPOPULAR",
+    "nome_razao_social": "DROGARIA DMD LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "DOM AQUINO",
+    "endereco_estabelecimento": "TENENTE CORONEL DUARTE",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "66 35666767",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.06803777583451,
+     -15.60744198648265
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8487537,
+    "nome_fantasia": "SERION",
+    "nome_razao_social": "SERION CENTRO DE DESENVOLVIMENTO INTEGRADO LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM DAS AMERICAS",
+    "endereco_estabelecimento": "QUEBEC",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99564353",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.08341149514893,
+     -15.623141003713181
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8494991,
+    "nome_fantasia": "SG GINECOLOGIA E SAUDE LTDA",
+    "nome_razao_social": "SG GINECOLOGIA E SAUDE LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM EUROPA",
+    "endereco_estabelecimento": "JORNALISTA ROBERTO JACQUES BRUNINI",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 36231000",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.11779198360688,
+     -15.588414582899668
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8495009,
+    "nome_fantasia": "TJ SERVICOS MEDICOS",
+    "nome_razao_social": "TJ SERVICOS MEDICOS LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "SANTA ROSA",
+    "endereco_estabelecimento": "MIGUEL SUTIL",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 36231000",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.10432161564206,
+     -15.588383138597813
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8495017,
+    "nome_fantasia": "J V SILVA MAGALHAES CIA LTDA",
+    "nome_razao_social": "J V SILVA MAGALHAES CIA LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "QUILOMBO",
+    "endereco_estabelecimento": "JOAO BENTO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99186219",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.116524248892574,
+     -15.59465237700862
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8507295,
+    "nome_fantasia": "VITALITY HEALTHCARE",
+    "nome_razao_social": "VITALITY HEALTHCARE LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM CUIABA",
+    "endereco_estabelecimento": "DAS FLORES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99893983",
+    "data_atualizacao": "2026-08-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.0963,
+     -15.7001
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 1166794,
+    "nome_fantasia": "BENEDITA FORTUNATA DA SILVA ROSA",
+    "nome_razao_social": "BENEDITA FORTUNATA DA SILVA ROSA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "PARQUE CUIABA",
+    "endereco_estabelecimento": "RUA S 1",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99927-2241",
+    "data_atualizacao": "2026-08-29",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
     "servico_apoio": "Não"
    }
   },
@@ -24583,7 +25073,7 @@
    "properties": {
     "codigo_cnes": 743844,
     "nome_fantasia": "INTENSIVA CLINICA DE REABILITACAO",
-    "nome_razao_social": "FRANCIELE GERMANO DE PAULA EIRELI",
+    "nome_razao_social": "INTENSIVA CLINICA DE REABILITACAO LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
@@ -24596,7 +25086,7 @@
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 92731846",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -25031,8 +25521,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.114202805243664,
-     -15.594964631672148
+     -56.1175521757299,
+     -15.587243185549756
     ]
    },
    "properties": {
@@ -25043,15 +25533,15 @@
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
     "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "JARDIM CUIABA",
-    "endereco_estabelecimento": "DAS VIOLETAS",
+    "bairro_estabelecimento": "SANTA ROSA",
+    "endereco_estabelecimento": "SINJAO CURVO",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 30287328",
-    "data_atualizacao": "2025-09-03",
+    "numero_telefone_estabelecimento": "65 99622021",
+    "data_atualizacao": "2026-08-12",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -27571,7 +28061,7 @@
     "codigo_tipo_unidade": 5,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 36212018",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Sim",
     "atendimento_ambulatorial": "Sim",
     "ambulatorial_sus": "NAO",
@@ -28026,7 +28516,7 @@
     "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 36346753",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -30090,8 +30580,8 @@
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 33219955",
-    "data_atualizacao": "2025-09-03",
+    "numero_telefone_estabelecimento": "65 81243152",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -34781,7 +35271,7 @@
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 84424517",
-    "data_atualizacao": "2025-10-11",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -35411,41 +35901,6 @@
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "11 71622107",
-    "data_atualizacao": "2025-09-03",
-    "atendimento_hospitalar": "Não",
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": "Não",
-    "centro_obstetrico": "Não",
-    "centro_neonatal": "Não",
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.1159083,
-     -15.5951321
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 2912252,
-    "nome_fantasia": "TAMIRES PIRES DE MENDONCA",
-    "nome_razao_social": "TAMIRES PIRES DE MENDONCA LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "JARDIM CUIABA",
-    "endereco_estabelecimento": "DAS FLORES",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 30287325",
     "data_atualizacao": "2025-09-03",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
@@ -40682,8 +41137,8 @@
    },
    "properties": {
     "codigo_cnes": 3342646,
-    "nome_fantasia": "LABORATORIO LPC",
-    "nome_razao_social": "A L BORBA",
+    "nome_fantasia": "L P C LABORATORIO DE PATOLOGIA CLINICA",
+    "nome_razao_social": "A L BORBA LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
@@ -40695,8 +41150,8 @@
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 36410855",
-    "data_atualizacao": "2025-11-13",
+    "numero_telefone_estabelecimento": "65 36423030",
+    "data_atualizacao": "2026-08-04",
     "atendimento_hospitalar": null,
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -42111,27 +42566,27 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.098894854145406,
-     -15.60086906411994
+     -56.085414867078256,
+     -15.611753557566775
     ]
    },
    "properties": {
     "codigo_cnes": 3782034,
-    "nome_fantasia": "CLINICA DE FISIOTERAPIA RONALDO MOLINA",
-    "nome_razao_social": "RONALDO BRANDAO MOLINA",
+    "nome_fantasia": "FISIOCENTRO",
+    "nome_razao_social": "RONALDO BRANDAO MOLINA LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
     "no_eixo_jusante": "Sim",
     "bairro_estabelecimento": "CENTRO",
-    "endereco_estabelecimento": "RUA ANTONIO MARIA",
+    "endereco_estabelecimento": "ANTONIO MARIA",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "33222964",
-    "data_atualizacao": "2025-09-03",
+    "numero_telefone_estabelecimento": "65 33222964",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -42601,27 +43056,27 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.08476598747725,
-     -15.597738129086714
+     -56.08321471370408,
+     -15.596686936317434
     ]
    },
    "properties": {
     "codigo_cnes": 3857840,
-    "nome_fantasia": "ALESSANDRA DOMINGUES MENDONCA",
-    "nome_razao_social": "ALESSANDRA DOMINGUES MENDONCA",
+    "nome_fantasia": "ALESSANDRA BUZELLE ODONTOLOGIA",
+    "nome_razao_social": "ALESSANDRA DOMINGUES MENDONCA BUZELLE SERVICOS LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
     "no_eixo_jusante": "Sim",
     "bairro_estabelecimento": "LIXEIRA",
-    "endereco_estabelecimento": "AV JOAO GOMES SOBRINHO",
+    "endereco_estabelecimento": "PROFESSOR JOAO GOMES MONTEIRO SOBRINHO",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
-    "codigo_tipo_unidade": 22,
+    "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "3324-1049",
-    "data_atualizacao": "2025-09-03",
+    "numero_telefone_estabelecimento": "65 33241049",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -55953,10 +56408,10 @@
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
+    "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 84226332",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -74941,41 +75396,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.110098557215515,
-     -15.579211499885725
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 6017215,
-    "nome_fantasia": "BIOCARDIOS",
-    "nome_razao_social": "CENTRO DE CARDIOLOGIA APLICADA LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "RIBEIRAO DA PONTE",
-    "endereco_estabelecimento": "MIGUEL SUTIL",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 36234995",
-    "data_atualizacao": "2025-09-03",
-    "atendimento_hospitalar": "Não",
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": "Não",
-    "centro_obstetrico": "Não",
-    "centro_neonatal": "Não",
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.04595899581909,
      -15.58073657562056
     ]
@@ -78285,8 +78705,8 @@
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 30287328",
-    "data_atualizacao": "2025-10-17",
+    "numero_telefone_estabelecimento": "65 81251205",
+    "data_atualizacao": "2026-08-12",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -84131,7 +84551,7 @@
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": null,
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -86071,27 +86491,27 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.0817635,
-     -15.5917486
+     -56.09904542253669,
+     -15.585665716579447
     ]
    },
    "properties": {
     "codigo_cnes": 7275153,
-    "nome_fantasia": "IDEN INSTITUTO DERMATOLOGIA E NUTRICAO",
-    "nome_razao_social": "GARCIA E PASQUALI GARCIA LTDA",
+    "nome_fantasia": "CLARTE DERMATO E NUTRICAO",
+    "nome_razao_social": "CLINICA GARCIA ESTETICA E NUTRICAO LTDA",
     "codigo_municipio": 510340,
     "municipio": "Cuiabá",
     "no_eixo_montante": "Sim",
     "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "BOSQUE DA SAUDE",
-    "endereco_estabelecimento": "AV BOSQUE DA SAUDE",
+    "bairro_estabelecimento": "QUILOMBO",
+    "endereco_estabelecimento": "SAO SEBASTIAO",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "3324-0000",
-    "data_atualizacao": "2025-09-03",
+    "numero_telefone_estabelecimento": "65 84226332",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -91916,41 +92336,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.059929486879184,
-     -15.603544351118838
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 9162879,
-    "nome_fantasia": "CLINICA MADRE VIDA",
-    "nome_razao_social": "M A F CLINICA MEDICA LTDA",
-    "codigo_municipio": 510340,
-    "municipio": "Cuiabá",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "JARDIM ITALIA",
-    "endereco_estabelecimento": "MESSINA",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 36231000",
-    "data_atualizacao": "2025-10-11",
-    "atendimento_hospitalar": "Não",
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": "Não",
-    "centro_obstetrico": "Não",
-    "centro_neonatal": "Não",
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.0587461,
      -15.5838752
     ]
@@ -91972,6 +92357,41 @@
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 36231000",
     "data_atualizacao": "2025-09-03",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.059929486879184,
+     -15.603544351118838
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 9162879,
+    "nome_fantasia": "CLINICA MADRE VIDA",
+    "nome_razao_social": "M A F CLINICA MEDICA LTDA",
+    "codigo_municipio": 510340,
+    "municipio": "Cuiabá",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "JARDIM ITALIA",
+    "endereco_estabelecimento": "MESSINA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 36231000",
+    "data_atualizacao": "2026-08-28",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -95296,7 +95716,7 @@
     "codigo_tipo_unidade": 36,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": null,
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-19",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -96256,41 +96676,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.3304877281189,
-     -14.718709930705256
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8437610,
-    "nome_fantasia": "UOM UNIDADE ODONTOLOGICA MOVEL",
-    "nome_razao_social": "UOM",
-    "codigo_municipio": 510590,
-    "municipio": "Nobres",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Não",
-    "bairro_estabelecimento": "CENTRO",
-    "endereco_estabelecimento": "PRACA JOSINO SERRA",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 40,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "6533764200",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.3303804397583,
      -14.717734512374404
     ]
@@ -96311,13 +96696,48 @@
     "codigo_tipo_unidade": 5,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": null,
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Sim",
+    "atendimento_ambulatorial": "Sim",
     "ambulatorial_sus": "SIM",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
+    "centro_cirurgico": "Sim",
+    "centro_obstetrico": "Sim",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Sim"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.3304877281189,
+     -14.718709930705256
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8437610,
+    "nome_fantasia": "UOM UNIDADE ODONTOLOGICA MOVEL",
+    "nome_razao_social": "UOM",
+    "codigo_municipio": 510590,
+    "municipio": "Nobres",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Não",
+    "bairro_estabelecimento": "CENTRO",
+    "endereco_estabelecimento": "PRACA JOSINO SERRA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 40,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "6533764200",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
     "servico_apoio": "Não"
    }
   },
@@ -96353,6 +96773,41 @@
     "centro_cirurgico": "Não",
     "centro_obstetrico": "Não",
     "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.32965087890625,
+     -14.720121166526422
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8497354,
+    "nome_fantasia": "ODONTOCOMPANY NOBRES",
+    "nome_razao_social": "I A ODONTOLOGIA LTDA",
+    "codigo_municipio": 510590,
+    "municipio": "Nobres",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Não",
+    "bairro_estabelecimento": "SAO JOSE",
+    "endereco_estabelecimento": "RUA BAHIA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65993000415",
+    "data_atualizacao": "2026-09-05",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
     "servico_apoio": "Não"
    }
   },
@@ -97236,8 +97691,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.33136749267578,
-     -14.717942048554798
+     -56.3313889503479,
+     -14.718502395255499
     ]
    },
    "properties": {
@@ -97256,7 +97711,7 @@
     "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 99827812",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-09-05",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -98251,6 +98706,76 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -56.62858843803406,
+     -16.263858234569273
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8479313,
+    "nome_fantasia": "DROGARIA PRO SAUDE",
+    "nome_razao_social": "DROGARIA PRO SAUDE COMERCIO DE MEDICAMENTO E PERFUMARIA LTDA",
+    "codigo_municipio": 510650,
+    "municipio": "Poconé",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO",
+    "endereco_estabelecimento": "RUA CAMPOS SALES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65999680548",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.62961304187775,
+     -16.25216023933216
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8479364,
+    "nome_fantasia": "ECONOMOZZE FARMA",
+    "nome_razao_social": "DROGARIA PRO SAUDE COMERCIO DE MEDICAMENTO E PERFUMARIA LTDA",
+    "codigo_municipio": 510650,
+    "municipio": "Poconé",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "BOM PASTOR",
+    "endereco_estabelecimento": "AVENIDA ANIBAL DE TOLEDO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65999680548",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -56.62783741950989,
      -16.262944152612484
     ]
@@ -98671,8 +99196,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.72215461730957,
-     -16.048308664122434
+     -56.628148555755615,
+     -16.24794745153109
     ]
    },
    "properties": {
@@ -98691,7 +99216,7 @@
     "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 99717787",
-    "data_atualizacao": "2026-07-14",
+    "data_atualizacao": "2026-08-11",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -100911,6 +101436,146 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -56.07009,
+     -15.86482
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8469415,
+    "nome_fantasia": "DROGARIA SAUDE POPULAR",
+    "nome_razao_social": "FABIANO RIBEIRO DA SILVA",
+    "codigo_municipio": 510780,
+    "municipio": "Santo Antônio de Leverger",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO",
+    "endereco_estabelecimento": "AVENIDA SANTO ANTONIO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65993534331",
+    "data_atualizacao": "2026-08-20",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.077139,
+     -15.863889
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8470022,
+    "nome_fantasia": "NOVA DOGRARIA LEVERGER",
+    "nome_razao_social": "NOVA DROGARIA LEVERGER LTDA",
+    "codigo_municipio": 510780,
+    "municipio": "Santo Antônio de Leverger",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO",
+    "endereco_estabelecimento": "AV SANTO ANTONIO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65992071848",
+    "data_atualizacao": "2026-08-20",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.079861,
+     -15.859257
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8486158,
+    "nome_fantasia": "FARMA NOVA POPULAR",
+    "nome_razao_social": "FARMA NOVA POPULAR LTDA",
+    "codigo_municipio": 510780,
+    "municipio": "Santo Antônio de Leverger",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "FRONTEIRA",
+    "endereco_estabelecimento": "RODOVIA PALMIRO PAES DE BARROS",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65992282778",
+    "data_atualizacao": "2026-08-20",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.079356,
+     -15.863303
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8486166,
+    "nome_fantasia": "DROGARIAS MAXI POPULAR",
+    "nome_razao_social": "GM COMERCIO DE PRODUTOS FARMACEUTICOS LTDA",
+    "codigo_municipio": 510780,
+    "municipio": "Santo Antônio de Leverger",
+    "no_eixo_montante": "Não",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO",
+    "endereco_estabelecimento": "RUA CEL ARRUDA PINTO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 43,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65999869111",
+    "data_atualizacao": "2026-08-20",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -56.071222,
      -15.866767
     ]
@@ -101386,7 +102051,7 @@
     "codigo_tipo_unidade": 68,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 33411229",
-    "data_atualizacao": "2026-03-28",
+    "data_atualizacao": "2026-09-03",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",
@@ -102748,10 +103413,10 @@
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
+    "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": null,
-    "data_atualizacao": "2025-09-19",
+    "data_atualizacao": "2026-08-07",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -102891,7 +103556,7 @@
     "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "(65)3682-8631",
-    "data_atualizacao": "2025-09-19",
+    "data_atualizacao": "2026-08-07",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -103693,13 +104358,13 @@
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
+    "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 98465 2004",
-    "data_atualizacao": "2026-02-14",
+    "data_atualizacao": "2026-08-20",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
+    "ambulatorial_sus": "SIM",
     "centro_cirurgico": "Não",
     "centro_obstetrico": "Não",
     "centro_neonatal": "Não",
@@ -104256,14 +104921,14 @@
     "codigo_tipo_unidade": 43,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "(66) 3566-4747",
-    "data_atualizacao": "2026-07-21",
+    "data_atualizacao": "2026-08-13",
     "atendimento_hospitalar": null,
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
     "centro_cirurgico": null,
     "centro_obstetrico": null,
     "centro_neonatal": null,
-    "servico_apoio": "Não"
+    "servico_apoio": "Sim"
    }
   },
   {
@@ -104446,41 +105111,6 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -56.13545894622803,
-     -15.646676118152383
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8433747,
-    "nome_fantasia": "CLINICA ABC",
-    "nome_razao_social": "CLINICA ABC LTDA",
-    "codigo_municipio": 510840,
-    "municipio": "Várzea Grande",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "CENTRO NORTE",
-    "endereco_estabelecimento": "RUA SALIN NADAF",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
-    "codigo_tipo_unidade": 36,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 99274-9041",
-    "data_atualizacao": "2026-07-21",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
      -56.1265754699707,
      -15.65756497570258
     ]
@@ -104501,111 +105131,6 @@
     "codigo_tipo_unidade": 43,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 99392-7602",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.13960027694702,
-     -15.663825289668766
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8445931,
-    "nome_fantasia": "RENASCER HOME CARE",
-    "nome_razao_social": "RENASCER SERVICOS DE HOME CARE LTDA",
-    "codigo_municipio": 510840,
-    "municipio": "Várzea Grande",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "CANELAS",
-    "endereco_estabelecimento": "RUA ESPIRITO SANTO LOTE PT 01 E 02 QUADRA04",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 77,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "6330280904",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.15103721618652,
-     -15.654858311945079
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8454337,
-    "nome_fantasia": "FACIL ODONTO",
-    "nome_razao_social": "FACIL ODONTO QUEIROZ E CARNEIRO LTDA",
-    "codigo_municipio": 510840,
-    "municipio": "Várzea Grande",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "CENTRO NORTE",
-    "endereco_estabelecimento": "AVENIDA FILINTO MULLER",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 22,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 99675-0868",
-    "data_atualizacao": "2026-07-28",
-    "atendimento_hospitalar": null,
-    "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "NAO",
-    "centro_cirurgico": null,
-    "centro_obstetrico": null,
-    "centro_neonatal": null,
-    "servico_apoio": "Não"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -56.13966464996338,
-     -15.657461668583373
-    ]
-   },
-   "properties": {
-    "codigo_cnes": 8456100,
-    "nome_fantasia": "CARDIUM INSTITUTO",
-    "nome_razao_social": "INSTITUTO CARDIO MT LTDA",
-    "codigo_municipio": 510840,
-    "municipio": "Várzea Grande",
-    "no_eixo_montante": "Sim",
-    "no_eixo_jusante": "Sim",
-    "bairro_estabelecimento": "CENTRO SUL",
-    "endereco_estabelecimento": "RUA RIO DE JANEIRO LOTE JD KATAGUAS",
-    "descricao_esfera_administrativa": "MUNICIPAL",
-    "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
-    "tipo_gestao": "M",
-    "numero_telefone_estabelecimento": "65 99603-8185",
     "data_atualizacao": "2026-07-28",
     "atendimento_hospitalar": null,
     "atendimento_ambulatorial": "Não",
@@ -104642,6 +105167,286 @@
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": null,
     "data_atualizacao": "2026-07-28",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.13545894622803,
+     -15.646676118152383
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8433747,
+    "nome_fantasia": "CLINICA ABC",
+    "nome_razao_social": "CLINICA ABC LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO NORTE",
+    "endereco_estabelecimento": "RUA SALIN NADAF",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99274-9041",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.13960027694702,
+     -15.663825289668766
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8445931,
+    "nome_fantasia": "RENASCER HOME CARE",
+    "nome_razao_social": "RENASCER SERVICOS DE HOME CARE LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CANELAS",
+    "endereco_estabelecimento": "RUA ESPIRITO SANTO LOTE PT 01 E 02 QUADRA04",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 77,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "6330280904",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Sim",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Sim",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Sim"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.15103721618652,
+     -15.654858311945079
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8454337,
+    "nome_fantasia": "FACIL ODONTO",
+    "nome_razao_social": "FACIL ODONTO QUEIROZ E CARNEIRO LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO NORTE",
+    "endereco_estabelecimento": "AVENIDA FILINTO MULLER",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99675-0868",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.13966464996338,
+     -15.657461668583373
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8456100,
+    "nome_fantasia": "CARDIUM INSTITUTO",
+    "nome_razao_social": "INSTITUTO CARDIO MT LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO SUL",
+    "endereco_estabelecimento": "RUA RIO DE JANEIRO LOTE JD KATAGUAS",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 99603-8185",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.14455699920654,
+     -15.65597404027804
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8473951,
+    "nome_fantasia": "DAYANY AZAMBUJA",
+    "nome_razao_social": "DAYANY AZAMBUJA DE OLIVEIRA LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO SUL",
+    "endereco_estabelecimento": "NOSSA SRA DO CARMO",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65 96611910",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.13159656524658,
+     -15.654858311945079
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8479917,
+    "nome_fantasia": "ANNE DEBORA DE CAMPOS SILVA MOREIRA LTDA",
+    "nome_razao_social": "ANNE DEBORA DE CAMPOS SILVA MOREIRA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO NORTE",
+    "endereco_estabelecimento": "AVENIDA COUTO MAGALHAES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 22,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "48- 9999-1919",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": "Não",
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": "Não",
+    "centro_obstetrico": "Não",
+    "centro_neonatal": "Não",
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.13644599914551,
+     -15.658639366647364
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8482748,
+    "nome_fantasia": "AFIP",
+    "nome_razao_social": "ASSOCIACAO FUNDO DE INCENTIVO A PESQUISA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO SUL",
+    "endereco_estabelecimento": "AVENIDA ALZIRA SANTANA",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTO CONTINUO DE 24 HORAS/DIA (PLANTAO:INCLUI SABADOS, DOMINGOS E FERIADOS)",
+    "codigo_tipo_unidade": 39,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "65- 2018-0337",
+    "data_atualizacao": "2026-08-20",
+    "atendimento_hospitalar": null,
+    "atendimento_ambulatorial": "Não",
+    "ambulatorial_sus": "SIM",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.137046813964844,
+     -15.647791891126577
+    ]
+   },
+   "properties": {
+    "codigo_cnes": 8463174,
+    "nome_fantasia": "ESSENZIA HUMANA",
+    "nome_razao_social": "ESSENZIA SOLUCOES ESTRATEGICAS EM PESSOAS LTDA",
+    "codigo_municipio": 510840,
+    "municipio": "Várzea Grande",
+    "no_eixo_montante": "Sim",
+    "no_eixo_jusante": "Sim",
+    "bairro_estabelecimento": "CENTRO NORTE",
+    "endereco_estabelecimento": "COUTO MAGALHAES",
+    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_nivel_hierarquia": null,
+    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "codigo_tipo_unidade": 36,
+    "tipo_gestao": "M",
+    "numero_telefone_estabelecimento": "35 36040036",
+    "data_atualizacao": "2026-08-21",
     "atendimento_hospitalar": null,
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -104988,10 +105793,10 @@
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
-    "codigo_tipo_unidade": 36,
+    "codigo_tipo_unidade": 22,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "51 30791287",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-07",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -106671,14 +107476,14 @@
     "codigo_tipo_unidade": 39,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "065 3026 2878",
-    "data_atualizacao": "2025-09-03",
-    "atendimento_hospitalar": "Não",
+    "data_atualizacao": "2026-08-13",
+    "atendimento_hospitalar": null,
     "atendimento_ambulatorial": "Não",
-    "ambulatorial_sus": "SIM",
-    "centro_cirurgico": "Não",
-    "centro_obstetrico": "Não",
-    "centro_neonatal": "Não",
-    "servico_apoio": "Sim"
+    "ambulatorial_sus": "NAO",
+    "centro_cirurgico": null,
+    "centro_obstetrico": null,
+    "centro_neonatal": null,
+    "servico_apoio": "Não"
    }
   },
   {
@@ -108242,11 +109047,11 @@
     "endereco_estabelecimento": "AV ALZIRA SANTANA LOT JD N KANAA",
     "descricao_esfera_administrativa": "MUNICIPAL",
     "descricao_nivel_hierarquia": null,
-    "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
+    "descricao_turno_atendimento": "ATENDIMENTO NOS TURNOS DA MANHA, TARDE E NOITE",
     "codigo_tipo_unidade": 43,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "(11) 3769-5678",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-20",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -108771,7 +109576,7 @@
     "codigo_tipo_unidade": 61,
     "tipo_gestao": "M",
     "numero_telefone_estabelecimento": "65 3686 2209",
-    "data_atualizacao": "2026-02-14",
+    "data_atualizacao": "2026-08-21",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "NAO",
@@ -113840,13 +114645,13 @@
     "no_eixo_jusante": "Sim",
     "bairro_estabelecimento": "NOVA VARZEA GRANDE",
     "endereco_estabelecimento": "TRAVESSA DIACUI",
-    "descricao_esfera_administrativa": "MUNICIPAL",
+    "descricao_esfera_administrativa": "DUPLA",
     "descricao_nivel_hierarquia": null,
     "descricao_turno_atendimento": "ATENDIMENTOS NOS TURNOS DA MANHA E A TARDE",
     "codigo_tipo_unidade": 39,
-    "tipo_gestao": "M",
+    "tipo_gestao": "D",
     "numero_telefone_estabelecimento": "6530262878/981318583",
-    "data_atualizacao": "2025-09-03",
+    "data_atualizacao": "2026-08-01",
     "atendimento_hospitalar": "Não",
     "atendimento_ambulatorial": "Não",
     "ambulatorial_sus": "SIM",

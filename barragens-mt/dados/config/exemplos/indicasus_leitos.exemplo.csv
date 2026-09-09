@@ -1,0 +1,6 @@
+codigo_cnes;nome_estabelecimento;codigo_municipio_ibge;municipio;tipo_leito;leitos_cadastrados;leitos_operacionais;leitos_ocupados;leitos_disponiveis;taxa_ocupacao;atualizado_em
+2391392;PRONTO ATENDIMENTO BARAO DE MELGACO;5101607;Barão de Melgaço;total;12;10;6;4;60.0;2026-07-31
+9841903;HOSPITAL ESTADUAL SANTA CASA;5103403;Cuiabá;total;320;280;245;35;87.5;2026-07-31
+9841903;HOSPITAL ESTADUAL SANTA CASA;5103403;Cuiabá;uti_adulto;40;36;33;3;91.7;2026-07-31
+2311674;HOSPITAL E MATERNIDADE BOM JESUS;5103403;Cuiabá;total;180;160;120;40;75.0;2026-07-31
+2311674;HOSPITAL E MATERNIDADE BOM JESUS;5103403;Cuiabá;obstetrico;40;38;28;10;73.7;2026-07-31

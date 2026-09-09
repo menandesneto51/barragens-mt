@@ -1,30 +1,29 @@
 ==============================================================================
 ALERTA VIGIBARRAGENS-MT — NÍVEL VERDE (NORMALIDADE)
 ==============================================================================
-Identificador do alerta : ALERTA-20260730-1504-4224
+Identificador do alerta : ALERTA-20260907-0953-4224
 Barragem                : UHE Manso - Dique 1 (código 4224)
 Município da estrutura  : Nobres — MT
 Órgão fiscalizador      : Agência Nacional de Energia Elétrica - ANEEL
-Empreendedor            : PRODUTORES ENERGETICOS DE MANSO S/A - PROMAN
+Empreendedor            : AXIA ENERGIA S.A.
 Uso principal           : Hidroelétrica
 Região de saúde         : Baixada Cuiabana
-Data e hora da emissão  : 30/07/2026 15:04 (horário de Cuiabá, UTC-4)
-IDAP                    : 14 de 100 pontos (faixa Verde: normalidade)
+Data e hora da emissão  : 07/09/2026 09:53 (horário de Cuiabá, UTC-4)
+IDAP                    : 13 de 100 pontos (faixa Verde: normalidade)
 Nível final             : Verde
-Completude do cálculo   : 49% (confiabilidade parcial; IDAP projetado 28,60)
+Completude do cálculo   : 53% (confiabilidade parcial; IDAP projetado 24,50)
 Versão dos pesos        : 0.1.0-metodologica
 
 1. MOTIVOS
    - [C1] População residente na Zona de Autossalvamento: 24.212 habitantes — 5.000 residentes ou mais (5 de 5 pontos)
    - [C3] Unidades de saúde ameaçadas: Hospital de referência regional ou única unidade do município (4 de 4 pontos)
-   - [A4] Percentil climatológico do acumulado observado: 70,20 de percentil — acima da mediana (1 de 4 pontos)
    - [B1] Categoria de Risco (CRI) oficial: Baixo (1 de 5 pontos)
    - [C2] Proporção de população vulnerável na ZAS: 0,15 de proporção — 10% a 19% (1 de 3 pontos)
    - [D1] Ausência de plano de emergência: Vigente sem articulação municipal (1 de 3 pontos)
    - [D8] Contatos institucionais desatualizados: Contatos sem validação há mais de 90 dias (1 de 1 ponto)
 
    Pontuação por dimensão:
-   - A. Pressão hidroclimática: 1/30 (completude 87%)
+   - A. Pressão hidroclimática: 0/30 (completude 100%)
    - B. Condição da barragem: 1/30 (completude 17%)
    - C. Impacto sanitário potencial: 10/25 (completude 56%)
    - D. Déficit de capacidade de resposta: 2/15 (completude 27%)
@@ -35,8 +34,8 @@ Versão dos pesos        : 0.1.0-metodologica
    Material predominante no reservatório: Água sem rejeito.
 
 3. UNIDADES DE SAÚDE EM RISCO DE INUNDAÇÃO OU ISOLAMENTO
-   Unidades sem internação na mancha ou sem via de acesso: 56.
-   Unidades com internação ou urgência: 2.
+   Unidades sem internação na mancha ou sem via de acesso: 299.
+   Unidades com internação ou urgência: 9.
    ATENÇÃO: hospital de referência regional ou única unidade do município ameaçado.
 
 4. MUNICÍPIOS POTENCIALMENTE AFETADOS
@@ -89,9 +88,10 @@ Versão dos pesos        : 0.1.0-metodologica
    - [perfil rejeito] Suspender captações a jusante até liberação analítica; abastecimento alternativo
    - [perfil rejeito] Não tratar a lama de rejeito como 'apenas água' — EPI e protocolo de descontaminação
    - [perfil rejeito] Coletar amostras de água, sedimento e, se indicado, biomarcadores com apoio CIEVS/LACEN
-   - Sanar as lacunas de dado que subestimam o índice: A6, B2, B3, B4, B5, B6, C4, C5, C6, C7, D2, D3, D4, D5, D6, D7.
+   - Sanar as lacunas de dado que subestimam o índice: B2, B3, B4, B5, B6, C4, C5, C6, C7, D2, D3, D4, D5, D6, D7.
 
 8. FONTES DOS DADOS
+   - ANA — Rede Hidrometeorológica Nacional / telemetria; réguas da Defesa Civil
    - CNES cruzado com a mancha de inundação e com as vias de acesso
    - IBGE (setores censitários e malha municipal) recortados pela mancha de inundação
    - IBGE, e-SUS APS, CNES (pacientes dependentes de tecnologia) e CadÚnico
@@ -113,6 +113,6 @@ Versão dos pesos        : 0.1.0-metodologica
    instrumentação da própria barragem.
    Área/população por lâmina equivalente e agravos listados são hipóteses
    de vigilância na ausência de mancha oficial — não são diagnóstico.
-   Cálculo com completude 49%: o IDAP está subestimado e não deve
+   Cálculo com completude 53%: o IDAP está subestimado e não deve
    ser interpretado como ausência de risco.
 ==============================================================================

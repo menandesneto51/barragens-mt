@@ -1,0 +1,389 @@
+﻿codigo_inep;nome;municipio;codigo_ibge;dependencia;localizacao;situacao;latitude;longitude;fonte;observacao
+;OSM school;;;;;em_atividade;-15.631214;-56.102171;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Sesi Escola;;;;;em_atividade;-15.635893;-56.106336;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.606618;-56.058404;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Profº Francisca de Souza Alencar;;;government;;em_atividade;-14.785550;-57.272915;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Profa. Julieta Xavier Borges;;;;;em_atividade;-15.061297;-57.175080;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Armindo de Arruda Campos;;;;;em_atividade;-15.675506;-56.130999;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Tia Angela;;;;;em_atividade;-15.676436;-56.133231;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Sagrado Coração de Jesus;;;;;em_atividade;-14.778441;-57.282950;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Rene Barbour;;;;;em_atividade;-14.774299;-57.285269;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Muncipal;Nossa Senhora do Livramento;5106109;;;em_atividade;-15.780620;-56.339107;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.826520;-56.430762;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Professora Maria Luiza;;;;;em_atividade;-15.468496;-55.729705;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.229008;-56.497727;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal;;;;;em_atividade;-15.201240;-56.000104;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Ecola Municipal 13 de maio;;;;;em_atividade;-14.785228;-57.277874;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;João Godofredo;;;;;em_atividade;-16.248762;-56.622337;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Mëtha - Unidade Tênis Clube;;;;;em_atividade;-15.665407;-56.132919;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Cecília Meireles;;;;;em_atividade;-15.609204;-56.031016;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola de Odontologia;;;;;em_atividade;-15.595508;-56.113924;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Auge Inbeo;;;;;em_atividade;-15.595581;-56.114526;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Salesiano São Gonçalo;Cuiabá;5103403;;;em_atividade;-15.605032;-56.098546;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Francisco Ferreira Mendes;;;;;em_atividade;-15.614271;-56.062752;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;IFMT Cuiabá;Cuiabá;5103403;;;em_atividade;-15.592075;-56.098627;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professor Ulisses Cuiabano;Cuiabá;5103403;;;em_atividade;-15.595500;-56.119177;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;ICEC;;;;;em_atividade;-15.575254;-56.098096;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola do Farina;;;;;em_atividade;-15.606480;-56.080047;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Henrique da Silva Prado;;;;;em_atividade;-15.601588;-56.083669;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professor Antônio Epaminondas;;;;;em_atividade;-15.592754;-56.084406;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Micaela Henrique de Sousa Lima;;;;;em_atividade;-15.597125;-56.084632;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E João Briene de Carvalho;;;;;em_atividade;-15.596578;-56.079006;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Esmeralda de Campos Fontes;;;;;em_atividade;-15.578848;-56.118590;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Macaria Militona Santana;;;;;em_atividade;-15.581919;-56.115545;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Juarez Sodré Farias;;;;;em_atividade;-15.584505;-56.089515;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Santa Cecília;;;;;em_atividade;-15.609819;-56.081055;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Profº Nilo Póvoas;;;;;em_atividade;-15.599061;-56.092818;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Emília Fernandes de Figueiredo;;;;;em_atividade;-15.601866;-56.093526;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Raio de Sol;;;;;em_atividade;-15.624723;-56.079724;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Filogênio Corrêa;;;;;em_atividade;-15.618691;-56.081958;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Profª Joaquina Cerqueira Caldas;Cuiabá;5103403;;;em_atividade;-15.602633;-56.088726;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Santos Dumont;;;;;em_atividade;-15.616905;-56.091083;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Tereza Lobo;;;;;em_atividade;-15.613114;-56.099381;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Antônio Cesário de Figueiredo Neto;;;;;em_atividade;-15.601170;-56.090797;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Dom Francisco de Aquino Corrêa;;;;;em_atividade;-15.620906;-56.088550;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Programa de Pós-Graduação em Física Ambiental;;;;;em_atividade;-15.608790;-56.063282;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Faculdade de Enfermagem;;;;;em_atividade;-15.609038;-56.062963;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Laboratório de Psicologia;;;;;em_atividade;-15.614608;-56.071243;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;"Escola Estadual Liceu Cuiabano ""Maria de Arruda Müller""";;;;;em_atividade;-15.592511;-56.102230;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.650927;-56.034810;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professora Diva Hugueney de Siqueira Bastos;Cuiabá;5103403;;;em_atividade;-15.541065;-56.041945;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Malik Didier Namer Zahafi;;;;;em_atividade;-15.634726;-55.945943;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Senador Gastão de Matos Müller;;;;;em_atividade;-15.628168;-55.953175;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Faculdade de Arquitetura, Engenharia e Tecnologia;;;;;em_atividade;-15.608256;-56.064493;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Salesiano Santo Antônio;Cuiabá;5103403;;;em_atividade;-15.622149;-56.055836;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Instituto Cuiabano de Educação;;;;;em_atividade;-15.614087;-56.081520;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Tancredo de Almeida Neves;;;;;em_atividade;-15.599524;-56.074522;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Doutor Orlando Nigro;;;;;em_atividade;-15.598781;-56.069843;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Municipal Santa Clara;;;;;em_atividade;-15.600214;-56.074287;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;UNIC Beria Rio 2;;;;;em_atividade;-15.626153;-56.086918;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual José de Mesquita;Cuiabá;5103403;;;em_atividade;-15.612979;-56.114408;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual General José Machado Neves da Costa;;;;;em_atividade;-15.614913;-56.116658;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.236595;-56.485467;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profº Francisval de Brito;;;;;em_atividade;-15.618940;-56.129012;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Padre Wanir Delfino César;;;;;em_atividade;-15.615610;-56.131858;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Aureolina Eustácia Ribeiro;;;;;em_atividade;-15.610841;-56.132052;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Alina do Nascimento Tocantins;;;;;em_atividade;-15.611228;-56.120741;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Ibero-Americano;;;;;em_atividade;-15.616153;-56.111193;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Isaac Newton;;;;;em_atividade;-15.591118;-56.087806;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professor Ezequel Pompeu Ribeiro de Siqueira;;;;;em_atividade;-15.585790;-56.094689;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;'Escola Estadual Militar Dom Pedro II Presidente Médici;;;;;em_atividade;-15.589209;-56.095973;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Padre Agostinho Colli;;;;;em_atividade;-15.604366;-56.109515;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Adelina Pereira Ventura;;;;;em_atividade;-15.603873;-56.114325;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Alzira Valladares;;;;;em_atividade;-15.601687;-56.113522;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB São João Bosco;;;;;em_atividade;-15.612897;-56.126402;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Ana Teresa Arcos Krauze;;;;;em_atividade;-15.645191;-55.976423;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professor Onofre de Oliveira;;;;;em_atividade;-15.638799;-55.979743;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Jesus Criança;;;;;em_atividade;-15.639949;-55.972265;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Rita Caldas Castrillon;;;;;em_atividade;-15.618296;-56.123566;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Senador Darcy Ribeiro;;;;;em_atividade;-15.651075;-55.980578;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Municipal Manoelino de Jesus;;;;;em_atividade;-15.638866;-55.979993;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Municipal São Benedito;;;;;em_atividade;-15.633431;-55.984573;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Souza Bandeira;;;;;em_atividade;-15.621759;-56.065508;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.068113;-57.180798;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Municipal;;;;;em_atividade;-15.064250;-57.176401;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.061227;-57.175063;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.074232;-57.182754;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Carmelita Couto;;;;;em_atividade;-15.589787;-56.097716;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Instituto de Linguagens;;;;;em_atividade;-15.614843;-56.071572;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Instituto de Educação;;;;;em_atividade;-15.615118;-56.071111;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;NDIHR;;;;;em_atividade;-15.613406;-56.069636;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Laboratório de Geografia;;;;;em_atividade;-15.613331;-56.068819;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Bloco Didático;;;;;em_atividade;-15.613086;-56.069196;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Faculdade de Administração e Ciências Contábeis;;;;;em_atividade;-15.614461;-56.070395;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;UNIC Beira Rio;Cuiabá;5103403;;;em_atividade;-15.623185;-56.087490;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Faculdade de Administração e Ciências Contábeis - FACC;;;;;em_atividade;-15.614226;-56.070619;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Gnosis Cuiabá;;;;;em_atividade;-15.594492;-56.102076;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Polícia Militar Tiradentes;;;;;em_atividade;-15.551146;-56.053807;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual André Avelino Ribeiro;;;;;em_atividade;-15.556115;-56.052610;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Ana Maria de Couto;;;;;em_atividade;-15.559100;-56.048787;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Djalma Ferreira de Souza;;;;;em_atividade;-15.571578;-56.064129;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Doutor Leônidas Antero de Matos;;;;;em_atividade;-15.570935;-56.045738;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual;;;;;em_atividade;-15.565318;-56.046093;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual;;;;;em_atividade;-15.560463;-56.047424;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Leovegildo de Melo;;;;;em_atividade;-15.571894;-56.035535;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Gustavo Kulmann;Cuiabá;5103403;;;em_atividade;-15.598364;-56.109264;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual José Magno;;;;;em_atividade;-15.590866;-56.116253;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professora Marcelina de Campos;;;;;em_atividade;-15.592239;-56.137825;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Alcebíades Calhao;;;;;em_atividade;-15.586141;-56.103602;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Dom José do Despraiado;;;;;em_atividade;-15.575216;-56.093387;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual André Luis da Silva Reis;;;;;em_atividade;-15.584669;-56.083244;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Coronel Antonio Paes de Barros;Barão de Melgaço;5101605;government;;em_atividade;-16.195218;-55.965429;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;IFMT Várzea Grande;Várzea Grande;5108402;;;em_atividade;-15.603715;-56.176938;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;IFMT Bela Vista;Cuiabá;5103403;;;em_atividade;-15.579687;-56.062107;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Eliane Digigov;Cuiabá;5103403;;;em_atividade;-15.580656;-56.058213;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Plural Centro Educacional;Cuiabá;5103403;;;em_atividade;-15.560030;-56.090312;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Monteiro Lobato;;;;;em_atividade;-15.461959;-55.741424;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Professora Abinel Freitas Pereira;Chapada dos Guimarães;5103007;;;em_atividade;-15.448243;-55.741699;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Rafael de Siqueira;Chapada dos Guimarães;5103007;;;em_atividade;-15.460818;-55.750457;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professora Tereza Conceição de Arruda;;;;;em_atividade;-15.868311;-56.410331;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.467078;-55.735743;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Ana Tereza de Albernaz;;;;;em_atividade;-15.467346;-55.735815;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.467254;-55.735479;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Ana Tereza de Albernaz;Chapada dos Guimarães;5103007;;;em_atividade;-15.467430;-55.735795;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Centro Educacional Nuvem de Algodão;;;;;em_atividade;-15.580582;-56.100489;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Cida Mouzard;;;;;em_atividade;-14.779675;-57.277655;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Wilson de Almeida;;;;;em_atividade;-14.784591;-57.290201;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;ETE Buriti;;;;;em_atividade;-15.415905;-55.808147;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E. Educação Especial Livre Aprender;;;;;em_atividade;-15.596875;-56.079121;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Pascoal Moreira Cabral;Cuiabá;5103403;;;em_atividade;-15.612936;-56.039145;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Coronel José Meirelles;;;;;em_atividade;-15.602697;-56.083525;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CEIC Lucila Ferreira Fortes;Cuiabá;5103403;;;em_atividade;-15.602383;-56.083111;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;SENAI Mato Grosso;Cuiabá;5103403;;;em_atividade;-15.608956;-56.100562;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.628689;-56.169463;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Joana Mont Serrat Spindola Silva;;;;;em_atividade;-15.571536;-56.036079;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Dr.Helio Palma De Arruda;;;;;em_atividade;-15.582379;-56.044780;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Filogonio Correa;;;;;em_atividade;-15.350584;-56.232894;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMREB Profª Benedita Xavier Rodrigues;;;;;em_atividade;-15.356305;-56.230309;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Gláucia Maria Borges Garcia;;;;;em_atividade;-15.568606;-56.097015;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Evolução;;;;;em_atividade;-15.664300;-56.093105;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;DataPlus Informática;;;;;em_atividade;-15.602416;-56.087430;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMREB Herbert de Souza;;;;;em_atividade;-15.630150;-55.930716;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Panthera's Escola Jofre Velho;;;;;em_atividade;-17.338247;-56.769713;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Senac;Cuiabá;5103403;;;em_atividade;-15.610980;-56.059747;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Waldorf Brasilis;Cuiabá;5103403;;;em_atividade;-15.584415;-56.070828;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Jardim Moitará;Cuiabá;5103403;;;em_atividade;-15.585610;-56.093325;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Master;Cuiabá;5103403;;;em_atividade;-15.602293;-56.085980;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Irmã Maria Betty de Souza Pires;;;;;em_atividade;-15.578762;-56.039288;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.648508;-56.096962;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.665351;-56.092783;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;SENAI Várzea Grande;Várzea Grande;5108402;;;em_atividade;-15.638383;-56.104191;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Mercedes de Paula Sôda;;;;;em_atividade;-15.650662;-56.155889;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Porfiria Paula De Campos;;;;;em_atividade;-15.651320;-56.173044;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Prof. Arlete Maria Da Silva;;;;;em_atividade;-15.654076;-56.176093;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Ranulpho Paes De Barros;;;;;em_atividade;-15.599213;-56.134004;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professor Zeferino Leite de Oliveira;;;;;em_atividade;-15.635818;-55.946187;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;caic;;;;;em_atividade;-15.630460;-55.958311;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CEIC Jean Carlos Pinho Santos;Cuiabá;5103403;;;em_atividade;-15.629914;-55.958110;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Apolônio Frutuoso Da Silva;;;;;em_atividade;-15.631095;-56.102173;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Cel. Octayde Jorge Da Silva;Cuiabá;5103403;;;em_atividade;-15.572077;-56.050852;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Ten. Octacílio Sebastião Da Cruz;Cuiabá;5103403;;;em_atividade;-15.569849;-56.041918;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Nevio Lotufo;Cuiabá;5103403;;;em_atividade;-15.562601;-56.060043;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Ângela Jardim Botelho;;;;;em_atividade;-15.661209;-56.153469;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Governador Dante Martins de Oliveira;Várzea Grande;5108402;government;;em_atividade;-15.627428;-56.185806;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Armindo de Arruda Campos;;;;;em_atividade;-15.675518;-56.130999;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Gonçalo Botelho De Campos;;;;;em_atividade;-15.679471;-56.122730;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Emanoel Benedito De Arruda;;;;;em_atividade;-15.682032;-56.121545;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Prof. Fernando Leite De Campos;;;;;em_atividade;-15.653191;-56.138123;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Jornalista Marcos Coutinho;;;;;em_atividade;-15.655406;-55.977403;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professora Clêinia Rosalina de Souza;;;;;em_atividade;-15.585885;-56.038235;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Irmãos do Caminho;;;;;em_atividade;-15.721870;-56.131755;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.666082;-56.180267;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Pio Machado;;;;;em_atividade;-15.200125;-56.366821;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.202798;-56.363427;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;C.E.J.A. Licinio Monteiro Da Silva;;;;;em_atividade;-15.646335;-56.124883;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Prof. Adalgisa De Barros;Várzea Grande;5108402;;;em_atividade;-15.650474;-56.127567;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Deputado Ubaldo Monteiro da Silva;;;public;;em_atividade;-15.639234;-56.174618;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Irene Gomes de Campos;;;;;em_atividade;-15.637531;-56.138306;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Manoel Cavalcanti Proença;;;;;em_atividade;-15.636078;-56.022624;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Padre João Panarotto;;;;;em_atividade;-15.563096;-56.032944;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Professora Maria Hermínia Alves;;;;;em_atividade;-15.556320;-56.036823;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Rodolfo Augusto T. Curvo;;;;;em_atividade;-15.562458;-56.083333;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Zélia da Costa Almeida;;;;;em_atividade;-15.646466;-56.027860;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola de Ensino Básico e Profissional Fundação Bradesco;Cuiabá;5103403;charitable;;em_atividade;-15.533926;-56.073792;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profa Gracildes Melo Dantas;;;;;em_atividade;-15.544108;-56.020037;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Liberdade;;;;;em_atividade;-15.608037;-55.995396;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Antônio Marcos Ruzzene Balbino;Cuiabá;5103403;;;em_atividade;-15.560246;-56.077069;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Prof. Firmo José Rodrigues;Cuiabá;5103403;;;em_atividade;-15.558036;-56.025696;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Dante Martins de Oliveira;Cuiabá;5103403;;;em_atividade;-15.557613;-56.025487;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Professora Dione Augusta da Silva Souza;;;;;em_atividade;-15.559090;-56.041838;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Maple Bear Cuiabá Florais;Cuiabá;5103403;private;;em_atividade;-15.537007;-56.103368;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE His. Rubens de Mendonça;;;;;em_atividade;-15.647021;-56.045188;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.668947;-56.040850;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Senai Distrito Industrial;Cuiabá;5103403;;;em_atividade;-15.654527;-55.991794;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.536964;-56.032930;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.559729;-56.030567;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB 12 de Outubro;;;;;em_atividade;-15.585616;-56.034554;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Dejani Ribeiro Campos;;;;;em_atividade;-15.541376;-56.065644;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Senhorinha Ana Alves de Oliveira;Cuiabá;5103403;;;em_atividade;-15.537005;-56.076352;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Cívico-Militar Cuiabana Prof.ª Maria Dimpina Lobo Duarte;;;;;em_atividade;-15.628317;-56.054309;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CEIC Professora Monserat Ismênia de Moraes Borges;;;;;em_atividade;-15.597711;-56.074657;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.550330;-56.050664;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Benedito de Carvalho;;;;;em_atividade;-15.554981;-56.044141;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Auro Ida;;;;;em_atividade;-15.641367;-56.007005;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual da Polícia Militar - Tiradentes;Cuiabá;5103403;;;em_atividade;-15.580738;-56.050607;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Padre Ernesto Camilo Barreto;;;;;em_atividade;-15.617544;-56.084521;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Emeb Eunice Cesar de Mello;;;;;em_atividade;-15.669430;-56.117288;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Deputado Emanuel Pinheiro;;;;;em_atividade;-15.632717;-56.109228;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Maria Elazir Correa de Figueredo;;;;;em_atividade;-15.614418;-56.003137;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Master Gênesis Alvorada;Cuiabá;5103403;;;em_atividade;-15.578458;-56.077363;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Nossa Senhora de Aparecida;;;;;em_atividade;-15.566329;-56.116496;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.605777;-56.096820;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola de Saúde Pública do Estado de Mato Grosso;;;;;em_atividade;-15.633221;-56.058532;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.652828;-56.027232;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Prof Paciana Torres de Santana;Cuiabá;5103403;;;em_atividade;-15.646405;-56.032776;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Leônida de Matos;;;public/government;;em_atividade;-15.863685;-56.075637;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEBC Professora Hilda Caetano de Oliveira Leite;Cuiabá;5103403;;;em_atividade;-15.547744;-56.158212;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Madre Marta Cerutti;Cuiabá;5103403;;;em_atividade;-15.579918;-56.063059;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.543578;-56.075579;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Antônia Tita Maciel de Campos;;;;;em_atividade;-15.546983;-56.079401;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Orzina de Amorim Soares;;;;;em_atividade;-15.538439;-56.068036;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.538788;-56.067571;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.593220;-56.092266;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Moacyr Gratidiano Dorileo;;;;;em_atividade;-15.630822;-56.044039;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal de Ensino Básico Rural Nossa Senhora da Penha de França;Cuiabá;5103403;;;em_atividade;-15.460215;-55.977408;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profª Irenice Godoy de Campos e Silva;;;;;em_atividade;-15.621479;-56.170882;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.619592;-56.170575;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Victorino Monteiro da Silva;;;;;em_atividade;-15.561886;-56.035584;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.635466;-56.173670;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal de Educação Básica do Campo Professora Udeney Gonçalves de Amorim;Cuiabá;5103403;;;em_atividade;-15.281847;-56.130203;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Filogonio Correa;;;;;em_atividade;-15.280347;-56.124003;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Voluntários da Pátria;;;;;em_atividade;-15.621678;-55.953554;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Estadual Integrado 3;;;;;em_atividade;-15.632513;-55.945665;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.634264;-55.947160;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.551779;-56.025413;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.559906;-56.029925;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.684209;-56.035193;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Edgar Santana de Amorim;;;government;;em_atividade;-15.639154;-55.997112;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.625991;-56.015327;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E.E Mariana Luiza Moreira;;;;;em_atividade;-15.632157;-56.008123;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.660781;-56.048552;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Imaculado Coração;;;;;em_atividade;-15.614667;-56.057667;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB 8 de Abril;;;;;em_atividade;-15.582376;-56.053893;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Armando de Oliveira;;;;;em_atividade;-14.999857;-56.376991;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Floriano Bocheneki;;;;;em_atividade;-15.665327;-56.059194;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.818355;-56.424084;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.828186;-56.428548;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.840608;-56.438152;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Tereza Benguela;;;;;em_atividade;-15.640984;-56.043835;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Professora Alice Fontes Pinheiro;;;;;em_atividade;-15.639845;-56.046839;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Eugênia Pereira de Mello;;;;;em_atividade;-15.635251;-56.049423;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Ceic Centro Educacional Infantil Silva Freire;;;;;em_atividade;-15.635302;-56.048097;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;E. E. Hermelinda de Figueiredo;;;government;;em_atividade;-15.634588;-56.058346;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Padre Firmo Pinto Duarte Filho;;;government;;em_atividade;-15.647289;-55.993224;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Vereador Paulo de Campos Borgese;;;government;;em_atividade;-15.646975;-55.992387;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Aliane Fátima;;;government;;em_atividade;-15.647992;-55.996972;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Francisco Pedroso da Silva;;;government;;em_atividade;-15.641118;-56.013276;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Adventista do Porto;;;religious;;em_atividade;-15.608319;-56.109558;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Pedro Brandão;;;;;em_atividade;-15.593075;-56.072526;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Aristotelino Alves Praieiro;;;;;em_atividade;-15.545034;-56.032617;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Evangélica Missionário Gunnar Vingren;Cuiabá;5103403;;;em_atividade;-15.573157;-56.070946;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Emeb Profª Elza Luiza Esteves;;;;;em_atividade;-15.582882;-56.074955;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Emeb Quintino Pereira de Freitas;;;;;em_atividade;-15.582344;-56.073337;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Deputado Ulisses Silveira Guimarães;;;;;em_atividade;-15.557966;-56.036254;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Vereador Zeno de Oliveira;;;;;em_atividade;-15.750091;-56.120386;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Lúcia Leite Rodrigues;;;;;em_atividade;-15.741845;-56.161185;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Dom José do Despraiado;Cuiabá;5103403;;;em_atividade;-15.569488;-56.085341;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM kindergarten;;;;;em_atividade;-15.563907;-56.108262;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Maria Tomich Monteiro Da Silva;;;;;em_atividade;-15.561451;-56.113092;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Dr. João Ponce de Arruda;Várzea Grande;5108402;;;em_atividade;-15.566514;-56.142898;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Célia Rodrigues;;;;;em_atividade;-15.652117;-56.138005;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Raimundo Pinheiro;;;;;em_atividade;-15.625897;-56.082609;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Antiga E. E. Cel. Antonio Paes de Barros;Barão de Melgaço;5101605;government;;em_atividade;-16.194168;-55.967154;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Ciro Siqueira Gonçalves;Barão de Melgaço;5101605;government;;em_atividade;-16.193235;-55.948281;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.624904;-56.008474;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Engenheiro Oscar Amélito;;;;;em_atividade;-15.672188;-56.037526;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.666765;-56.042622;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.570428;-56.084210;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Ernandy Maurício Baracat de Arruda;;;;;em_atividade;-15.664543;-56.159081;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Maria Lucila da Silva Barros;Cuiabá;5103403;;;em_atividade;-15.559343;-56.090669;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Antonio Batista Cruz;;;;;em_atividade;-15.636909;-55.987501;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;FACC - Faculdade Católica;;;;;em_atividade;-15.647432;-56.099374;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Centro catequético e Creche Santa Terezinha do Menino Jesus;Várzea Grande;5108402;;;em_atividade;-15.643435;-56.108885;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE José Leite de Moraes;Várzea Grande;5108402;;;em_atividade;-15.644243;-56.105092;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.645010;-56.105947;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.675129;-56.037046;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Superar;;;;;em_atividade;-15.644482;-55.974237;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB José Ferreira da Silva;Santo Antônio do Leverger;;;;em_atividade;-15.755964;-56.082172;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Aristides Pompeo de Campos;;;;;em_atividade;-15.649667;-56.187026;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.664759;-56.159596;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.697275;-56.124731;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.648495;-56.134295;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.726838;-56.151148;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profª Guilhermina De Figueiredo;;;;;em_atividade;-15.588570;-56.060327;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Professor Aecim Tocantins;;;;;em_atividade;-15.665276;-56.058647;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.547705;-56.054608;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual João Monteiro Sobrinho;;;;;em_atividade;-14.775432;-57.281678;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Ruth Martins Santana;;;;;em_atividade;-15.669855;-56.137351;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profª Rita Auxiliadora Campos Cunha;;;;;em_atividade;-15.625127;-56.167174;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Coração de Jesus;;;;;em_atividade;-15.600474;-56.103486;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Letra Viva;;;;;em_atividade;-15.606960;-56.114501;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.631569;-56.166473;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.585147;-56.061883;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.587782;-56.054379;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Marilce Benedita de Arruda;;;;;em_atividade;-15.643892;-56.126394;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Ana Francisca de Barros;;;;;em_atividade;-15.638890;-56.129331;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Manoel João de Arruda;;;;;em_atividade;-15.638122;-56.139760;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.635782;-56.144732;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Ednilson Francisco Kolling;;;;;em_atividade;-15.603432;-56.177360;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.640921;-56.086744;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.613741;-55.994841;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Hermes Rodrigues de Alcântara;;;public;;em_atividade;-15.867334;-56.071782;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Dunga Rodrigues;;;;;em_atividade;-15.659415;-56.091636;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Faustino Dias de Amorim;Santo Antônio de Leverger;5107800;;;em_atividade;-15.813773;-56.100694;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Manoel Gomes;;;;;em_atividade;-15.631063;-56.114390;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Unicus;;;;;em_atividade;-15.601479;-56.056983;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.625126;-56.147111;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.626328;-56.155879;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Notre Dame de Lourdes;;;;;em_atividade;-15.610222;-56.124657;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Silvino Leite de Arruda;;;;;em_atividade;-15.581477;-56.037028;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Adventista Várzea Grande;;;;;em_atividade;-15.645159;-56.130475;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual João Crisóstomo;Cuiabá;5103403;;;em_atividade;-15.564292;-56.011983;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Prof Antônio Salustino Areias;;;;;em_atividade;-15.697274;-56.129178;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.702209;-56.131586;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.658750;-56.098069;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Dunga Rodrigues;;;;;em_atividade;-15.661123;-56.091058;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.670385;-56.089194;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Prof. Demétrio de Souza;;;;;em_atividade;-15.669491;-56.085800;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Tenente Waldemiro Delgado Bertulio;;;;;em_atividade;-15.670049;-56.095329;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Mamed Untar;;;;;em_atividade;-15.627375;-56.157473;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Sesc Escola Cuiabá;;;private;;em_atividade;-15.576058;-56.060044;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Sérgio Luiz Ferreirada Silva;Cuiabá;5103403;government;;em_atividade;-15.540596;-56.041573;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Sesc Escola;Cuiabá;5103403;;;em_atividade;-15.613356;-56.096652;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Red House International School Cuiabá;;;;;em_atividade;-15.583154;-56.123663;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.563740;-56.059949;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-16.048583;-56.723976;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Nossa Senhora Aparecida;;;;;em_atividade;-16.048583;-56.724500;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Antônio Joaquim de Arruda;várzea grande;;;;em_atividade;-15.652214;-56.095104;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEBC Novo Renascer;Cuiabá;5103403;;;em_atividade;-15.576846;-55.777222;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Jescelino José Reiners;;;;;em_atividade;-15.579403;-56.031974;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Rene Barbour;;;;;em_atividade;-14.774318;-57.285241;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual JK;;;;;em_atividade;-16.269170;-56.643661;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Maria Helena de Araujo Bastos;;;;;em_atividade;-16.264011;-56.641192;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal General Caetano de Albuquerque;;;;;em_atividade;-16.266701;-56.627045;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Antônio João Ribeiro;;;;;em_atividade;-16.267566;-56.628086;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Frei Carlos Vallete;;;;;em_atividade;-16.253265;-56.631647;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-16.264341;-56.617373;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Marechal Rondon;;;;;em_atividade;-16.256519;-56.623555;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-16.078436;-56.569551;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Professora Eucaris Nunes da Cunha e Moraes;;;;;em_atividade;-16.259754;-56.626959;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Meritos Educacional Madre Luiza Bertrand;;;;;em_atividade;-16.261617;-56.624917;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-16.247076;-56.629107;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Bacharel Ribeiro de Arruda;;;;;em_atividade;-16.270637;-56.624821;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.663932;-56.088698;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Ceaada Prof Arlete P Migueletti;;;;;em_atividade;-15.602383;-56.093458;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Maria da Glória de Souza;;;;;em_atividade;-15.591625;-56.081012;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Raimundo Pinheiro;;;;;em_atividade;-15.623532;-56.063373;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Antônio Lino de Campos;;;;;em_atividade;-15.657854;-56.072264;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Benedita Bernardina Curvo;Várzea Grande;5108402;;;em_atividade;-15.613368;-56.171772;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;SENAI;;;;;em_atividade;-15.066568;-57.185135;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Unic Anhanguera Educacional;;;;;em_atividade;-14.779147;-57.283996;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Adventista do Jardim Glória;;;;;em_atividade;-15.641392;-56.159278;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM kindergarten;;;;;em_atividade;-15.658479;-56.185875;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM kindergarten;;;;;em_atividade;-15.654164;-56.178680;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.640444;-56.151760;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.617201;-55.990262;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Fato Educacional;;;;;em_atividade;-15.629101;-56.056145;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Estadual Integral Prof. Rafael Rueda;;;;;em_atividade;-15.628805;-55.952260;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Colégio Estadual Integrado 4;;;;;em_atividade;-15.633670;-55.945845;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Antigo Grupo  Escolar Senador Azeredo;;;;;em_atividade;-15.609488;-56.105345;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.612797;-55.993321;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB São Benedito;;;;;em_atividade;-15.633511;-55.985169;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Nossa Senhora do Carmo 4,9 (40);;;;;em_atividade;-15.598033;-56.108917;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Centro Educacional Ayrton Senna;Várzea Grande;5108402;;;em_atividade;-15.653012;-56.139247;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Gente Miúda;Cuiabá;5103403;;;em_atividade;-15.609488;-56.052070;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.672032;-56.039071;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Escola Municipal Professor Jacondino Bezerra;Chapada dos Guimarães;5103007;;;em_atividade;-15.085841;-55.657813;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.619060;-55.992825;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;Creche Lar Menino Jesus;Santo Antônio de Leverger;5107800;public/government;;em_atividade;-15.814534;-56.099815;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EE Oswaldita Eliza Teixeira Couto;;;public/government;;em_atividade;-15.866584;-56.079479;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Pombinha Branca;;;public/government;;em_atividade;-15.861108;-56.081744;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;CMEI Vereador Júlio Cesar Pinheiro;Cuiabá;5103403;;;em_atividade;-15.606820;-55.984300;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Profª Francisca Figueiredo Arruda Martins;Cuiabá;5103403;;;em_atividade;-15.588983;-56.047575;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.726682;-57.048886;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-14.722237;-57.053589;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.678904;-56.187593;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.663776;-56.186382;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.649589;-56.091825;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;EMEB Professora Lidiolíria Santana;;;;;em_atividade;-15.612361;-55.979546;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível
+;OSM school;;;;;em_atividade;-15.549763;-56.046268;OSM;Fallback espacial — preferir microdados INEP quando o download estiver disponível

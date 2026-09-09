@@ -37,6 +37,11 @@ CANDIDATOS_DB = [
     Path(os.environ["VIGIBARRAGENS_SISCLIMA_DB"])
     if os.environ.get("VIGIBARRAGENS_SISCLIMA_DB")
     else None,
+    # Seed operacional (etapa 59) ou CIEVS institucional — tem solo/alertas/ANA.
+    comum.DADOS_BRUTOS / "sisclima" / "sis_cloud_seed.db",
+    comum.RAIZ.parent / "sisclima-repo" / "data" / "cloud" / "sis_cloud_seed.db",
+    comum.RAIZ.parent / "sisclima-repo" / "data" / "output" / "sis_integrado.db",
+    comum.DADOS_BRUTOS / "sisclima" / "sis_integrado.db",
     Path(
         r"C:\Users\Menandesneto\OneDrive\CIEVS MT"
         r"\SIS-Monitoramento-Clima-Saude-GITHUB-LIMPO\data\cloud\sis_cloud_seed.db"
@@ -48,14 +53,47 @@ CANDIDATOS_DB = [
 ]
 
 
+def _score_db(caminho: Path) -> int:
+    """Prioriza seed com precip/solo/alertas/ANA sobre sis_integrado sanitizado."""
+    try:
+        con = sqlite3.connect(str(caminho))
+        nomes = {
+            r[0]
+            for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        }
+        score = 0
+        if "solo_saturacao_municipal" in nomes:
+            score += 4
+        if "ana_estacoes" in nomes or "ana_telemetria" in nomes:
+            score += 4
+        if "inmet_alertas" in nomes or "cemaden_alertas" in nomes:
+            score += 2
+        if "met_biometeo" in nomes:
+            cols = {r[1] for r in con.execute("PRAGMA table_info(met_biometeo)")}
+            if "precipitacao_mm" in cols or "chuva_mm" in cols:
+                score += 3
+            else:
+                score += 1
+        con.close()
+        return score
+    except Exception:  # noqa: BLE001
+        return 0
+
+
 def resolver_db() -> Path:
-    for caminho in CANDIDATOS_DB:
-        if caminho is not None and caminho.exists() and caminho.stat().st_size > 0:
-            return caminho
-    raise SystemExit(
-        "banco SIS Clima/TITAN não encontrado. Defina VIGIBARRAGENS_SISCLIMA_DB "
-        "ou mantenha o repositório CIEVS MT no OneDrive."
-    )
+    existentes = [
+        c
+        for c in CANDIDATOS_DB
+        if c is not None and c.exists() and c.stat().st_size > 0
+    ]
+    if not existentes:
+        raise SystemExit(
+            "banco SIS Clima/TITAN não encontrado. Defina VIGIBARRAGENS_SISCLIMA_DB "
+            "ou rode a etapa 59 (sis_cloud_seed) / mantenha o repositório CIEVS MT."
+        )
+    # Se VIGIBARRAGENS_SISCLIMA_DB aponta para sanitizado sem hidro, prefere o seed.
+    melhores = sorted(existentes, key=_score_db, reverse=True)
+    return melhores[0]
 
 
 def ibge7(valor: Any) -> str:
@@ -307,6 +345,34 @@ def coords_municipais(met: list[dict[str, Any]], con: sqlite3.Connection) -> dic
     return coords
 
 
+def met_from_openmeteo(
+    coords: dict[str, tuple[float, float]],
+    *,
+    past_days: int = 3,
+) -> list[dict[str, Any]]:
+    """Monta série municipal de precip via Open-Meteo quando SisClima não tem chuva."""
+    from previsao_copernicus import precip_observada_lote
+
+    pontos = [(cod, la, lo) for cod, (la, lo) in sorted(coords.items())]
+    print(f"  fallback precip Open-Meteo para {len(pontos)} municípios (past_days={past_days})…")
+    bruto = precip_observada_lote(pontos, past_days=past_days)
+    linhas: list[dict[str, Any]] = []
+    for cod, serie in bruto.items():
+        for item in serie:
+            linhas.append(
+                {
+                    "data": item["data"],
+                    "cod_ibge": cod,
+                    "municipio": "",
+                    "precip_mm": float(item["precip_mm"]),
+                    "indice_saturacao_solo": None,
+                    "fonte": item.get("fonte") or "openmeteo_sisclima_fallback",
+                }
+            )
+    print(f"  precip Open-Meteo: {len(linhas)} linhas / {len(bruto)} municípios")
+    return linhas
+
+
 def _percentil(valor: float, amostra: list[float]) -> float | None:
     if not amostra:
         return None
@@ -417,6 +483,21 @@ def agregar_municipios(
 
         if not nome:
             nome = snap.get("municipio") or hidro_m.get("municipio") or al.get("municipio") or ""
+        if not nome:
+            # Open-Meteo frequentemente só traz código IBGE — completa via malha IBGE.
+            nomes_ibge = getattr(agregar_municipios, "_nomes_ibge", None)
+            if nomes_ibge is None:
+                nomes_ibge = {}
+                ibge_path = comum.DADOS_TRATADOS / "ibge_municipios_mt.csv"
+                if ibge_path.exists():
+                    with ibge_path.open(encoding="utf-8-sig", newline="") as f_ib:
+                        for row_ib in csv.DictReader(f_ib, delimiter=";"):
+                            c_ib = ibge7(row_ib.get("codigo_ibge"))
+                            m_ib = (row_ib.get("municipio") or "").strip()
+                            if c_ib and m_ib:
+                                nomes_ibge[c_ib] = m_ib
+                agregar_municipios._nomes_ibge = nomes_ibge  # type: ignore[attr-defined]
+            nome = nomes_ibge.get(cod, "")
 
         gf = glofas.get(cod, {})
 
@@ -789,10 +870,21 @@ def main() -> None:
     print(f"  coords municipais: {len(coords)}")
 
     if not met:
-        raise SystemExit(
-            "met_biometeo sem coluna de precipitação no banco escolhido. "
-            "Use o sis_cloud_seed.db (tem precipitacao_mm)."
+        if not coords:
+            raise SystemExit(
+                "met_biometeo sem precipitação e sem coordenadas no banco SisClima. "
+                "Use sis_cloud_seed.db (precipitacao_mm) ou rode a etapa 39."
+            )
+        print(
+            "  aviso: SisClima sem coluna precipitacao_mm/chuva_mm — "
+            "complementando com Open-Meteo (fallback operacional)."
         )
+        met = met_from_openmeteo(coords, past_days=3)
+        if not met:
+            raise SystemExit(
+                "falha no fallback Open-Meteo de precipitação. "
+                "Verifique rede ou rode `python executar.py 39`."
+            )
 
     # Previsão ECMWF (Copernicus/C3S) + amostra GloFAS
     from previsao_copernicus import previsao_chuva_lote, risco_cheias_glofas

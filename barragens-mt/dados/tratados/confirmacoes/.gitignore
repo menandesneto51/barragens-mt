@@ -1,0 +1,5 @@
+# Artefatos de runtime do ciclo de alerta (não versionar)
+*.csv
+*.json
+payloads_defesa_civil/*.json
+!.gitkeep

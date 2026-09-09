@@ -64,6 +64,20 @@ def ler_historico_por_barragem(limite_snapshots: int = 30) -> dict[str, list[dic
     return series
 
 
+def _rotulo_regulada(valor: object, texto_pnsb: object = None) -> str:
+    txt = str(texto_pnsb or "").strip()
+    if txt and txt.lower() not in ("nan", "none", ""):
+        return txt
+    try:
+        n = int(float(str(valor).replace(",", ".")))
+    except (TypeError, ValueError):
+        s = str(valor or "").strip()
+        return "—" if not s or s.lower() in ("nan", "none") else s
+    return {1: "Sim (regulada PNSB)", 2: "Não regulada PNSB", 3: "Não classificada"}.get(
+        n, str(valor)
+    )
+
+
 def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     inv = {r["id_snisb"]: r for r in ler_csv("inventario_barragens_mt.csv")}
     idap = {r["id_snisb"]: r for r in ler_csv("idap_estadual_mt.csv")}
@@ -99,7 +113,9 @@ def montar_registros() -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "dpa": r.get("dano_potencial_associado") or "",
                 "cls": r.get("classe_cnrh") or r.get("classe") or "",
                 "pae": r.get("possui_pae") or "",
-                "reg": r.get("indicador_regulada") or "",
+                "reg": _rotulo_regulada(
+                    r.get("indicador_regulada"), r.get("regulada_pelo_pnsb")
+                ),
                 "aut": r.get("barragem_autuada") or "",
                 "insp": r.get("data_ultima_inspecao") or "",
                 "fisc": r.get("data_ultima_fiscalizacao") or "",
@@ -210,7 +226,7 @@ main{padding:14px 22px 40px;max-width:1200px;margin:0 auto}
     <a href="index.html">Comando</a>
     <a href="simulacao.html">Simulação</a>
     <a href="alertas.html">Alertas</a>
-    <a href="piloto_manso_cuiaba.html">Piloto</a>
+    <a href="piloto_manso_cuiaba.html">Eixo Manso–Cuiabá</a>
   </nav>
 </header>
 <main>
@@ -273,7 +289,7 @@ function render(d){
     <div style="margin-bottom:8px">
       <span class="etq ${nv}">${nv}</span>
       <strong style="margin-left:8px">IDAP ${d.idap ?? '—'}/100</strong>
-      ${d.pi ? ' · piloto Manso–Cuiabá' : ''}
+      ${d.pi ? ' · eixo Manso–Cuiabá' : ''}
       ${d.perfil==='rejeito' ? ' · <strong style="color:#9a3412">rejeito</strong>' : ''}
     </div>
     <div class="kv">
@@ -287,8 +303,9 @@ function render(d){
       <span>Otto / curso</span><span>${esc(d.otto)||'—'} · ${esc(d.curso)||'—'}</span>
     </div>
     <p class="links" style="margin-top:10px">
-      <a href="simulacao.html">Simulação volume/área</a>
+      <a href="simulacao.html?id=${encodeURIComponent(d.id)}">Simulação de cenário</a>
       <a href="alertas.html">Fila de alertas</a>
+      <a href="ficha_rapida.html">Ficha rápida</a>
       <a href="index.html">Voltar ao comando</a>
     </p>
   </div>

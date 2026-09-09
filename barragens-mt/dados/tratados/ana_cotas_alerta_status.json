@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "origem": "sample_tratados",
+  "path": "/workspace/barragens-mt/dados/tratados/ana_cotas_alerta_mt_sample.csv",
+  "n_estacoes": 5,
+  "n_linhas_seed_atualizadas": 1068,
+  "eh_sample": true,
+  "fontes": [
+    "ANA_SAMPLE"
+  ],
+  "mensagem": "cotas de demonstração (ANA_SAMPLE) — substituir por CSV oficial em dados/brutos/ana_cotas_alerta_mt.csv",
+  "gerado_em": "2026-09-09T12:07:44Z"
+}

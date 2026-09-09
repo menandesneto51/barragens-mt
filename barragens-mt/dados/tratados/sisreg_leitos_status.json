@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "extrato": "sisreg_leitos",
+  "motivo": "nenhuma fonte (CSV/SQLite/DW_URL)",
+  "n_linhas": 0,
+  "saida": "dados/tratados/sisreg_leitos_mt.csv",
+  "orientacao": "Coloque dump em dados/brutos/sisreg_leitos.csv ou defina VIGIBARRAGENS_DW_URL / VIGIBARRAGENS_DW_SQLITE. Ver docs/15-integracao-indicasus-dw.md.",
+  "gerado_em": "2026-08-02T20:46:30.541530+00:00"
+}
