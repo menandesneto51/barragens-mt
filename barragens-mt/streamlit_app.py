@@ -25,6 +25,7 @@ from st_app.data import (
     carregar_cnes_pontos,
     com_tipologia,
     carregar_hidro_mun,
+    carregar_historico_indice,
     carregar_idap,
     carregar_piloto,
     carregar_populacao,
