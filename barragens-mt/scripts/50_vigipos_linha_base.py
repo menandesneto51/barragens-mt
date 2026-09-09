@@ -155,7 +155,15 @@ def main() -> int:
                     janela=str(g["semana_epidemiologica"].iloc[-1]),
                 )
             sinais_rows.append(sinal.as_dict())
-        fonte_dados = "sinan_disponivel + exemplo §5.6.4"
+        fontes_usadas = {
+            str(x).strip() for x in sinan["fonte"].dropna().astype(str).tolist() if str(x).strip()
+        }
+        if "sinan_tratado" in fontes_usadas:
+            fonte_dados = "sinan_disponivel + exemplo §5.6.4"
+        elif "exemplo_config" in fontes_usadas:
+            fonte_dados = "exemplo_config + exemplo §5.6.4"
+        else:
+            fonte_dados = "carga_parcial + exemplo §5.6.4"
 
     pd.DataFrame(linhas).to_csv(LINHA, sep=";", index=False, encoding="utf-8-sig")
 
@@ -170,6 +178,13 @@ def main() -> int:
     status = {
         "ok": True,
         "fonte": fonte_dados,
+        "eh_exemplo_ou_sintetico": (
+            "sintetic" in fonte_dados.casefold()
+            or "exemplo_config" in fonte_dados.casefold()
+            or "demo" in fonte_dados.casefold()
+            or fonte_dados.startswith("serie_sintetica")
+            or "sinan_disponivel" not in fonte_dados.casefold()
+        ),
         "n_linha_base": len(linhas),
         "n_sinais": len(sinais_rows),
         "exemplo_564_ok": (

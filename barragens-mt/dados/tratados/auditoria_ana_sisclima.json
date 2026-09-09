@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-07T13:53:03Z",
+  "gerado_em": "2026-09-09T12:05:16Z",
   "db_sisclima": "/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db",
   "sqlite_tem_tabelas_ana": true,
   "fonte_estacoes": "sqlite:sis_cloud_seed.db:ana_estacoes",

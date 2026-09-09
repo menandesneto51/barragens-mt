@@ -58,9 +58,21 @@ Aproximação espacial atual: **máximo entre município-sede e municípios a mo
 (Otto), rotulado `sede_mais_montante_max`. Agregação areal na BHO estadual completa
 permanece pendente (§12.3).
 
+### Receita rápida — refresh hidro + IDAP (preserva A6)
+
+O pipeline padrão já encadeia `59 → 17 → 60 → 52 → 53 → 16`. Atalho explícito
+(incluindo overlay pontual 39 e painéis):
+
+```bash
+python executar.py 59 17 39 60 52 53 16 18 20 21
+```
+
+Sem `52/53` (ou `60`), um refresh só com a etapa 17 deixa `a6_fonte=cota_medida`
+vazio — a cota medida só entra no vínculo estação↔barragem.
+
 ## 12.5 Telemetria fluviométrica ANA (contexto — não mancha)
 
-Etapas `52` (auditoria) e `53` (vínculo estação↔barragem):
+Etapas `60` (cotas de alerta), `52` (auditoria) e `53` (vínculo estação↔barragem):
 
 | Variável SisClima / env | Papel |
 | --- | --- |
@@ -83,12 +95,23 @@ Checklist de carga (capacidade assistencial):
 3. Substituir os CSVs seed pelo extrato oficial e rodar a etapa `43` quando o conector DW estiver ativo.
 4. Status em `dados/tratados/indicasus_leitos_status.json` (visível na Simulação / DW status).
 
-## 12.6 Próximo / fora de escopo
+## 12.6 Cotas de alerta (etapa 60)
+
+`scripts/60_ana_cotas_alerta.py` lê, nesta ordem:
+
+1. `dados/brutos/ana_cotas_alerta_mt.csv` (oficial, quando a SES/Defesa Civil entregar)
+2. `dados/tratados/ana_cotas_alerta_mt_sample.csv` (demonstração — fonte `ANA_SAMPLE`)
+
+Aplica `cota_alerta_cm` no seed SQLite (`ana_telemetria`) e grava
+`dados/tratados/ana_cotas_alerta_status.json` para a faixa A8 distinguir sample vs
+oficial. Em seguida a etapa `53` calcula `razao_nivel_cota_alerta` com
+`a6_fonte=cota_medida` nas barragens ≤30 km.
+
+## 12.7 Próximo / fora de escopo
 
 - Agregação areal chuva/solo na BHO estadual completa
 - Mancha de inundação / dam break
 - Validação telefônica dos contatos (`19_contatos_alertabilidade.py` gera o esqueleto)
 - Reimplementar APIs INMET/Cemaden/ANA já cobertas pelo SIS/TITAN
-- Cotas oficiais de alerta por estação (hoje há amostra de demonstração em `ana_cotas_alerta_mt.csv`)
 
 O piloto (`18`) e a ficha rápida (`painel/ficha_rapida.html`) já consomem esta hidro.

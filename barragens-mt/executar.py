@@ -49,6 +49,25 @@ ETAPAS = [
     ),
     # Hidro antes do IDAP: a dimensão A consome hidro_barragens_mt.csv.
     ("17", "17_hidro_sisclima_titan.py", "Hidro SisClima/TITAN → IDAP dimensão A", True),
+    # Cotas de alerta + auditoria/vínculo ANA antes do IDAP (preserva A6 cota_medida).
+    (
+        "60",
+        "60_ana_cotas_alerta.py",
+        "Cotas de alerta ANA (CSV oficial ou sample) → seed/telemetria",
+        True,
+    ),
+    (
+        "52",
+        "52_auditoria_ana_sisclima.py",
+        "Auditoria ANA/SisClima (estações, cota/vazão, eixo)",
+        True,
+    ),
+    (
+        "53",
+        "53_estacoes_ana_eixo.py",
+        "Estações ANA por barragem + A6 cota medida",
+        True,
+    ),
     # Contatos antes do IDAP: alimenta D8 e a flag alertável do piloto.
     ("19", "19_contatos_alertabilidade.py", "Contatos e alertabilidade do piloto", True),
     ("16", "16_idap_estadual.py", "IDAP estadual (todas as barragens de MT)", True),
@@ -166,24 +185,18 @@ ETAPAS = [
         "50",
         "50_vigipos_linha_base.py",
         "VIGIPÓS — linha de base e O/E (canal endêmico)",
-        False,
+        True,
+    ),
+    (
+        "61",
+        "61_ficha_rapida_indexar.py",
+        "Índice de fichas rápidas (IPAPD A/P/C)",
+        True,
     ),
     (
         "51",
         "51_rotas_alternativas_offline.py",
         "Rotas alternativas offline (Dijkstra C7/D7 no eixo)",
-        False,
-    ),
-    (
-        "52",
-        "52_auditoria_ana_sisclima.py",
-        "Auditoria ANA/SisClima (estações, cota/vazão, eixo)",
-        False,
-    ),
-    (
-        "53",
-        "53_estacoes_ana_eixo.py",
-        "Estações ANA por barragem + A6 cota medida",
         False,
     ),
     (

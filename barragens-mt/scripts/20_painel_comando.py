@@ -125,6 +125,7 @@ def ler_historico_comando(limite: int = 30) -> dict[str, Any]:
         "indice": [
             {
                 "t": (x.get("instante") or "")[:19],
+                "vp": x.get("versao_pesos") or "",
                 "ama": int(x.get("amarelo") or 0),
                 "lar": int(x.get("laranja") or 0),
                 "ver": int(x.get("vermelho") or 0),
@@ -784,12 +785,13 @@ function sparkMini(pts){
   if(!ind.length){ el.textContent = 'Sem snapshots ainda (rode a etapa 16).'; return; }
   const ultimo = ind[ind.length-1];
   el.innerHTML = `<div style="font-size:13px;line-height:1.5">
-    ${ind.length} snapshot(s) · último <code>${ultimo.t||'—'}</code>:
+    ${ind.length} snapshot(s) · último <code>${ultimo.t||'—'}</code>
+    · pesos <code>${ultimo.vp||'—'}</code> · n=${ultimo.n||'—'}:
     Amarelo <b>${ultimo.ama||0}</b> · Laranja <b>${ultimo.lar||0}</b> ·
     Vermelho <b>${ultimo.ver||0}</b> · Roxo <b>${ultimo.rox||0}</b>
     <div style="margin-top:6px;color:var(--muted);font-size:12px">
-      Contagem estadual por rodada:
-      ${ind.map(x=>`${(x.t||'').slice(5,16)}→A${x.ama}`).join(' · ')}
+      Contagem estadual por rodada (proveniência A1):
+      ${ind.map(x=>`${(x.t||'').slice(5,16)}[${x.vp||'?'}]→A${x.ama}`).join(' · ')}
     </div>
   </div>`;
   const ids = Object.keys(HIST.series||{});

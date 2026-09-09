@@ -18,6 +18,9 @@ TRATADOS = RAIZ / "dados" / "tratados"
 AUDITORIA_ANA = TRATADOS / "auditoria_ana_sisclima.json"
 INDICASUS_STATUS = TRATADOS / "indicasus_leitos_status.json"
 SEED_STATUS = TRATADOS / "sisclima_cloud_seed_status.json"
+COTAS_STATUS = TRATADOS / "ana_cotas_alerta_status.json"
+VIGIPOS_STATUS = TRATADOS / "vigipos_status.json"
+FICHAS_STATUS = TRATADOS / "fichas_rapidas_status.json"
 HIDRO_BARRAGENS = TRATADOS / "hidro_barragens_mt.csv"
 HIDRO_MUNICIPIOS = TRATADOS / "hidro_municipios_mt.csv"
 
@@ -135,6 +138,60 @@ def status_coletores(*, id_snisb: str | None = None) -> dict[str, Any]:
                     "severidade": "alto",
                     "mensagem": (
                         "seed sem séries ANA — USE_ANA+ANA_FETCH_SERIES ou etapa 59/SOAP"
+                    ),
+                }
+            )
+
+    cotas = _ler_json(COTAS_STATUS)
+    if not cotas:
+        lacunas.append(
+            {
+                "fonte": "Cotas alerta ANA",
+                "severidade": "atencao",
+                "mensagem": "status cotas ausente — rode a etapa 60 (A6 cota_medida)",
+            }
+        )
+    elif cotas.get("eh_sample"):
+        lacunas.append(
+            {
+                "fonte": "Cotas alerta ANA",
+                "severidade": "atencao",
+                "mensagem": str(
+                    cotas.get("mensagem")
+                    or "cotas ANA_SAMPLE — substituir por CSV oficial em dados/brutos/"
+                ),
+            }
+        )
+    elif not cotas.get("ok"):
+        lacunas.append(
+            {
+                "fonte": "Cotas alerta ANA",
+                "severidade": "alto",
+                "mensagem": str(cotas.get("mensagem") or "cotas de alerta indisponíveis"),
+            }
+        )
+
+    vig = _ler_json(VIGIPOS_STATUS)
+    if not vig:
+        lacunas.append(
+            {
+                "fonte": "VIGIPÓS O/E",
+                "severidade": "atencao",
+                "mensagem": "vigipos_status.json ausente — rode a etapa 50",
+            }
+        )
+    else:
+        fonte_v = str(vig.get("fonte") or "")
+        if any(
+            x in fonte_v.casefold()
+            for x in ("sintetic", "exemplo", "demo", "§5.6")
+        ):
+            lacunas.append(
+                {
+                    "fonte": "VIGIPÓS O/E",
+                    "severidade": "atencao",
+                    "mensagem": (
+                        "linha de base exemplo/sintética — substituir por SINAN oficial"
                     ),
                 }
             )

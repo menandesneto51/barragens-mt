@@ -470,6 +470,25 @@ def pagina_municipio_360(
                 "Sem ficha rápida deste município — termos A/P/C em lacuna. "
                 "Exporte JSON em `painel/ficha_rapida.html` → `dados/tratados/fichas_rapidas/`."
             )
+        try:
+            import json
+            from pathlib import Path
+
+            st_f = (
+                Path(__file__).resolve().parents[1]
+                / "dados"
+                / "tratados"
+                / "fichas_rapidas_status.json"
+            )
+            if st_f.is_file():
+                fs = json.loads(st_f.read_text(encoding="utf-8"))
+                st.caption(
+                    f"Índice etapa 61: **{fs.get('n_fichas') or 0}** ficha(s) · "
+                    f"**{fs.get('n_com_termos_ipapd') or 0}** com IPAPD · "
+                    f"municípios: {', '.join(fs.get('municipios') or []) or '—'}."
+                )
+        except Exception:  # noqa: BLE001
+            pass
         if ipapd.get("ok"):
             p1, p2, p3 = st.columns(3)
             p1.metric(

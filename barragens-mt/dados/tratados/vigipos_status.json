@@ -1,9 +1,10 @@
 {
   "ok": true,
-  "fonte": "sinan_disponivel + exemplo §5.6.4",
+  "fonte": "exemplo_config + exemplo §5.6.4",
+  "eh_exemplo_ou_sintetico": true,
   "n_linha_base": 4,
   "n_sinais": 4,
   "exemplo_564_ok": true,
-  "gerado_em": "2026-08-02T22:10:16.318483+00:00",
+  "gerado_em": "2026-09-09T12:07:45.844259+00:00",
   "nota": "Sinal epidemiológico é ato de vigilância — método e parâmetros ficam registrados. Substituir série sintética por SINAN oficial (etapa 44/DW)."
 }

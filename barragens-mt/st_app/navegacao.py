@@ -573,34 +573,71 @@ def aplicar_filtros_df(df: pd.DataFrame) -> tuple[pd.DataFrame, str | None]:
 
 
 def bloco_historico_niveis() -> None:
-    """Série das últimas rodadas IDAP (contagens por nível)."""
+    """Série das últimas rodadas IDAP (contagens por nível) + proveniência A1."""
     try:
         from st_app.data import carregar_historico_indice
 
         hist = carregar_historico_indice()
     except Exception:  # noqa: BLE001
         hist = pd.DataFrame()
-    with st.expander("Histórico das mudanças de nível (estado)", expanded=False):
+    with st.expander("Últimos cálculos do IDAP (proveniência A1)", expanded=True):
         if hist is None or hist.empty:
-            st.caption("Histórico ainda sem snapshots suficientes.")
+            st.caption("Histórico ainda sem snapshots — rode a etapa 16 mais de uma vez.")
             return
-        cols = [c for c in ("instante", "arquivo", "n_barragens", "roxo", "vermelho", "laranja", "amarelo", "verde") if c in hist.columns]
+        ultimo = hist.iloc[-1]
+        versao = str(ultimo.get("versao_pesos") or "—")
+        instante = str(ultimo.get("instante") or ultimo.get("arquivo") or "—")[:19]
+        n_bar = ultimo.get("n_barragens")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Último cálculo", instante.replace("T", " ") if instante else "—")
+        c2.metric("Versão de pesos", versao)
+        c3.metric("Barragens", int(n_bar) if str(n_bar).isdigit() else (n_bar or "—"))
+        cols = [
+            c
+            for c in (
+                "instante",
+                "versao_pesos",
+                "n_barragens",
+                "roxo",
+                "vermelho",
+                "laranja",
+                "amarelo",
+                "verde",
+                "arquivo",
+            )
+            if c in hist.columns
+        ]
         mostra = hist[cols].tail(8).iloc[::-1]
         st.dataframe(mostra, width="stretch", hide_index=True, height=220)
         if len(hist) >= 2:
             ant, atu = hist.iloc[-2], hist.iloc[-1]
+
             def _n(row, k):
                 try:
                     return int(row.get(k) or 0)
                 except (TypeError, ValueError):
                     return 0
-            ama_ant = _n(ant, "amarelo") + _n(ant, "laranja") + _n(ant, "vermelho") + _n(ant, "roxo")
-            ama_atu = _n(atu, "amarelo") + _n(atu, "laranja") + _n(atu, "vermelho") + _n(atu, "roxo")
+
+            ama_ant = (
+                _n(ant, "amarelo")
+                + _n(ant, "laranja")
+                + _n(ant, "vermelho")
+                + _n(ant, "roxo")
+            )
+            ama_atu = (
+                _n(atu, "amarelo")
+                + _n(atu, "laranja")
+                + _n(atu, "vermelho")
+                + _n(atu, "roxo")
+            )
             delta = ama_atu - ama_ant
             st.caption(
                 f"Atenção+ na última rodada: **{ama_atu}** "
-                f"({delta:+d} vs rodada anterior)."
+                f"({delta:+d} vs rodada anterior) · "
+                f"snapshots: **{len(hist)}**."
             )
+        else:
+            st.caption("Só 1 snapshot — rode a etapa 16 de novo para comparar.")
 
 
 def meta_atualizacao(df: pd.DataFrame | None = None) -> str:

@@ -1,6 +1,6 @@
 # VIGIPÓS — O/E e canal endêmico
 
-- Fonte: **sinan_disponivel + exemplo §5.6.4**
+- Fonte: **exemplo_config + exemplo §5.6.4**
 - Linhas de base: **4**
 - Sinais avaliados: **4**
 - Exemplo §5.6.4 reproduzido: **sim**

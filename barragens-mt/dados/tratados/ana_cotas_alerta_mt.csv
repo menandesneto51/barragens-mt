@@ -1,0 +1,6 @@
+﻿codigo_estacao;cota_alerta_cm;fonte;nota
+01455013;400,0;ANA_SAMPLE;Proxy de demonstração — substituir por cota oficial Defesa Civil/ANA
+66210000;400,0;ANA_SAMPLE;UHE Manso Jusante — proxy demonstração (telemetria SOAP real)
+66162000;350,0;ANA_SAMPLE;UHE Manso Montante — proxy demonstração (telemetria SOAP real)
+66260006;200,0;ANA_SAMPLE;Cuiabá-Beira Rio — proxy demonstração (telemetria SOAP real)
+15043000;280,0;ANA_SAMPLE;Proxy de demonstração — substituir por cota oficial Defesa Civil/ANA

@@ -114,6 +114,8 @@ def candidatos_cotas_alerta_csv() -> list[Path]:
     if env:
         out.append(Path(env))
     out.append(comum.DADOS_BRUTOS / "ana_cotas_alerta_mt.csv")
+    # Normalizado pela etapa 60 (oficial ou cópia do sample).
+    out.append(comum.DADOS_TRATADOS / "ana_cotas_alerta_mt.csv")
     out.append(comum.DADOS_TRATADOS / "ana_cotas_alerta_mt_sample.csv")
     return out
 

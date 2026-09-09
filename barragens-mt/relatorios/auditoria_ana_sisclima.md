@@ -1,6 +1,6 @@
 # Auditoria ANA / SisClima
 
-- Gerado: `2026-09-07T13:53:03Z`
+- Gerado: `2026-09-09T12:05:16Z`
 - DB: `/workspace/barragens-mt/dados/brutos/sisclima/sis_cloud_seed.db`
 - SQLite com tabelas ANA: **True**
 - Estações: `sqlite:sis_cloud_seed.db:ana_estacoes` (526 MT)

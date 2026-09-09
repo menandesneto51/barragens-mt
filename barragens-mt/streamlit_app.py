@@ -607,12 +607,33 @@ def pagina_comando(df: pd.DataFrame) -> None:
         height=360,
     )
 
-    with st.expander("Histórico de snapshots do índice", expanded=False):
+    with st.expander("Últimos cálculos do IDAP (proveniência A1)", expanded=False):
         hist = carregar_historico_indice()
         if hist.empty:
             st.caption("Sem snapshots — rode a etapa 16 mais de uma vez.")
         else:
-            st.dataframe(hist.tail(12), width="stretch", hide_index=True)
+            u = hist.iloc[-1]
+            st.caption(
+                f"Último: **{str(u.get('instante') or '')[:19]}** · "
+                f"pesos **{u.get('versao_pesos') or '—'}** · "
+                f"{u.get('n_barragens') or '—'} barragens · "
+                f"{len(hist)} snapshot(s)."
+            )
+            cols = [
+                c
+                for c in (
+                    "instante",
+                    "versao_pesos",
+                    "n_barragens",
+                    "amarelo",
+                    "laranja",
+                    "vermelho",
+                    "roxo",
+                    "verde",
+                )
+                if c in hist.columns
+            ]
+            st.dataframe(hist[cols].tail(12), width="stretch", hide_index=True)
 
 
 def pagina_hidro(hidro: pd.DataFrame, pop: pd.DataFrame) -> None:

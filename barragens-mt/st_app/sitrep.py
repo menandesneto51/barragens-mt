@@ -167,6 +167,30 @@ def montar_sitrep_md(
     except Exception:  # noqa: BLE001
         linhas += ["", "## 8. Ciclo de alerta", "- Sem trilha de ciclo neste ambiente."]
 
+    # —— VIGIPÓS ——
+    try:
+        from pathlib import Path
+        import json
+
+        vig_path = Path(__file__).resolve().parents[1] / "dados" / "tratados" / "vigipos_status.json"
+        if vig_path.is_file():
+            vig = json.loads(vig_path.read_text(encoding="utf-8"))
+            linhas += [
+                "",
+                "## 9. VIGIPÓS O/E",
+                f"- Fonte: **{vig.get('fonte') or '—'}**",
+                f"- Sinais: **{vig.get('n_sinais') or 0}** · "
+                f"exemplo §5.6.4: **{'ok' if vig.get('exemplo_564_ok') else '—'}**",
+            ]
+            if vig.get("eh_exemplo_ou_sintetico"):
+                linhas.append(
+                    "- Atenção: linha de base **exemplo/sintética** — não é SINAN oficial."
+                )
+        else:
+            linhas += ["", "## 9. VIGIPÓS O/E", "- Status ausente — rode a etapa 50."]
+    except Exception:  # noqa: BLE001
+        linhas += ["", "## 9. VIGIPÓS O/E", "- Indisponível."]
+
     linhas += [
         "",
         "---",
