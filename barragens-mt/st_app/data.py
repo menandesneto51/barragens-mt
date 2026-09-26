@@ -178,6 +178,41 @@ def carregar_idap() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_inteligencia() -> pd.DataFrame:
+    """Estado integrado v2.2 materializado fora da interface."""
+    df = ler_csv("inteligencia_estadual_mt.csv")
+    if df.empty:
+        return df
+    for col in ("idap", "idap_anterior", "delta_idap", "pressao_hidro_pct", "condicao_estrutura_pct", "exposicao_pct", "deficit_resposta_pct", "completude", "idap_projetado", "n_municipios_afetados"):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
+def carregar_mudancas_recentes() -> pd.DataFrame:
+    """Eventos classificados da rodada anterior → atual; criticidade != nível IDAP."""
+    df = ler_csv("mudancas_recentes.csv")
+    if df.empty:
+        return df
+    ordem = {"emergencial": 3, "critica": 2, "atencao": 1, "informativa": 0}
+    df["_ordem"] = df["criticidade_evento"].map(ordem).fillna(0)
+    return df.sort_values(["_ordem", "id_snisb"], ascending=[False, True]).drop(columns="_ordem")
+
+
+@st.cache_data(show_spinner=False)
+def carregar_proveniencia() -> pd.DataFrame:
+    """Freshness semântico e lineage por barragem; não altera risco."""
+    df = ler_csv("proveniencia_freshness_mt.csv")
+    if df.empty:
+        return df
+    for col in ("idade_h_hidro", "completude_idap"):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_hidro_mun() -> pd.DataFrame:
     df = ler_csv("hidro_municipios_mt.csv")
     if df.empty:
