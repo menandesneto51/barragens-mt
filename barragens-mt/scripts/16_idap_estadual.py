@@ -51,6 +51,7 @@ RAIZ = SCRIPTS.parent
 if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 from vigibarragens.intelligence.indicator_lineage import indicator_lineage  # noqa: E402
+from vigibarragens.intelligence.rule_lineage import build_rule_lineage  # noqa: E402
 from vigibarragens.lineage_runtime import current_run_id, file_metadata  # noqa: E402
 
 FUSO = ZoneInfo("America/Cuiaba")
@@ -482,6 +483,7 @@ def main() -> None:
     linhas_idap: list[dict[str, Any]] = []
     linhas_impacto: list[dict[str, Any]] = []
     linhas_evidencia: list[dict[str, Any]] = []
+    linhas_regras_lineage: list[dict[str, Any]] = []
     por_nivel: dict[str, int] = defaultdict(int)
     extraterritoriais = 0
 
@@ -536,6 +538,7 @@ def main() -> None:
         lacunas = ";".join(resultado.lacunas)
         regras = ";".join(r.codigo for r in final.regras_disparadas)
 
+        evidencia_por_codigo: dict[str, dict[str, Any]] = {}
         for indicador in resultado.indicadores:
             lineage = indicator_lineage(
                 indicador.codigo,
@@ -546,7 +549,7 @@ def main() -> None:
                 cnes_reference=cnes_referencia,
             )
             lineage = enriquecer_lineage_artefato(lineage, run_id)
-            linhas_evidencia.append({
+            evidencia = {
                 "id_snisb": estado.id_barragem, "nome": estado.nome,
                 "municipio_sede": estado.municipio, "codigo_indicador": indicador.codigo,
                 "dimensao": indicador.dimensao, "nome_indicador": indicador.nome,
@@ -556,6 +559,40 @@ def main() -> None:
                 "observacao": indicador.observacao or "", "versao_pesos": resultado.versao_pesos,
                 "instante": instante.isoformat(timespec="seconds"),
                 **lineage,
+            }
+            evidencia_por_codigo[indicador.codigo] = evidencia
+            linhas_evidencia.append(evidencia)
+
+        signal_values = {
+            "rompimento_confirmado": estado.sinais.rompimento_confirmado,
+            "perda_subita_de_nivel": estado.sinais.perda_subita_de_nivel,
+            "evacuacao_determinada": estado.sinais.evacuacao_determinada,
+            "sensores_criticos_em_falha": estado.sinais.sensores_criticos_em_falha,
+            "mancha_atinge_unidade_estrategica": estado.sinais.mancha_atinge_unidade_estrategica,
+            "mancha_atinge_captacao": estado.sinais.mancha_atinge_captacao,
+            "municipios_zas_sem_confirmacao": "|".join(estado.sinais.municipios_zas_sem_confirmacao),
+            "alerta_cemaden_hidrologico": estado.sinais.alerta_cemaden_hidrologico,
+            "alerta_ana_acima_atencao": estado.sinais.alerta_ana_acima_atencao,
+            "nivel_alerta_integrado_sis": estado.sinais.nivel_alerta_integrado_sis or "",
+            "chuva_prevista_extrema": estado.sinais.chuva_prevista_extrema,
+        }
+        hidro_lineage = evidencia_por_codigo.get("A1", {})
+        for regra_row in build_rule_lineage(
+            fired_rules=final.regras_disparadas,
+            indicator_evidence=evidencia_por_codigo,
+            signal_values=signal_values,
+            hydro_lineage=hidro_lineage,
+            dimension_b_completeness=resultado.dimensao("B").completude,
+        ):
+            linhas_regras_lineage.append({
+                "id_snisb": estado.id_barragem,
+                "nome": estado.nome,
+                "municipio_sede": estado.municipio,
+                "nivel_por_pontuacao": resultado.nivel.rotulo,
+                "nivel_final": final.nivel_final.rotulo,
+                "instante": instante.isoformat(timespec="seconds"),
+                "versao_pesos": resultado.versao_pesos,
+                **regra_row,
             })
 
         linhas_idap.append(
@@ -617,6 +654,16 @@ def main() -> None:
     )
     campos_evidencia = list(linhas_evidencia[0].keys()) if linhas_evidencia else []
     comum.salvar_csv(comum.DADOS_TRATADOS / "idap_evidencias_indicadores_mt.csv", linhas_evidencia, campos_evidencia)
+    campos_regras = list(linhas_regras_lineage[0].keys()) if linhas_regras_lineage else [
+        "id_snisb", "nome", "municipio_sede", "regra_codigo", "regra_nome",
+        "nivel_por_pontuacao", "nivel_final", "nivel_minimo", "evidencia_codigo",
+        "evidencia_tipo", "evidencia_valor", "tipo_evidencia", "instante",
+    ]
+    comum.salvar_csv(
+        comum.DADOS_TRATADOS / "idap_regras_lineage_mt.csv",
+        linhas_regras_lineage,
+        campos_regras,
+    )
     campos_impacto = list(linhas_impacto[0].keys()) if linhas_impacto else [
         "id_snisb",
         "nome_barragem",
@@ -642,6 +689,7 @@ def main() -> None:
 
     print(f"  gravado dados/tratados/idap_estadual_mt.csv ({len(linhas_idap)} registros)")
     print(f"  evidências A1–D8: {len(linhas_evidencia)} registros")
+    print(f"  lineage R01–R12: {len(linhas_regras_lineage)} registros de evidência")
     print(
         f"  gravado dados/tratados/impacto_extraterritorial_mt.csv "
         f"({len(linhas_impacto)} vínculos sede≠afetado)"
