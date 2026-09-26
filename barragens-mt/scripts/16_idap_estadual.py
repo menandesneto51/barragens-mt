@@ -47,6 +47,11 @@ from idap.modelo import (  # noqa: E402
 from idap.pesos import STATUS_VERSAO_PESOS, VERSAO_PESOS  # noqa: E402
 from idap.regras import aplicar_regras  # noqa: E402
 
+RAIZ = SCRIPTS.parent
+if str(RAIZ) not in sys.path:
+    sys.path.insert(0, str(RAIZ))
+from vigibarragens.intelligence.indicator_lineage import indicator_lineage  # noqa: E402
+
 FUSO = ZoneInfo("America/Cuiaba")
 
 
@@ -483,6 +488,12 @@ def main() -> None:
         regras = ";".join(r.codigo for r in final.regras_disparadas)
 
         for indicador in resultado.indicadores:
+            lineage = indicator_lineage(
+                indicador.codigo,
+                hydro=hidro,
+                inventory=registro,
+                alertability=alert,
+            )
             linhas_evidencia.append({
                 "id_snisb": estado.id_barragem, "nome": estado.nome,
                 "municipio_sede": estado.municipio, "codigo_indicador": indicador.codigo,
@@ -492,6 +503,7 @@ def main() -> None:
                 "ausente": "sim" if indicador.ausente else "nao",
                 "observacao": indicador.observacao or "", "versao_pesos": resultado.versao_pesos,
                 "instante": instante.isoformat(timespec="seconds"),
+                **lineage,
             })
 
         linhas_idap.append(
