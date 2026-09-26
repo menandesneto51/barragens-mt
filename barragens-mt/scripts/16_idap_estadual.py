@@ -52,6 +52,7 @@ if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 from vigibarragens.intelligence.indicator_lineage import indicator_lineage  # noqa: E402
 from vigibarragens.intelligence.rule_lineage import build_rule_lineage  # noqa: E402
+from vigibarragens.intelligence.operational_signals import normalized_signal_values, signal_source_metadata  # noqa: E402
 from vigibarragens.lineage_runtime import current_run_id, file_metadata  # noqa: E402
 
 FUSO = ZoneInfo("America/Cuiaba")
@@ -235,9 +236,18 @@ def exposicao_proxy(
     )
 
 
-def sinais_de_hidro(hidro: dict[str, Any] | None) -> SinaisOperacionais:
+def sinais_de_hidro(hidro: dict[str, Any] | None, persistidos: dict[str, Any] | None = None) -> SinaisOperacionais:
+    persistidos_norm = normalized_signal_values(persistidos)
     if not hidro:
-        return SinaisOperacionais()
+        return SinaisOperacionais(
+            rompimento_confirmado=persistidos_norm["rompimento_confirmado"],
+            perda_subita_de_nivel=persistidos_norm["perda_subita_de_nivel"],
+            evacuacao_determinada=persistidos_norm["evacuacao_determinada"],
+            sensores_criticos_em_falha=persistidos_norm["sensores_criticos_em_falha"],
+            mancha_atinge_unidade_estrategica=persistidos_norm["mancha_atinge_unidade_estrategica"],
+            mancha_atinge_captacao=persistidos_norm["mancha_atinge_captacao"],
+            municipios_zas_sem_confirmacao=persistidos_norm["municipios_zas_sem_confirmacao"],
+        )
     cem = (hidro.get("alerta_cemaden_nivel") or "").lower()
     ana = (hidro.get("alerta_ana_nivel") or "").lower()
     inmet = (hidro.get("alerta_inmet_nivel") or "").lower()
@@ -270,6 +280,13 @@ def sinais_de_hidro(hidro: dict[str, Any] | None) -> SinaisOperacionais:
     nivel_integrado_util = integrado if integrado_hidro else None
 
     return SinaisOperacionais(
+        rompimento_confirmado=persistidos_norm["rompimento_confirmado"],
+        perda_subita_de_nivel=persistidos_norm["perda_subita_de_nivel"],
+        evacuacao_determinada=persistidos_norm["evacuacao_determinada"],
+        sensores_criticos_em_falha=persistidos_norm["sensores_criticos_em_falha"],
+        mancha_atinge_unidade_estrategica=persistidos_norm["mancha_atinge_unidade_estrategica"],
+        mancha_atinge_captacao=persistidos_norm["mancha_atinge_captacao"],
+        municipios_zas_sem_confirmacao=persistidos_norm["municipios_zas_sem_confirmacao"],
         alerta_cemaden_hidrologico=hidro_cem,
         alerta_inmet_relevante=alerta_inmet_ok,
         alerta_ana_acima_atencao=ana
@@ -278,6 +295,18 @@ def sinais_de_hidro(hidro: dict[str, Any] | None) -> SinaisOperacionais:
         chuva_prevista_extrema=prev is not None and prev >= LIMIAR_CHUVA_PREVISTA_EXTREMA_MM,
     )
 
+
+
+def ler_sinais_operacionais() -> dict[str, dict[str, Any]]:
+    caminho = comum.DADOS_TRATADOS / "sinais_operacionais_mt.csv"
+    if not caminho.exists():
+        return {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        return {
+            (r.get("id_snisb") or "").strip(): r
+            for r in csv.DictReader(arquivo, delimiter=";")
+            if (r.get("id_snisb") or "").strip()
+        }
 
 def ler_alertabilidade() -> dict[str, dict[str, Any]]:
     caminho = comum.DADOS_TRATADOS / "alertabilidade_piloto.csv"
@@ -364,6 +393,7 @@ def estado_de_registro(
     exposicao: ExposicaoSanitaria | None = None,
     contatos_validados_90d: bool | None = None,
     municipios_zas: tuple[str, ...] = (),
+    sinais_persistidos: dict[str, Any] | None = None,
 ) -> EstadoBarragem:
     return EstadoBarragem(
         id_barragem=texto(registro.get("id_snisb")) or "sem-id",
@@ -387,7 +417,7 @@ def estado_de_registro(
             situacao_plano_emergencia=situacao_pae(registro),
             contatos_validados_90d=contatos_validados_90d,
         ),
-        sinais=sinais_de_hidro(hidro),
+        sinais=sinais_de_hidro(hidro, sinais_persistidos),
     )
 
 
@@ -467,6 +497,7 @@ def main() -> None:
     cnes_por_mun = ler_cnes_por_municipio()
     pop_por_mun = ler_populacao_por_municipio()
     alertab_por_id = ler_alertabilidade()
+    sinais_por_id = ler_sinais_operacionais()
     pop_referencia = referencia_populacao_ibge()
     cnes_referencia = referencia_cnes()
     run_id = current_run_id()
@@ -516,6 +547,7 @@ def main() -> None:
             contatos_ok = None
 
         hidro = hidro_por_id.get(id_snisb)
+        sinais_persistidos = sinais_por_id.get(id_snisb, {})
         exposicao = exposicao_proxy(
             contaminante(registro), afetados, cnes_por_mun, pop_por_mun
         )
@@ -526,6 +558,7 @@ def main() -> None:
             exposicao=exposicao,
             contatos_validados_90d=contatos_ok,
             municipios_zas=tuple(afetados),
+            sinais_persistidos=sinais_persistidos,
         )
         resultado = calcular_idap(estado)
         final = aplicar_regras(estado, resultado)
@@ -577,11 +610,31 @@ def main() -> None:
             "chuva_prevista_extrema": estado.sinais.chuva_prevista_extrema,
         }
         hidro_lineage = evidencia_por_codigo.get("A1", {})
+        signal_meta = signal_source_metadata(sinais_persistidos)
+        operational_lineage = {
+            "produto_observacional": "sinais_operacionais_mt.csv"
+            if sinais_persistidos and any(
+                str(sinais_persistidos.get(k) or "").strip()
+                for k in (
+                    "rompimento_confirmado", "perda_subita_de_nivel",
+                    "evacuacao_determinada", "sensores_criticos_em_falha",
+                    "mancha_atinge_unidade_estrategica", "mancha_atinge_captacao",
+                    "municipios_zas_sem_confirmacao", "fonte_observacional",
+                    "referencia_temporal", "documento_referencia",
+                )
+            )
+            else "",
+            "tipo_evidencia": "operacional_persistente",
+            **signal_meta,
+        }
+        if operational_lineage["produto_observacional"]:
+            operational_lineage = enriquecer_lineage_artefato(operational_lineage, run_id)
         for regra_row in build_rule_lineage(
             fired_rules=final.regras_disparadas,
             indicator_evidence=evidencia_por_codigo,
             signal_values=signal_values,
             hydro_lineage=hidro_lineage,
+            operational_signal_lineage=operational_lineage,
             dimension_b_completeness=resultado.dimensao("B").completude,
         ):
             linhas_regras_lineage.append({
