@@ -213,6 +213,18 @@ def carregar_proveniencia() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_evidencias_idap() -> pd.DataFrame:
+    """Trilha A1–D8 materializada pelo motor IDAP; a UI apenas apresenta."""
+    df = ler_csv("idap_evidencias_indicadores_mt.csv")
+    if df.empty:
+        return df
+    for col in ("pontos", "teto"):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_hidro_mun() -> pd.DataFrame:
     df = ler_csv("hidro_municipios_mt.csv")
     if df.empty:
