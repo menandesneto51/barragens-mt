@@ -23,6 +23,7 @@ from st_app.data import (
     TIPOLOGIA_CORES,
     card_kpi,
     carregar_cnes_pontos,
+    carregar_evidencias_idap,
     com_tipologia,
     carregar_hidro_mun,
     carregar_idap,\n    carregar_mudancas_recentes,\n    carregar_proveniencia,
@@ -933,6 +934,46 @@ def pagina_ficha(df: pd.DataFrame) -> None:
             st_folium(m, height=280, returned_objects=[])
     if r.get("lacunas"):
         st.warning(f"Lacunas: {r['lacunas']}")
+    evidencias = carregar_evidencias_idap()
+    if not evidencias.empty:
+        ev = evidencias[evidencias["id_snisb"].astype(str) == str(bid)].copy()
+        if not ev.empty:
+            st.markdown("### Por que esta barragem está neste nível?")
+            st.caption("Trilha produzida pelo mesmo cálculo IDAP. A interface não recalcula pontos nem regras.")
+            ev["Contribuição"] = (
+                ev["pontos"].fillna(0).astype(int).astype(str)
+                + "/"
+                + ev["teto"].fillna(0).astype(int).astype(str)
+            )
+            tabela = ev.rename(columns={
+                "codigo_indicador": "Indicador", "dimensao": "Dimensão",
+                "nome_indicador": "Descrição", "valor": "Valor observado",
+                "faixa": "Faixa", "fonte_metodologica": "Fonte / referência",
+                "ausente": "Ausente", "observacao": "Observação",
+            })
+            st.dataframe(
+                tabela[["Indicador", "Dimensão", "Descrição", "Contribuição",
+                        "Valor observado", "Faixa", "Fonte / referência",
+                        "Ausente", "Observação"]],
+                hide_index=True, use_container_width=True,
+            )
+
+    prov = carregar_proveniencia()
+    if not prov.empty:
+        pv = prov[prov["id_snisb"].astype(str) == str(bid)]
+        if not pv.empty:
+            p = pv.iloc[0]
+            st.markdown("### Proveniência e confiança da evidência")
+            st.write({
+                "Estado da evidência": p.get("estado_evidencia", "—"),
+                "Freshness hidro": p.get("freshness_hidro", "—"),
+                "Idade hidro (h)": p.get("idade_h_hidro", "—"),
+                "Fontes hidro": p.get("fontes_hidro", "—"),
+                "Aproximação espacial": p.get("aproximacao_espacial_hidro", "—"),
+                "Proxies declarados": p.get("proxies", "—"),
+                "Lineage": p.get("lineage_status", "—"),
+            })
+
 
 
 def pagina_tipologia(df: pd.DataFrame) -> None:
