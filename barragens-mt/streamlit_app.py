@@ -955,6 +955,9 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                 "referencia_temporal": "Referência temporal",
                 "tipo_evidencia": "Tipo de evidência",
                 "metodo_proxy": "Método/proxy",
+                "run_id": "Run ID",
+                "artifact_sha256": "SHA-256",
+                "artifact_materialized_at": "Artefato materializado em",
                 "ausente": "Ausente", "observacao": "Observação",
             })
             colunas = [
@@ -963,6 +966,7 @@ def pagina_ficha(df: pd.DataFrame) -> None:
                     "Valor observado", "Faixa", "Tipo de evidência",
                     "Produto observado", "Campo observado", "Fonte observacional",
                     "Referência temporal", "Método/proxy",
+                    "Run ID", "SHA-256", "Artefato materializado em",
                     "Fonte metodológica", "Ausente", "Observação",
                 )
                 if x in tabela.columns
