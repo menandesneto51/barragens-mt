@@ -30,6 +30,7 @@ def test_v22_pipeline_order_is_preserved():
     expected = [
         "17_hidro_sisclima_titan.py",
         "19_contatos_alertabilidade.py",
+        "38_sinais_operacionais.py",
         "16_idap_estadual.py",
         "35_detectar_mudancas.py",
         "36_inteligencia_integrada.py",
@@ -85,3 +86,11 @@ def test_rule_lineage_is_materialized_and_ui_only_reads_it():
     assert "def carregar_regras_lineage" in data
     assert "carregar_regras_lineage()" in app
     assert "aplicar_regras(" not in app
+
+
+def test_operational_signal_stage_is_non_inventive():
+    source = (ROOT / "scripts" / "38_sinais_operacionais.py").read_text(encoding="utf-8")
+    assert "preserva valores já existentes" in source
+    assert "nunca transforma campo vazio em confirmação de segurança" in source
+    assert "rompimento_confirmado" in source
+    assert "fonte_observacional" in source
