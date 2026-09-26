@@ -9,6 +9,7 @@ def fired(code: str, minimum=None):
         nome=f"Regra {code}",
         nivel_minimo=minimum,
         acao="acao",
+        fundamento="fundamento",
     )
 
 
