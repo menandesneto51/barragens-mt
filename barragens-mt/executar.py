@@ -16,6 +16,8 @@ import sys
 import time
 from pathlib import Path
 
+from vigibarragens.run_manifest import PipelineRun
+
 RAIZ = Path(__file__).resolve().parent
 SCRIPTS = RAIZ / "scripts"
 
@@ -78,21 +80,50 @@ def main() -> None:
         sys.exit(f"nenhuma etapa corresponde a {sorted(escolhidas)}")
 
     falhas: list[str] = []
+    auditoria = PipelineRun(requested_stages=[e[0] for e in etapas])
+    pasta_runs = RAIZ / "dados" / "metadata" / "runs"
+    try:
+        manifesto = auditoria.save(pasta_runs)
+        print(f"auditoria v2: {manifesto.relative_to(RAIZ)} | run_id={auditoria.run_id}")
+    except Exception as exc:
+        print(f"AVISO: auditoria v2 indisponível no início: {exc}")
+
     for codigo, arquivo, descricao, _ in etapas:
         print(f"\n{'=' * 78}\n[{codigo}] {descricao}\n{'=' * 78}")
         inicio = time.time()
+        stage = auditoria.add_stage(codigo, descricao)
         resultado = subprocess.run([sys.executable, str(SCRIPTS / arquivo)], cwd=RAIZ)
         duracao = time.time() - inicio
         if resultado.returncode == 0:
+            stage.finish(status="success", return_code=0)
             print(f"  concluído em {duracao:.1f}s")
         else:
+            stage.finish(
+                status="failed",
+                return_code=resultado.returncode,
+                error=f"processo encerrou com código {resultado.returncode}",
+            )
             print(f"  FALHOU (código {resultado.returncode})")
             falhas.append(codigo)
+        try:
+            auditoria.save(pasta_runs)
+        except Exception as exc:
+            print(f"  AVISO: não foi possível atualizar manifesto de auditoria: {exc}")
 
     print(f"\n{'=' * 78}")
     if falhas:
+        auditoria.finish("failed")
+        try:
+            auditoria.save(pasta_runs)
+        except Exception as exc:
+            print(f"AVISO: não foi possível finalizar manifesto: {exc}")
         print(f"etapas com falha: {', '.join(falhas)}")
         sys.exit(1)
+    auditoria.finish("success")
+    try:
+        auditoria.save(pasta_runs)
+    except Exception as exc:
+        print(f"AVISO: não foi possível finalizar manifesto: {exc}")
     print(f"pipeline concluído — {len(etapas)} etapa(s)")
     print("  comando:     painel/index.html")
     print("  barragem:    painel/barragem.html")
