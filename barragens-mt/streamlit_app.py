@@ -27,6 +27,7 @@ from st_app.data import (
     com_tipologia,
     carregar_hidro_mun,
     carregar_idap,\n    carregar_mudancas_recentes,\n    carregar_proveniencia,
+    carregar_regras_lineage,
     carregar_piloto,
     carregar_populacao,
     cnes_no_buffer,
@@ -294,6 +295,47 @@ def pagina_comando(df: pd.DataFrame) -> None:
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
     bloco_frescor()
+    regras_lineage = carregar_regras_lineage()
+    if not regras_lineage.empty:
+        rl = regras_lineage[regras_lineage["id_snisb"].astype(str) == str(bid)].copy()
+        if not rl.empty:
+            st.markdown("### Regras determinísticas que atuaram")
+            st.caption(
+                "A regra já foi decidida pelo motor IDAP. Esta tabela apenas mostra "
+                "qual evidência sustentou cada gatilho e se ela elevou o nível final."
+            )
+            tabela_rl = rl.rename(columns={
+                "regra_codigo": "Regra",
+                "regra_nome": "Descrição da regra",
+                "nivel_por_pontuacao": "Nível pelo IDAP",
+                "nivel_final": "Nível final",
+                "nivel_minimo": "Piso da regra",
+                "evidencia_codigo": "Evidência",
+                "evidencia_tipo": "Tipo de gatilho",
+                "evidencia_valor": "Valor",
+                "tipo_evidencia": "Natureza da evidência",
+                "produto_observacional": "Produto observado",
+                "campo_observacional": "Campo",
+                "fonte_observacional": "Fonte",
+                "referencia_temporal": "Referência temporal",
+                "run_id": "Run ID",
+                "artifact_sha256": "SHA-256",
+            })
+            colunas_rl = [
+                x for x in (
+                    "Regra", "Descrição da regra", "Nível pelo IDAP", "Piso da regra",
+                    "Nível final", "Evidência", "Tipo de gatilho", "Valor",
+                    "Natureza da evidência", "Produto observado", "Campo", "Fonte",
+                    "Referência temporal", "Run ID", "SHA-256",
+                )
+                if x in tabela_rl.columns
+            ]
+            st.dataframe(
+                tabela_rl[colunas_rl],
+                hide_index=True,
+                use_container_width=True,
+            )
+
     prov = carregar_proveniencia()
     if not prov.empty:
         ids_recorte = set(base_kpi["id_snisb"].astype(str))
