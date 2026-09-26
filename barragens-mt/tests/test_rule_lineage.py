@@ -51,6 +51,9 @@ def test_r10_uses_hydrometeorological_lineage():
     assert len(rows) == 2
     assert all(r["produto_observacional"] == "hidro_barragens_mt.csv" for r in rows)
     assert all(r["run_id"] == "run-1" for r in rows)
+    active = {r["evidencia_codigo"]: r["evidencia_ativa"] for r in rows}
+    assert active["SIGNAL:alerta_cemaden_hidrologico"] is True
+    assert active["SIGNAL:alerta_ana_acima_atencao"] is False
 
 
 def test_unsourced_operational_signal_is_explicit_not_invented():
