@@ -948,15 +948,26 @@ def pagina_ficha(df: pd.DataFrame) -> None:
             tabela = ev.rename(columns={
                 "codigo_indicador": "Indicador", "dimensao": "Dimensão",
                 "nome_indicador": "Descrição", "valor": "Valor observado",
-                "faixa": "Faixa", "fonte_metodologica": "Fonte / referência",
+                "faixa": "Faixa", "fonte_metodologica": "Fonte metodológica",
+                "produto_observacional": "Produto observado",
+                "campo_observacional": "Campo observado",
+                "fonte_observacional": "Fonte observacional",
+                "referencia_temporal": "Referência temporal",
+                "tipo_evidencia": "Tipo de evidência",
+                "metodo_proxy": "Método/proxy",
                 "ausente": "Ausente", "observacao": "Observação",
             })
-            st.dataframe(
-                tabela[["Indicador", "Dimensão", "Descrição", "Contribuição",
-                        "Valor observado", "Faixa", "Fonte / referência",
-                        "Ausente", "Observação"]],
-                hide_index=True, use_container_width=True,
-            )
+            colunas = [
+                x for x in (
+                    "Indicador", "Dimensão", "Descrição", "Contribuição",
+                    "Valor observado", "Faixa", "Tipo de evidência",
+                    "Produto observado", "Campo observado", "Fonte observacional",
+                    "Referência temporal", "Método/proxy",
+                    "Fonte metodológica", "Ausente", "Observação",
+                )
+                if x in tabela.columns
+            ]
+            st.dataframe(tabela[colunas], hide_index=True, use_container_width=True)
 
     prov = carregar_proveniencia()
     if not prov.empty:
