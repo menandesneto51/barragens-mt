@@ -79,3 +79,24 @@ Regras atuais:
 - indicadores ainda não implementados permanecem explicitamente `ausente`.
 
 Nunca preencher lineage faltante por inferência silenciosa.
+
+
+## Lineage temporal e fingerprint — estado atual
+
+Cada linha de `idap_evidencias_indicadores_mt.csv` deve carregar, quando aplicável:
+- `referencia_temporal`: data/período do dado;
+- `artifact_materialized_at`: quando o arquivo local foi materializado;
+- `artifact_sha256`: hash SHA-256 do artefato consumido;
+- `artifact_size_bytes`;
+- `run_id`: execução do pipeline que produziu a trilha.
+
+Esses campos têm semânticas diferentes e não devem ser colapsados.
+
+Referências atuais:
+- A1–A7: `data_referencia` do produto hidro;
+- C1: `ano_referencia` do IBGE;
+- C3: maior `data_atualizacao` disponível no CNES consumido;
+- D8: data crítica mais antiga do conjunto de contatos validado, pois é o elo que vence primeiro;
+- B1/B2/B3/D1/C8: sem data semântica específica enquanto a fonte não expuser um campo inequívoco; usar apenas fingerprint/materialização do artefato, sem inferir data de validade.
+
+O `executar.py` propaga `VIGIBARRAGENS_RUN_ID` e `VIGIBARRAGENS_STAGE` aos subprocessos. Não remover essa propagação.
