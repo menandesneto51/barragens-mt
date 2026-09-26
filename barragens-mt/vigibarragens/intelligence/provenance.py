@@ -35,6 +35,16 @@ def freshness(reference: Any, *, now: datetime | None = None) -> dict[str, Any]:
     return {"idade_h": round(hours, 1), "estado": state, "politica": FRESHNESS_POLICY_VERSION}
 
 
+def evidence_state(idap_confidence: Any, freshness_state: str) -> str:
+    """Qualifica a evidência sem produzir score e sem modificar o risco."""
+    confidence = str(idap_confidence or "").strip().lower()
+    if confidence == "insuficiente":
+        return "insuficiente"
+    if confidence == "suficiente" and freshness_state == "atual":
+        return "adequada"
+    return "degradada"
+
+
 def build_lineage_record(idap: dict[str, Any], hydro: dict[str, Any] | None, *, now: datetime | None = None) -> dict[str, Any]:
     hydro = hydro or {}
     f = freshness(hydro.get("data_referencia"), now=now)
@@ -62,5 +72,5 @@ def build_lineage_record(idap: dict[str, Any], hydro: dict[str, Any] | None, *, 
         "aproximacao_espacial_hidro": spatial,
         "proxies": "|".join(proxies),
         "politica_freshness": f["politica"],
-        "lineage_status": "documentado" if sources else "parcial",
+        "lineage_status": "documentado" if sources else "parcial",\n        "estado_evidencia": evidence_state(idap.get("confiabilidade"), f["estado"]),
     }
