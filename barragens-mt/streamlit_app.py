@@ -25,7 +25,7 @@ from st_app.data import (
     carregar_cnes_pontos,
     com_tipologia,
     carregar_hidro_mun,
-    carregar_idap,\n    carregar_mudancas_recentes,
+    carregar_idap,\n    carregar_mudancas_recentes,\n    carregar_proveniencia,
     carregar_piloto,
     carregar_populacao,
     cnes_no_buffer,
@@ -293,6 +293,22 @@ def pagina_comando(df: pd.DataFrame) -> None:
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
     bloco_frescor()
+    prov = carregar_proveniencia()
+    if not prov.empty:
+        ids_recorte = set(base_kpi["id_snisb"].astype(str))
+        prov = prov[prov["id_snisb"].astype(str).isin(ids_recorte)]
+        if not prov.empty:
+            fc = prov["freshness_hidro"].value_counts()
+            desconhecido = int(fc.get("desconhecido", 0))
+            vencido = int(fc.get("vencido", 0))
+            atual = int(fc.get("atual", 0))
+            parcial = int((prov["lineage_status"] == "parcial").sum())
+            with st.expander("Qualidade temporal e proveniência dos dados", expanded=False):
+                st.caption("Freshness semântico usa a data de referência do dado; não é o horário de modificação do arquivo e não altera o IDAP.")
+                st.markdown(f"**Hidrometeorologia:** {atual} atual · {int(fc.get('atencao', 0))} em atenção · {vencido} vencida · {desconhecido} sem data de referência. **Lineage parcial:** {parcial}.")
+                cols = [x for x in ("nome", "freshness_hidro", "idade_h_hidro", "fontes_hidro", "aproximacao_espacial_hidro", "proxies", "lineage_status") if x in prov.columns]
+                st.dataframe(prov[cols].head(30), hide_index=True, use_container_width=True)
+
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
 
     mudancas = carregar_mudancas_recentes()
