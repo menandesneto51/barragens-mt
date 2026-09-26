@@ -81,6 +81,7 @@ class RegraDisparada:
     nome: str
     nivel_minimo: NivelAlerta | None
     acao: str
+    fundamento: str
 
     def descrever(self) -> str:
         elevacao = (
@@ -277,6 +278,7 @@ def aplicar_regras(estado: EstadoBarragem, resultado: ResultadoIdap) -> Resultad
                 nome=regra.nome,
                 nivel_minimo=regra.nivel_minimo,
                 acao=regra.acao,
+                fundamento=regra.fundamento,
             )
         )
         if regra.nivel_minimo is not None and regra.nivel_minimo > nivel_final:
