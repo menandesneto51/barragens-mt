@@ -133,6 +133,7 @@ def build_rule_lineage(
                 "regra_nome": fired.nome,
                 "nivel_minimo": fired.nivel_minimo.rotulo if fired.nivel_minimo else "",
                 "acao": fired.acao,
+                "fundamento": fired.fundamento,
                 **base,
             })
     return out
