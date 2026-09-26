@@ -50,3 +50,32 @@ Corrigir a causa no backend/contrato, não mascarar na UI. Adicionar teste de re
 ## Próximo incremento após o gate
 
 Evoluir lineage por indicador para ligar `fonte_metodologica` à **fonte observacional efetivamente usada na rodada** (ex.: SisClima/TITAN/ANA/Cemaden/INMET/CNES/IBGE/SNISB/SIGBM), com timestamp de referência, run_id/hash quando disponíveis e classificação oficial/proxy/derivada.
+
+
+## Gate automatizado no GitHub
+
+O workflow `.github/workflows/vigibarragens-v22-ci.yml` executa:
+- `python -m compileall` nos módulos críticos;
+- `python -m pytest tests -q`.
+
+O Cursor deve executar os mesmos testes antes de commit relevante. CI verde é condição necessária, mas não suficiente, para merge.
+
+## Lineage observacional A1…D8
+
+A etapa 16 agora anexa à trilha de cada indicador:
+- produto observacional;
+- campo observacional;
+- fonte observacional;
+- referência temporal quando disponível;
+- tipo de evidência;
+- método/proxy quando aplicável.
+
+Regras atuais:
+- A1–A7: produto hidrometeorológico normalizado;
+- B1/B2/B3 e D1: cadastro oficial SNISB/SIGBM;
+- C1/C3: proxies territoriais com IBGE/CNES + Otto provisório;
+- C8: derivação operacional do cadastro;
+- D8: validação operacional de contatos;
+- indicadores ainda não implementados permanecem explicitamente `ausente`.
+
+Nunca preencher lineage faltante por inferência silenciosa.
