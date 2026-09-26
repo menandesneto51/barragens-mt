@@ -72,5 +72,6 @@ def build_lineage_record(idap: dict[str, Any], hydro: dict[str, Any] | None, *, 
         "aproximacao_espacial_hidro": spatial,
         "proxies": "|".join(proxies),
         "politica_freshness": f["politica"],
-        "lineage_status": "documentado" if sources else "parcial",\n        "estado_evidencia": evidence_state(idap.get("confiabilidade"), f["estado"]),
+        "lineage_status": "documentado" if sources else "parcial",
+        "estado_evidencia": evidence_state(idap.get("confiabilidade"), f["estado"]),
     }
