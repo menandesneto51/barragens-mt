@@ -317,6 +317,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "evidencia_codigo": "Evidência",
                 "evidencia_tipo": "Tipo de gatilho",
                 "evidencia_valor": "Valor",
+                "evidencia_ativa": "Ativa no gatilho",
                 "tipo_evidencia": "Natureza da evidência",
                 "produto_observacional": "Produto observado",
                 "campo_observacional": "Campo",
@@ -329,7 +330,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 x for x in (
                     "Regra", "Descrição da regra", "Nível pelo IDAP", "Piso da regra",
                     "Nível final", "Fundamento", "Ação automática", "Evidência", "Tipo de gatilho", "Valor",
-                    "Natureza da evidência", "Produto observado", "Campo", "Fonte",
+                    "Ativa no gatilho", "Natureza da evidência", "Produto observado", "Campo", "Fonte",
                     "Referência temporal", "Run ID", "SHA-256",
                 )
                 if x in tabela_rl.columns
