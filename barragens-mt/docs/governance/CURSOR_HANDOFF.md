@@ -126,3 +126,22 @@ Regras de arquitetura:
 4. Sinais operacionais ainda não materializados devem permanecer como `sinal_sem_fonte_materializada`.
 5. Não inferir origem de R02/R03/R05/R07/R08/R09 até existirem produtos persistentes correspondentes.
 6. Evidência inativa em uma condição OR pode ser mostrada para auditabilidade, mas deve aparecer com `evidencia_ativa=False`.
+
+
+## Etapa 38 — sinais operacionais persistentes
+
+A ordem v2.2 agora é:
+
+`17 hidro → 19 alertabilidade → 38 sinais operacionais → 16 IDAP → 35 mudanças → 36 inteligência → 37 proveniência`.
+
+Arquivo persistente:
+`dados/tratados/sinais_operacionais_mt.csv`
+
+A etapa 38:
+- adiciona barragens novas ao esqueleto;
+- preserva valores existentes;
+- mantém fonte, referência temporal, documento e observação;
+- não confirma rompimento, evacuação, falha de sensores ou impacto de mancha por ausência/presunção;
+- não deve sobrescrever evidência operacional humana ou oficial.
+
+Quando um sinal persistido dispara R02/R03/R05/R07/R08/R09, o lineage deve apontar para esse arquivo e carregar seu hash/run_id. Sem fonte persistida, manter `sinal_sem_fonte_materializada`.
