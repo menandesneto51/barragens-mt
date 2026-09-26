@@ -427,6 +427,7 @@ def main() -> None:
 
     linhas_idap: list[dict[str, Any]] = []
     linhas_impacto: list[dict[str, Any]] = []
+    linhas_evidencia: list[dict[str, Any]] = []
     por_nivel: dict[str, int] = defaultdict(int)
     extraterritoriais = 0
 
@@ -480,6 +481,18 @@ def main() -> None:
         por_nivel[final.nivel_final.rotulo] += 1
         lacunas = ";".join(resultado.lacunas)
         regras = ";".join(r.codigo for r in final.regras_disparadas)
+
+        for indicador in resultado.indicadores:
+            linhas_evidencia.append({
+                "id_snisb": estado.id_barragem, "nome": estado.nome,
+                "municipio_sede": estado.municipio, "codigo_indicador": indicador.codigo,
+                "dimensao": indicador.dimensao, "nome_indicador": indicador.nome,
+                "pontos": indicador.pontos, "teto": indicador.teto, "valor": indicador.valor,
+                "faixa": indicador.rotulo, "fonte_metodologica": indicador.fonte,
+                "ausente": "sim" if indicador.ausente else "nao",
+                "observacao": indicador.observacao or "", "versao_pesos": resultado.versao_pesos,
+                "instante": instante.isoformat(timespec="seconds"),
+            })
 
         linhas_idap.append(
             {
@@ -538,6 +551,8 @@ def main() -> None:
         linhas_idap,
         campos_idap,
     )
+    campos_evidencia = list(linhas_evidencia[0].keys()) if linhas_evidencia else []
+    comum.salvar_csv(comum.DADOS_TRATADOS / "idap_evidencias_indicadores_mt.csv", linhas_evidencia, campos_evidencia)
     campos_impacto = list(linhas_impacto[0].keys()) if linhas_impacto else [
         "id_snisb",
         "nome_barragem",
@@ -562,6 +577,7 @@ def main() -> None:
     gravar_historico(instante, linhas_idap, dict(por_nivel))
 
     print(f"  gravado dados/tratados/idap_estadual_mt.csv ({len(linhas_idap)} registros)")
+    print(f"  evidências A1–D8: {len(linhas_evidencia)} registros")
     print(
         f"  gravado dados/tratados/impacto_extraterritorial_mt.csv "
         f"({len(linhas_impacto)} vínculos sede≠afetado)"
