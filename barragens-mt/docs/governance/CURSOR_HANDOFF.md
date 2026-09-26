@@ -100,3 +100,29 @@ Referências atuais:
 - B1/B2/B3/D1/C8: sem data semântica específica enquanto a fonte não expuser um campo inequívoco; usar apenas fingerprint/materialização do artefato, sem inferir data de validade.
 
 O `executar.py` propaga `VIGIBARRAGENS_RUN_ID` e `VIGIBARRAGENS_STAGE` aos subprocessos. Não remover essa propagação.
+
+
+## Auditoria R01–R12
+
+A etapa 16 materializa `dados/tratados/idap_regras_lineage_mt.csv`.
+
+Cada linha representa **uma regra disparada × uma evidência relacionada** e deve preservar:
+- código e nome da regra;
+- nível por pontuação e nível final;
+- piso operacional da regra;
+- fundamento;
+- ação automática;
+- código/tipo/valor da evidência;
+- `evidencia_ativa` para distinguir o operando que efetivamente sustentou condições OR;
+- produto/campo/fonte observacional;
+- referência temporal;
+- natureza da evidência;
+- run_id e fingerprint do artefato quando disponíveis.
+
+Regras de arquitetura:
+1. `aplicar_regras()` continua sendo a única função decisória para R01–R12.
+2. `rule_lineage.py` nunca reavalia condição nem altera nível.
+3. Streamlit apenas lê `idap_regras_lineage_mt.csv`.
+4. Sinais operacionais ainda não materializados devem permanecer como `sinal_sem_fonte_materializada`.
+5. Não inferir origem de R02/R03/R05/R07/R08/R09 até existirem produtos persistentes correspondentes.
+6. Evidência inativa em uma condição OR pode ser mostrada para auditabilidade, mas deve aparecer com `evidencia_ativa=False`.
