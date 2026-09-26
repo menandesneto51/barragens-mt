@@ -223,6 +223,18 @@ def avaliar_alertabilidade(
 
         alertavel = munis_ok == len(afetados) and len(afetados) > 0
         contatos_ok = alertavel  # D8 True só quando o vínculo completo está validado
+        datas_criticas = []
+        for mun in afetados:
+            for contato in por_mun.get(mun, []):
+                if contato.get("papel") in {
+                    "gestor_municipal_saude",
+                    "vigilancia_saude",
+                    "defesa_civil_municipal",
+                }:
+                    data_txt = (contato.get("data_validacao") or "").strip()[:10]
+                    if data_txt:
+                        datas_criticas.append(data_txt)
+        referencia_contatos = min(datas_criticas) if contatos_ok and datas_criticas else ""
         saida.append(
             {
                 "id_snisb": b.get("id_snisb"),
@@ -232,6 +244,7 @@ def avaliar_alertabilidade(
                 "municipios_com_vinculo_ok": munis_ok,
                 "alertavel": "sim" if alertavel else "não",
                 "contatos_validados_90d": "sim" if contatos_ok else "não",
+                "data_referencia_contatos": referencia_contatos,
                 "pendencias": " | ".join(munis_falta),
             }
         )
