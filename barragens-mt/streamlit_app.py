@@ -310,6 +310,8 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 "nivel_por_pontuacao": "Nível pelo IDAP",
                 "nivel_final": "Nível final",
                 "nivel_minimo": "Piso da regra",
+                "fundamento": "Fundamento",
+                "acao": "Ação automática",
                 "evidencia_codigo": "Evidência",
                 "evidencia_tipo": "Tipo de gatilho",
                 "evidencia_valor": "Valor",
@@ -324,7 +326,7 @@ def pagina_comando(df: pd.DataFrame) -> None:
             colunas_rl = [
                 x for x in (
                     "Regra", "Descrição da regra", "Nível pelo IDAP", "Piso da regra",
-                    "Nível final", "Evidência", "Tipo de gatilho", "Valor",
+                    "Nível final", "Fundamento", "Ação automática", "Evidência", "Tipo de gatilho", "Valor",
                     "Natureza da evidência", "Produto observado", "Campo", "Fonte",
                     "Referência temporal", "Run ID", "SHA-256",
                 )
