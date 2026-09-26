@@ -24,6 +24,7 @@ def test_r04_expands_to_rain_and_structural_evidence():
         indicator_evidence=evidence,
         signal_values={},
         hydro_lineage={},
+        operational_signal_lineage=None,
         dimension_b_completeness=0.8,
     )
     assert [r["evidencia_codigo"] for r in rows] == ["A1", "A2", "B4"]
@@ -46,6 +47,7 @@ def test_r10_uses_hydrometeorological_lineage():
             "alerta_ana_acima_atencao": False,
         },
         hydro_lineage=hydro,
+        operational_signal_lineage=None,
         dimension_b_completeness=1.0,
     )
     assert len(rows) == 2
@@ -62,6 +64,7 @@ def test_unsourced_operational_signal_is_explicit_not_invented():
         indicator_evidence={},
         signal_values={"rompimento_confirmado": True},
         hydro_lineage={},
+        operational_signal_lineage=None,
         dimension_b_completeness=1.0,
     )
     assert rows[0]["tipo_evidencia"] == "sinal_sem_fonte_materializada"
@@ -74,8 +77,30 @@ def test_r06_keeps_dimension_completeness_as_calculation_evidence():
         indicator_evidence={},
         signal_values={"sensores_criticos_em_falha": 0},
         hydro_lineage={},
+        operational_signal_lineage=None,
         dimension_b_completeness=0.2,
     )
     completeness = next(r for r in rows if r["evidencia_codigo"] == "DIM:B:completude")
     assert completeness["evidencia_valor"] == 0.2
     assert completeness["tipo_evidencia"] == "derivada_do_calculo"
+
+
+def test_persisted_operational_signal_uses_materialized_source():
+    rows = build_rule_lineage(
+        fired_rules=[fired("R02")],
+        indicator_evidence={},
+        signal_values={"rompimento_confirmado": True},
+        hydro_lineage={},
+        operational_signal_lineage={
+            "produto_observacional": "sinais_operacionais_mt.csv",
+            "fonte_observacional": "Defesa Civil",
+            "referencia_temporal": "2026-09-26T10:00:00",
+            "tipo_evidencia": "operacional_persistente",
+            "run_id": "run-x",
+            "artifact_sha256": "abc",
+        },
+        dimension_b_completeness=1.0,
+    )
+    assert rows[0]["tipo_evidencia"] == "operacional_persistente"
+    assert rows[0]["produto_observacional"] == "sinais_operacionais_mt.csv"
+    assert rows[0]["evidencia_ativa"] is True
