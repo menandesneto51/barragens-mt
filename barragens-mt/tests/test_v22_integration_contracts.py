@@ -74,3 +74,14 @@ def test_change_event_has_serializable_contract():
     payload = event.to_dict()
     assert payload["id_snisb"] == "1"
     assert payload["event_type"] == "FIELD_CHANGED"
+
+
+def test_rule_lineage_is_materialized_and_ui_only_reads_it():
+    stage16 = (ROOT / "scripts" / "16_idap_estadual.py").read_text(encoding="utf-8")
+    app = (ROOT / "streamlit_app.py").read_text(encoding="utf-8")
+    data = (ROOT / "st_app" / "data.py").read_text(encoding="utf-8")
+    assert "idap_regras_lineage_mt.csv" in stage16
+    assert "build_rule_lineage" in stage16
+    assert "def carregar_regras_lineage" in data
+    assert "carregar_regras_lineage()" in app
+    assert "aplicar_regras(" not in app
