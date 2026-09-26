@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import os
 from pathlib import Path
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -37,9 +38,14 @@ def file_metadata(path: str | Path) -> dict[str, Any]:
             "artifact_path": str(target),
             "artifact_sha256": "",
             "artifact_size_bytes": None,
+            "artifact_materialized_at": "",
         }
+    stat = target.stat()
     return {
         "artifact_path": str(target),
         "artifact_sha256": sha256_file(target),
-        "artifact_size_bytes": target.stat().st_size,
+        "artifact_size_bytes": stat.st_size,
+        "artifact_materialized_at": datetime.fromtimestamp(
+            stat.st_mtime, tz=timezone.utc
+        ).isoformat(),
     }
