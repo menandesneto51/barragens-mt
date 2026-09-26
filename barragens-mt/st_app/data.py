@@ -213,6 +213,13 @@ def carregar_proveniencia() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_regras_lineage() -> pd.DataFrame:
+    """Trilha R01–R12 materializada pelo motor; não recalcula regras na UI."""
+    df = ler_csv("idap_regras_lineage_mt.csv")
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_evidencias_idap() -> pd.DataFrame:
     """Trilha A1–D8 materializada pelo motor IDAP; a UI apenas apresenta."""
     df = ler_csv("idap_evidencias_indicadores_mt.csv")
