@@ -25,7 +25,7 @@ from st_app.data import (
     carregar_cnes_pontos,
     com_tipologia,
     carregar_hidro_mun,
-    carregar_idap,
+    carregar_idap,\n    carregar_mudancas_recentes,
     carregar_piloto,
     carregar_populacao,
     cnes_no_buffer,
@@ -294,6 +294,26 @@ def pagina_comando(df: pd.DataFrame) -> None:
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
     bloco_frescor()
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
+
+    mudancas = carregar_mudancas_recentes()
+    if not mudancas.empty:
+        ids_recorte = set(base_kpi["id_snisb"].astype(str))
+        mudancas = mudancas[mudancas["id_snisb"].astype(str).isin(ids_recorte)].copy()
+    st.markdown("#### O que mudou desde a última execução?")
+    if mudancas.empty:
+        st.caption("Nenhuma mudança classificada no recorte, ou ainda não há dois snapshots comparáveis.")
+    else:
+        cont_m = mudancas["criticidade_evento"].value_counts()
+        st.caption(
+            f"{len(mudancas)} evento(s): {int(cont_m.get('emergencial', 0))} emergencial · "
+            f"{int(cont_m.get('critica', 0))} crítico · {int(cont_m.get('atencao', 0))} atenção · "
+            f"{int(cont_m.get('informativa', 0))} informativo. Criticidade da mudança ≠ nível IDAP."
+        )
+        nomes = base_kpi.set_index(base_kpi["id_snisb"].astype(str))["nome"].to_dict()
+        tabela = mudancas.head(20).copy()
+        tabela["Barragem"] = tabela["id_snisb"].astype(str).map(nomes).fillna(tabela["id_snisb"])
+        tabela = tabela.rename(columns={"criticidade_evento": "Criticidade", "direcao": "Direção", "razao_classificacao": "Motivo", "previous": "Antes", "current": "Agora"})
+        st.dataframe(tabela[["Criticidade", "Barragem", "Direção", "Motivo", "Antes", "Agora"]], hide_index=True, use_container_width=True)
 
     # —— Faixa 2: Pessoas e resposta ——
     faixa_titulo("2", "Pessoas e resposta", "Exposição sanitária e capacidade assistencial sob pressão")
