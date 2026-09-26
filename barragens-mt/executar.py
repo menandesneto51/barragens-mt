@@ -46,7 +46,7 @@ ETAPAS = [
     ("17", "17_hidro_sisclima_titan.py", "Hidro SisClima/TITAN → IDAP dimensão A", True),
     # Contatos antes do IDAP: alimenta D8 e a flag alertável do piloto.
     ("19", "19_contatos_alertabilidade.py", "Contatos e alertabilidade do piloto", True),
-    ("16", "16_idap_estadual.py", "IDAP estadual (todas as barragens de MT)", True),
+    ("16", "16_idap_estadual.py", "IDAP estadual (todas as barragens de MT)", True),\n    ("35", "35_detectar_mudancas.py", "Detecção de mudanças entre snapshots IDAP", True),
     ("18", "18_piloto_manso_cuiaba.py", "Piloto operacional Manso–Cuiabá", True),
     ("20", "20_painel_comando.py", "Painel comando estadual (Tela 1)", True),
     ("21", "21_painel_hidro.py", "Painel hidro municipal (Tela 2 leve)", True),
