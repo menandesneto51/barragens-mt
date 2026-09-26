@@ -13,6 +13,8 @@ def indicator_lineage(
     hydro: dict[str, Any] | None = None,
     inventory: dict[str, Any] | None = None,
     alertability: dict[str, Any] | None = None,
+    population_reference: str = "",
+    cnes_reference: str = "",
 ) -> dict[str, str]:
     hydro = hydro or {}
     inventory = inventory or {}
@@ -65,7 +67,7 @@ def indicator_lineage(
         return {
             "produto_observacional": "ibge_populacao_municipios_mt.csv",
             "campo_observacional": "populacao",
-            "referencia_temporal": "",
+            "referencia_temporal": population_reference,
             "tipo_evidencia": "proxy",
             "metodo_proxy": "soma_populacao_municipios_potencialmente_afetados_otto",
             "fonte_observacional": "IBGE|topologia Otto provisoria",
@@ -74,7 +76,7 @@ def indicator_lineage(
         return {
             "produto_observacional": "cnes_estabelecimentos_mt.geojson",
             "campo_observacional": "estabelecimentos_por_municipio_afetado",
-            "referencia_temporal": "",
+            "referencia_temporal": cnes_reference,
             "tipo_evidencia": "proxy",
             "metodo_proxy": "CNES nos municipios potencialmente afetados por Otto; sem mancha validada",
             "fonte_observacional": "CNES|topologia Otto provisoria",
@@ -92,7 +94,7 @@ def indicator_lineage(
         return {
             "produto_observacional": "alertabilidade_piloto.csv",
             "campo_observacional": "contatos_validados_90d",
-            "referencia_temporal": "",
+            "referencia_temporal": str(alertability.get("data_referencia_contatos") or ""),
             "tipo_evidencia": "operacional_derivada",
             "metodo_proxy": "",
             "fonte_observacional": "cadastro institucional de contatos",
