@@ -11,6 +11,7 @@ mesmo assim o próprio script exige confirmação.
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import time
@@ -92,7 +93,14 @@ def main() -> None:
         print(f"\n{'=' * 78}\n[{codigo}] {descricao}\n{'=' * 78}")
         inicio = time.time()
         stage = auditoria.add_stage(codigo, descricao)
-        resultado = subprocess.run([sys.executable, str(SCRIPTS / arquivo)], cwd=RAIZ)
+        env = os.environ.copy()
+        env["VIGIBARRAGENS_RUN_ID"] = auditoria.run_id
+        env["VIGIBARRAGENS_STAGE"] = codigo
+        resultado = subprocess.run(
+            [sys.executable, str(SCRIPTS / arquivo)],
+            cwd=RAIZ,
+            env=env,
+        )
         duracao = time.time() - inicio
         if resultado.returncode == 0:
             stage.finish(status="success", return_code=0)
