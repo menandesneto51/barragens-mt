@@ -51,6 +51,7 @@ RAIZ = SCRIPTS.parent
 if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 from vigibarragens.intelligence.indicator_lineage import indicator_lineage  # noqa: E402
+from vigibarragens.lineage_runtime import current_run_id, file_metadata  # noqa: E402
 
 FUSO = ZoneInfo("America/Cuiaba")
 
@@ -135,6 +136,51 @@ def ler_populacao_por_municipio() -> dict[str, int]:
                 out[mun] = pop
     return out
 
+
+
+def referencia_populacao_ibge() -> str:
+    caminho = comum.DADOS_TRATADOS / "ibge_populacao_municipios_mt.csv"
+    if not caminho.exists():
+        return ""
+    refs: list[str] = []
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            ref = (r.get("ano_referencia") or "").strip()
+            if ref:
+                refs.append(ref)
+    return max(refs) if refs else ""
+
+
+def referencia_cnes() -> str:
+    caminho = comum.DADOS_TRATADOS / "cnes_estabelecimentos_mt.csv"
+    if not caminho.exists():
+        caminho = comum.DADOS_TRATADOS / "cnes_estabelecimentos_regiao_cuiaba.csv"
+    if not caminho.exists():
+        return ""
+    refs: list[str] = []
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            ref = (r.get("data_atualizacao") or "").strip()
+            if ref:
+                refs.append(ref[:10])
+    return max(refs) if refs else ""
+
+
+def enriquecer_lineage_artefato(lineage: dict[str, Any], run_id: str) -> dict[str, Any]:
+    produto = str(lineage.get("produto_observacional") or "").strip()
+    lineage["run_id"] = run_id
+    if not produto:
+        lineage.update({
+            "artifact_path": "",
+            "artifact_sha256": "",
+            "artifact_size_bytes": None,
+            "artifact_materialized_at": "",
+        })
+        return lineage
+    meta = file_metadata(comum.DADOS_TRATADOS / produto)
+    meta["artifact_path"] = produto
+    lineage.update(meta)
+    return lineage
 
 def exposicao_proxy(
     contaminante_txt: str | None,
@@ -420,6 +466,9 @@ def main() -> None:
     cnes_por_mun = ler_cnes_por_municipio()
     pop_por_mun = ler_populacao_por_municipio()
     alertab_por_id = ler_alertabilidade()
+    pop_referencia = referencia_populacao_ibge()
+    cnes_referencia = referencia_cnes()
+    run_id = current_run_id()
     print(f"IDAP estadual — {len(inventario)} barragens — pesos {VERSAO_PESOS}")
     print(f"  {STATUS_VERSAO_PESOS}")
     print(f"  hidro SisClima/TITAN: {len(hidro_por_id)} barragens")
@@ -493,7 +542,10 @@ def main() -> None:
                 hydro=hidro,
                 inventory=registro,
                 alertability=alert,
+                population_reference=pop_referencia,
+                cnes_reference=cnes_referencia,
             )
+            lineage = enriquecer_lineage_artefato(lineage, run_id)
             linhas_evidencia.append({
                 "id_snisb": estado.id_barragem, "nome": estado.nome,
                 "municipio_sede": estado.municipio, "codigo_indicador": indicador.codigo,
