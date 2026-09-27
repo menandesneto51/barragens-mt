@@ -1,6 +1,7 @@
 from vigibarragens.intelligence.operational_signal_registry import (
     create_event,
     materialize_latest,
+    validate_event_log,
 )
 
 
@@ -89,3 +90,26 @@ def test_confirmation_requires_identified_source_and_responsible():
         assert "source_name" in str(exc) or "confirmed_by" in str(exc)
     else:
         raise AssertionError("evento sem fonte/responsável deveria ser rejeitado")
+
+
+def test_integrity_validator_detects_tampering_and_duplicate_ids():
+    event = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="confirm",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa",
+        confirmer_role="Coordenador",
+        event_id="evt-1",
+        recorded_at="2026-09-27T14:01:00+00:00",
+    ).to_dict()
+    tampered = dict(event)
+    tampered["value"] = "não"
+    problems = validate_event_log([event, tampered])
+    messages = [p["error"] for p in problems]
+    assert "event_id duplicado" in messages
+    assert "event_sha256 divergente do conteúdo canônico" in messages
