@@ -348,3 +348,54 @@ def pending_proposals(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
             str(e.get("event_id") or ""),
         ),
     )
+
+
+def ledger_hash(event: dict[str, Any], previous_ledger_sha256: str = "") -> str:
+    """Hash encadeado do ledger sem alterar o SHA canônico legado do evento."""
+    payload = {
+        "event_sha256": str(event.get("event_sha256") or ""),
+        "previous_ledger_sha256": str(previous_ledger_sha256 or ""),
+    }
+    return canonical_hash(payload)
+
+
+def chain_events(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Adiciona hashes de encadeamento a eventos que ainda não os possuem."""
+    out: list[dict[str, Any]] = []
+    previous = ""
+    for event in events:
+        row = dict(event)
+        row["previous_ledger_sha256"] = previous
+        row["ledger_sha256"] = ledger_hash(row, previous)
+        previous = row["ledger_sha256"]
+        out.append(row)
+    return out
+
+
+def validate_ledger_chain(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Valida continuidade do ledger. Logs legados sem campos de cadeia são aceitos."""
+    rows = [dict(e) for e in events]
+    if not any(str(e.get("ledger_sha256") or "").strip() for e in rows):
+        return []
+
+    problems: list[dict[str, Any]] = []
+    previous = ""
+    for index, event in enumerate(rows, start=1):
+        expected_prev = previous
+        actual_prev = str(event.get("previous_ledger_sha256") or "")
+        actual = str(event.get("ledger_sha256") or "")
+        expected = ledger_hash(event, expected_prev)
+        if actual_prev != expected_prev:
+            problems.append({
+                "line": index,
+                "event_id": event.get("event_id") or "",
+                "error": "previous_ledger_sha256 rompe a cadeia",
+            })
+        if actual != expected:
+            problems.append({
+                "line": index,
+                "event_id": event.get("event_id") or "",
+                "error": "ledger_sha256 divergente",
+            })
+        previous = actual
+    return problems
