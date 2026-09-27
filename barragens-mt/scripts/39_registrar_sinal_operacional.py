@@ -72,6 +72,7 @@ def main() -> None:
     parser.add_argument("--confirmed-by", required=True)
     parser.add_argument("--confirmer-role", required=True)
     parser.add_argument("--note", default="")
+    parser.add_argument("--parent-event-id", default="")
     args = parser.parse_args()
 
     ids = inventory_ids()
@@ -93,6 +94,7 @@ def main() -> None:
         confirmer_role=args.confirmer_role,
         note=args.note,
         run_id=current_run_id(),
+        parent_event_id=args.parent_event_id,
     )
     append_event(event.to_dict())
     print(
