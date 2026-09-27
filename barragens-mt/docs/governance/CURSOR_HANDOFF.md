@@ -225,3 +225,24 @@ Exemplo:
 
 Depois, com outro responsável:
 `python scripts/39_registrar_sinal_operacional.py --id-snisb <ID> --signal rompimento_confirmado --action confirm --value sim --parent-event-id <ID_DA_PROPOSTA> ...`
+
+## Segurança da superfície de escrita
+
+Até existir autenticação/autorização institucional, o Streamlit é **somente leitura** para sinais operacionais.
+
+Regras:
+- não adicionar formulário público que grave `sinais_operacionais_eventos.jsonl`;
+- não permitir confirmação/revogação diretamente pela UI atual;
+- operações de escrita passam pelo CLI governado `scripts/39_registrar_sinal_operacional.py` ou por futura API autenticada;
+- o painel pode exibir propostas pendentes, eventos ativos, responsáveis, documentos e hashes;
+- qualquer futura API de escrita deve implementar identidade autenticada, autorização por função, trilha de auditoria e proteção contra replay/duplicidade.
+
+## Encadeamento criptográfico do ledger
+
+Novos eventos recebem:
+- `previous_ledger_sha256` — âncora no evento anterior;
+- `ledger_sha256` — hash do par `event_sha256 + previous_ledger_sha256`.
+
+O gate 40 verifica a continuidade da cadeia. Logs legados sem cadeia permanecem compatíveis e servem como prefixo; o primeiro evento novo pode ancorar no `event_sha256` do último evento legado.
+
+Não remover/reordenar linhas do JSONL. Uma quebra de cadeia é incidente de integridade e deve bloquear a materialização operacional.
