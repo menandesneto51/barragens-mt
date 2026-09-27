@@ -272,3 +272,18 @@ Política de SLA:
 - observabilidade não altera IDAP, regra R01–R12 nem nível operacional.
 
 O Comando Estadual exibe esses KPIs em bloco próprio. A tabela de pendências mostra idade real mesmo sem SLA institucional.
+
+## Fila de ações de governança
+
+A etapa 41 também materializa:
+`dados/tratados/governanca_operacional_acoes.csv`
+
+Tipos atuais:
+- `tratar_integridade_ledger` — quando a etapa 40 não está íntegra;
+- `confirmacao_pendente` — proposta aguardando segunda confirmação.
+
+A fila descreve trabalho de governança. Ela **não é uma fila de risco** e não deve ser usada para ordenar barragens por severidade.
+
+Quando houver SLA explicitamente configurado, a ação de confirmação informa se a pendência está `fora_sla`. Sem política institucional, continua `sem_politica`.
+
+O Comando Estadual pode exibir a fila, mas permanece somente leitura.
