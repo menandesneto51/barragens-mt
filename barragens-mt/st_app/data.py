@@ -237,6 +237,28 @@ def carregar_governanca_historico_diario() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_governanca_desempenho_dimensoes() -> pd.DataFrame:
+    """Desempenho consolidado por sinal × tipo de fonte."""
+    df = ler_csv("governanca_operacional_desempenho_dimensoes.csv")
+    if df.empty:
+        return df
+    for col in (
+        "propostas_total",
+        "pendentes",
+        "confirmadas",
+        "revogadas",
+        "resolvidas",
+        "taxa_confirmacao_resolvidas_pct",
+        "taxa_revogacao_resolvidas_pct",
+        "tempo_resolucao_mediana_h",
+        "tempo_resolucao_p95_h",
+    ):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_governanca_historico_dimensoes() -> pd.DataFrame:
     """Histórico por sinal e tipo de fonte."""
     df = ler_csv("governanca_operacional_historico_dimensoes.csv")
