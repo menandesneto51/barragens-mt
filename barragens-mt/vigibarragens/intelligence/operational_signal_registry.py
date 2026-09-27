@@ -165,3 +165,58 @@ def materialize_latest(events: Iterable[dict[str, Any]]) -> dict[str, dict[str, 
     for (bid, signal), event in latest.items():
         out.setdefault(bid, {})[signal] = event
     return out
+
+
+def validate_event_record(event: dict[str, Any]) -> list[str]:
+    """Valida estrutura e integridade criptográfica de um evento persistido."""
+    errors: list[str] = []
+    required = (
+        "event_id", "id_snisb", "signal", "action", "observed_at", "recorded_at",
+        "source_type", "source_name", "confirmed_by", "confirmer_role", "event_sha256",
+    )
+    for field in required:
+        if not str(event.get(field) or "").strip():
+            errors.append(f"campo obrigatório ausente: {field}")
+
+    if str(event.get("signal") or "") not in SIGNALS:
+        errors.append("signal inválido")
+    if str(event.get("action") or "") not in ACTIONS:
+        errors.append("action inválida")
+    if str(event.get("source_type") or "") not in SOURCE_TYPES:
+        errors.append("source_type inválido")
+
+    expected_payload = {
+        key: event.get(key, "")
+        for key in (
+            "event_id", "id_snisb", "signal", "action", "value", "observed_at",
+            "recorded_at", "source_type", "source_name", "document_reference",
+            "confirmed_by", "confirmer_role", "note", "run_id",
+        )
+    }
+    expected_hash = canonical_hash(expected_payload)
+    if str(event.get("event_sha256") or "") != expected_hash:
+        errors.append("event_sha256 divergente do conteúdo canônico")
+    return errors
+
+
+def validate_event_log(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Retorna problemas do log; não altera nem corrige eventos."""
+    problems: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for index, event in enumerate(events, start=1):
+        event_id = str(event.get("event_id") or "")
+        if event_id and event_id in seen_ids:
+            problems.append({
+                "line": index,
+                "event_id": event_id,
+                "error": "event_id duplicado",
+            })
+        if event_id:
+            seen_ids.add(event_id)
+        for error in validate_event_record(event):
+            problems.append({
+                "line": index,
+                "event_id": event_id,
+                "error": error,
+            })
+    return problems
