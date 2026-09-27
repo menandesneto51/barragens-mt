@@ -213,6 +213,12 @@ def carregar_proveniencia() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_sinais_operacionais_pendentes() -> pd.DataFrame:
+    """Propostas aguardando segunda confirmação; não alteram o IDAP."""
+    return ler_csv("sinais_operacionais_pendentes_mt.csv")
+
+
+@st.cache_data(show_spinner=False)
 def carregar_sinais_operacionais_estado() -> pd.DataFrame:
     """Estado corrente governado, uma linha por barragem × sinal."""
     return ler_csv("sinais_operacionais_estado_mt.csv")
