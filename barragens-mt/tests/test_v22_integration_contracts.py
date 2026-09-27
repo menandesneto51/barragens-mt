@@ -32,6 +32,7 @@ def test_v22_pipeline_order_is_preserved():
         "19_contatos_alertabilidade.py",
         "40_validar_sinais_operacionais.py",
         "38_sinais_operacionais.py",
+        "41_observabilidade_governanca.py",
         "16_idap_estadual.py",
         "35_detectar_mudancas.py",
         "36_inteligencia_integrada.py",
@@ -106,3 +107,15 @@ def test_operational_event_integrity_gate_precedes_materialization():
     assert "event_sha256" in (
         ROOT / "vigibarragens" / "intelligence" / "operational_signal_registry.py"
     ).read_text(encoding="utf-8")
+
+
+def test_governance_observability_is_non_decisory():
+    stage41 = (ROOT / "scripts" / "41_observabilidade_governanca.py").read_text(encoding="utf-8")
+    module = (
+        ROOT / "vigibarragens" / "intelligence" / "operational_observability.py"
+    ).read_text(encoding="utf-8")
+    assert "governanca_operacional_resumo.csv" in stage41
+    assert "VIGIBARRAGENS_CONFIRMATION_SLA_HOURS" in stage41
+    assert "calcular_idap" not in stage41
+    assert "aplicar_regras" not in stage41
+    assert "sla_status" in module
