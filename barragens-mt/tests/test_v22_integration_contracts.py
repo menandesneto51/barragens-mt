@@ -33,6 +33,7 @@ def test_v22_pipeline_order_is_preserved():
         "40_validar_sinais_operacionais.py",
         "38_sinais_operacionais.py",
         "41_observabilidade_governanca.py",
+        "42_historico_governanca.py",
         "16_idap_estadual.py",
         "35_detectar_mudancas.py",
         "36_inteligencia_integrada.py",
@@ -120,3 +121,16 @@ def test_governance_observability_is_non_decisory():
     assert "calcular_idap" not in stage41
     assert "aplicar_regras" not in stage41
     assert "sla_status" in module
+
+
+def test_governance_history_is_non_decisory():
+    stage42 = (ROOT / "scripts" / "42_historico_governanca.py").read_text(encoding="utf-8")
+    module = (
+        ROOT / "vigibarragens" / "intelligence" / "operational_governance_history.py"
+    ).read_text(encoding="utf-8")
+    assert "governanca_operacional_historico_diario.csv" in stage42
+    assert "governanca_operacional_historico_dimensoes.csv" in stage42
+    assert "governanca_operacional_ciclo_vida.csv" in stage42
+    assert "calcular_idap" not in stage42
+    assert "aplicar_regras" not in stage42
+    assert "backlog_fim_dia" in module
