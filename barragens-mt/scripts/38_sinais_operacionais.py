@@ -30,10 +30,12 @@ if str(ROOT) not in sys.path:
 from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E402
     SIGNALS,
     materialize_latest,
+    pending_proposals,
 )
 
 OUT = comum.DADOS_TRATADOS / "sinais_operacionais_mt.csv"
 OUT_LONG = comum.DADOS_TRATADOS / "sinais_operacionais_estado_mt.csv"
+OUT_PENDING = comum.DADOS_TRATADOS / "sinais_operacionais_pendentes_mt.csv"
 INVENTARIO = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
 EVENTS = comum.RAIZ / "dados" / "metadata" / "sinais_operacionais_eventos.jsonl"
 
