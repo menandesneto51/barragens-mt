@@ -493,13 +493,24 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 )
                 hist_plot = hist.dropna(subset=["data"]).sort_values("data")
                 if not hist_plot.empty:
-                    st.line_chart(
-                        hist_plot.set_index("data")[[
-                            x for x in ("backlog_fim_dia", "tempo_resolucao_mediana_h")
-                            if x in hist_plot.columns
-                        ]],
-                        use_container_width=True,
-                    )
+                    if "backlog_fim_dia" in hist_plot.columns:
+                        st.markdown("*Backlog ao fim do dia*")
+                        st.line_chart(
+                            hist_plot.set_index("data")[["backlog_fim_dia"]],
+                            use_container_width=True,
+                        )
+                    if "tempo_resolucao_mediana_h" in hist_plot.columns:
+                        resolucao_plot = hist_plot.dropna(
+                            subset=["tempo_resolucao_mediana_h"]
+                        )
+                        if not resolucao_plot.empty:
+                            st.markdown("*Tempo mediano de resolução (horas)*")
+                            st.line_chart(
+                                resolucao_plot.set_index("data")[
+                                    ["tempo_resolucao_mediana_h"]
+                                ],
+                                use_container_width=True,
+                            )
                 ultima = hist_plot.iloc[-1] if not hist_plot.empty else None
                 if ultima is not None:
                     taxa_conf = ultima.get("taxa_confirmacao_resolvidas_pct")
