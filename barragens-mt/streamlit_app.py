@@ -27,6 +27,9 @@ from st_app.data import (
     carregar_governanca_operacional_resumo,
     carregar_governanca_operacional_pendencias,
     carregar_governanca_operacional_acoes,
+    carregar_governanca_historico_diario,
+    carregar_governanca_historico_dimensoes,
+    carregar_governanca_ciclo_vida,
     com_tipologia,
     carregar_hidro_mun,
     carregar_idap,
@@ -480,6 +483,63 @@ def pagina_comando(df: pd.DataFrame) -> None:
                     hide_index=True,
                     use_container_width=True,
                 )
+
+            hist = carregar_governanca_historico_diario()
+            if not hist.empty:
+                st.markdown("**Histórico do desempenho da governança**")
+                st.caption(
+                    "Série reconstruída do ledger append-only. Mede o processo de confirmação, "
+                    "não o risco das barragens."
+                )
+                hist_plot = hist.dropna(subset=["data"]).sort_values("data")
+                if not hist_plot.empty:
+                    st.line_chart(
+                        hist_plot.set_index("data")[[
+                            x for x in ("backlog_fim_dia", "tempo_resolucao_mediana_h")
+                            if x in hist_plot.columns
+                        ]],
+                        use_container_width=True,
+                    )
+                ultima = hist_plot.iloc[-1] if not hist_plot.empty else None
+                if ultima is not None:
+                    taxa_conf = ultima.get("taxa_confirmacao_resolvidas_pct")
+                    taxa_rev = ultima.get("taxa_revogacao_resolvidas_pct")
+                    c_hist1, c_hist2, c_hist3 = st.columns(3)
+                    c_hist1.metric(
+                        "Backlog no fim do último dia",
+                        int(ultima.get("backlog_fim_dia") or 0),
+                    )
+                    c_hist2.metric(
+                        "Taxa de confirmação entre resolvidas",
+                        "—" if pd.isna(taxa_conf) else f"{float(taxa_conf):.1f}%",
+                    )
+                    c_hist3.metric(
+                        "Taxa de revogação entre resolvidas",
+                        "—" if pd.isna(taxa_rev) else f"{float(taxa_rev):.1f}%",
+                    )
+
+                dims = carregar_governanca_historico_dimensoes()
+                if not dims.empty:
+                    latest_date = dims["data"].max()
+                    atual_dim = dims[dims["data"] == latest_date].copy()
+                    if not atual_dim.empty:
+                        st.markdown("**Backlog por sinal e tipo de fonte — último dia**")
+                        cols_dim = [
+                            x for x in (
+                                "signal", "source_type", "propostas_registradas",
+                                "propostas_confirmadas", "propostas_revogadas",
+                                "backlog_fim_dia",
+                            )
+                            if x in atual_dim.columns
+                        ]
+                        st.dataframe(
+                            atual_dim[cols_dim].sort_values(
+                                "backlog_fim_dia",
+                                ascending=False,
+                            ),
+                            hide_index=True,
+                            use_container_width=True,
+                        )
 
             gp = carregar_governanca_operacional_pendencias()
             if gp.empty:
