@@ -3,6 +3,7 @@ from vigibarragens.intelligence.operational_signal_registry import (
     materialize_latest,
     validate_event_log,
     validate_governance_chain,
+    pending_proposals,
 )
 
 
@@ -234,3 +235,38 @@ def test_critical_revocation_must_reference_confirmation():
     ).to_dict()
     problems = validate_governance_chain([proposal, revoke])
     assert any("confirmação ativa" in p["error"] for p in problems)
+
+
+def test_pending_proposal_disappears_after_confirmation():
+    proposal = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="propose",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa A",
+        confirmer_role="Operador",
+        event_id="prop-1",
+        recorded_at="2026-09-27T14:00:00+00:00",
+    ).to_dict()
+    assert [e["event_id"] for e in pending_proposals([proposal])] == ["prop-1"]
+
+    confirm = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="confirm",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa B",
+        confirmer_role="Coordenador",
+        parent_event_id="prop-1",
+        event_id="conf-1",
+        recorded_at="2026-09-27T14:05:00+00:00",
+    ).to_dict()
+    assert pending_proposals([proposal, confirm]) == []
