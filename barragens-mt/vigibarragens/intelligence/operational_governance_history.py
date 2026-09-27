@@ -186,3 +186,52 @@ def daily_dimensions(lifecycle: Iterable[dict[str, Any]]) -> list[dict[str, Any]
                 "backlog_fim_dia": len(backlog),
             })
     return out
+
+
+def dimension_performance(lifecycle: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Resumo consolidado por sinal × tipo de fonte, sem ranking de risco."""
+    rows = [dict(r) for r in lifecycle]
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        key = (
+            str(row.get("signal") or ""),
+            str(row.get("source_type") or ""),
+        )
+        groups[key].append(row)
+
+    out: list[dict[str, Any]] = []
+    for (signal, source_type), scoped in sorted(groups.items()):
+        confirmed = [r for r in scoped if r.get("status") == "confirmada"]
+        revoked = [r for r in scoped if r.get("status") == "revogada"]
+        pending = [r for r in scoped if r.get("status") == "pendente"]
+        resolved = confirmed + revoked
+        latencies = [
+            float(r["tempo_resolucao_h"])
+            for r in resolved
+            if r.get("tempo_resolucao_h") not in {"", None}
+        ]
+        resolved_n = len(resolved)
+        out.append({
+            "signal": signal,
+            "source_type": source_type,
+            "propostas_total": len(scoped),
+            "pendentes": len(pending),
+            "confirmadas": len(confirmed),
+            "revogadas": len(revoked),
+            "resolvidas": resolved_n,
+            "taxa_confirmacao_resolvidas_pct": (
+                round(100.0 * len(confirmed) / resolved_n, 2)
+                if resolved_n else ""
+            ),
+            "taxa_revogacao_resolvidas_pct": (
+                round(100.0 * len(revoked) / resolved_n, 2)
+                if resolved_n else ""
+            ),
+            "tempo_resolucao_mediana_h": (
+                round(median(latencies), 2) if latencies else ""
+            ),
+            "tempo_resolucao_p95_h": (
+                round(percentile(latencies, 0.95), 2) if latencies else ""
+            ),
+        })
+    return out
