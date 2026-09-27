@@ -33,6 +33,7 @@ from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E4
     SIGNALS,
     SOURCE_TYPES,
     create_event,
+    ledger_hash,
 )
 from vigibarragens.lineage_runtime import current_run_id  # noqa: E402
 
@@ -55,6 +56,21 @@ def inventory_ids() -> set[str]:
 
 def append_event(payload: dict) -> None:
     EVENTS.parent.mkdir(parents=True, exist_ok=True)
+    previous_anchor = ""
+    if EVENTS.exists():
+        last = None
+        with EVENTS.open(encoding="utf-8") as existing:
+            for line in existing:
+                text = line.strip()
+                if text:
+                    last = json.loads(text)
+        if last:
+            previous_anchor = str(
+                last.get("ledger_sha256") or last.get("event_sha256") or ""
+            )
+    payload = dict(payload)
+    payload["previous_ledger_sha256"] = previous_anchor
+    payload["ledger_sha256"] = ledger_hash(payload, previous_anchor)
     with EVENTS.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(payload, ensure_ascii=False, sort_keys=True) + "\n")
 
