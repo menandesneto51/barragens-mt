@@ -29,11 +29,10 @@ python3 -m streamlit run streamlit_app.py --server.port 8501 --server.headless t
 
 The `Ação → Alertabilidade / despacho` page dynamically loads
 `barragens-mt/scripts/29_despacho_alertas.py`, which imports `comum` → `httpx`. `httpx`
-is **not** declared in the app requirements (`requirements.txt` /
-`barragens-mt/requirements-streamlit.txt`). If it is missing, that one page crashes with
-`ModuleNotFoundError: No module named 'httpx'` while every other page works. The
-environment `install` command installs `httpx` alongside the app requirements so all
-pages render.
+is declared in the app requirements (`requirements.txt` /
+`barragens-mt/requirements-streamlit.txt`) so that page renders. If you slim those
+requirements down, dropping `httpx` will crash **only** that page with
+`ModuleNotFoundError: No module named 'httpx'` while every other page keeps working.
 
 Alert dispatch defaults to **dry-run** (log only). Real Telegram/e-mail sending requires
 the `VIGI_TELEGRAM_*` / `VIGI_SMTP_*` env vars (or Streamlit `[vigi]` secrets); without

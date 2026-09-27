@@ -1,6 +1,6 @@
 {
   "name": "VIGIBARRAGENS-MT (Streamlit)",
-  "install": "pip3 install --user -r requirements.txt httpx",
+  "install": "pip3 install --user -r requirements.txt",
   "terminals": [
     {
       "name": "streamlit",
