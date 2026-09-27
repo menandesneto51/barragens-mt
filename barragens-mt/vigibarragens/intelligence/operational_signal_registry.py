@@ -325,3 +325,26 @@ def validate_governance_chain(events: Iterable[dict[str, Any]]) -> list[dict[str
                 })
 
     return problems
+
+
+def pending_proposals(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Retorna propostas ainda sem confirmação/revogação filha."""
+    rows = [dict(e) for e in events]
+    resolved_parent_ids = {
+        str(e.get("parent_event_id") or "").strip()
+        for e in rows
+        if str(e.get("action") or "") in {"confirm", "revoke"}
+        and str(e.get("parent_event_id") or "").strip()
+    }
+    pending = [
+        e for e in rows
+        if str(e.get("action") or "") == "propose"
+        and str(e.get("event_id") or "").strip() not in resolved_parent_ids
+    ]
+    return sorted(
+        pending,
+        key=lambda e: (
+            str(e.get("recorded_at") or ""),
+            str(e.get("event_id") or ""),
+        ),
+    )
