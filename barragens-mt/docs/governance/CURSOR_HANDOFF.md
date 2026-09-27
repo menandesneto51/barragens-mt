@@ -200,3 +200,28 @@ Fluxo Cursor após registrar/revogar sinal:
 `python executar.py 40 38 16 35 36 37`
 
 Não corrigir evento inválido editando o JSONL. Quando o fato operacional mudar, gerar novo evento. Se houver corrupção técnica do log, preservar cópia forense e tratar a recuperação como incidente de governança.
+
+## Dupla confirmação para sinais críticos
+
+Sinais críticos:
+- `rompimento_confirmado`;
+- `perda_subita_de_nivel`;
+- `evacuacao_determinada`;
+- `mancha_atinge_unidade_estrategica`;
+- `mancha_atinge_captacao`.
+
+Fluxo obrigatório no novo regime:
+1. registrar `--action propose`;
+2. a proposta entra em `sinais_operacionais_pendentes_mt.csv` e **não altera o IDAP**;
+3. segundo responsável registra `--action confirm --parent-event-id <EVENT_ID_PROPOSTA>`;
+4. para sinais críticos, proponente e confirmador devem ser pessoas distintas;
+5. revogação crítica usa `--action revoke --parent-event-id <EVENT_ID_CONFIRMACAO>`;
+6. a etapa 40 valida toda a cadeia antes da materialização.
+
+O estado ativo continua sendo derivado apenas de `confirm`/`revoke`; eventos `propose` são ignorados pelo motor IDAP.
+
+Exemplo:
+`python scripts/39_registrar_sinal_operacional.py --id-snisb <ID> --signal rompimento_confirmado --action propose --value sim ...`
+
+Depois, com outro responsável:
+`python scripts/39_registrar_sinal_operacional.py --id-snisb <ID> --signal rompimento_confirmado --action confirm --value sim --parent-event-id <ID_DA_PROPOSTA> ...`
