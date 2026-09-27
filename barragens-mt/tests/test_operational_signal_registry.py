@@ -4,6 +4,8 @@ from vigibarragens.intelligence.operational_signal_registry import (
     validate_event_log,
     validate_governance_chain,
     pending_proposals,
+    ledger_hash,
+    validate_ledger_chain,
 )
 
 
@@ -270,3 +272,80 @@ def test_pending_proposal_disappears_after_confirmation():
         recorded_at="2026-09-27T14:05:00+00:00",
     ).to_dict()
     assert pending_proposals([proposal, confirm]) == []
+
+
+def test_ledger_chain_detects_removed_or_reordered_event():
+    first = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="propose",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa A",
+        confirmer_role="Operador",
+        event_id="evt-1",
+        recorded_at="2026-09-27T14:00:00+00:00",
+    ).to_dict()
+    first["previous_ledger_sha256"] = ""
+    first["ledger_sha256"] = ledger_hash(first, "")
+
+    second = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="confirm",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa B",
+        confirmer_role="Coordenador",
+        parent_event_id="evt-1",
+        event_id="evt-2",
+        recorded_at="2026-09-27T14:05:00+00:00",
+    ).to_dict()
+    second["previous_ledger_sha256"] = first["ledger_sha256"]
+    second["ledger_sha256"] = ledger_hash(second, first["ledger_sha256"])
+
+    assert validate_ledger_chain([first, second]) == []
+    problems = validate_ledger_chain([second])
+    assert any("rompe a cadeia" in p["error"] for p in problems)
+
+
+def test_legacy_prefix_can_anchor_new_chained_event():
+    legacy = create_event(
+        id_snisb="1",
+        signal="sensores_criticos_em_falha",
+        action="confirm",
+        value="2",
+        observed_at="2026-09-27T09:00:00-04:00",
+        source_type="sistema_monitoramento",
+        source_name="Sistema",
+        document_reference="",
+        confirmed_by="Sistema",
+        confirmer_role="Automação",
+        event_id="legacy-1",
+        recorded_at="2026-09-27T13:00:00+00:00",
+    ).to_dict()
+
+    chained = create_event(
+        id_snisb="1",
+        signal="sensores_criticos_em_falha",
+        action="confirm",
+        value="1",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="sistema_monitoramento",
+        source_name="Sistema",
+        document_reference="",
+        confirmed_by="Sistema",
+        confirmer_role="Automação",
+        event_id="new-1",
+        recorded_at="2026-09-27T14:00:00+00:00",
+    ).to_dict()
+    chained["previous_ledger_sha256"] = legacy["event_sha256"]
+    chained["ledger_sha256"] = ledger_hash(chained, legacy["event_sha256"])
+
+    assert validate_ledger_chain([legacy, chained]) == []
