@@ -203,6 +203,29 @@ def main() -> None:
 
         wide_rows.append(row)
 
+    pending_rows: list[dict[str, Any]] = []
+    for event in pendentes:
+        bid = str(event.get("id_snisb") or "").strip()
+        b = barragens_por_id.get(bid, {})
+        pending_rows.append({
+            "id_snisb": bid,
+            "nome": b.get("nome") or "",
+            "municipio_sede": b.get("municipio") or "",
+            "signal": event.get("signal", ""),
+            "value": event.get("value", ""),
+            "event_id": event.get("event_id", ""),
+            "event_sha256": event.get("event_sha256", ""),
+            "observed_at": event.get("observed_at", ""),
+            "recorded_at": event.get("recorded_at", ""),
+            "source_type": event.get("source_type", ""),
+            "source_name": event.get("source_name", ""),
+            "document_reference": event.get("document_reference", ""),
+            "confirmed_by": event.get("confirmed_by", ""),
+            "confirmer_role": event.get("confirmer_role", ""),
+            "note": event.get("note", ""),
+            "run_id": event.get("run_id", ""),
+        })
+
     # Eventos para IDs fora do inventário são preservados no log, mas não entram no estado.
     orphan_ids = sorted(set(latest) - set(barragens_por_id))
 
@@ -210,9 +233,10 @@ def main() -> None:
     long_rows.sort(key=lambda r: (str(r.get("id_snisb") or ""), str(r.get("signal") or "")))
     comum.salvar_csv(OUT, wide_rows, BASE_FIELDS)
     comum.salvar_csv(OUT_LONG, long_rows, LONG_FIELDS)
+    comum.salvar_csv(OUT_PENDING, pending_rows, PENDING_FIELDS)
     print(
         f"Sinais operacionais: {len(wide_rows)} barragens · {len(long_rows)} "
-        f"estado(s) com evento · {novos} nova(s)."
+        f"estado(s) com evento · {len(pending_rows)} proposta(s) pendente(s) · {novos} nova(s)."
     )
     if orphan_ids:
         print(
