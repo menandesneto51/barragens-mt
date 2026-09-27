@@ -50,6 +50,7 @@ ETAPAS = [
     ("40", "40_validar_sinais_operacionais.py", "Validação de integridade do log operacional", True),
     ("38", "38_sinais_operacionais.py", "Cadastro persistente de sinais operacionais R02–R09", True),
     ("41", "41_observabilidade_governanca.py", "Observabilidade da governança operacional", True),
+    ("42", "42_historico_governanca.py", "Histórico da governança operacional", True),
     ("16", "16_idap_estadual.py", "IDAP estadual (todas as barragens de MT)", True),
     ("35", "35_detectar_mudancas.py", "Detecção de mudanças entre snapshots IDAP", True),
     ("36", "36_inteligencia_integrada.py", "Inteligência v2.2 — estado, tendência, qualidade e proxies", True),
