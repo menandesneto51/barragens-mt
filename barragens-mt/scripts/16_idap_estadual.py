@@ -308,6 +308,40 @@ def ler_sinais_operacionais() -> dict[str, dict[str, Any]]:
             if (r.get("id_snisb") or "").strip()
         }
 
+
+def ler_lineage_sinais_operacionais() -> dict[str, dict[str, dict[str, Any]]]:
+    caminho = comum.DADOS_TRATADOS / "sinais_operacionais_estado_mt.csv"
+    if not caminho.exists():
+        return {}
+    artifact = file_metadata(caminho)
+    artifact["artifact_path"] = caminho.name
+    out: dict[str, dict[str, dict[str, Any]]] = {}
+    with caminho.open(encoding="utf-8-sig", newline="") as arquivo:
+        for r in csv.DictReader(arquivo, delimiter=";"):
+            bid = (r.get("id_snisb") or "").strip()
+            signal = (r.get("signal") or "").strip()
+            if not bid or not signal:
+                continue
+            out.setdefault(bid, {})[signal] = {
+                "produto_observacional": caminho.name,
+                "campo_observacional": signal,
+                "fonte_observacional": r.get("source_name") or "",
+                "referencia_temporal": r.get("observed_at") or "",
+                "tipo_evidencia": (
+                    "operacional_persistente"
+                    if (r.get("status_corrente") or "") == "ativo"
+                    else "operacional_revogada"
+                ),
+                "documento_referencia": r.get("document_reference") or "",
+                "event_id": r.get("event_id") or "",
+                "event_sha256": r.get("event_sha256") or "",
+                "confirmed_by": r.get("confirmed_by") or "",
+                "confirmer_role": r.get("confirmer_role") or "",
+                "run_id": r.get("run_id") or "",
+                **artifact,
+            }
+    return out
+
 def ler_alertabilidade() -> dict[str, dict[str, Any]]:
     caminho = comum.DADOS_TRATADOS / "alertabilidade_piloto.csv"
     if not caminho.exists():
@@ -498,6 +532,7 @@ def main() -> None:
     pop_por_mun = ler_populacao_por_municipio()
     alertab_por_id = ler_alertabilidade()
     sinais_por_id = ler_sinais_operacionais()
+    lineage_sinais_por_id = ler_lineage_sinais_operacionais()
     pop_referencia = referencia_populacao_ibge()
     cnes_referencia = referencia_cnes()
     run_id = current_run_id()
@@ -610,25 +645,7 @@ def main() -> None:
             "chuva_prevista_extrema": estado.sinais.chuva_prevista_extrema,
         }
         hidro_lineage = evidencia_por_codigo.get("A1", {})
-        signal_meta = signal_source_metadata(sinais_persistidos)
-        operational_lineage = {
-            "produto_observacional": "sinais_operacionais_mt.csv"
-            if sinais_persistidos and any(
-                str(sinais_persistidos.get(k) or "").strip()
-                for k in (
-                    "rompimento_confirmado", "perda_subita_de_nivel",
-                    "evacuacao_determinada", "sensores_criticos_em_falha",
-                    "mancha_atinge_unidade_estrategica", "mancha_atinge_captacao",
-                    "municipios_zas_sem_confirmacao", "fonte_observacional",
-                    "referencia_temporal", "documento_referencia",
-                )
-            )
-            else "",
-            "tipo_evidencia": "operacional_persistente",
-            **signal_meta,
-        }
-        if operational_lineage["produto_observacional"]:
-            operational_lineage = enriquecer_lineage_artefato(operational_lineage, run_id)
+        operational_lineage = lineage_sinais_por_id.get(id_snisb, {})
         for regra_row in build_rule_lineage(
             fired_rules=final.regras_disparadas,
             indicator_evidence=evidencia_por_codigo,
