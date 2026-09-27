@@ -213,6 +213,44 @@ def carregar_proveniencia() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_governanca_operacional_resumo() -> pd.DataFrame:
+    """KPIs da governança operacional; observabilidade somente."""
+    df = ler_csv("governanca_operacional_resumo.csv")
+    if df.empty:
+        return df
+    for col in (
+        "eventos_total",
+        "eventos_propose",
+        "eventos_confirm",
+        "eventos_revoke",
+        "sinais_ativos",
+        "sinais_revogados",
+        "propostas_pendentes",
+        "idade_pendente_mediana_h",
+        "idade_pendente_p95_h",
+        "idade_pendente_max_h",
+        "sla_horas",
+        "pendencias_fora_sla",
+        "integridade_problemas",
+    ):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
+def carregar_governanca_operacional_pendencias() -> pd.DataFrame:
+    """Pendências enriquecidas com idade e SLA, sem efeito no IDAP."""
+    df = ler_csv("governanca_operacional_pendencias.csv")
+    if df.empty:
+        return df
+    for col in ("idade_aguardando_h", "sla_horas"):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_sinais_operacionais_pendentes() -> pd.DataFrame:
     """Propostas aguardando segunda confirmação; não alteram o IDAP."""
     return ler_csv("sinais_operacionais_pendentes_mt.csv")
