@@ -52,7 +52,7 @@ def _signal_row(
     *,
     hydro_lineage: dict[str, Any],
     signal_values: dict[str, Any],
-    operational_signal_lineage: dict[str, Any] | None = None,
+    operational_signal_lineage: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     hydro_signals = {
         "alerta_cemaden_hidrologico",
@@ -78,22 +78,23 @@ def _signal_row(
             "artifact_materialized_at": hydro_lineage.get("artifact_materialized_at", ""),
         }
     operational_signal_lineage = operational_signal_lineage or {}
-    if operational_signal_lineage.get("produto_observacional"):
+    operational_meta = operational_meta.get(signal, {})
+    if operational_meta.get("produto_observacional"):
         return {
             "evidencia_codigo": f"SIGNAL:{signal}",
             "evidencia_tipo": "sinal_operacional",
             "evidencia_valor": signal_values.get(signal, ""),
             "evidencia_ativa": bool(signal_values.get(signal)),
-            "produto_observacional": operational_signal_lineage.get("produto_observacional", ""),
+            "produto_observacional": operational_meta.get("produto_observacional", ""),
             "campo_observacional": signal,
-            "fonte_observacional": operational_signal_lineage.get("fonte_observacional", ""),
-            "referencia_temporal": operational_signal_lineage.get("referencia_temporal", ""),
-            "tipo_evidencia": operational_signal_lineage.get("tipo_evidencia", "operacional_persistente"),
+            "fonte_observacional": operational_meta.get("fonte_observacional", ""),
+            "referencia_temporal": operational_meta.get("referencia_temporal", ""),
+            "tipo_evidencia": operational_meta.get("tipo_evidencia", "operacional_persistente"),
             "metodo_proxy": "",
-            "run_id": operational_signal_lineage.get("run_id", ""),
-            "artifact_path": operational_signal_lineage.get("artifact_path", ""),
-            "artifact_sha256": operational_signal_lineage.get("artifact_sha256", ""),
-            "artifact_materialized_at": operational_signal_lineage.get("artifact_materialized_at", ""),
+            "run_id": operational_meta.get("run_id", ""),
+            "artifact_path": operational_meta.get("artifact_path", ""),
+            "artifact_sha256": operational_meta.get("artifact_sha256", ""),
+            "artifact_materialized_at": operational_meta.get("artifact_materialized_at", ""),
         }
 
     return {
@@ -120,7 +121,7 @@ def build_rule_lineage(
     indicator_evidence: dict[str, dict[str, Any]],
     signal_values: dict[str, Any],
     hydro_lineage: dict[str, Any],
-    operational_signal_lineage: dict[str, Any] | None,
+    operational_signal_lineage: dict[str, dict[str, Any]] | None,
     dimension_b_completeness: float,
 ) -> list[dict[str, Any]]:
     """Expande cada regra disparada em uma ou mais linhas de evidência."""
