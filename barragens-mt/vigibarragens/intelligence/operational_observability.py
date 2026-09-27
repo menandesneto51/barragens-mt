@@ -125,3 +125,45 @@ def governance_summary(
         "integridade_status": integrity_status or "desconhecido",
         "integridade_problemas": int(integrity_problems or 0),
     }
+
+
+def governance_actions(
+    *,
+    pending_rows: Iterable[dict[str, Any]],
+    integrity_status: str,
+    integrity_problems: int,
+) -> list[dict[str, Any]]:
+    """Gera fila de trabalho de governança sem classificar risco de barragem."""
+    actions: list[dict[str, Any]] = []
+
+    if str(integrity_status or "") != "ok" or int(integrity_problems or 0) > 0:
+        actions.append({
+            "tipo_acao": "tratar_integridade_ledger",
+            "id_snisb": "",
+            "signal": "",
+            "event_id": "",
+            "idade_aguardando_h": "",
+            "sla_status": "",
+            "acao_requerida": (
+                "Interromper materialização operacional e investigar os problemas "
+                "de integridade reportados pela etapa 40."
+            ),
+        })
+
+    for row in pending_rows:
+        sla_status = str(row.get("sla_status") or "sem_politica")
+        action = (
+            "Revisar pendência fora do SLA configurado e obter segunda confirmação."
+            if sla_status == "fora_sla"
+            else "Obter segunda confirmação ou rejeitar/revogar a proposta de forma auditável."
+        )
+        actions.append({
+            "tipo_acao": "confirmacao_pendente",
+            "id_snisb": row.get("id_snisb", ""),
+            "signal": row.get("signal", ""),
+            "event_id": row.get("event_id", ""),
+            "idade_aguardando_h": row.get("idade_aguardando_h", ""),
+            "sla_status": sla_status,
+            "acao_requerida": action,
+        })
+    return actions
