@@ -373,17 +373,22 @@ def chain_events(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def validate_ledger_chain(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Valida continuidade do ledger. Logs legados sem campos de cadeia são aceitos."""
+    """Valida continuidade do ledger com compatibilidade para prefixo legado."""
     rows = [dict(e) for e in events]
     if not any(str(e.get("ledger_sha256") or "").strip() for e in rows):
         return []
 
     problems: list[dict[str, Any]] = []
-    previous = ""
+    previous_anchor = ""
     for index, event in enumerate(rows, start=1):
-        expected_prev = previous
-        actual_prev = str(event.get("previous_ledger_sha256") or "")
         actual = str(event.get("ledger_sha256") or "")
+        event_sha = str(event.get("event_sha256") or "")
+        if not actual:
+            previous_anchor = event_sha
+            continue
+
+        actual_prev = str(event.get("previous_ledger_sha256") or "")
+        expected_prev = previous_anchor
         expected = ledger_hash(event, expected_prev)
         if actual_prev != expected_prev:
             problems.append({
@@ -397,5 +402,5 @@ def validate_ledger_chain(events: Iterable[dict[str, Any]]) -> list[dict[str, An
                 "event_id": event.get("event_id") or "",
                 "error": "ledger_sha256 divergente",
             })
-        previous = actual
+        previous_anchor = actual
     return problems
