@@ -92,15 +92,17 @@ def test_persisted_operational_signal_uses_materialized_source():
         signal_values={"rompimento_confirmado": True},
         hydro_lineage={},
         operational_signal_lineage={
-            "produto_observacional": "sinais_operacionais_mt.csv",
-            "fonte_observacional": "Defesa Civil",
-            "referencia_temporal": "2026-09-26T10:00:00",
-            "tipo_evidencia": "operacional_persistente",
-            "run_id": "run-x",
-            "artifact_sha256": "abc",
+            "rompimento_confirmado": {
+                "produto_observacional": "sinais_operacionais_estado_mt.csv",
+                "fonte_observacional": "Defesa Civil",
+                "referencia_temporal": "2026-09-26T10:00:00",
+                "tipo_evidencia": "operacional_persistente",
+                "run_id": "run-x",
+                "artifact_sha256": "abc",
+            }
         },
         dimension_b_completeness=1.0,
     )
     assert rows[0]["tipo_evidencia"] == "operacional_persistente"
-    assert rows[0]["produto_observacional"] == "sinais_operacionais_mt.csv"
+    assert rows[0]["produto_observacional"] == "sinais_operacionais_estado_mt.csv"
     assert rows[0]["evidencia_ativa"] is True
