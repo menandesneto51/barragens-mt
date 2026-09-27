@@ -246,3 +246,29 @@ Novos eventos recebem:
 O gate 40 verifica a continuidade da cadeia. Logs legados sem cadeia permanecem compatíveis e servem como prefixo; o primeiro evento novo pode ancorar no `event_sha256` do último evento legado.
 
 Não remover/reordenar linhas do JSONL. Uma quebra de cadeia é incidente de integridade e deve bloquear a materialização operacional.
+
+## Etapa 41 — observabilidade da governança operacional
+
+A ordem v2.2 passa a ser:
+`17 hidro → 19 alertabilidade → 40 integridade → 38 materialização → 41 observabilidade → 16 IDAP → 35 mudanças → 36 inteligência → 37 proveniência`.
+
+Produtos:
+- `dados/tratados/governanca_operacional_resumo.csv`;
+- `dados/tratados/governanca_operacional_pendencias.csv`.
+
+Indicadores:
+- total de eventos `propose/confirm/revoke`;
+- sinais ativos e revogados no estado corrente;
+- propostas aguardando segunda confirmação;
+- idade mediana, P95 e máxima das propostas pendentes;
+- status/problemas de integridade do ledger;
+- SLA de confirmação apenas quando configurado explicitamente.
+
+Política de SLA:
+- variável opcional `VIGIBARRAGENS_CONFIRMATION_SLA_HOURS`;
+- se ausente, `sla_politica=nao_configurada` e `sla_status=sem_politica`;
+- não usar um limiar implícito, presumido ou inventado;
+- a idade da pendência é calculada a partir de `recorded_at` da proposta;
+- observabilidade não altera IDAP, regra R01–R12 nem nível operacional.
+
+O Comando Estadual exibe esses KPIs em bloco próprio. A tabela de pendências mostra idade real mesmo sem SLA institucional.
