@@ -252,7 +252,15 @@ def validate_governance_chain(events: Iterable[dict[str, Any]]) -> list[dict[str
         if str(e.get("event_id") or "").strip()
     }
     problems: list[dict[str, Any]] = []
-    proposals_exist = any(str(e.get("action") or "") == "propose" for e in rows)
+    proposals_by_key: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for proposal in rows:
+        if str(proposal.get("action") or "") != "propose":
+            continue
+        key = (
+            str(proposal.get("id_snisb") or ""),
+            str(proposal.get("signal") or ""),
+        )
+        proposals_by_key.setdefault(key, []).append(proposal)
 
     for index, event in enumerate(rows, start=1):
         signal = str(event.get("signal") or "")
@@ -262,13 +270,23 @@ def validate_governance_chain(events: Iterable[dict[str, Any]]) -> list[dict[str
         if signal not in CRITICAL_SIGNALS or action not in {"confirm", "revoke"}:
             continue
 
-        # Compatibilidade: logs anteriores à implantação do workflow não são invalidados.
+        # Compatibilidade: eventos legados permanecem válidos. Parent é obrigatório
+        # quando já havia proposta para a mesma barragem/sinal antes da confirmação.
         if not parent_id:
-            if proposals_exist:
+            key = (
+                str(event.get("id_snisb") or ""),
+                signal,
+            )
+            event_recorded = str(event.get("recorded_at") or "")
+            prior_proposals = [
+                p for p in proposals_by_key.get(key, [])
+                if str(p.get("recorded_at") or "") <= event_recorded
+            ]
+            if prior_proposals:
                 problems.append({
                     "line": index,
                     "event_id": event.get("event_id") or "",
-                    "error": "sinal crítico sem parent_event_id no fluxo governado",
+                    "error": "sinal crítico sem parent_event_id após proposta governada",
                 })
             continue
 
