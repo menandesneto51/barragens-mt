@@ -24,7 +24,10 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from vigibarragens.intelligence.operational_signal_registry import validate_event_log  # noqa: E402
+from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E402
+    validate_event_log,
+    validate_governance_chain,
+)
 
 EVENTS = comum.RAIZ / "dados" / "metadata" / "sinais_operacionais_eventos.jsonl"
 INVENTARIO = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
@@ -62,6 +65,7 @@ def main() -> None:
     comum.preparar_diretorios()
     events = read_events()
     problems = validate_event_log(events)
+    problems.extend(validate_governance_chain(events))
     ids = inventory_ids()
 
     for index, event in enumerate(events, start=1):
