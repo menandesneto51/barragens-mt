@@ -26,6 +26,7 @@ from st_app.data import (
     carregar_evidencias_idap,
     carregar_governanca_operacional_resumo,
     carregar_governanca_operacional_pendencias,
+    carregar_governanca_operacional_acoes,
     com_tipologia,
     carregar_hidro_mun,
     carregar_idap,
@@ -462,6 +463,22 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 st.info(
                     "SLA de confirmação não configurado. A idade real das propostas é "
                     "mostrada, mas nenhuma pendência é rotulada como violação."
+                )
+
+            ga = carregar_governanca_operacional_acoes()
+            if not ga.empty:
+                st.markdown("**Ações de governança pendentes**")
+                cols_ga = [
+                    x for x in (
+                        "tipo_acao", "id_snisb", "signal", "event_id",
+                        "idade_aguardando_h", "sla_status", "acao_requerida",
+                    )
+                    if x in ga.columns
+                ]
+                st.dataframe(
+                    ga[cols_ga].head(30),
+                    hide_index=True,
+                    use_container_width=True,
                 )
 
             gp = carregar_governanca_operacional_pendencias()
