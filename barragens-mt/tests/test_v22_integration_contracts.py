@@ -90,7 +90,8 @@ def test_rule_lineage_is_materialized_and_ui_only_reads_it():
 
 def test_operational_signal_stage_is_non_inventive():
     source = (ROOT / "scripts" / "38_sinais_operacionais.py").read_text(encoding="utf-8")
-    assert "preserva valores já existentes" in source
-    assert "nunca transforma campo vazio em confirmação de segurança" in source
-    assert "rompimento_confirmado" in source
-    assert "fonte_observacional" in source
+    assert "Ausência de evento permanece lacuna" in source
+    assert 'if not event:' in source
+    assert 'if str(event.get("action") or "") == "revoke":' in source
+    assert 'row[signal] = ""' in source
+    assert "sinais_operacionais_eventos.jsonl" in source
