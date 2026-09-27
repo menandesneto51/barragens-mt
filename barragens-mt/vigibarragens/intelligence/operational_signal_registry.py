@@ -32,7 +32,15 @@ SOURCE_TYPES = {
     "outro_documentado",
 }
 
-ACTIONS = {"confirm", "revoke"}
+ACTIONS = {"propose", "confirm", "revoke"}
+
+CRITICAL_SIGNALS = {
+    "rompimento_confirmado",
+    "perda_subita_de_nivel",
+    "evacuacao_determinada",
+    "mancha_atinge_unidade_estrategica",
+    "mancha_atinge_captacao",
+}
 
 
 def utcnow() -> str:
@@ -81,6 +89,7 @@ class OperationalSignalEvent:
     note: str
     run_id: str
     event_sha256: str
+    parent_event_id: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -102,6 +111,7 @@ def create_event(
     run_id: str = "",
     event_id: str | None = None,
     recorded_at: str | None = None,
+    parent_event_id: str = "",
 ) -> OperationalSignalEvent:
     id_snisb = str(id_snisb or "").strip()
     if not id_snisb:
@@ -140,7 +150,11 @@ def create_event(
         "note": str(note or "").strip(),
         "run_id": str(run_id or "").strip(),
     }
-    return OperationalSignalEvent(**base, event_sha256=canonical_hash(base))
+    return OperationalSignalEvent(
+        **base,
+        event_sha256=canonical_hash(base),
+        parent_event_id=str(parent_event_id or "").strip(),
+    )
 
 
 def materialize_latest(events: Iterable[dict[str, Any]]) -> dict[str, dict[str, dict[str, Any]]]:
@@ -150,6 +164,8 @@ def materialize_latest(events: Iterable[dict[str, Any]]) -> dict[str, dict[str, 
         bid = str(event.get("id_snisb") or "").strip()
         signal = str(event.get("signal") or "").strip()
         if not bid or signal not in SIGNALS:
+            continue
+        if str(event.get("action") or "") == "propose":
             continue
         key = (bid, signal)
         rank = (str(event.get("recorded_at") or ""), str(event.get("event_id") or ""))
@@ -219,4 +235,93 @@ def validate_event_log(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]
                 "event_id": event_id,
                 "error": error,
             })
+    return problems
+
+
+def validate_governance_chain(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Valida transições proposta→confirmação/revogação para sinais críticos.
+
+    Eventos legados sem parent_event_id continuam aceitos somente quando não houver
+    proposta no novo fluxo. Para novos sinais críticos, confirmação/revogação deve
+    referenciar explicitamente um evento anterior compatível.
+    """
+    rows = [dict(e) for e in events]
+    by_id = {
+        str(e.get("event_id") or ""): e
+        for e in rows
+        if str(e.get("event_id") or "").strip()
+    }
+    problems: list[dict[str, Any]] = []
+    proposals_exist = any(str(e.get("action") or "") == "propose" for e in rows)
+
+    for index, event in enumerate(rows, start=1):
+        signal = str(event.get("signal") or "")
+        action = str(event.get("action") or "")
+        parent_id = str(event.get("parent_event_id") or "").strip()
+
+        if signal not in CRITICAL_SIGNALS or action not in {"confirm", "revoke"}:
+            continue
+
+        # Compatibilidade: logs anteriores à implantação do workflow não são invalidados.
+        if not parent_id:
+            if proposals_exist:
+                problems.append({
+                    "line": index,
+                    "event_id": event.get("event_id") or "",
+                    "error": "sinal crítico sem parent_event_id no fluxo governado",
+                })
+            continue
+
+        parent = by_id.get(parent_id)
+        if not parent:
+            problems.append({
+                "line": index,
+                "event_id": event.get("event_id") or "",
+                "error": f"parent_event_id inexistente: {parent_id}",
+            })
+            continue
+
+        if str(parent.get("id_snisb") or "") != str(event.get("id_snisb") or ""):
+            problems.append({
+                "line": index,
+                "event_id": event.get("event_id") or "",
+                "error": "parent_event_id pertence a outra barragem",
+            })
+        if str(parent.get("signal") or "") != signal:
+            problems.append({
+                "line": index,
+                "event_id": event.get("event_id") or "",
+                "error": "parent_event_id pertence a outro sinal",
+            })
+
+        if action == "confirm":
+            if str(parent.get("action") or "") != "propose":
+                problems.append({
+                    "line": index,
+                    "event_id": event.get("event_id") or "",
+                    "error": "confirmação crítica deve referenciar uma proposta",
+                })
+            if str(parent.get("value") or "") != str(event.get("value") or ""):
+                problems.append({
+                    "line": index,
+                    "event_id": event.get("event_id") or "",
+                    "error": "valor confirmado diverge da proposta",
+                })
+            proposer = str(parent.get("confirmed_by") or "").strip().casefold()
+            confirmer = str(event.get("confirmed_by") or "").strip().casefold()
+            if proposer and confirmer and proposer == confirmer:
+                problems.append({
+                    "line": index,
+                    "event_id": event.get("event_id") or "",
+                    "error": "dupla confirmação exige pessoas distintas",
+                })
+
+        if action == "revoke":
+            if str(parent.get("action") or "") != "confirm":
+                problems.append({
+                    "line": index,
+                    "event_id": event.get("event_id") or "",
+                    "error": "revogação crítica deve referenciar a confirmação ativa",
+                })
+
     return problems
