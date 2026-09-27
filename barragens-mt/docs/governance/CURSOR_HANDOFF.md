@@ -145,3 +145,40 @@ A etapa 38:
 - não deve sobrescrever evidência operacional humana ou oficial.
 
 Quando um sinal persistido dispara R02/R03/R05/R07/R08/R09, o lineage deve apontar para esse arquivo e carregar seu hash/run_id. Sem fonte persistida, manter `sinal_sem_fonte_materializada`.
+
+## Registro operacional governado — eventos append-only
+
+Fonte de verdade:
+`dados/metadata/sinais_operacionais_eventos.jsonl`
+
+Materializações:
+- `dados/tratados/sinais_operacionais_mt.csv` — estado largo consumido pelo motor;
+- `dados/tratados/sinais_operacionais_estado_mt.csv` — estado longo por barragem × sinal, usado para auditoria e UI.
+
+Registro explícito de evento:
+
+```powershell
+python scripts/39_registrar_sinal_operacional.py ^
+  --id-snisb <ID> ^
+  --signal rompimento_confirmado ^
+  --action confirm ^
+  --value sim ^
+  --observed-at 2026-09-27T10:30:00-04:00 ^
+  --source-type defesa_civil ^
+  --source-name "Defesa Civil Municipal" ^
+  --document-reference "SITREP 001/2026" ^
+  --confirmed-by "Nome do responsável" ^
+  --confirmer-role "Coordenador"
+python executar.py 38 16 35 36 37
+```
+
+Para revogar/corrigir um fato, registrar novo evento com `--action revoke`. Nunca editar ou excluir linha anterior do JSONL.
+
+Controles obrigatórios:
+- barragem deve existir no inventário;
+- sinal e tipo de fonte devem pertencer aos vocabulários permitidos;
+- `observed_at`, fonte, responsável e função são obrigatórios;
+- cada evento recebe UUID e SHA-256 canônico;
+- revogação não apaga histórico;
+- ausência de evento continua sendo lacuna, não normalidade;
+- lineage de R02/R03/R05/R07/R08/R09 deve usar metadata específica do sinal, não metadata agregada da barragem.
