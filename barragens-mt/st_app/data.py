@@ -239,6 +239,15 @@ def carregar_governanca_operacional_resumo() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_governanca_operacional_acoes() -> pd.DataFrame:
+    """Fila de trabalho de governança; não representa risco da barragem."""
+    df = ler_csv("governanca_operacional_acoes.csv")
+    if not df.empty and "idade_aguardando_h" in df.columns:
+        df["idade_aguardando_h"] = _num(df["idade_aguardando_h"])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_governanca_operacional_pendencias() -> pd.DataFrame:
     """Pendências enriquecidas com idade e SLA, sem efeito no IDAP."""
     df = ler_csv("governanca_operacional_pendencias.csv")
