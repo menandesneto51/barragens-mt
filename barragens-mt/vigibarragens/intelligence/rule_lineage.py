@@ -78,7 +78,7 @@ def _signal_row(
             "artifact_materialized_at": hydro_lineage.get("artifact_materialized_at", ""),
         }
     operational_signal_lineage = operational_signal_lineage or {}
-    operational_meta = operational_meta.get(signal, {})
+    operational_meta = operational_signal_lineage.get(signal, {})
     if operational_meta.get("produto_observacional"):
         return {
             "evidencia_codigo": f"SIGNAL:{signal}",
