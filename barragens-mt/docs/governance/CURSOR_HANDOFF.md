@@ -287,3 +287,30 @@ A fila descreve trabalho de governança. Ela **não é uma fila de risco** e nã
 Quando houver SLA explicitamente configurado, a ação de confirmação informa se a pendência está `fora_sla`. Sem política institucional, continua `sem_politica`.
 
 O Comando Estadual pode exibir a fila, mas permanece somente leitura.
+
+## Etapa 42 — histórico da governança operacional
+
+A ordem v2.2 passa a ser:
+`17 hidro → 19 alertabilidade → 40 integridade → 38 materialização → 41 observabilidade → 42 histórico → 16 IDAP → 35 mudanças → 36 inteligência → 37 proveniência`.
+
+Produtos históricos:
+- `dados/tratados/governanca_operacional_ciclo_vida.csv` — uma linha por proposta;
+- `dados/tratados/governanca_operacional_historico_diario.csv` — série diária estadual;
+- `dados/tratados/governanca_operacional_historico_dimensoes.csv` — série por sinal × tipo de fonte.
+
+Métricas históricas:
+- tempo entre proposta e resolução (`confirm` ou `revoke`);
+- tempo mediano e P95 de resolução;
+- backlog ao fim de cada dia;
+- propostas registradas, confirmadas e revogadas;
+- taxa de confirmação/revogação calculada **somente entre propostas resolvidas no dia**;
+- backlog por sinal e tipo de fonte.
+
+Regras metodológicas:
+- o histórico é reconstruído do ledger append-only; não depende de snapshot artificial;
+- proposta pendente entra no backlog até a primeira resolução filha;
+- taxas não usam propostas ainda abertas no denominador;
+- desempenho da governança não representa risco da barragem;
+- etapa 42 não pode importar/chamar `calcular_idap` ou `aplicar_regras`.
+
+O Comando Estadual mostra backlog histórico e tempo de resolução em gráficos separados, pois possuem unidades distintas.
