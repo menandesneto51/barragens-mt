@@ -349,3 +349,68 @@ def test_legacy_prefix_can_anchor_new_chained_event():
     chained["ledger_sha256"] = ledger_hash(chained, legacy["event_sha256"])
 
     assert validate_ledger_chain([legacy, chained]) == []
+
+
+def test_legacy_confirmation_before_proposal_remains_valid():
+    legacy = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="confirm",
+        value="sim",
+        observed_at="2026-09-26T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-LEGADO",
+        confirmed_by="Pessoa A",
+        confirmer_role="Coordenador",
+        event_id="legacy-1",
+        recorded_at="2026-09-26T14:00:00+00:00",
+    ).to_dict()
+    proposal = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="propose",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-NOVO",
+        confirmed_by="Pessoa B",
+        confirmer_role="Operador",
+        event_id="prop-1",
+        recorded_at="2026-09-27T14:00:00+00:00",
+    ).to_dict()
+    assert validate_governance_chain([legacy, proposal]) == []
+
+
+def test_parentless_confirmation_after_same_signal_proposal_is_rejected():
+    proposal = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="propose",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa A",
+        confirmer_role="Operador",
+        event_id="prop-1",
+        recorded_at="2026-09-27T14:00:00+00:00",
+    ).to_dict()
+    confirm = create_event(
+        id_snisb="1",
+        signal="rompimento_confirmado",
+        action="confirm",
+        value="sim",
+        observed_at="2026-09-27T10:00:00-04:00",
+        source_type="defesa_civil",
+        source_name="Defesa Civil",
+        document_reference="SITREP-1",
+        confirmed_by="Pessoa B",
+        confirmer_role="Coordenador",
+        event_id="conf-1",
+        recorded_at="2026-09-27T14:05:00+00:00",
+    ).to_dict()
+    problems = validate_governance_chain([proposal, confirm])
+    assert any("após proposta governada" in p["error"] for p in problems)
