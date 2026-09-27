@@ -27,6 +27,7 @@ if str(ROOT) not in sys.path:
 from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E402
     validate_event_log,
     validate_governance_chain,
+    validate_ledger_chain,
 )
 
 EVENTS = comum.RAIZ / "dados" / "metadata" / "sinais_operacionais_eventos.jsonl"
@@ -66,6 +67,7 @@ def main() -> None:
     events = read_events()
     problems = validate_event_log(events)
     problems.extend(validate_governance_chain(events))
+    problems.extend(validate_ledger_chain(events))
     ids = inventory_ids()
 
     for index, event in enumerate(events, start=1):
