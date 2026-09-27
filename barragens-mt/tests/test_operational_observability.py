@@ -4,6 +4,7 @@ from vigibarragens.intelligence.operational_observability import (
     age_hours,
     enrich_pending,
     governance_summary,
+    governance_actions,
 )
 
 
@@ -62,3 +63,22 @@ def test_governance_summary_does_not_invent_sla():
     assert summary["sla_politica"] == "nao_configurada"
     assert summary["pendencias_fora_sla"] == ""
     assert summary["integridade_status"] == "ok"
+
+
+def test_governance_actions_separate_integrity_and_confirmation_work():
+    actions = governance_actions(
+        pending_rows=[
+            {
+                "id_snisb": "1",
+                "signal": "rompimento_confirmado",
+                "event_id": "prop-1",
+                "idade_aguardando_h": 5.0,
+                "sla_status": "fora_sla",
+            }
+        ],
+        integrity_status="failure",
+        integrity_problems=2,
+    )
+    assert actions[0]["tipo_acao"] == "tratar_integridade_ledger"
+    assert actions[1]["tipo_acao"] == "confirmacao_pendente"
+    assert "segunda confirmação" in actions[1]["acao_requerida"]
