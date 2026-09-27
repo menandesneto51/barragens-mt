@@ -50,6 +50,25 @@ BASE_FIELDS = [
     "observacao",
 ]
 
+PENDING_FIELDS = [
+    "id_snisb",
+    "nome",
+    "municipio_sede",
+    "signal",
+    "value",
+    "event_id",
+    "event_sha256",
+    "observed_at",
+    "recorded_at",
+    "source_type",
+    "source_name",
+    "document_reference",
+    "confirmed_by",
+    "confirmer_role",
+    "note",
+    "run_id",
+]
+
 LONG_FIELDS = [
     "id_snisb",
     "nome",
@@ -122,6 +141,7 @@ def main() -> None:
     }
     eventos = read_events()
     latest = materialize_latest(eventos)
+    pendentes = pending_proposals(eventos)
 
     wide_rows: list[dict[str, Any]] = []
     long_rows: list[dict[str, Any]] = []
