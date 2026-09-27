@@ -2,6 +2,7 @@ from vigibarragens.intelligence.operational_governance_history import (
     daily_dimensions,
     daily_history,
     proposal_lifecycle,
+    dimension_performance,
 )
 
 
@@ -104,3 +105,18 @@ def test_dimensions_preserve_signal_and_source_type():
         for r in dims
         if r["data"] == "2026-09-27"
     )
+
+
+def test_dimension_performance_aggregates_backlog_and_resolution_times():
+    perf = dimension_performance(proposal_lifecycle(sample_events()))
+    by_key = {(r["signal"], r["source_type"]): r for r in perf}
+    dc = by_key[("rompimento_confirmado", "defesa_civil")]
+    assert dc["propostas_total"] == 1
+    assert dc["confirmadas"] == 1
+    assert dc["pendentes"] == 0
+    assert dc["tempo_resolucao_mediana_h"] == 2.0
+
+    fiscal = by_key[("mancha_atinge_captacao", "orgao_fiscalizador")]
+    assert fiscal["pendentes"] == 1
+    assert fiscal["resolvidas"] == 0
+    assert fiscal["taxa_confirmacao_resolvidas_pct"] == ""
