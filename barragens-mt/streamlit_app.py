@@ -31,6 +31,7 @@ from st_app.data import (
     carregar_proveniencia,
     carregar_regras_lineage,
     carregar_sinais_operacionais_estado,
+    carregar_sinais_operacionais_pendentes,
     carregar_piloto,
     carregar_populacao,
     cnes_no_buffer,
@@ -298,6 +299,37 @@ def pagina_comando(df: pd.DataFrame) -> None:
     sev_u, msg_u = tendencia_unificada(base_kpi)
     st.markdown(f'<div class="tend-box {sev_u}">{msg_u}</div>', unsafe_allow_html=True)
     bloco_frescor()
+    sinais_pendentes = carregar_sinais_operacionais_pendentes()
+    if not sinais_pendentes.empty:
+        sp = sinais_pendentes[sinais_pendentes["id_snisb"].astype(str) == str(bid)].copy()
+        if not sp.empty:
+            st.markdown("### Propostas operacionais aguardando confirmação")
+            st.warning(
+                "Estas propostas **não alteram o IDAP nem o nível operacional** até que "
+                "sejam confirmadas por segundo responsável no fluxo governado."
+            )
+            tabela_sp = sp.rename(columns={
+                "signal": "Sinal",
+                "value": "Valor proposto",
+                "observed_at": "Observado em",
+                "source_type": "Tipo de fonte",
+                "source_name": "Fonte",
+                "document_reference": "Documento",
+                "confirmed_by": "Proposto por",
+                "confirmer_role": "Função",
+                "event_id": "Event ID da proposta",
+                "event_sha256": "SHA-256",
+            })
+            cols_sp = [
+                x for x in (
+                    "Sinal", "Valor proposto", "Observado em", "Tipo de fonte",
+                    "Fonte", "Documento", "Proposto por", "Função",
+                    "Event ID da proposta", "SHA-256",
+                )
+                if x in tabela_sp.columns
+            ]
+            st.dataframe(tabela_sp[cols_sp], hide_index=True, use_container_width=True)
+
     sinais_estado = carregar_sinais_operacionais_estado()
     if not sinais_estado.empty:
         se = sinais_estado[sinais_estado["id_snisb"].astype(str) == str(bid)].copy()
