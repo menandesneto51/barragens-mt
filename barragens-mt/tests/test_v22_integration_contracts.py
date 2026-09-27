@@ -130,6 +130,7 @@ def test_governance_history_is_non_decisory():
     ).read_text(encoding="utf-8")
     assert "governanca_operacional_historico_diario.csv" in stage42
     assert "governanca_operacional_historico_dimensoes.csv" in stage42
+    assert "governanca_operacional_desempenho_dimensoes.csv" in stage42
     assert "governanca_operacional_ciclo_vida.csv" in stage42
     assert "calcular_idap" not in stage42
     assert "aplicar_regras" not in stage42
