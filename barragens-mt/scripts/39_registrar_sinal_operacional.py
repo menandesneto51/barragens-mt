@@ -36,7 +36,7 @@ from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E4
 )
 from vigibarragens.lineage_runtime import current_run_id  # noqa: E402
 
-EVENTS = comum.DADOS_METADATA / "sinais_operacionais_eventos.jsonl"
+EVENTS = comum.RAIZ / "dados" / "metadata" / "sinais_operacionais_eventos.jsonl"
 INVENTARIO = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
 
 
