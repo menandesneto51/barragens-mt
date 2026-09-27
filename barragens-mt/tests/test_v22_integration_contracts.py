@@ -115,6 +115,7 @@ def test_governance_observability_is_non_decisory():
         ROOT / "vigibarragens" / "intelligence" / "operational_observability.py"
     ).read_text(encoding="utf-8")
     assert "governanca_operacional_resumo.csv" in stage41
+    assert "governanca_operacional_acoes.csv" in stage41
     assert "VIGIBARRAGENS_CONFIRMATION_SLA_HOURS" in stage41
     assert "calcular_idap" not in stage41
     assert "aplicar_regras" not in stage41
