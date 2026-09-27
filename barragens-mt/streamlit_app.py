@@ -24,6 +24,8 @@ from st_app.data import (
     card_kpi,
     carregar_cnes_pontos,
     carregar_evidencias_idap,
+    carregar_governanca_operacional_resumo,
+    carregar_governanca_operacional_pendencias,
     com_tipologia,
     carregar_hidro_mun,
     carregar_idap,
@@ -421,6 +423,69 @@ def pagina_comando(df: pd.DataFrame) -> None:
                 st.markdown(f"**Hidrometeorologia:** {atual} atual · {int(fc.get('atencao', 0))} em atenção · {vencido} vencida · {desconhecido} sem data de referência. **Lineage parcial:** {parcial}.")
                 cols = [x for x in ("nome", "freshness_hidro", "idade_h_hidro", "fontes_hidro", "aproximacao_espacial_hidro", "proxies", "lineage_status") if x in prov.columns]
                 st.dataframe(prov[cols].head(30), hide_index=True, use_container_width=True)
+
+    gov = carregar_governanca_operacional_resumo()
+    if not gov.empty:
+        g = gov.iloc[0]
+        pendentes_n = int(g.get("propostas_pendentes") or 0)
+        ativos_n = int(g.get("sinais_ativos") or 0)
+        revogados_n = int(g.get("sinais_revogados") or 0)
+        problemas_n = int(g.get("integridade_problemas") or 0)
+        integridade = str(g.get("integridade_status") or "desconhecido")
+        sla_politica = str(g.get("sla_politica") or "nao_configurada")
+        idade_max = g.get("idade_pendente_max_h")
+        idade_max_txt = "—" if pd.isna(idade_max) else f"{float(idade_max):.1f} h"
+
+        with st.expander("Governança operacional dos sinais", expanded=pendentes_n > 0 or problemas_n > 0):
+            st.caption(
+                "Observabilidade do ledger governado. Estes indicadores não alteram "
+                "IDAP, regras ou nível operacional."
+            )
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Propostas pendentes", pendentes_n)
+            c2.metric("Maior espera", idade_max_txt)
+            c3.metric("Sinais ativos", ativos_n, delta=f"{revogados_n} revogado(s)")
+            c4.metric(
+                "Integridade do ledger",
+                integridade,
+                delta=f"{problemas_n} problema(s)" if problemas_n else "sem problemas",
+            )
+
+            if sla_politica == "configurada":
+                sla_h = g.get("sla_horas")
+                fora = int(g.get("pendencias_fora_sla") or 0)
+                st.markdown(
+                    f"**SLA configurado:** {float(sla_h):g} h · "
+                    f"**pendências fora do SLA:** {fora}."
+                )
+            else:
+                st.info(
+                    "SLA de confirmação não configurado. A idade real das propostas é "
+                    "mostrada, mas nenhuma pendência é rotulada como violação."
+                )
+
+            gp = carregar_governanca_operacional_pendencias()
+            if gp.empty:
+                st.caption("Nenhuma proposta operacional aguardando confirmação.")
+            else:
+                cols_gp = [
+                    x for x in (
+                        "nome", "municipio_sede", "signal", "value",
+                        "idade_aguardando_h", "sla_status", "source_name",
+                        "confirmed_by", "event_id",
+                    )
+                    if x in gp.columns
+                ]
+                tabela_gp = gp.sort_values(
+                    "idade_aguardando_h",
+                    ascending=False,
+                    na_position="last",
+                )
+                st.dataframe(
+                    tabela_gp[cols_gp].head(30),
+                    hide_index=True,
+                    use_container_width=True,
+                )
 
     bloco_sitrep_downloads(base_kpi, mun_ativo=mun_ativo)
 
