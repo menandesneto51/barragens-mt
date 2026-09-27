@@ -213,6 +213,60 @@ def carregar_proveniencia() -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
+def carregar_governanca_historico_diario() -> pd.DataFrame:
+    """Série diária de desempenho da governança; não representa risco."""
+    df = ler_csv("governanca_operacional_historico_diario.csv")
+    if df.empty:
+        return df
+    if "data" in df.columns:
+        df["data"] = pd.to_datetime(df["data"], errors="coerce")
+    for col in (
+        "propostas_registradas",
+        "propostas_resolvidas",
+        "propostas_confirmadas",
+        "propostas_revogadas",
+        "taxa_confirmacao_resolvidas_pct",
+        "taxa_revogacao_resolvidas_pct",
+        "tempo_resolucao_mediana_h",
+        "tempo_resolucao_p95_h",
+        "backlog_fim_dia",
+    ):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
+def carregar_governanca_historico_dimensoes() -> pd.DataFrame:
+    """Histórico por sinal e tipo de fonte."""
+    df = ler_csv("governanca_operacional_historico_dimensoes.csv")
+    if df.empty:
+        return df
+    if "data" in df.columns:
+        df["data"] = pd.to_datetime(df["data"], errors="coerce")
+    for col in (
+        "propostas_registradas",
+        "propostas_confirmadas",
+        "propostas_revogadas",
+        "backlog_fim_dia",
+    ):
+        if col in df.columns:
+            df[col] = _num(df[col])
+    return df
+
+
+@st.cache_data(show_spinner=False)
+def carregar_governanca_ciclo_vida() -> pd.DataFrame:
+    """Ciclo de vida das propostas governadas."""
+    df = ler_csv("governanca_operacional_ciclo_vida.csv")
+    if df.empty:
+        return df
+    if "tempo_resolucao_h" in df.columns:
+        df["tempo_resolucao_h"] = _num(df["tempo_resolucao_h"])
+    return df
+
+
+@st.cache_data(show_spinner=False)
 def carregar_governanca_operacional_resumo() -> pd.DataFrame:
     """KPIs da governança operacional; observabilidade somente."""
     df = ler_csv("governanca_operacional_resumo.csv")
