@@ -30,6 +30,7 @@ def test_v22_pipeline_order_is_preserved():
     expected = [
         "17_hidro_sisclima_titan.py",
         "19_contatos_alertabilidade.py",
+        "40_validar_sinais_operacionais.py",
         "38_sinais_operacionais.py",
         "16_idap_estadual.py",
         "35_detectar_mudancas.py",
@@ -95,3 +96,13 @@ def test_operational_signal_stage_is_non_inventive():
     assert 'if str(event.get("action") or "") == "revoke":' in source
     assert 'row[signal] = ""' in source
     assert "sinais_operacionais_eventos.jsonl" in source
+
+
+def test_operational_event_integrity_gate_precedes_materialization():
+    source = (ROOT / "executar.py").read_text(encoding="utf-8")
+    assert source.index("40_validar_sinais_operacionais.py") < source.index("38_sinais_operacionais.py")
+    validator = (ROOT / "scripts" / "40_validar_sinais_operacionais.py").read_text(encoding="utf-8")
+    assert "validate_event_log" in validator
+    assert "event_sha256" in (
+        ROOT / "vigibarragens" / "intelligence" / "operational_signal_registry.py"
+    ).read_text(encoding="utf-8")
