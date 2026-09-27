@@ -29,6 +29,7 @@ from st_app.data import (
     carregar_governanca_operacional_acoes,
     carregar_governanca_historico_diario,
     carregar_governanca_historico_dimensoes,
+    carregar_governanca_desempenho_dimensoes,
     carregar_governanca_ciclo_vida,
     com_tipologia,
     carregar_hidro_mun,
@@ -527,6 +528,33 @@ def pagina_comando(df: pd.DataFrame) -> None:
                     c_hist3.metric(
                         "Taxa de revogação entre resolvidas",
                         "—" if pd.isna(taxa_rev) else f"{float(taxa_rev):.1f}%",
+                    )
+
+                perf = carregar_governanca_desempenho_dimensoes()
+                if not perf.empty:
+                    st.markdown("**Desempenho consolidado por sinal e tipo de fonte**")
+                    st.caption(
+                        "Matriz de processo: volume, pendências e tempos de resolução. "
+                        "Não representa severidade das barragens."
+                    )
+                    cols_perf = [
+                        x for x in (
+                            "signal", "source_type", "propostas_total", "pendentes",
+                            "confirmadas", "revogadas", "resolvidas",
+                            "taxa_confirmacao_resolvidas_pct",
+                            "taxa_revogacao_resolvidas_pct",
+                            "tempo_resolucao_mediana_h",
+                            "tempo_resolucao_p95_h",
+                        )
+                        if x in perf.columns
+                    ]
+                    st.dataframe(
+                        perf[cols_perf].sort_values(
+                            ["pendentes", "propostas_total"],
+                            ascending=[False, False],
+                        ),
+                        hide_index=True,
+                        use_container_width=True,
                     )
 
                 dims = carregar_governanca_historico_dimensoes()
