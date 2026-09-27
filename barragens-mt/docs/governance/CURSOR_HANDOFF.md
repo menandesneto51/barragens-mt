@@ -182,3 +182,21 @@ Controles obrigatórios:
 - revogação não apaga histórico;
 - ausência de evento continua sendo lacuna, não normalidade;
 - lineage de R02/R03/R05/R07/R08/R09 deve usar metadata específica do sinal, não metadata agregada da barragem.
+
+## Gate de integridade do log operacional
+
+A ordem v2.2 passa a ser:
+`17 hidro → 19 alertabilidade → 40 validação do log → 38 materialização dos sinais → 16 IDAP → 35 mudanças → 36 inteligência → 37 proveniência`.
+
+A etapa 40 falha antes do IDAP se detectar:
+- JSON inválido;
+- `event_id` duplicado;
+- vocabulário de sinal/ação/fonte inválido;
+- campos obrigatórios ausentes;
+- divergência entre conteúdo canônico e `event_sha256`;
+- evento associado a barragem ausente do inventário corrente.
+
+Fluxo Cursor após registrar/revogar sinal:
+`python executar.py 40 38 16 35 36 37`
+
+Não corrigir evento inválido editando o JSONL. Quando o fato operacional mudar, gerar novo evento. Se houver corrupção técnica do log, preservar cópia forense e tratar a recuperação como incidente de governança.
