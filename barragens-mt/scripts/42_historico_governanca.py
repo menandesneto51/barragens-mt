@@ -24,12 +24,14 @@ from vigibarragens.intelligence.operational_governance_history import (  # noqa:
     daily_dimensions,
     daily_history,
     proposal_lifecycle,
+    dimension_performance,
 )
 
 EVENTS = comum.RAIZ / "dados" / "metadata" / "sinais_operacionais_eventos.jsonl"
 OUT_LIFECYCLE = comum.DADOS_TRATADOS / "governanca_operacional_ciclo_vida.csv"
 OUT_DAILY = comum.DADOS_TRATADOS / "governanca_operacional_historico_diario.csv"
 OUT_DIMS = comum.DADOS_TRATADOS / "governanca_operacional_historico_dimensoes.csv"
+OUT_PERF = comum.DADOS_TRATADOS / "governanca_operacional_desempenho_dimensoes.csv"
 
 
 def read_events() -> list[dict[str, Any]]:
@@ -50,6 +52,7 @@ def main() -> None:
     lifecycle = proposal_lifecycle(events)
     daily = daily_history(lifecycle)
     dims = daily_dimensions(lifecycle)
+    perf = dimension_performance(lifecycle)
 
     lifecycle_fields = [
         "proposal_event_id",
@@ -89,14 +92,28 @@ def main() -> None:
         "propostas_revogadas",
         "backlog_fim_dia",
     ]
+    perf_fields = [
+        "signal",
+        "source_type",
+        "propostas_total",
+        "pendentes",
+        "confirmadas",
+        "revogadas",
+        "resolvidas",
+        "taxa_confirmacao_resolvidas_pct",
+        "taxa_revogacao_resolvidas_pct",
+        "tempo_resolucao_mediana_h",
+        "tempo_resolucao_p95_h",
+    ]
 
     comum.salvar_csv(OUT_LIFECYCLE, lifecycle, lifecycle_fields)
     comum.salvar_csv(OUT_DAILY, daily, daily_fields)
     comum.salvar_csv(OUT_DIMS, dims, dim_fields)
+    comum.salvar_csv(OUT_PERF, perf, perf_fields)
     print(
         "Histórico da governança: "
         f"{len(lifecycle)} proposta(s) · {len(daily)} dia(s) · "
-        f"{len(dims)} linha(s) por sinal/fonte."
+        f"{len(dims)} linha(s) históricas · {len(perf)} dimensão(ões) consolidadas."
     )
 
 
