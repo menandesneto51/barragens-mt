@@ -30,6 +30,7 @@ if str(ROOT) not in sys.path:
 from vigibarragens.intelligence.operational_observability import (  # noqa: E402
     enrich_pending,
     governance_summary,
+    governance_actions,
 )
 from vigibarragens.intelligence.operational_signal_registry import (  # noqa: E402
     materialize_latest,
@@ -41,6 +42,7 @@ AUDIT = comum.DADOS_TRATADOS / "sinais_operacionais_auditoria.json"
 INVENTARIO = comum.DADOS_TRATADOS / "inventario_barragens_mt.csv"
 OUT_SUMMARY = comum.DADOS_TRATADOS / "governanca_operacional_resumo.csv"
 OUT_PENDING = comum.DADOS_TRATADOS / "governanca_operacional_pendencias.csv"
+OUT_ACTIONS = comum.DADOS_TRATADOS / "governanca_operacional_acoes.csv"
 
 
 def read_events() -> list[dict[str, Any]]:
@@ -113,6 +115,12 @@ def main() -> None:
         row["nome"] = inv.get("nome") or ""
         row["municipio_sede"] = inv.get("municipio") or ""
 
+    actions = governance_actions(
+        pending_rows=pending_rows,
+        integrity_status=integrity_status,
+        integrity_problems=integrity_problems,
+    )
+
     summary_fields = list(summary.keys())
     comum.salvar_csv(OUT_SUMMARY, [summary], summary_fields)
 
@@ -135,12 +143,17 @@ def main() -> None:
         "sla_status",
     ]
     comum.salvar_csv(OUT_PENDING, pending_rows, pending_fields)
+    action_fields = [
+        "tipo_acao", "id_snisb", "signal", "event_id",
+        "idade_aguardando_h", "sla_status", "acao_requerida",
+    ]
+    comum.salvar_csv(OUT_ACTIONS, actions, action_fields)
     print(
         "Governança operacional: "
         f"{summary['propostas_pendentes']} pendência(s) · "
         f"{summary['sinais_ativos']} ativo(s) · "
         f"integridade={summary['integridade_status']} · "
-        f"SLA={summary['sla_politica']}"
+        f"SLA={summary['sla_politica']} · {len(actions)} ação(ões)"
     )
 
 
