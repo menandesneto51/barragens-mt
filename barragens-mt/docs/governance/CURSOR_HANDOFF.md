@@ -314,3 +314,27 @@ Regras metodológicas:
 - etapa 42 não pode importar/chamar `calcular_idap` ou `aplicar_regras`.
 
 O Comando Estadual mostra backlog histórico e tempo de resolução em gráficos separados, pois possuem unidades distintas.
+
+## Matriz consolidada de desempenho da governança
+
+A etapa 42 também produz:
+`dados/tratados/governanca_operacional_desempenho_dimensoes.csv`
+
+Grão:
+`signal × source_type`
+
+Campos principais:
+- propostas totais;
+- pendentes;
+- confirmadas;
+- revogadas;
+- resolvidas;
+- taxa de confirmação/revogação entre resolvidas;
+- tempo mediano e P95 de resolução.
+
+Uso:
+- identificar gargalos de processo por tipo de sinal e origem;
+- observar backlog e tempo de resolução;
+- comparar desempenho operacional sem classificar risco.
+
+Não transformar essa matriz em score, ranking de barragem ou componente do IDAP.
