@@ -1,0 +1,17 @@
+---
+description: Preflight obrigatório do Catálogo Mestre de Dados SES-MT
+alwaysApply: true
+---
+
+# SES_DATA_CATALOG
+Antes de criar fonte, coletor, scraper, API, ETL, tabela, indicador ou linkage:
+1. Execute `.\scripts\catalogo-ses.ps1`.
+2. Verifique SISREG, DW SES, eSUS APS, IndicaSUS e SI-PNI.
+3. Reutilize fontes e loaders existentes.
+4. Exija `catalog_health` antes de concluir ausência de dado.
+5. Encaminhe candidatos a DATA_GUARDIAN/DATAOPS quando disponíveis.
+6. Valide grain, chaves, competência, atualização, completude, duplicidade e lineage.
+7. Não exponha PII.
+8. Prefira Bronze/Silver/Gold.
+
+Contexto: VIGIBARRAGENS-MT.
